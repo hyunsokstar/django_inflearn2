@@ -3,30 +3,35 @@
 
 {%block title %} posting 목록 {% endblock %}
 {%block content %}
+
 <!-- Blog Post -->
-
 <div class="container">
-    {% for p in object_list %}
-        <div class="card mb-4">
+    <!-- <h2>아직 게시물이 없습니다</h2> -->
+    {% if object_list.exists%}
+        {% for p in object_list %}
+            <div class="card mb-4">
 
-            {% if p.head_image %}
-            <img class="card-img-top" src={{ p.head_image.url }} alt="Card image cap">
-            {% else %}
-            <img class="card-img-top" src="https://picsum.photos/700/300/?random" alt="Card image cap">
-            {% endif %}
+                {% if p.head_image %}
+                <img class="card-img-top" src={{ p.head_image.url }} alt="Card image cap">
+                {% else %}
+                <img class="card-img-top" src="https://picsum.photos/700/300/?random" alt="Card image cap">
+                {% endif %}
 
-            <div class="card-body">
-                <h2 class="card-title">{{p.title}}</h2>
-                    <p class="card-text">
-                        {{p.content | truncatewords:50}}
-                    </p>
-                <a href="{{p.get_absolute_url}}" class="btn btn-primary">Read More &rarr;</a>
+                <div class="card-body">
+                    <h2 class="card-title">{{p.title}}</h2>
+                        <p class="card-text">
+                            {{p.content | truncatewords:50}}
+                        </p>
+                    <a href="{{p.get_absolute_url}}" class="btn btn-primary">Read More &rarr;</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on {{p.created}} {{p.author}}
+                </div>
             </div>
-            <div class="card-footer text-muted">
-                Posted on {{p.created}} {{p.author}}
-            </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        <h4>아직 게시물이 없습니다.</h4>
+    {% endif %}
 </div>
 
 {% endblock %}
