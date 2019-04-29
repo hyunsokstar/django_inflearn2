@@ -10,19 +10,17 @@
         <div class="card mb-4">
 
             {% if p.head_image %}
-            이미지 주소2 : {{p.head_image.url}}
             <img class="card-img-top" src={{ p.head_image.url }} alt="Card image cap">
             {% else %}
             <img class="card-img-top" src="https://picsum.photos/700/300/?random" alt="Card image cap">
             {% endif %}
 
-
             <div class="card-body">
                 <h2 class="card-title">{{p.title}}</h2>
                     <p class="card-text">
-                        {{p.content}}
+                        {{p.content | truncatewords:50}}
                     </p>
-                <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                <a href="{{p.get_absolute_url}}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
                 Posted on {{p.created}} {{p.author}}
