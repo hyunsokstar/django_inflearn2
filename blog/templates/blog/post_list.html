@@ -1,7 +1,6 @@
 {% extends "blog/layout.html" %}
 {% load static %}
-
-{%block title %} posting 목록 {% endblock %}
+{%block title %}Blog{% endblock %}
 {%block content %}
 
 <!-- Blog Post -->
@@ -15,7 +14,6 @@
                 {% else %}
                 <img class="card-img-top" src="https://picsum.photos/700/300/?random" alt="Card image cap">
                 {% endif %}
-
                 <div class="card-body">
                     <h2 class="card-title">{{p.title}}</h2>
                         <p class="card-text">

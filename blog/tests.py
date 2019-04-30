@@ -68,30 +68,72 @@ class TestView(TestCase):
         self.assertIn('Blog', navbar.text)
         self.assertIn('About me', navbar.text)
 
-    def test_post_list(self):
+    # def test_post_list(self):
+    #     response = self.client.get('/blog/')
+    #     soup = BeautifulSoup(response.content, 'html.parser')
+    #     title = soup.title
+    #
+    #     self.check_navbar(soup)
+    #
+    #     self.assertEqual(Post.objects.count(), 0)
+    #
+    #     # 33 Post 입력
+    #     post_000 = create_post(
+    #         title='The first post',
+    #         content='Hello World. We are the world.',
+    #         author=self.author_000,
+    #     )
+        #
+        # self.assertGreater(Post.objects.count(), 0)
+        #
+        # response = self.client.get('/blog/')
+        # self.assertEqual(response.status_code, 200)
+        # soup = BeautifulSoup(response.content, 'html.parser')
+        # body = soup.body
+        # self.assertNotIn('아직 게시물이 없습니다', body.text)
+        # self.assertIn(post_000.title , body.text)
+
+    def test_post_list_no_post(self):
+
+        # post_list 요청 날리기
         response = self.client.get('/blog/')
+        # 완료 코드 확인 하기
+        self.assertEqual(response.status_code, 200)
+
+        # 내용 확인 하기 (타이틀 태그, 네비게이션바 유무, 게시물이 없습니다 메세지)
         soup = BeautifulSoup(response.content, 'html.parser')
         title = soup.title
-
+        self.assertEqual(title.text, 'Blog')
         self.check_navbar(soup)
-
         self.assertEqual(Post.objects.count(), 0)
+        self.assertIn('아직 게시물이 없습니다', soup.body.text)
 
-        # 33 Post 입력
+    def test_post_list_with_post(self):
+        
+        # post 모델 입력
         post_000 = create_post(
             title='The first post',
             content='Hello World. We are the world.',
             author=self.author_000,
         )
 
-        self.assertGreater(Post.objects.count(), 0)
-
+        # post_list_view 요청 하기
         response = self.client.get('/blog/')
-        self.assertEqual(response.status_code, 200)
+        # 응답 텍스트를 가져오기 위해  soup 객체 생성
         soup = BeautifulSoup(response.content, 'html.parser')
+        # soup 객체를 이용해 body 객체 생성
         body = soup.body
+        # soup 객체를 이용해 title 태그 객체 생성
+        title = soup.title
+        # title이 'Blog로 출력되는지 확인'
+        self.assertEqual(title.text, 'Blog')
+        # nav bar 가 있어야 한다.
+        self.check_navbar(soup)
+        # Post 모델 개수 확인 하기(0개 이상)
+        self.assertGreater(Post.objects.count(), 0)
+        # 아직 아직 게시물이 없습니다 문자열이 없어야 한다.
         self.assertNotIn('아직 게시물이 없습니다', body.text)
-        self.assertIn(post_000.title , body.text)
+
 
     def test_post_detail(self):
         # Post 모델에 row 데이터 1개 입력
