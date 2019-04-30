@@ -1,52 +1,79 @@
 from django.test import TestCase, Client
 from bs4 import BeautifulSoup
 from .models import Post
-# 11 timezone 유틸리티
-#    User model 임포트
 from django.utils import timezone
 from django.contrib.auth.models import User
 
 
 # Create your tests here.
 
+def create_post(title, content, author):
+    blog_post = Post.objects.create(
+        title=title,
+        content=content,
+        created=timezone.now(),
+        author=author
+    )
+    return blog_post
+
 # 테스트 뷰
 class TestView(TestCase):
-    # 초기화 함수
     def setUp(self):
-        # client 객체 초기화
         self.client = Client()
-        # 22 유저 객체 생성
         self.author_000 = User.objects.create(username='smith', password='nopassword')
 
-    # post_list view 에 대한 테스트 뷰
+    def check_navbar(self, soup):
+        navbar = soup.find('div', id='navbar')
+        self.assertIn('Blog', navbar.text)
+        self.assertIn('About me', navbar.text)
+
     def test_post_list(self):
         response = self.client.get('/blog/')
         soup = BeautifulSoup(response.content, 'html.parser')
         title = soup.title
 
-        navbar = soup.find('div', id='navbar')
-        self.assertIn('Blog', navbar.text)
-        self.assertIn('About me', navbar.text)
+        self.check_navbar(soup)
 
         self.assertEqual(Post.objects.count(), 0)
 
         # 33 Post 입력
-        post_000 = Post.objects.create(
-            title='The title post',
-            content='Hello World We are the world',
-            created=timezone.now(),
-            author=self.author_000
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
         )
 
-        # 44 Post 모델의 게시글 수가 0개 이상인지 테스트
         self.assertGreater(Post.objects.count(), 0)
 
-        # 아직 게시물이 없습니다라는 문자열이 body 태그내에 없다는것을 test
-        # 입력한 글의 제목이 body 태그 내에 존재 해야 한다.
         response = self.client.get('/blog/')
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
         body = soup.body
         self.assertNotIn('아직 게시물이 없습니다', body.text)
         self.assertIn(post_000.title , body.text)
-        
+
+    def test_post_detail(self):
+        # Post 모델에 row 데이터 1개 입력
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+        # post 입력이 제대로 되었는지 확인(게시글이 0개보다 많은지 테스트)
+        self.assertGreater(Post.objects.count(), 0)
+
+        # post 객체.getAbsoulte()의 결과값이 예상대로 상세보기 url 인지 확인
+        post_000_url = post_000.get_absolute_url()
+        self.assertEqual(post_000_url, '/blog/{}/'.format(post_000.pk))
+
+        #  상세 보기 페이지의 타이틀이 입력한 글의 제목-blog 인지 test
+        response = self.client.get(post_000_url)
+        self.assertEqual(response.status_code, 200)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        title = soup.title
+
+        self.assertEqual(title.text, '{} - Blog'.format(post_000.title))
+
+        # 네브바 출력에 대해 확인
+        self.check_navbar(soup)
