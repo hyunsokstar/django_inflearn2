@@ -34,6 +34,18 @@ class TestModel(TestCase):
     def test_category(self):
         category = create_category()
 
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+            category=category
+        )
+        # 카테 고리 모델을 참조하는 post 모델의 정보를
+        # category.모델명(소문자).count()를 통해서 가져 올 수 있다.
+        self.assertEqual(category.post_set.count(), 1)
+
+
+
     def test_post(self):
         category = create_category()
 
