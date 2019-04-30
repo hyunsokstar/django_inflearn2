@@ -6,13 +6,11 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 # Create your tests here.
-
 def create_category(name='life', description=''):
     category, is_created = Category.objects.get_or_create(
         name=name,
         description=description
     )
-
     return category
 
 def create_post(title, content, author, category=None):
@@ -68,38 +66,11 @@ class TestView(TestCase):
         self.assertIn('Blog', navbar.text)
         self.assertIn('About me', navbar.text)
 
-    # def test_post_list(self):
-    #     response = self.client.get('/blog/')
-    #     soup = BeautifulSoup(response.content, 'html.parser')
-    #     title = soup.title
-    #
-    #     self.check_navbar(soup)
-    #
-    #     self.assertEqual(Post.objects.count(), 0)
-    #
-    #     # 33 Post 입력
-    #     post_000 = create_post(
-    #         title='The first post',
-    #         content='Hello World. We are the world.',
-    #         author=self.author_000,
-    #     )
-        #
-        # self.assertGreater(Post.objects.count(), 0)
-        #
-        # response = self.client.get('/blog/')
-        # self.assertEqual(response.status_code, 200)
-        # soup = BeautifulSoup(response.content, 'html.parser')
-        # body = soup.body
-        # self.assertNotIn('아직 게시물이 없습니다', body.text)
-        # self.assertIn(post_000.title , body.text)
-
     def test_post_list_no_post(self):
-
         # post_list 요청 날리기
         response = self.client.get('/blog/')
         # 완료 코드 확인 하기
         self.assertEqual(response.status_code, 200)
-
         # 내용 확인 하기 (타이틀 태그, 네비게이션바 유무, 게시물이 없습니다 메세지)
         soup = BeautifulSoup(response.content, 'html.parser')
         title = soup.title
@@ -108,13 +79,28 @@ class TestView(TestCase):
         self.assertEqual(Post.objects.count(), 0)
         self.assertIn('아직 게시물이 없습니다', soup.body.text)
 
+    # 오른쪽 사이드바 출력 내용에 카테고리 정보 포함되는지 확인
+    def check_right_side(self, soup):
+        # 카테고리 영역에 id='category-card'를 지정
+        category_card = soup.find('div', id='category-card')
+
+        self.assertIn('미분류 (1)', category_card.text)  # 미분류 (1) 있어야 함
+        self.assertIn('정치/사회 (1)', category_card.text)  # 정치/사회 (1) 있어야 함
+
+
     def test_post_list_with_post(self):
-        
         # post 모델 입력
         post_000 = create_post(
             title='The first post',
             content='Hello World. We are the world.',
             author=self.author_000,
+        )
+
+        post_001 = create_post(
+            title='The second post',
+            content='Second Second Second',
+            author=self.author_000,
+            category=create_category(name='정치/사회')
         )
 
         # post_list_view 요청 하기
@@ -133,6 +119,15 @@ class TestView(TestCase):
         self.assertGreater(Post.objects.count(), 0)
         # 아직 아직 게시물이 없습니다 문자열이 없어야 한다.
         self.assertNotIn('아직 게시물이 없습니다', body.text)
+
+        # 오른쪽 카테고리 메뉴의 항목이 제대로 출력되는지 테스트
+        self.check_right_side(soup)
+
+        # main_div에는
+        main_div = soup.find('div', id='main_div')
+        self.assertIn('정치/사회', main_div.text)  # '정치/사회' 있어야 함
+        self.assertIn('미분류', main_div.text)  # '미분류' 있어야 함
+
 
 
     def test_post_detail(self):
