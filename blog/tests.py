@@ -128,8 +128,6 @@ class TestView(TestCase):
         self.assertIn('정치/사회', main_div.text)  # '정치/사회' 있어야 함
         self.assertIn('미분류', main_div.text)  # '미분류' 있어야 함
 
-
-
     def test_post_detail(self):
         # Post 모델에 row 데이터 1개 입력
         post_000 = create_post(
@@ -137,6 +135,14 @@ class TestView(TestCase):
             content='Hello World. We are the world.',
             author=self.author_000,
         )
+
+        post_001 = create_post(
+            title='The second post',
+            content='Second Second Second',
+            author=self.author_000,
+            category=create_category(name='정치/사회')
+        )
+
         # post 입력이 제대로 되었는지 확인(게시글이 0개보다 많은지 테스트)
         self.assertGreater(Post.objects.count(), 0)
 
@@ -155,3 +161,6 @@ class TestView(TestCase):
 
         # 네브바 출력에 대해 확인
         self.check_navbar(soup)
+
+        # 오른쪽 카테고리 메뉴의 항목이 제대로 출력되는지에 대해 테스트
+        self.check_right_side(soup)
