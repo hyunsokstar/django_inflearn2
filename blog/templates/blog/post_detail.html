@@ -4,7 +4,12 @@
 {%block content %}
 
 <!-- Blog Detail -->
-    high
+
+    <!-- Preview Image -->
+    {% if object.head_image %}
+        <img class="img-fluid rounded" src="{{ object.head_image.url }}" alt="{{ object.title }}">
+    {% endif %}
+
     <h1>{{ object.title }}</h1>
     {% if object.category %}
         <span class="badge badge-primary float-right">{{ object.category }}</span>
@@ -12,7 +17,7 @@
         <span class="badge badge-primary float-right">미분류</span>
     {% endif %}
     <div>
-        {{ object.content }}
+        {{ object.get_markdown_content | safe }}
     </div>
     <!-- Author -->
     <p class="lead">
