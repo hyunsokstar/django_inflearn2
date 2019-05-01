@@ -1,7 +1,6 @@
 from django.test import TestCase, Client
 from bs4 import BeautifulSoup
 from .models import Post, Category, Tag
-
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -219,8 +218,8 @@ class TestView(TestCase):
         )
         response = self.client.get(category_politics.get_absolute_url())
         print("get_absolute_url : ", category_politics.get_absolute_url())
-        print('응답 코드')
-        print(response.status_code)
+        # print('응답 코드')
+        # print(response.status_code)
         # 정상적으로 응답 완료 처리 되었는지 확인
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -265,3 +264,41 @@ class TestView(TestCase):
         # Tag
         post_card_000 = main_div.find('div', id='post-card-{}'.format(post_000.pk))
         self.assertIn('#america', post_card_000.text) # Tag가 해당 post의 card마다 있다.
+
+    def test_post_list_about_serachByTag(self):
+        tag_000 = create_tag(name='bad_guy')
+        tag_001 = create_tag(name='america')
+
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+        post_000.tags.add(tag_000)
+        post_000.tags.add(tag_001)
+        post_000.save()
+
+        post_001 = create_post(
+            title='Stay Fool, Stay Hungry',
+            content='Story about Steve Jobs',
+            author=self.author_000
+        )
+
+        post_001.tags.add(tag_001)
+        post_001.save()
+
+        response = self.client.get(tag_000.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        main_div = soup.find('div', id='main-div')
+
+        # posting 상단에 h1 태그이면서 속성값이 id="blog-list-title"인 태그를 찾아서
+        # 그 태그의 text로 blog_000.text 즉 클릭한 태그 이름이 출력되는지 확인
+        blog_h1 = main_div.find('h1', id='blog-list-title')
+        self.assertIn('#{}'.format(tag_000.name), blog_h1.text)
+        # 
+        # 해당 태그 정보(클릭한 태그)에 대한 posting은 출력
+        # 아닌 posting은 출력되면 안됨
+        self.assertIn(post_000.title, main_div.text)
+        self.assertNotIn(post_001.title, main_div.text)
