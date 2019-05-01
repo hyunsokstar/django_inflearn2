@@ -4,7 +4,10 @@
 {%block content %}
 
 <!-- Blog Post -->
-<div class="container" id="main_div">
+<div class="container" id="main-div">
+
+    <h1>Blog {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}</h1>
+
     <!-- <h2>아직 게시물이 없습니다</h2> -->
     {% if object_list.exists%}
         {% for p in object_list %}
@@ -15,13 +18,11 @@
                 <img class="card-img-top" src="https://picsum.photos/700/300/?random" alt="Card image cap">
                 {% endif %}
                 <div class="card-body">
-
                     {% if p.category %}
                         <span class="badge badge-primary float-right">{{ p.category }}</span>
                     {% else %}
                         <span class="badge badge-primary float-right">미분류</span>
                     {% endif %}
-
                     <h2 class="card-title">{{p.title}}</h2>
                         <p class="card-text">
                             {{p.content | truncatewords:50}}

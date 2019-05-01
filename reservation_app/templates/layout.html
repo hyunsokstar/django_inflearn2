@@ -131,12 +131,12 @@
                 <div class="col-lg-12">
                     <ul>
                         <li>
-                            <a href="#">미분류 ({{posts_without_category}})</a>
+                            <!-- <a href="#">미분류 ({{posts_without_category}})</a> -->
+                            <a href="/blog/category/_none/">미분류 ({{ posts_without_category }})</a>
                         </li>
-
                         {% for category in category_list %}
                         <li>
-                            <a href="#">{{ category.name }} ({{ category.post_set.count }})</a>
+                            <a href="{{category.get_absolute_url}}">{{ category.name }} ({{ category.post_set.count }})</a>
                         </li>
                         {% endfor %}
                     </ul>
