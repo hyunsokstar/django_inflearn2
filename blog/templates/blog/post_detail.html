@@ -1,13 +1,37 @@
 {% extends "blog/layout.html" %}
 {% load static %}
-
 {%block title %}{{object.title}} - Blog{% endblock %}
 {%block content %}
-<!-- Blog Detail -->
 
+<!-- Blog Detail -->
+    high
     <h1>{{ object.title }}</h1>
+    {% if object.category %}
+        <span class="badge badge-primary float-right">{{ object.category }}</span>
+    {% else %}
+        <span class="badge badge-primary float-right">미분류</span>
+    {% endif %}
     <div>
         {{ object.content }}
     </div>
+    <!-- Author -->
+    <p class="lead">
+        by
+        <a href="#">{{ object.author.username }}</a>
+    </p>
+    <br/>
+    <br>
+    <!-- EDIT -->
+    <!-- {{object.author}} -->
+    {% if request.user == object.author %}
+        EDIT
+        <button type="button" class="btn btn-sm btn-outline-secondary float-right">EDIT</button>
+    {% endif %}
+    <hr>
+
+    {% for tag in object.tags.all %}
+        <a href="{{ tag.get_absolute_url }}">#{{ tag }}</a>
+    {% endfor %}
+    <hr>
 
 {% endblock %}
