@@ -1,11 +1,21 @@
 from django.test import TestCase, Client
 from bs4 import BeautifulSoup
-from .models import Post, Category
+from .models import Post, Category, Tag
 
 from django.utils import timezone
 from django.contrib.auth.models import User
 
 # Create your tests here.
+def create_tag(name='some_tag'):
+    tag, is_created = Tag.objects.get_or_create(
+        name=name
+    )
+    tag.slug = tag.name.replace(' ', '-').replace('/', '')
+    tag.save()
+
+    return tag
+
+
 def create_category(name='life', description=''):
     category, is_created = Category.objects.get_or_create(
         name=name,
@@ -46,8 +56,6 @@ class TestModel(TestCase):
         # category.모델명(소문자).count()를 통해서 가져 올 수 있다.
         self.assertEqual(category.post_set.count(), 1)
 
-
-
     def test_post(self):
         category = create_category()
 
@@ -57,6 +65,33 @@ class TestModel(TestCase):
             author=self.author_000,
             category=category
         )
+
+    def test_tag(self):
+        tag_000 = create_tag(name='bad_guy')
+        tag_001 = create_tag(name='america')
+
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+        post_000.tags.add(tag_000)
+        post_000.tags.add(tag_001)
+        post_000.save()
+
+        post_001 = create_post(
+            title='Stay Fool, Stay Hungry',
+            content='Story about Steve Jobs',
+            author=self.author_000
+        )
+        post_001.tags.add(tag_001)
+        post_001.save()
+
+        self.assertEqual(post_000.tags.count(), 2)   # post는 여러개의 tag를 가질 수 있다.
+        self.assertEqual(tag_001.post_set.count(), 2)   # 하나의 tag는 여러개의 post에 붙을 수 있다.
+        self.assertEqual(tag_001.post_set.first(), post_000)    # 하나의 tag는 자신을 가진 post들을 불러올 수 있다.
+        self.assertEqual(tag_001.post_set.last(), post_001) # 하나의 tag는 자신을 가진 post들을 불러올 수 있다.
+
 
 
 # 테스트 뷰
