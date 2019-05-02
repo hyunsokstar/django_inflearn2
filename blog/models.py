@@ -39,8 +39,6 @@ class Post(models.Model):
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
     tags = models.ManyToManyField(Tag, blank=True)
 
-
-
     def get_markdown_content(self):
         return markdown(self.content)
 
@@ -52,3 +50,11 @@ class Post(models.Model):
 
     def get_update_url(self):
         return self.get_absolute_url() + 'update/'
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    text = MarkdownxField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_markdown_content(self):
+        return markdown(self.text)

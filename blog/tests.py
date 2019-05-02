@@ -1,10 +1,27 @@
 from django.test import TestCase, Client
 from bs4 import BeautifulSoup
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Comment
 from django.utils import timezone
 from django.contrib.auth.models import User
 
 # Create your tests here.
+
+def create_comment(post, text='a comment', author=None):
+    if author is None:
+        author, is_created = User.objects.get_or_create(
+            username='guest',
+            password='guestpassword'
+        )
+
+    comment = Comment.objects.create(
+        post=post,
+        text=text,
+        author=author
+    )
+
+    return comment
+
+
 def create_tag(name='some_tag'):
     tag, is_created = Tag.objects.get_or_create(
         name=name
@@ -45,7 +62,30 @@ class TestModel(TestCase):
         self.author_000.set_password('1234')
         self.author_000.save()
 
-        # self.user_obama = User.objects.create_user(username='obama', password='1234')
+        self.author_001 = User.objects.create(username='obama')
+        self.author_001.set_password('1234')
+        self.author_001.save()
+
+    def test_comment(self):
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+
+        self.assertEqual(Comment.objects.count(), 0)
+
+        comment_000 = create_comment(
+            post_000
+        )
+
+        comment_001 = create_comment(
+            post=post_000,
+            text='second comment'
+        )
+
+        self.assertEqual(Comment.objects.count(), 2)
+        self.assertEqual(post_000.comment_set.count(), 2)
 
     def test_category(self):
         category = create_category()
@@ -229,7 +269,7 @@ class TestView(TestCase):
             category=category_politics
         )
         response = self.client.get(category_politics.get_absolute_url())
-        print("get_absolute_url : ", category_politics.get_absolute_url())
+        # print("get_absolute_url : ", category_politics.get_absolute_url())
         # print('응답 코드')
         # print(response.status_code)
         # 정상적으로 응답 완료 처리 되었는지 확인
@@ -360,7 +400,6 @@ class TestView(TestCase):
     def test_post_detail_about_output_of_categoryInfo_and_editButton(self):
         # Post 모델에 row 데이터 1개 입력
         category_politics = create_category(name='정치/사회')
-
         # Post 모델에 데이터 2개 입력
         post_000 = create_post(
             title='The first post',
@@ -368,19 +407,16 @@ class TestView(TestCase):
             author=self.author_000,
             category=category_politics
         )
-
         post_001 = create_post(
             title='The second post',
             content='Second Second Second',
             author=self.author_000,
             category=create_category(name='취미/생활')
         )
-
         # post_000에 태그 정보 추가
         tag_america = create_tag(name='america')
         post_000.tags.add(tag_america)
         post_000.save()
-
         # 상세 보기 url 가져오기
         post_000_url = post_000.get_absolute_url()
         # 상세 보기 url 요청
@@ -440,7 +476,6 @@ class TestView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_create(self):
-
         # 로그인 안했을때
         response = self.client.get('/blog/create/')
         self.assertNotEqual(response.status_code, 200)
@@ -450,3 +485,37 @@ class TestView(TestCase):
         # 로그인 했을때
         response = self.client.get('/blog/create/')
         self.assertEqual(response.status_code, 200)
+
+    def test_post_detail_for_out_of_comment(self):
+        category_politics = create_category(name='정치/사회')
+
+        # 본문 입력
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+            category=category_politics
+        )
+
+        # 댓글 달기
+        comment_000 = create_comment(post_000, text='a test comment', author=self.author_001)
+
+        post_001 = create_post(
+            title='The second post',
+            content='Second Second Second',
+            author=self.author_000,
+        )
+
+        post_000_url = post_000.get_absolute_url()
+        response = self.client.get(post_000_url)
+
+        self.assertEqual(response.status_code, 200)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        body = soup.body
+        main_div = body.find('div', id='main-div')
+
+        # Comment
+        comments_div = main_div.find('div', id='comment-list')
+        self.assertIn(comment_000.author.username, comments_div.text)
+        self.assertIn(comment_000.text, comments_div.text)
