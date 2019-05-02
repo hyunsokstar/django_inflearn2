@@ -426,3 +426,15 @@ class TestView(TestCase):
 
         self.assertEqual(post_000.author, self.author_000)
         self.assertNotIn('EDIT', main_div.text)
+
+    def test_post_update(self):
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+
+        self.assertEqual(post_000.get_update_url(), post_000.get_absolute_url() + 'update/')
+
+        response = self.client.get(post_000.get_update_url())
+        self.assertEqual(response.status_code, 200)
