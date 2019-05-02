@@ -5,6 +5,7 @@ from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
 
 
+
 # Create your models here.
 class Tag(models.Model):
     name = models.CharField(max_length=40, unique=True)
@@ -55,6 +56,8 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     text = MarkdownxField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     def get_markdown_content(self):
         return markdown(self.text)

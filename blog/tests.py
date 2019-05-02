@@ -498,7 +498,7 @@ class TestView(TestCase):
         )
 
         # 댓글 달기
-        comment_000 = create_comment(post_000, text='a test comment', author=self.author_001)
+        comment_000 = create_comment(post_000, text='hello world', author=self.author_001)
 
         post_001 = create_post(
             title='The second post',
@@ -519,3 +519,52 @@ class TestView(TestCase):
         comments_div = main_div.find('div', id='comment-list')
         self.assertIn(comment_000.author.username, comments_div.text)
         self.assertIn(comment_000.text, comments_div.text)
+
+    # 로그인 유저가 작성한 댓글에 대해서만
+    # 에디트 삭제 버튼이 출력 되어야 한다
+    def test_post_detail_for_commentButton(self):
+        category_politics = create_category(name='정치/사회')
+
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+            category=category_politics
+        )
+
+        # 같은글에 댓글 두개 입력 (작성자는 각각 author_000, author_001)
+        comment_000 = create_comment(post_000, text='a test comment', author=self.author_000)
+        comment_001 = create_comment(post_000, text='a test comment', author=self.author_001)
+
+        post_001 = create_post(
+            title='The second post',
+            content='Second Second Second',
+            author=self.author_000,
+        )
+
+        # 로그인 하기
+        login_success = self.client.login(username='smith', password='1234') # login을 한 경우에는
+        self.assertTrue(login_success)
+
+        # post_000_url에 대해 상세 보기 요청
+        post_000_url = post_000.get_absolute_url()
+        response = self.client.get(post_000_url)
+        self.assertEqual(response.status_code, 200)
+
+        # soup으로 main_div 가져오기
+        soup = BeautifulSoup(response.content, 'html.parser')
+        body = soup.body
+        main_div = body.find('div', id='main-div')
+
+        # 댓글 영역 태그 정보 가져 오기
+        comments_div = main_div.find('div', id='comment-list')
+
+        # 로그인 유저가 author_000(smith) 이므로 comment_000_div 댓글에 대해 에디트 삭제 보튼이 보여야 한다.
+        comment_000_div = comments_div.find('div', id='comment-id-{}'.format(comment_000.pk))
+        self.assertIn('edit', comment_000_div.text)
+        self.assertIn('delete', comment_000_div.text)
+
+        # 로그인 유저가 smith 이므로 comment_001_div 댓글에 대해서는 에디트 삭제 버튼이 보이면 안된다.
+        comment_001_div = comments_div.find('div', id='comment-id-{}'.format(comment_001.pk))
+        self.assertNotIn('edit', comment_001_div.text)
+        self.assertNotIn('delete', comment_001_div.text)
