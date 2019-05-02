@@ -6,12 +6,15 @@
 <!-- Blog Post -->
 <div class="container">
 
+    {% if user.is_authenticated %}
+        <button class="btn btn-primary btn-sm float-right" onclick="location.href='/blog/create/'">New Post</button>
+    {% endif %}
+    
     <h1 id="blog-list-title">
-        Blog
-        {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}
-        {% if tag %}<small class="text-muted">: #{{ tag }}</small>{% endif %}
+    Blog
+    {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}
+    {% if tag %}<small class="text-muted">: #{{ tag }}</small>{% endif %}
     </h1>
-
 
     <!-- <h2>아직 게시물이 없습니다</h2> -->
     {% if object_list.exists%}

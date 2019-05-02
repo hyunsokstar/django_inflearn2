@@ -438,3 +438,10 @@ class TestView(TestCase):
 
         response = self.client.get(post_000.get_update_url())
         self.assertEqual(response.status_code, 200)
+
+    def test_post_create(self):
+        response = self.client.get('/blog/create/')
+        self.assertEqual(response.status_code, 200)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        main_div = soup.find('div', id='main-div')
