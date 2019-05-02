@@ -23,6 +23,14 @@ INSTALLED_APPS = [
     'markdownx',
     'blog',
     'crispy_forms',
+
+    # django all auth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:  => 필요 선택
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +109,20 @@ USE_L10N = True
 
 USE_TZ = True
 
+# django all auth
+AUTHENTICATION_BACKENDS = (
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+# `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+)
+
+
+
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -112,3 +134,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'_media')
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = '/blog/'
