@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Post, Category, Tag
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin 
 
 # Create your views here.
-
-class PostCreate(CreateView):
+class PostCreate(LoginRequiredMixin,CreateView):
     model = Post
     fields = [
         'title', 'content', 'head_image', 'category', 'tags'

@@ -440,8 +440,13 @@ class TestView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_create(self):
+
+        # 로그인 안했을때
+        response = self.client.get('/blog/create/')
+        self.assertNotEqual(response.status_code, 200)
+
+        self.client.login(username='smith', password='1234')
+
+        # 로그인 했을때
         response = self.client.get('/blog/create/')
         self.assertEqual(response.status_code, 200)
-
-        soup = BeautifulSoup(response.content, 'html.parser')
-        main_div = soup.find('div', id='main-div')
