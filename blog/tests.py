@@ -5,22 +5,18 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 # Create your tests here.
-
 def create_comment(post, text='a comment', author=None):
     if author is None:
         author, is_created = User.objects.get_or_create(
             username='guest',
             password='guestpassword'
         )
-
     comment = Comment.objects.create(
         post=post,
         text=text,
         author=author
     )
-
     return comment
-
 
 def create_tag(name='some_tag'):
     tag, is_created = Tag.objects.get_or_create(
@@ -28,19 +24,15 @@ def create_tag(name='some_tag'):
     )
     tag.slug = tag.name.replace(' ', '-').replace('/', '')
     tag.save()
-
     return tag
-
 
 def create_category(name='life', description=''):
     category, is_created = Category.objects.get_or_create(
         name=name,
         description=description
     )
-
     category.slug = category.name.replace(' ', '-').replace('/', '')
     category.save()
-
     return category
 
 def create_post(title, content, author, category=None):
@@ -568,3 +560,86 @@ class TestView(TestCase):
         comment_001_div = comments_div.find('div', id='comment-id-{}'.format(comment_001.pk))
         self.assertNotIn('edit', comment_001_div.text)
         self.assertNotIn('delete', comment_001_div.text)
+
+
+    def test_delete_comment(self):
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+
+        comment_000 = create_comment(post_000, text='a test comment', author=self.user_obama)
+        comment_001 = create_comment(post_000, text='a test comment', author=self.author_000)
+
+        self.assertEqual(Comment.objects.count(), 2)
+        self.assertEqual(post_000.comment_set.count(), 2)
+
+        login_success = self.client.login(username='smith', password='nopassword')
+        self.assertTrue(login_success)
+
+        response = self.client.get('/blog/delete_comment/{}/'.format(comment_000.pk), follow=True)
+        self.assertEqual(Comment.objects.count(), 2)
+        self.assertEqual(post_000.comment_set.count(), 2)
+
+        login_success = self.client.login(username='obama', password='nopassword')
+        response = self.client.get('/blog/delete_comment/{}/'.format(comment_000.pk), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+
+        print("현재 댓글 숫자 : ",  Comment.objects.count())
+
+        self.assertEqual(Comment.objects.count(), 1)
+        self.assertEqual(post_000.comment_set.count(), 1)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        main_div = soup.find('div', id='main-div')
+
+        self.assertNotIn('obama', main_div.text)
+
+    # 댓글 삭제에 대해 테스트
+    # 댓글 작성자는 자시이 작성한 댓글만 삭제 가능한지에 대해 테스트
+    def test_delete_comment(self):
+        # 본문글 1개 작성 (작성자는 smith)
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+
+        # 댓글 두개 달기 (2개의 댓글 작성자 모두  author_001(obama))
+        comment_000 = create_comment(post_000, text='a test comment', author=self.author_000)
+        comment_001 = create_comment(post_000, text='a test comment', author=self.author_001)
+
+        # 댓글 개수 확인 (모델 row 개수, post_000의 댓글 개수)
+        self.assertEqual(Comment.objects.count(), 2)
+        self.assertEqual(post_000.comment_set.count(), 2)
+
+        # 로그인 한후
+        login_success = self.client.login(username='obama', password='1234')
+        self.assertTrue(login_success)
+
+        # 댓글 삭제 시도 (smith가 댓글 comment_000을 삭제 시도)
+        # 댓글 삭제자가 smith가 아니므로 댓글 개수는 유지되어야 한다.
+        response = self.client.get('/blog/delete_comment/{}/'.format(comment_000.pk), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(Comment.objects.count(), 2)
+        self.assertEqual(post_000.comment_set.count(), 2)
+
+        login_success = self.client.login(username='obama', password='1234')
+        self.assertTrue(login_success)
+
+        # 댓글 삭제 시도 (obama가 댓글 comment_001을 삭제 시도)
+        # 댓글 삭제자가 obama가 맞으므로 댓글 개수가 1개 줄어야 한다.
+        response = self.client.get('/blog/delete_comment/{}/'.format(comment_001.pk), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(Comment.objects.count(), 1)
+        self.assertEqual(post_000.comment_set.count(), 1)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        main_div = soup.find('div', id='main-div')
+
+        # obama가 작성한 댓글이 사라졌으므로 obama 이름이 있으면 안된다.
+        self.assertNotIn('obama', main_div.text)

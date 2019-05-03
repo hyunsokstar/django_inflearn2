@@ -1,11 +1,20 @@
 from django.shortcuts import render, redirect
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Comment
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . forms import CommentForm
 
-
 # Create your views here.
+def delete_comment(request, pk):
+    comment = Comment.objects.get(pk=pk)
+    post = comment.post
+    if request.user == comment.author:
+        comment.delete()
+        return redirect(post.get_absolute_url() + '#comment-list')
+    else:
+        return redirect('/blog/')
+
+
 class PostCreate(LoginRequiredMixin,CreateView):
     model = Post
     fields = [
