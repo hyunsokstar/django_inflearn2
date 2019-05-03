@@ -5,21 +5,17 @@
 
 <!-- Blog Post -->
 <div class="container" id="main-div2">
-
     {% if user.is_authenticated %}
         <button class="btn btn-primary btn-sm float-right" onclick="location.href='/blog/create/'">New Post</button>
     {% endif %}
-
+    <br>
     <h1 id="blog-list-title">
-    Blog
     {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}
     {% if tag %}<small class="text-muted">: #{{ tag }}</small>{% endif %}
     </h1>
-
     <!-- <h2>아직 게시물이 없습니다</h2> -->
     {% if object_list.exists%}
         {% for p in object_list %}
-
             <div class="card mb-4"  id="post-card-{{ p.pk }}">
                 {% if p.head_image %}
                 <img class="card-img-top" src={{ p.head_image.url }} alt="Card image cap">
@@ -36,7 +32,6 @@
                         <p class="card-text">
                             {{p.content | truncatewords:50}}
                         </p>
-
                         {% for tag in p.tags.all %}
                             <a href="{{ tag.get_absolute_url }}">#{{ tag }} </a>
                         {% endfor %}

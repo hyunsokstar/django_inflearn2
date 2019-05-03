@@ -603,6 +603,7 @@ pre code {
       flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+  margin-top: -20px;
 }
 
 .no-gutters {
@@ -4420,7 +4421,6 @@ input[type="button"].btn-block {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding: 0.5rem 1rem;
 }
 
 .navbar > .container,
@@ -4965,9 +4965,12 @@ input[type="button"].btn-block {
 }
 
 .card-img-top {
-  width: 100%;
+  width: 92%;
   border-top-left-radius: calc(0.25rem - 1px);
   border-top-right-radius: calc(0.25rem - 1px);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card-img-bottom {
@@ -8696,7 +8699,12 @@ button.bg-dark:focus {
 
 .pt-5,
 .py-5 {
-  padding-top: 3rem !important;
+  padding-top: 1rem !important;
+}
+
+.pb-5,
+.py-5 {
+  padding-bottom: 1rem !important;
 }
 
 .pr-5,
@@ -8704,10 +8712,7 @@ button.bg-dark:focus {
   padding-right: 3rem !important;
 }
 
-.pb-5,
-.py-5 {
-  padding-bottom: 3rem !important;
-}
+
 
 .pl-5,
 .px-5 {

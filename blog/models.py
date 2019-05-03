@@ -4,8 +4,6 @@ from django.urls import reverse
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
 
-
-
 # Create your models here.
 class Tag(models.Model):
     name = models.CharField(max_length=40, unique=True)
