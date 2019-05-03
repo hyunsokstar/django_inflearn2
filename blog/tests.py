@@ -643,3 +643,39 @@ class TestView(TestCase):
 
         # obama가 작성한 댓글이 사라졌으므로 obama 이름이 있으면 안된다.
         self.assertNotIn('obama', main_div.text)
+
+    # 댓글 수정
+    def test_edit_comment(self):
+
+        # posting 댓글 작성 , 댓글 작성자 smith
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+
+        # 댓글 2개 작성
+        comment_000 = create_comment(post_000, text='I am president of the US', author=self.author_000)
+        comment_001 = create_comment(post_000, text='a test comment', author=self.author_001)
+
+        # 로그인 안하면 에디트 요청에 대해 permission 에러가 발생
+        with self.assertRaises(PermissionError):
+            response = self.client.get('/blog/edit_comment/{}/'.format(comment_001.pk))
+
+        # 다른 사람으로 로그인한 상태에서 에디트 신청해도 permission 에러 발생
+        login_success = self.client.login(username='smith', password='1234')
+        self.assertTrue(login_success)
+
+        # permissionError 에러 발생 여부
+        with self.assertRaises(PermissionError):
+            response = self.client.get('/blog/edit_comment/{}/'.format(comment_001.pk))
+
+        # 댓글 작성자가 로그인해서 댓글 수정 요청을 날리면 응답 정상 완료
+        login_success = self.client.login(username='obama', password='1234')
+        self.assertTrue(login_success)
+        response = self.client.get('/blog/edit_comment/{}/'.format(comment_001.pk))
+        self.assertEqual(response.status_code, 200)
+
+        # 에디터 페이지 출력 확인
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertIn('Edit Comment: ', soup.body.h3)

@@ -5,6 +5,30 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from . forms import CommentForm
 
 # Create your views here.
+
+class CommentUpdate(UpdateView):
+    model = Comment
+    form_class = CommentForm
+    # 댓글 객체의 user와 댓글 수정한 유저가 다를 경우
+    # PermissionError 를 발생 시킨다.
+    def get_object(self, queryset=None):
+        comment = super(CommentUpdate, self).get_object()
+        if comment.author != self.request.user:
+            raise PermissionError('Comment 수정 권한이 없습니다.')
+        return comment
+
+# 댓글 수정 뷰 (로그인 사용자가 댓글 작성자가 아닐 경우 PermissionError 발생)
+class CommentUpdate(UpdateView):
+    model = Comment
+    form_class = CommentForm
+
+    def get_object(self, queryset=None):
+        comment = super(CommentUpdate, self).get_object()
+        if comment.author != self.request.user:
+            raise PermissionError('Comment 수정 권한이 없습니다.')
+        return comment
+
+
 def delete_comment(request, pk):
     comment = Comment.objects.get(pk=pk)
     post = comment.post

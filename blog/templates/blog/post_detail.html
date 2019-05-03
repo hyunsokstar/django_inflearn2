@@ -63,7 +63,11 @@
                 <div class="media-body">
 
                     {% if comment.author == request.user %}
-                        <button class="btn btn-sm btn-info float-right">edit</button>
+                        <button
+                            class="btn btn-sm btn-info float-right"
+                            onclick="location.href='/blog/edit_comment/{{ comment.pk }}/'"
+                            >edit
+                        </button>
                         <button
                             class="btn btn-sm btn-warning float-right"
                             data-toggle="modal"
