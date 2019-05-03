@@ -33,6 +33,7 @@ def create_category(name='life', description=''):
     )
     category.slug = category.name.replace(' ', '-').replace('/', '')
     category.save()
+
     return category
 
 def create_post(title, content, author, category=None):
@@ -248,7 +249,9 @@ class TestView(TestCase):
         self.check_right_side(soup)
 
     def test_post_list_by_category(self):
+
         category_politics = create_category(name='정치/사회')
+
         post_000 = create_post(
             title='The first post',
             content='Hello World. We are the world.',
@@ -267,10 +270,11 @@ class TestView(TestCase):
         # 정상적으로 응답 완료 처리 되었는지 확인
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
+
         # posting 목록 중에서
         # 응답 내용중에 '미분류가 없어야 한다.'
         # 응답 내용중에 카테고리 이름이 포함되어 있어야 한다.
-        main_div = soup.find('div', id='main-div')
+        main_div = soup.find('div', id='main-div2')
         self.assertNotIn('미분류', main_div.text)
         self.assertIn(category_politics.name, main_div.text)
 
@@ -679,3 +683,35 @@ class TestView(TestCase):
         # 에디터 페이지 출력 확인
         soup = BeautifulSoup(response.content, 'html.parser')
         self.assertIn('Edit Comment: ', soup.body.h3)
+
+    def test_pagination(self):
+        # post가 2개인 경우 0,1,(2-0)
+        for i in range(0, 2):
+            post = create_post(
+                title='The post No. {}'.format(i),
+                content='Content {}'.format(i),
+                author=self.author_000,
+            )
+        response = self.client.get('/blog/')
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # 2개일때는 older newer 버튼이 모두 없어야 한다.
+        # 장고 리스트뷰 페이지 옵션이 2이기 때문
+        self.assertNotIn('Older', soup.body.text)
+        self.assertNotIn('Newer', soup.body.text)
+
+        # post 목록을 4개 더 입력 ( 7-3 )
+        # 6개일때는 older newer 버튼이 모두 있어야 한다.
+        for i in range(3, 7):
+            post = create_post(
+                title='The post No. {}'.format(i),
+                content='Content {}'.format(i),
+                author=self.author_000,
+            )
+        response = self.client.get('/blog/')
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        self.assertIn('Older', soup.body.text)
+        self.assertIn('Newer', soup.body.text)

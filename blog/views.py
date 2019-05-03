@@ -62,6 +62,7 @@ class PostUpdate(UpdateView):
 
 class PostList(ListView):
     model = Post
+    paginate_by = 2
 
     def get_queryset(self):
         return Post.objects.order_by('-created')
