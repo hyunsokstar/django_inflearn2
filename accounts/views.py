@@ -16,3 +16,6 @@ def signup(request):
 # Create your views here.
 def profile(request):
     return render(request, 'accounts/profile.html')
+
+def profile(request):
+    return render(request, 'accounts/profile.html')
