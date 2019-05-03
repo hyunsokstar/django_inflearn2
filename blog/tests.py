@@ -715,3 +715,54 @@ class TestView(TestCase):
 
         self.assertIn('Older', soup.body.text)
         self.assertIn('Newer', soup.body.text)
+
+
+    def test_search(self):
+        post_000 = create_post(
+            title='Stay Fool, Stay Hungry',
+            content='Amazing Apple story',
+            author=self.author_000
+        )
+
+        post_001 = create_post(
+            title='Trump Said',
+            content='Make America Great Again',
+            author=self.author_000
+        )
+
+        response = self.client.get('/blog/search/Stay Fool/')
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertIn(post_000.title, soup.body.text)
+        self.assertNotIn(post_001.title, soup.body.text)
+
+        response = self.client.get('/blog/search/Make America/')
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertIn(post_001.title, soup.body.text)
+        self.assertNotIn(post_000.title, soup.body.text)
+
+    def test_search(self):
+        post_000 = create_post(
+            title='Stay Fool, Stay Hungry',
+            content='Amazing Apple story',
+            author=self.author_000
+        )
+
+        post_001 = create_post(
+            title='Trump Said',
+            content='Make America Great Again',
+            author=self.author_000
+        )
+
+        response = self.client.get('/blog/search/Stay Fool/')
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertIn(post_000.title, soup.body.text)
+        self.assertNotIn(post_001.title, soup.body.text)
+
+        response = self.client.get('/blog/search/Make America/')
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.assertIn(post_001.title, soup.body.text)
+        self.assertNotIn(post_000.title, soup.body.text)

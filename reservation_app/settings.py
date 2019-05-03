@@ -21,14 +21,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'markdownx',
-    'blog',
     'crispy_forms',
+    'blog',
+    'accounts',
 
     # django all auth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
     # ... include the providers you want to enable:  => 필요 선택
     'allauth.socialaccount.providers.google',
 ]
@@ -136,3 +138,4 @@ MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/blog/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
