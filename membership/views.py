@@ -10,12 +10,12 @@ def signup(request):
             return redirect(settings.LOGIN_URL)
     else:   # 입력한 값이 없을 경우
         form = UserCreationForm()
-    return render(request, 'accounts/signup_form.html',{
+    return render(request, 'membership/signup_form.html',{
         'form':form,
     })
 # Create your views here.
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    return render(request, 'membership/profile.html')
 
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    return render(request, 'membership/profile.html')
