@@ -2,8 +2,8 @@
 {% block title %} {{ object.title }} - Blog {% endblock %}
 
 {% block content %}
-
-<form method="post">{% csrf_token %}
+입력 1122
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>

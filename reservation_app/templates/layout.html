@@ -20,7 +20,7 @@
     <div class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="navbar">
       <div class="container">
         <!-- <a href="../" class="navbar-brand">Bootswatch</a> -->
-        <a class="navbar-brand" href="{% url "blog:post_list" %}"> Tutorial Note </a>
+        <!-- <a class="navbar-brand" href="{% url "blog:post_list" %}"> Tutorial Note </a> -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -74,14 +74,12 @@
 
     <!-- Page Content -->
     <div class="container">
-
       <div class="row">
         <!-- Blog Entries Column -->
         <div class="col-md-8" id="main-div">
             <!-- Blog Post -->
             {%block content %}{% endblock %}
           <hr>
-
           {% if is_paginated %}
               <!-- Pagination -->
               <ul class="pagination justify-content-center mb-4">
@@ -111,9 +109,7 @@
       <div class="col-md-4">
 
          {%block sidearea %} {%endblock%}
-
       </div>
-
       </div>
       <!-- /.row -->
     </div>
@@ -141,10 +137,14 @@
                 </button>
             </div>
 
-            일반 로그인 :
 
             <div class="modal-body">
                 <a role="button" class="btn btn-primary" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i> Log in with Google</a>
+                <hr>
+                <a href="/accounts/login">일반 로그인</a>
+                <hr>
+                <a href="/accounts/signup">회원 가입</a>
+                <hr>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

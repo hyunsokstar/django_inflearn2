@@ -11,7 +11,7 @@ SECRET_KEY = 'qki)d54cmpt_v7b5m07qh$d#o3j6#pm3gi=po&)b2a59$e859x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['167.179.89.223', '127.0.0.1']
+ALLOWED_HOSTS = ['167.179.89.223', '127.0.0.1', 'terecal-hyun.co.kr','www.terecal-hyun.co.kr']
 
 # Application definition
 
@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'markdownx',
     'crispy_forms',
     'blog',
-    'membership',
+    # 'membership',
     # django all auth
     'django.contrib.sites',
     'allauth',
@@ -123,7 +123,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-
+SITE_ID = 1
 
 
 
