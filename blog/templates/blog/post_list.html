@@ -49,7 +49,7 @@
             <a href="{{p.get_absolute_url}}" class="btn btn-primary">Read More &rarr;</a>
 
             {% if request.user == p.author %}
-                <a href="{% url " blog:post_delete" p.pk %}" class="btn btn-outline-dark">삭제</a>
+                <a href="{% url "blog:post_delete" p.pk %}" class="btn btn-outline-dark">삭제</a>
             {% endif %}
 
         </div>
