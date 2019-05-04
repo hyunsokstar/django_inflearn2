@@ -130,7 +130,6 @@ class TestModel(TestCase):
         self.assertEqual(tag_001.post_set.last(), post_001) # 하나의 tag는 자신을 가진 post들을 불러올 수 있다.
 
 
-
 # 테스트 뷰
 class TestView(TestCase):
     def setUp(self):
