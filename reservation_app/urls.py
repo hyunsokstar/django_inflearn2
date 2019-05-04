@@ -9,6 +9,7 @@ urlpatterns = [
     path('markdownx/', include('markdownx.urls')),
     path('accounts/', include('allauth.urls')),
     path('blog/', include('blog.urls')),
+    path('', include('membership.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
