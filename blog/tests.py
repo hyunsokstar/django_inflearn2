@@ -151,7 +151,7 @@ class TestView(TestCase):
 
     def test_post_list_no_post(self):
         # post_list 요청 날리기
-        response = self.client.get('/blog/')
+        response = self.client.get('/sd/')
         # 완료 코드 확인 하기
         self.assertEqual(response.status_code, 200)
         # 내용 확인 하기 (타이틀 태그, 네비게이션바 유무, 게시물이 없습니다 메세지)
