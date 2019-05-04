@@ -123,7 +123,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-
+SITE_ID = 1
 
 
 
