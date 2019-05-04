@@ -6,7 +6,11 @@
 <!-- Blog Post -->
 <div class="container" id="main-div2">
     {% if user.is_authenticated %}
-        <button class="btn btn-primary btn-sm float-right" onclick="location.href='/blog/create/'">New Post</button>
+    <button
+        class="btn btn-primary btn-sm float-right"
+        onclick="location.href='/blog/create/'"
+        style="margin-right:30px;">New Post
+    </button>
     {% endif %}
     <br>
     <h1 id="blog-list-title">
@@ -39,6 +43,11 @@
                         <br/>
 
                     <a href="{{p.get_absolute_url}}" class="btn btn-primary">Read More &rarr;</a>
+
+                    {% if request.user == p.author %}
+                        <a href="{% url "blog:post_delete" p.pk %}" class="btn btn-outline-dark">삭제</a>
+                    {% endif %}
+
                 </div>
                 <div class="card-footer text-muted">
                     Posted on {{p.created}} {{p.author}}

@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
 from .models import Post, Category, Tag, Comment
-from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . forms import CommentForm
 from django.db.models import Q
 
+from django.views.generic import ListView, DetailView, UpdateView, CreateView , DeleteView
+from django.urls import reverse_lazy
+
 # Create your views here.
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:post_list')
+    # success_message = "delete was complted"
+post_delete = PostDeleteView.as_view()
 
 class CommentUpdate(UpdateView):
     model = Comment

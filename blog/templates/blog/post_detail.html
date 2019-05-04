@@ -31,10 +31,10 @@
     <!-- EDIT -->
     <!-- {{object.author}} -->
     {% if request.user == object.author %}
-        <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick="location.href='{{ object.get_update_url }}'">EDIT</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick="location.href='{% url "blog:post_list"  %}'">목록</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick="location.href='{% url "blog:post_delete" object.pk %}'">Delete</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick="location.href='{{ object.get_update_url }}'">EDIT</button>
     {% endif %}
-
-    <hr>
 
     {% for tag in object.tags.all %}
         <a href="{{ tag.get_absolute_url }}">#{{ tag }}</a>
