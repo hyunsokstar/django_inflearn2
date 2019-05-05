@@ -72,6 +72,11 @@ class PostList(ListView):
     model = Post
     paginate_by = 2
 
+    def get_template_names(self):
+        if self.request.is_ajax():
+            return ['blog/_post_list.html']
+        return ['blog/post_list.html']
+
     def get_queryset(self):
         return Post.objects.order_by('-created')
 
