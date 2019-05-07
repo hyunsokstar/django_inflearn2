@@ -58,7 +58,13 @@ class TodoList(ListView):
         # print(Todo.objects.all().count())
         # print(Todo.objects.filter(Q(author=self.request.user)).count())
         # print(Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).count())
-        return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time=""))
+        if self.request.user.is_anonymous:
+            print("익명 유저입니다")
+            return Todo.objects.all()
+        else:
+            print("user : ", self.request.user)
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time=""))
+
 
 class TodoListByComplete(ListView):
     model = Todo
