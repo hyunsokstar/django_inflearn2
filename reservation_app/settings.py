@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'markdownx',
     'crispy_forms',
     'blog',
+    'todo',
     # 'membership',
     # django all auth
     'django.contrib.sites',

@@ -30,7 +30,6 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=30)
-    # content = models.TextField()
     content = MarkdownxField()
     head_image = models.ImageField(upload_to='blog/%y%m%d', blank=True)
     created = models.DateTimeField(auto_now_add=True)

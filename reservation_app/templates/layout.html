@@ -36,7 +36,10 @@
                     <a class="nav-link" href="abcd" data-toggle="modal" data-target="#recommad_modal">내가 쓴글</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../help/">방명록</a>
+                    <a class="nav-link" href="{% url "todo:todo_list" %}">할 일</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "todo:todo_list_by_complete" %}">완 료</a>
                 </li>
             </ul>
 

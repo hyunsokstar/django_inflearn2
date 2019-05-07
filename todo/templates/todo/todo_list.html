@@ -1,0 +1,119 @@
+{% extends "todo/layout.html" %}
+{%block title %}Blog{% endblock %}
+{%block content %}
+
+{% if object_list.exists%}
+{% for p in object_list %}
+
+<table class="table table-bordered">
+    <tr>
+        <td style="width: 20%">작성자</td>
+        <td>{{p.author}}</td>
+    </tr>
+    <tr>
+        <td style="width: 20%">task</td>
+        <td>{{p.title}}</td>
+    </tr>
+    <tr>
+        <td style="width: 20%">상세 사항</td>
+        <td>{{p.content}}</td>
+    </tr>
+    <tr>
+        <td style="width: 20%">note</td>
+        <td>
+            <!-- <button class="btn btn-outline-info" onclick="location.href='{{p.note}}'">Note 정리</button> -->
+            <a href="https://{{p.note}}">note</a>
+        </td>
+    </tr>
+    <tr>
+        <td>시작 시간</td>
+        <td>{{p.created}}</td>
+    </tr>
+    <tr>
+        <td>경과 시간</td>
+        <td>{{p.now_diff}}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+
+            {% if request.user == p.author %}
+                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
+    				<a
+    				href="{% url "todo:todo_complete" p.id %}"
+                    class=""
+                    data-target-id=""
+                    data-message=""
+                    >
+                        완료
+                    </a>
+                </button>
+
+                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
+    				<a
+    				href="{% url "todo:todo_delete" p.pk %}"
+                    class=""
+                    data-target-id=""
+                    data-message=""
+                    >
+                        삭제
+                    </a>
+                </button>
+
+                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
+    				<a
+    				href="{% url "todo:todo_edit" p.id %}"
+                    class=""
+                    data-target-id=""
+                    data-message=""
+                    >
+                        수정
+                    </a>
+                </button>
+
+            {% endif %}
+
+        </td>
+    </tr>
+
+</table>
+<hr>
+{% endfor %}
+
+{% comment %} data-toggle="modal" data-target="#basicExampleModal" {% endcomment %}
+
+<!-- Modal -->
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<h4>아직 게시물이 없습니다.</h4>
+{% endif %}
+
+
+<script type="text/javascript">
+    // modal 이벤트 : 상세 보기
+    $(document).on('click', '.recommand_button', function (e) {
+        e.preventDefault();
+        var href = $(this).attr("href");
+		alert(href);
+</script>
+
+{% endblock %}

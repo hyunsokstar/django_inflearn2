@@ -439,12 +439,9 @@ class TestView(TestCase):
         main_div = soup.find('div', id='main-div')
         # print("post_000.author : ", post_000.author)
         # print("self.author_000 : ", self.author_000)
-
         self.assertEqual(post_000.author, self.author_000)
-
         # EDIT 버튼이 있다.
         self.assertIn('EDIT', main_div.text)
-
         # 다른 사람인 경우에는 없다.
         login_success = self.client.login(username='obama', password='1234')
         self.assertTrue(login_success)
