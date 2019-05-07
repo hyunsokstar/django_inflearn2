@@ -6,7 +6,7 @@
 {% for p in object_list %}
 
 <br>
-<h2>할일 목록</h2>
+<h2>완료 목록</h2>
 
 <table class="table table-bordered">
     <tr>
@@ -33,8 +33,8 @@
         <td>{{p.created}}</td>
     </tr>
     <tr>
-        <td>경과 시간</td>
-        <td>{{p.now_diff}}</td>
+        <td>소요 시간</td>
+        <td>{{p.elapsed_time}}</td>
     </tr>
     <tr>
         <td colspan="2">

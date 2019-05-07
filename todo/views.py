@@ -67,3 +67,6 @@ class TodoListByComplete(ListView):
         # print(Todo.objects.filter(Q(author=self.request.user)).count())
         # print(Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).count())
         return Todo.objects.filter(Q(author=self.request.user) & ~Q(elapsed_time=""))
+
+    def get_template_names(self):
+        return ['todo/todo_list_complete.html']
