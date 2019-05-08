@@ -9,7 +9,7 @@ class Todo(models.Model):
     content = models.TextField()
     created = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=True)
-    note = models.TextField(blank=True)
+    note = models.CharField(max_length=50)
     elapsed_time = models.CharField(max_length=20)
 
     @property

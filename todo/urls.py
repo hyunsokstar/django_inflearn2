@@ -11,5 +11,6 @@ urlpatterns = [
     path('<int:pk>/delete/', views.todo_delete, name='todo_delete'),
     path('new/',views.todo_new , name ="todo_new"),
     path('<int:id>/todo_complete/',views.todo_complete , name ="todo_complete"),
+    path('search/<str:q>/', views.TodoSearch.as_view()),
 
 ]

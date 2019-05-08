@@ -36,7 +36,6 @@ class CommentUpdate(UpdateView):
             raise PermissionError('Comment 수정 권한이 없습니다.')
         return comment
 
-
 def delete_comment(request, pk):
     comment = Comment.objects.get(pk=pk)
     post = comment.post
@@ -46,13 +45,11 @@ def delete_comment(request, pk):
     else:
         return redirect('/blog/')
 
-
 class PostCreate(LoginRequiredMixin,CreateView):
     model = Post
     fields = [
         'title', 'content', 'head_image', 'category', 'tags'
     ]
-
     def form_valid(self, form):
         current_user = self.request.user
         if current_user.is_authenticated:
@@ -72,16 +69,6 @@ class PostList(ListView):
     model = Post
     paginate_by = 2
 
-    def get_template_names(self):
-        if self.request.is_ajax():
-            return ['blog/_post_list.html']
-        return ['blog/post_list.html']
-
-    def get_queryset(self):
-        return Post.objects.order_by('-created')
-
-    # 클래스뷰에서 리스트 객체 이외에 추가로 필요한 객체를 넘길때 get_context_data을 사용
-    # context = super(PostList, self).get_context_data(**kwargs) 은 형식적으로 알아 두자
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PostList, self).get_context_data(**kwargs)
         context['category_list'] = Category.objects.all()
@@ -89,20 +76,29 @@ class PostList(ListView):
         return context
 
 class PostSearch(PostList):
+    def get_template_names(self):
+        return ['blog/post_list_search.html']
+
     def get_queryset(self):
+        print("PostSearch 확인")
         q = self.kwargs['q']
-        object_list = Post.objects.filter(Q(title__contains=q) | Q(content__contains=q))
+        object_list = Post.objects.filter(Q(title__contains=q) | Q(content__contains=q)).order_by('-created')
+        print("result : ", object_list)
         return object_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PostSearch, self).get_context_data(**kwargs)
+        context['search_word'] = self.kwargs['q']
+        return context
+
 
 class PostDetail(DetailView):
     model = Post
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PostDetail, self).get_context_data(**kwargs)
         context['category_list'] = Category.objects.all()
         context['posts_without_category'] = Post.objects.filter(category=None).count()
         context['comment_form'] = CommentForm()
-
         return context
 
 class PostListByCategory(ListView):

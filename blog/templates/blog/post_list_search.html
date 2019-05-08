@@ -4,7 +4,11 @@
 {%block content %}
 
 <!-- Blog Post -->
+
+
 <div class="container" id="main-div2">
+
+    검색 결과 : {{search_word}}
     {% if user.is_authenticated %}
     <button
             class="btn btn-primary btn-sm float-right"
@@ -21,7 +25,9 @@
             <small class="text-muted">: #{{ tag }}</small>
         {% endif %}
     </h1>
+
     <!-- <h2>아직 게시물이 없습니다</h2> -->
+
     {% if object_list.exists%}
     {% for p in object_list %}
     <div class="card mb-4" id="post-card-{{ p.pk }}">

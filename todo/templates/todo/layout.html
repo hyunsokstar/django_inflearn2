@@ -19,10 +19,10 @@
     <h5 class="card-header">Search</h5>
     <div class="card-body">
         <div class="input-group">
-            <input type="text" id="search-input" onkeyup="wait_for_enterkey()" class="form-control"
+            <input type="text" id="search-input" onkeyup="wait_for_enterkey_todo()" class="form-control"
                    placeholder="Search for..."/>
             <span class="input-group-btn">
-          <button class="btn btn-secondary" type="button" onclick="search_post();">Go!</button>
+          <button class="btn btn-secondary" type="button" onclick="search_todo();">Go!</button>
 
         </span>
         </div>
@@ -31,11 +31,24 @@
 
 <!-- Side Widget -->
 <div class="card my-4">
-    <h5 class="card-header">사이트 목적</h5>
+    <h5 class="card-header">todo</h5>
     <div class="card-body">
-        할일 저장하고 수정 및 완료
+        할일 저장 및 경과 시간 표시
     </div>
 </div>
+<script >
 
+function search_todo(){
+    var search_value = document.getElementById('search-input').value;
+    location.href="/todo/search/" + search_value + "/";
+}
+
+function wait_for_enterkey_todo(){
+    if (window.event.keyCode == 13){
+        search_todo();
+    }
+}
+
+</script>
 
 {%endblock%}
