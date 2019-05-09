@@ -7,9 +7,34 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 
 # create your view
+
+class todoDetail(DetailView):
+    model = Todo
+    def get_template_names(self):
+        if self.request.is_ajax():
+            return ['todo/_todo_detail.html']
+        return ['todo/todo_detail.html']
+
 class TodoList(ListView):
     model = Todo
+    paginate_by = 20
+
+    def get_queryset(self):
+        if self.request.user.is_anonymous:
+            print("익명 유저입니다")
+            return Todo.objects.all().order_by('-created')
+        else:
+            print("user : ", self.request.user)
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).order_by('-created')
+
+
+class TodoList_by_card(ListView):
+    model = Todo
     paginate_by = 2
+
+    def get_template_names(self):
+        return ['todo/todo_list_by_card.html']
+
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
@@ -82,9 +107,7 @@ def todo_edit(request, id):
         'form': form,
     })
 
-
-
-class TodoListByComplete(ListView):
+class TodoListByComplete_by_card(ListView):
     model = Todo
     def get_queryset(self):
         # print(Todo.objects.all().count())

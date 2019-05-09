@@ -2,15 +2,20 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.utils import timezone
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdown
 
 class Todo(models.Model):
     lecture = models.CharField(max_length=100, blank=True)
     title = models.CharField(max_length=30)
-    content = models.TextField()
+    content = MarkdownxField()
     created = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=True)
     note = models.CharField(max_length=50)
     elapsed_time = models.CharField(max_length=20)
+
+    def get_markdown_content(self):
+        return markdown(self.content)
 
     @property
     def now_diff(self):

@@ -30,8 +30,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Scheduler <span class="caret"></span></a>
                     <div class="dropdown-menu" aria-labelledby="download">
-                        <a class="dropdown-item" href="{% url "todo:todo_list" %}">할일</a>
-                        <a class="dropdown-item" href="{% url "todo:todo_list_by_complete" %}">완료</a>
+                        <a class="dropdown-item" href="{% url "todo:todo_list" %}">할일(list)</a>
+                        <a class="dropdown-item" href="{% url "todo:todo_list_by_card" %}">할일(카드)</a>
+                        <a class="dropdown-item" href="{% url "todo:todo_complete_list_by_card" %}">완료</a>
                     </div>
                 </li>
 
@@ -74,32 +75,12 @@
     </div>
 </div>
 
+
 <!-- 모달 -->
 {% load socialaccount %}
 
 <!-- Modal -->
-<div class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -108,7 +89,6 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
 
             <div class="modal-body">
                 <a role="button" class="btn btn-primary" href="{% provider_login_url 'google' %}"><i
@@ -125,49 +105,11 @@
     </div>
 </div>
 
-<!-- 모달 영역 -->
-<div class="modal" id="recommad_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Please Log in</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <div class="modal-body">
-                <div id="post-list-wrapper"></div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script type="text/javascript">
-    {%block js_area %} {% endblock %}
-</script>
-
-<!-- boot strap js -->
 <script src="{% static 'blog/_assets/js/jquery.min.js' %}"></script>
 <script src="{% static 'blog/_assets/js/popper.min.js' %}"></script>
 <script src="{% static 'blog/bootstrap/bootstrap.min.js' %}"></script>
 <script src="{% static 'blog/_assets/js/custom.js' %}"></script>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> -->
-<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.css"></script> -->
-<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script> -->
-
-<!-- Remember to include jQuery :) -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script> -->
-<!-- jQuery Modal -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/> -->
 
 
 <script>
@@ -206,6 +148,34 @@ $(document).ready(function () {
         // $( this ).text( htmlString );
     })
 });
+
+$(document).ready(function(){
+    var id;
+
+    $("#todo_list a").click(function(e){
+        e.preventDefault();
+        id = $(this).attr('id');
+        // alert(id);
+        $.get(id)
+            .done((html) => {
+                console.log(html);
+                $('#myModal_button').hide();
+                $("#myModal").html(html)
+                // $("#myModal" ).modal('show');
+                $( "#myModal_button" ).trigger( "click" );
+            })
+            .fail(() => {
+                console.log("fail");
+            })
+            .always(() => {
+                console.log('always');
+            })
+    });
+})
+
+
+{%block extra_js %}
+{% endblock %}
 
 
 </script>

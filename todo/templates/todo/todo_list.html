@@ -1,149 +1,62 @@
 {% extends "todo/layout.html" %}
-{%block title %}Blog{% endblock %}
+{%block title %}todo list{% endblock %}
 {%block content %}
 
-<br>
 <h2>할일 목록</h2>
 
-{% if object_list.exists%}
-{% for p in object_list %}
+    <table class="table" id="todo_list">
+        <tr>
+            <td>title</td>
+            <td>경과시간</td>
+            <td>작성자</td>
+            <td></td>
+        </tr>
 
-<table class="table table-bordered">
-    <tr>
-        <td style="width: 20%">작성자</td>
-        <td>{{p.author}}</td>
-    </tr>
-    <tr>
-        <td style="width: 20%">title</td>
-        <td>{{p.title}}</td>
-    </tr>
-    <tr>
-        <td style="width: 20%">content</td>
-        <td>{{p.content}}</td>
-    </tr>
-    <tr>
-        <td style="width: 20%">note</td>
-        <td>
-            <!-- <button class="btn btn-outline-info" onclick="location.href='{{p.note}}'">Note 정리</button> -->
-            <a href="https://{{p.note}}">note</a>
-        </td>
-    </tr>
-    <tr>
-        <td>시작 시간</td>
-        <td>{{p.created}}</td>
-    </tr>
-    <tr>
-        <td>경과 시간</td>
-        <td>{{p.now_diff}}</td>
-    </tr>
-    <tr>
-        <td colspan="2">
+        {% if object_list.exists%}
+            {% for p in object_list %}
+                <tr>
+                    <td>
+                        <a href="" id={{p.id}}>
+                            {{p.title}}
+                        </a>
+                    </td>
+                    <td>{{p.now_diff}}</td>
+                    <td>{{p.author}}</td>
+                    <td>
+                        {% if request.user == p.author %}
+                        <button type="button" class="btn btn btn-outline-danger btn-sm" onclick="updateTodo(this.id)">
+                            <a href="{% url "todo:todo_complete" p.id %}">완료</a>
+                        </button>
+                        <button type="button" class="btn btn btn-outline-danger btn-sm" onclick="updateTodo(this.id)">
+                            <a href="{% url "todo:todo_delete" p.pk %}">삭제</a>
+                        </button>
 
-            {% if request.user == p.author %}
-                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
-    				<a
-    				href="{% url "todo:todo_complete" p.id %}"
-                    class=""
-                    data-target-id=""
-                    data-message=""
-                    >
-                        완료
-                    </a>
-                </button>
-
-                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
-    				<a
-    				href="{% url "todo:todo_delete" p.pk %}"
-                    class=""
-                    data-target-id=""
-                    data-message=""
-                    >
-                        삭제
-                    </a>
-                </button>
-
-                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
-    				<a
-    				href="{% url "todo:todo_edit" p.id %}"
-                    class=""
-                    data-target-id=""
-                    data-message=""
-                    >
-                        수정
-                    </a>
-                </button>
-
-            {% endif %}
-
-        </td>
-    </tr>
-
-</table>
-{% endfor %}
-
-<hr>
-
-{% if is_paginated %}
-    <!-- Pagination -->
-    <ul class="pagination justify-content-center mb-4">
-        {% if page_obj.has_next %}
-        <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&larr; Older</a>
-        </li>
+                        <button type="button" class="btn btn btn-outline-danger btn-sm" onclick="updateTodo(this.id)">
+                            <a href="{% url "todo:todo_edit" p.id %}">수정</a>
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
         {% else %}
-        <li class="page-item disabled">
-                <a class="page-link" href="#">&larr; Older</a>
-        </li>
+        <tr>
+            <td>
+                <h4>아직 게시물이 없습니다.</h4>
+            </td>
+        </tr>
         {% endif %}
+    </table>
+    <hr>
 
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Newer &rarr;</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#">Newer &rarr;</a>
-        </li>
-        {% endif %}
-    </ul>
-{% endif %}
+<!-- modal area -->
+<button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal" >
+  Open modal
+</button>
 
-<hr>
-
-<!-- Modal -->
-<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    12
 </div>
-
-{% else %}
-<h4>아직 게시물이 없습니다.</h4>
-{% endif %}
-
-
-<script type="text/javascript">
-    // modal 이벤트 : 상세 보기
-    $(document).on('click', '.recommand_button', function (e) {
-        e.preventDefault();
-        var href = $(this).attr("href");
-		alert(href);
-</script>
 
 
 {% endblock %}

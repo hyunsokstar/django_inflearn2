@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script>
+
+// ex1
+$(document).ready(function(){
+    $(".myButton").click(function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        alert(id);
+    });
+});
+
+// ex2
+$(document).ready(function(){
+    $(".myButton").click(function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        alert(id);
+
+        $.get('?page=2')
+            .done((html) => {
+                console.log("얻어온 html으로 화면을 바꿔 치기 ");
+                console.log("html : ", html)
+                $('#post-list-wrapper').html(html)
+            })
+            .fail(() => {
+                console.log("fail");
+            })
+            .always(() => {
+                console.log('always');
+            })
+
+    });
+
+});
+
+
+
+// function apple(obj){
+// 	var id = $(obj).attr('id');
+// 	alert("id : " , id);
+// }
+
+</script>
+</head>
+<body>
+
+<div class="myButton" onclick = "" id="15"> sample</div>
+
+<div class="modal">
+  <div class="modal-overlay modal-toggle"></div>
+  <div class="modal-wrapper modal-transition">
+    <div class="modal-header">
+      <button class="modal-close modal-toggle"><svg class="icon-close icon" viewBox="0 0 32 32"><use xlink:href="#icon-close"></use></svg></button>
+      <h2 class="modal-heading">This is a modal</h2>
+    </div>
+
+    <div class="modal-body">
+      <div class="modal-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit eum delectus, libero, accusantium dolores inventore obcaecati placeat cum sapiente vel laboriosam similique totam id ducimus aperiam, ratione fuga blanditiis maiores.</p>
+        <button class="modal-toggle">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

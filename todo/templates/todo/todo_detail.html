@@ -1,0 +1,15 @@
+{% extends "todo/layout.html" %}
+
+{%block content %}
+
+<div class="card border-dark mb-3" style="max-width: 20rem;">
+    <div class="card-header">할일 상세 보기</div>
+    <div class="card-body">
+        <h4 class="card-title">{{ object.title }}</h4>
+        <p class="card-text">
+            {{ object.get_markdown_content | safe }}
+        </p>
+    </div>
+</div>
+
+{% endblock %}
