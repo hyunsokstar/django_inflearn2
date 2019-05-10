@@ -149,31 +149,6 @@ $(document).ready(function () {
     })
 });
 
-$(document).ready(function(){
-    var id;
-
-    $("#todo_list a").click(function(e){
-        e.preventDefault();
-        id = $(this).attr('id');
-        // alert(id);
-        $.get(id)
-            .done((html) => {
-                console.log(html);
-                $('#myModal_button').hide();
-                $("#myModal").html(html)
-                // $("#myModal" ).modal('show');
-                $( "#myModal_button" ).trigger( "click" );
-            })
-            .fail(() => {
-                console.log("fail");
-            })
-            .always(() => {
-                console.log('always');
-            })
-    });
-})
-
-
 {%block extra_js %}
 {% endblock %}
 

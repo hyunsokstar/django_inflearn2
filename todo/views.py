@@ -1,19 +1,24 @@
 # from django.views.generic import ListView
-from .models import Todo
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import TodoForm
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
+from .models import Todo, CommentForTodo
 
 # create your view
-
 class todoDetail(DetailView):
     model = Todo
     def get_template_names(self):
         if self.request.is_ajax():
             return ['todo/_todo_detail.html']
         return ['todo/todo_detail.html']
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(todoDetail, self).get_context_data(**kwargs)
+        context['comments'] = CommentForTodo.objects.filter(todo=self.object.pk)
+        return context
+
 
 class TodoList(ListView):
     model = Todo
@@ -24,7 +29,8 @@ class TodoList(ListView):
             print("익명 유저입니다")
             return Todo.objects.all().order_by('-created')
         else:
-            print("user : ", self.request.user)
+            # print("user : ", self.request.user)
+            # print("todolist for login : " , Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).order_by('-created'))
             return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).order_by('-created')
 
 

@@ -14,6 +14,9 @@ class Todo(models.Model):
     note = models.CharField(max_length=50)
     elapsed_time = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.title
+
     def get_markdown_content(self):
         return markdown(self.content)
 
@@ -21,11 +24,14 @@ class Todo(models.Model):
     def now_diff(self):
         return timezone.now() - self.created
 
-class TodoComplete(models.Model):
-    lecture = models.CharField(max_length=100, blank=True)
-    title = models.CharField(max_length=30)
-    content = models.TextField()
-    created = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(User, on_delete=True)
-    note = models.TextField(blank=True)
-    elapsed_time = models.DateTimeField(null=True, default = None)
+class CommentForTodo(models.Model):
+    todo= models.ForeignKey(Todo, on_delete=models.CASCADE)
+    text = MarkdownxField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def get_markdown_content(self):
+        return markdown(self.text)
+    def get_absolute_url(self):
+        return self.todo.get_absolute_url() + '#comment-id-{}'.format(self.pk)

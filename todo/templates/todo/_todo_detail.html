@@ -1,17 +1,38 @@
 <!-- The Modal -->
-  <div class="modal-dialog">
+<div class="modal-dialog">
     <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
+        <!-- Modal Header -->
+        <div class="modal-header">
         <h4 class="modal-title">{{ object.title }}</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
+    </div>
 
-      <!-- Modal body -->
-      <div class="modal-body">
-          {{ object.get_markdown_content | safe }}
-      </div>
+<!-- Modal body -->
+<div class="modal-body">
+    {{ object.get_markdown_content | safe }}
+    <hr>
+    <h4>댓글 영역</h4>
+    {% for comment in comments.all %}
+        <div class="media mb-4" id="comment-id-{{ comment.pk }}">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+                {% if comment.author == request.user %}
+                    <button class="btn btn-sm btn-info float-right" onclick="location.href='/blog/edit_comment/{{ comment.pk }}/'">
+                        edit
+                    </button>
+                    <button class="btn btn-sm btn-warning float-right" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">
+                        delete
+                    </button>
+                {% endif %}
+                <h5 class="mt-0">
+                    {{ comment.author }}
+                    <small class="text-muted">{{ comment.created_at }}</small>
+                </h5>
+                {{ comment.get_markdown_content | safe }}
+            </div>
+        </div>
+    {% endfor %}
+</div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
