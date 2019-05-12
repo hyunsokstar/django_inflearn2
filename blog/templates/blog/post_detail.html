@@ -65,7 +65,7 @@
                     {% if comment.author == request.user %}
                         <button
                             class="btn btn-sm btn-info float-right"
-                            onclick="location.href='/blog/edit_comment/{{ comment.pk }}/'"
+                            onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'"
                             >edit
                         </button>
                         <button
@@ -85,7 +85,7 @@
         {% endfor %}
     </div>
 
-    <!-- Modal 영역 -->
+    <!-- Modal(댓글 ) 영역 -->
     {% for comment in object.comment_set.all %}
         {% if user == comment.author %}
             <!-- Modal -->

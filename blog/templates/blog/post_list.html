@@ -3,6 +3,7 @@
 {%block title %}Blog{% endblock %}
 {%block content %}
 
+
 <!-- Blog Post -->
 <div class="container" id="main-div2">
     {% if user.is_authenticated %}
@@ -65,30 +66,28 @@
 
 <hr>
 
-<script>
 
-</script>
 {% endblock %}
 
+<script type="text/javascript">
+    {%block extra_js %}
 
-{%block extra_js %}
+    $(document).ready(function(){
+        //scroll을 구현해 보자
+        console.log("scroll event for post_list");
+        $win = $(window);
+        var is_loaded = false;
+        var current_page;
+        $win.scroll(() => {
+            var diff = $(document).height() - $win.height();
 
-$(document).ready(function(){
-    //scroll을 구현해 보자
-    console.log("scroll event for post_list");
-    $win = $(window);
-    var is_loaded = false;
-    var current_page;
-    $win.scroll(() => {
-        var diff = $(document).height() - $win.height();
-
-        if((!is_loaded) && diff - $win.scrollTop() < 1 ) {
-            console.log("현재 창의 위치는 바닥입니다.");
-            var next_page = (current_page || 1) + 1;
-            current_page = next_page
-            var next_page_url = '?page=' + next_page;
-            is_loaded = true;
-            $.get(next_page_url).
+            if((!is_loaded) && diff - $win.scrollTop() < 1 ) {
+                console.log("현재 창의 위치는 바닥입니다.");
+                var next_page = (current_page || 1) + 1;
+                current_page = next_page
+                var next_page_url = '?page=' + next_page;
+                is_loaded = true;
+                $.get(next_page_url).
                 done(function(html) {
                     console.log("html(next) : ", html)
                     $("#post_list").append(html);
@@ -102,7 +101,9 @@ $(document).ready(function(){
                     is_loaded = false;
                 });
             }
-    });
-})
+        });
+    })
 
-{% endblock %}
+
+    {% endblock %}
+</script>

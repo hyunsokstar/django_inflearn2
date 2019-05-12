@@ -1,12 +1,73 @@
 # from django.views.generic import ListView
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from .forms import TodoForm
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from .models import Todo, CommentForTodo
+from . forms import CommentForm
+
+from django.http import HttpResponse, JsonResponse
 
 # create your view
+
+def delete_comment(request, pk):
+    comment = CommentForTodo.objects.get(pk=pk)
+    todo = comment.todo
+    # print("request user : ", request.user)
+    # print("comment.author : ", comment.author)
+
+    if request.user == comment.author:
+        comment.delete()
+        return redirect('/todo')
+    else:
+        return redirect('/todo/')
+
+class CommentUpdate(UpdateView):
+    model = CommentForTodo
+    form_class = CommentForm
+    # 댓글 객체의 user와 댓글 수정한 유저가 다를 경우
+    # PermissionError 를 발생 시킨다.
+    def get_object(self, queryset=None):
+        comment = super(CommentUpdate, self).get_object()
+        if comment.author != self.request.user:
+            raise PermissionError('Comment 수정 권한이 없습니다.')
+        return comment
+
+def new_comment(request, pk):
+    print("댓글 입력 함수 기반뷰 실행")
+    todo = Todo.objects.get(pk=pk)
+    edit_id = 'edit_comment/{{comment.pk}}'
+    delete_id = 'delete_id/{{comment.pk}}'
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.todo = todo
+            comment.author = request.user
+            comment.save()
+
+            if request.is_ajax():
+                return JsonResponse({
+                    'author': comment.author.username,
+                    'text':comment.text,
+                    'created_at':comment.created_at,
+                    'edit_url': resolve_url('todo:edit_url', comment.id),
+                    'delete_url': resolve_url('todo:delete_url', comment.id),
+                })
+            return redirect(comment.get_absolute_url())
+
+        else:
+            return JsonResponse(comment_form.errors,is_success=False)
+    else:
+        return redirect('/todo/')
+
+
+
+
+
+
 class todoDetail(DetailView):
     model = Todo
     def get_template_names(self):
@@ -17,8 +78,9 @@ class todoDetail(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(todoDetail, self).get_context_data(**kwargs)
         context['comments'] = CommentForTodo.objects.filter(todo=self.object.pk)
+        context['detail_id'] = self.object.pk
+        context['comment_form'] = CommentForm()
         return context
-
 
 class TodoList(ListView):
     model = Todo
@@ -29,9 +91,13 @@ class TodoList(ListView):
             print("익명 유저입니다")
             return Todo.objects.all().order_by('-created')
         else:
-            # print("user : ", self.request.user)
-            # print("todolist for login : " , Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).order_by('-created'))
             return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).order_by('-created')
+
+    # context['comment_form'] = CommentForm()
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TodoList, self).get_context_data(**kwargs)
+        context['comment_form'] = CommentForm()
+        return context
 
 
 class TodoList_by_card(ListView):

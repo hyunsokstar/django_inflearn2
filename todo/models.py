@@ -4,6 +4,8 @@ from datetime import datetime
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
+from django.urls import reverse
+
 
 class Todo(models.Model):
     lecture = models.CharField(max_length=100, blank=True)
@@ -24,6 +26,10 @@ class Todo(models.Model):
     def now_diff(self):
         return timezone.now() - self.created
 
+    def get_absolute_url(self):
+        return reverse('todo:todo_detail', args=[self.id])
+
+
 class CommentForTodo(models.Model):
     todo= models.ForeignKey(Todo, on_delete=models.CASCADE)
     text = MarkdownxField()
@@ -33,5 +39,6 @@ class CommentForTodo(models.Model):
 
     def get_markdown_content(self):
         return markdown(self.text)
+
     def get_absolute_url(self):
-        return self.todo.get_absolute_url() + '#comment-id-{}'.format(self.pk)
+        return reverse('todo:todo_list')

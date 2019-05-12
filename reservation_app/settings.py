@@ -138,3 +138,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = '/blog/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+DJANGO_NOTIFICATIONS_CONFIG = {
+    'USE_JSONFIELD': True
+}

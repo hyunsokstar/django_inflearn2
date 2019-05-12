@@ -1,56 +1,62 @@
 {% extends "todo/layout.html" %}
 {%block title %}todo list{% endblock %}
 {%block content %}
+{% load crispy_forms_tags %}
+
 
 <h2>할일 목록</h2>
+<table class="table" id="todo_list">
+    <tr>
+        <td>title</td>
+        <td>경과시간</td>
+        <td>작성자</td>
+        <td></td>
+    </tr>
 
-    <table class="table" id="todo_list">
+    {% if object_list.exists %}
+        {% for p in object_list %}
         <tr>
-            <td>title</td>
-            <td>경과시간</td>
-            <td>작성자</td>
-            <td></td>
+            <td>
+                <a href="" id={{p.id}} class="title_for_list">
+                    {{p.title}}
+                </a>
+            </td>
+            <td>{{p.now_diff}}</td>
+            <td>{{p.author}}</td>
+            <td>
+                {% if request.user == p.author %}
+                <button type="button" class="btn btn btn-outline-danger btn-sm">
+                    <a href="{% url "todo:todo_complete" p.id %}">완료</a>
+                </button>
+                <button type="button" class="btn btn btn-outline-danger btn-sm">
+                    <a href="{% url "todo:todo_delete" p.pk %}">삭제</a>
+                </button>
+
+                <button type="button" class="btn btn btn-outline-danger btn-sm">
+                    <a href="{% url "todo:todo_edit" p.id %}">수정</a>
+                </button>
+                {% endif %}
+            </td>
         </tr>
-
-        {% if object_list.exists %}
-            {% for p in object_list %}
-                <tr>
-                    <td>
-                        <a href="" id={{p.id}} class="title_for_list">
-                            {{p.title}}
-                        </a>
-                    </td>
-                    <td>{{p.now_diff}}</td>
-                    <td>{{p.author}}</td>
-                    <td>
-                        {% if request.user == p.author %}
-                            <button type="button" class="btn btn btn-outline-danger btn-sm">
-                                <a href="{% url "todo:todo_complete" p.id %}">완료</a>
-                            </button>
-                            <button type="button" class="btn btn btn-outline-danger btn-sm">
-                                <a href="{% url "todo:todo_delete" p.pk %}">삭제</a>
-                            </button>
-
-                            <button type="button" class="btn btn btn-outline-danger btn-sm">
-                                <a href="{% url "todo:todo_edit" p.id %}">수정</a>
-                            </button>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td>
-                    <h4>아직 게시물이 없습니다.</h4>
-                </td>
-            </tr>
-        {% endif %}
-    </table>
-    <hr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td>
+                <h4>아직 게시물이 없습니다.</h4>
+            </td>
+        </tr>s
+    {% endif %}
+</table>
+<hr>
 
 <!-- modal area -->
-<button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal" >
-  Open modal
+<button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
+    Open modal
+</button>
+
+<button type="button" id="myModal_button2" class="btn btn-primary invisible" data-toggle="modal"
+        data-target="#myModal2">
+    Open modal
 </button>
 
 <!-- The Modal -->
@@ -58,21 +64,54 @@
     12
 </div>
 
+<!-- The Modal -->
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!-- Comments Form -->
+                    <h5 class="card-header">Leave a Comment:
+                    </h5>
+                    <div class="card-body">
+
+                        <form method="post" action="{{object.get_absolute_url}}new_comment/">{% csrf_token %}
+                            <div class="form-group">
+                                {{ comment_form | crispy }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
+
+<script type="text/javascript">
 
 {% block extra_js %}
 
 $(document).ready(function(){
     var id;
-
     $("#todo_list a[class='title_for_list']").click(function(e){
         e.preventDefault();
         id = $(this).attr('id');
         // alert(id);
         $.get(id)
             .done((html) => {
-                console.log(html);
+                // console.log(html);
                 $('#myModal_button').hide();
                 $("#myModal").html(html)
                 $( "#myModal_button" ).trigger( "click" );
@@ -86,4 +125,18 @@ $(document).ready(function(){
     });
 })
 
+
+$(document).ready(function(){
+
+    $('.comment_button_for_todo_detail').click(function(e){
+        e.preventDefault();
+        id=$(this).attr('id');
+        alert('id : ', id)
+    })
+
+})
+
 {% endblock %}
+
+
+</script>

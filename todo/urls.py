@@ -16,9 +16,13 @@ urlpatterns = [
     path('card', views.TodoList_by_card.as_view() , name="todo_list_by_card"),
     path('', views.TodoList.as_view() , name="todo_list"),
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),
+    path('<int:pk>/new_comment/', views.new_comment),
+
+    # 댓글
+    path('edit_comment/<int:pk>/', views.CommentUpdate.as_view(), name="edit_url"),
+    path('delete_comment/<int:pk>/', views.delete_comment, name="delete_url"),
+
+
     # path('complete/', views.TodoListByComplete_by_card)
-
-
-
 
 ]
