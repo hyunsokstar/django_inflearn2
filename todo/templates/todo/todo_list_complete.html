@@ -31,9 +31,6 @@
             <td>{{p.author}}</td>
             <td>
                 {% if request.user == p.author %}
-                <button type="button" class="btn btn btn-outline-danger btn-sm">
-                    <a href="{% url "todo:todo_complete" p.id %}">완료</a>
-                </button>
 
                 <button type="button" class="btn btn btn-outline-danger btn-sm">
                     <a href="{% url "todo:todo_edit" p.id %}">수정</a>
@@ -116,7 +113,8 @@ $(document).ready(function(){
         e.preventDefault();
         id = $(this).attr('id');
 
-        window.location.href = "www.daum.net";
+        // window.location.href = "www.daum.net";
+        window.history.pushState("", "", '/todo/'+id)
 
         $.get(id)
             .done((html) => {

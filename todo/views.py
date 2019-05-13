@@ -33,7 +33,7 @@ class TodoListByComplete(ListView):
             return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
 
     def get_template_names(self):
-        return ['todo/todo_list.html']
+        return ['todo/todo_list_complete.html']
         # 카테고리 목록
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -179,7 +179,6 @@ class TodoList(LoginRequiredMixin,ListView):
 
         context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
-
 
         return context
 
