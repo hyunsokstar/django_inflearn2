@@ -1,4 +1,4 @@
-from . models import Todo, CommentForTodo
+from . models import Todo, CommentForTodo, Category
 from django.contrib import admin
 
 #Registeryourmodelshere.
@@ -9,3 +9,8 @@ class TodoAdmin(admin.ModelAdmin):
 @admin.register(CommentForTodo)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['id', 'todo', 'text', 'author' ,'created_at' , 'modified_at']
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display=['id','name','description','slug']
+    prepopulated_fields = {'slug': ('name', )}

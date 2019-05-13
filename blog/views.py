@@ -11,8 +11,8 @@ from django.urls import reverse_lazy
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('blog:post_list')
-    # success_message = "delete was complted"
 post_delete = PostDeleteView.as_view()
+# success_message = "delete was complted"
 
 class CommentUpdate(UpdateView):
     model = Comment

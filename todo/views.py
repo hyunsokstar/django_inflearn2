@@ -4,18 +4,96 @@ from .forms import TodoForm
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import Todo, CommentForTodo
 from . forms import CommentForm
-
 from django.http import HttpResponse, JsonResponse
+from .models import Todo, CommentForTodo, Category
+
+# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # create your view
+
+def todo_help(request, id):
+    todo = get_object_or_404(Todo, id=id)
+    now_diff = todo.now_diff
+    print("now_diff : ", now_diff)
+    # Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff)
+    Todo.objects.filter(Q(id=id)).update(category = 2)
+    print("핼프를 요청 id:",id)
+    return redirect('/todo')
+
+class TodoListByComplete(ListView):
+    model = Todo
+    def get_queryset(self):
+        if self.request.user.is_anonymous:
+            print("익명 유저입니다")
+            return Todo.objects.all()
+        else:
+            print("user : ", self.request.user)
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
+
+    def get_template_names(self):
+        return ['todo/todo_list.html']
+        # 카테고리 목록
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        print('self.request.user : ', self.request.user)
+        context = super(type(self), self).get_context_data(**kwargs)
+
+        context['category_list'] = Category.objects.all()
+        # 미완료이면서 카테고리가 없는것
+        context['todos_without_category'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 미완료
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 완료
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
+
+        context['comment_form'] = CommentForm()
+
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+
+        return context
+
+class TodoListByCategory(ListView):
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        print('slug : ', slug)
+        if slug == '_none':
+            category = None
+            return Todo.objects.filter(Q(elapsed_time__isnull=True)).order_by('-created')
+        else:
+            # 카테고리가 없는 경우 전체 목록
+            category = Category.objects.get(slug=slug)
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True) & Q(category=category)).order_by('-created')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        print('self.request.user : ', self.request.user)
+        context = super(type(self), self).get_context_data(**kwargs)
+        # 미완료이면서 카테고리가 있는것
+        context['category_list'] = Category.objects.all()
+        # 미완료이면서 카테고리가 없는것
+        context['todos_without_category'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 미완료
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 완료
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
+
+        context['comment_form'] = CommentForm()
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+
+        slug = self.kwargs['slug']
+        if slug == '_none':
+            context['category'] = '미분류'
+        else:
+            category = Category.objects.get(slug=slug)
+            context['category'] = category
+        return context
 
 def delete_comment(request, pk):
     comment = CommentForTodo.objects.get(pk=pk)
     todo = comment.todo
-    # print("request user : ", request.user)
-    # print("comment.author : ", comment.author)
 
     if request.user == comment.author:
         comment.delete()
@@ -64,10 +142,6 @@ def new_comment(request, pk):
         return redirect('/todo/')
 
 
-
-
-
-
 class todoDetail(DetailView):
     model = Todo
     def get_template_names(self):
@@ -82,7 +156,7 @@ class todoDetail(DetailView):
         context['comment_form'] = CommentForm()
         return context
 
-class TodoList(ListView):
+class TodoList(LoginRequiredMixin,ListView):
     model = Todo
     paginate_by = 20
 
@@ -91,14 +165,23 @@ class TodoList(ListView):
             print("익명 유저입니다")
             return Todo.objects.all().order_by('-created')
         else:
-            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).order_by('-created')
+            print('로그인 유저입니다')
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).order_by('-created')
 
-    # context['comment_form'] = CommentForm()
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TodoList, self).get_context_data(**kwargs)
         context['comment_form'] = CommentForm()
-        return context
+        context['category_list'] = Category.objects.all()
+        context['todos_without_category'] = Todo.objects.filter(category=None).count()
 
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
+
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+
+
+        return context
 
 class TodoList_by_card(ListView):
     model = Todo
@@ -132,12 +215,12 @@ class TodoSearch(ListView):
         context['search_word'] = self.kwargs['q']
         return context
 
-
 def todo_complete(request, id):
     todo = get_object_or_404(Todo, id=id)
     now_diff = todo.now_diff
     print("now_diff : ", now_diff)
     Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff)
+    Todo.objects.filter(Q(id=id)).update(category = None)
     print("todo 목록을 저장하였습니다.")
     return redirect('/todo')
 
@@ -193,4 +276,4 @@ class TodoListByComplete_by_card(ListView):
             return Todo.objects.filter(Q(author=self.request.user) & ~Q(elapsed_time=""))
 
     def get_template_names(self):
-        return ['todo/todo_list_complete.html']
+        return ['todo/todo_list_complete_card.html']

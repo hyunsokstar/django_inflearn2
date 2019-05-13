@@ -3,14 +3,20 @@
 {%block title %}Blog{% endblock %}
 {%block content %}
 
+<style media="screen">
+    #post_list{
+        margin-top:12px;
+    }
+</style>
 
 <!-- Blog Post -->
+<!-- style="margin-right:30px;" -->
 <div class="container" id="main-div2">
     {% if user.is_authenticated %}
     <button
             class="btn btn-primary btn-sm float-right"
             onclick="location.href='/blog/create/'"
-            style="margin-right:30px;">New Post
+            >New Post
     </button>
     {% endif %}
     <br>
