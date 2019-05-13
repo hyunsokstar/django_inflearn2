@@ -32,11 +32,27 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Scheduler <span class="caret"></span></a>
                     <div class="dropdown-menu" aria-labelledby="download">
                         <a class="dropdown-item" href="{% url "todo:todo_list" %}">할 일</a>
-                        <!-- <a class="dropdown-item" href="{% url "todo:todo_list_by_card" %}">할일(카드)</a> -->
-                        <a class="dropdown-item" href="{% url "todo:todo_complet_list_byme" %}">완 료</a>
+                        <a class="dropdown-item" href="{% url "todo:todo_complete_list_byme" %}">완 료</a>
                     </div>
                 </li>
             </ul>
+            &nbsp;&nbsp;
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a href="" class="nav-link">도전 css!</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="" class="nav-link">도전 클론 코딩!</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="" class="nav-link">완강 기록!</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="" class="nav-link">건의 사항!</a>
+                </li>
+            </ul>
+
+
 
             <ul class="nav navbar-nav ml-auto">
                 {% if user.is_authenticated %}

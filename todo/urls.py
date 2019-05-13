@@ -23,7 +23,7 @@ urlpatterns = [
     path('<int:id>/todo_complete/',views.todo_complete , name ="todo_complete"),
     path('<int:id>/todo_help/', views.todo_help, name="todo_help"),
     path('category/<str:slug>/', views.TodoListByCategory.as_view()),
-    path('completeListByMe/', views.TodoListByComplete.as_view() , name="todo_complet_list_byme"),
+    path('completeListByMe/', views.TodoListByComplete.as_view() , name="todo_complete_list_byme"),
 
 
 ]

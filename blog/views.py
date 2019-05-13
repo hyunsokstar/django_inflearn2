@@ -8,6 +8,18 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView , 
 from django.urls import reverse_lazy
 
 # Create your views here.
+
+# 1122
+def delete_comment(request, pk):
+    print('함수 실행 확인')
+    comment = Comment.objects.get(pk=pk)
+    post = comment.post
+    if request.user == comment.author:
+        comment.delete()
+        return redirect(post.get_absolute_url() + '#comment-list')
+    else:
+        return redirect('/blog/')
+
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('blog:post_list')
@@ -36,14 +48,6 @@ class CommentUpdate(UpdateView):
             raise PermissionError('Comment 수정 권한이 없습니다.')
         return comment
 
-def delete_comment(request, pk):
-    comment = Comment.objects.get(pk=pk)
-    post = comment.post
-    if request.user == comment.author:
-        comment.delete()
-        return redirect(post.get_absolute_url() + '#comment-list')
-    else:
-        return redirect('/blog/')
 
 class PostCreate(LoginRequiredMixin,CreateView):
     model = Post

@@ -31,9 +31,9 @@
     <!-- EDIT -->
     <!-- {{object.author}} -->
     {% if request.user == object.author %}
-    <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href='{% url "blog:post_list"  %}'>목록</button>
-    <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href={% url "blog:post_delete" object.pk %}>Delete</button>
-    <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href='{{ object.get_update_url }}'>EDIT</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href='{% url "blog:post_list"  %}'>목록</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href={% url "blog:post_delete" object.pk %}>Delete</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href='{{ object.get_update_url }}'>EDIT</button>
     {% endif %}
 
     {% for tag in object.tags.all %}
@@ -41,38 +41,41 @@
     {% endfor %}
     <hr>
 
-    <!-- Comments Form -->
-    <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
-        <div class="card-body">
-                <!-- <div class="form-group"> -->
-                    <!-- <textarea class="form-control" rows="3"></textarea> -->
-                    <form method="post" action="{{ object.get_absolute_url }}new_comment/">{% csrf_token %}
-                        <div class="form-group">
-                            {{ comment_form | crispy }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+    {% if user.is_authenticated %}
+        <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+                <form method="post" action="{{ object.get_absolute_url }}new_comment/">{% csrf_token %}
+                    <div class="form-group">
+                        {{ comment_form | crispy }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
-    </div>
+    {% else  %}
+        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='/accounts/login'"> 로그인 </button>
+    {% endif %}
 
+
+    # post_detail 댓글 영역
     <div id="comment-list">
         {% for comment in object.comment_set.all %}
             <div class="media mb-4" id="comment-id-{{ comment.pk }}">
                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">
-
                     {% if comment.author == request.user %}
                         <button
                             class="btn btn-sm btn-info float-right"
-                            onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'"
-                            >edit
+                            onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'">
+                                edit
                         </button>
                         <button
                             class="btn btn-sm btn-warning float-right"
                             data-toggle="modal"
-                            data-target="#deleteCommentModal-{{ comment.pk }}"
-                        > delete </button>
+                            data-target="#deleteCommentModal-{{ comment.pk }}">
+                                delete
+                        </button>
                     {% endif %}
 
                     <h5 class="mt-0">
@@ -103,7 +106,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="location.href='/blog/delete_comment/{{ comment.pk }}/'">Delete</button>
+                            <button type="button" class="btn btn-primary" onclick="location.href='/blog/delete_comment/{{comment.pk}}'">Delete</button>
                         </div>
                     </div>
                 </div>

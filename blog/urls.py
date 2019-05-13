@@ -21,4 +21,10 @@ urlpatterns = [
 
     path('<int:pk>/delete', views.PostDeleteView.as_view() , name='post_delete'),
 
+    # http://127.0.0.1:8000/blog/delete_comment/4/
+    # /blog/delete_comment/4/
+    # delete_comment
+    path('delete_comment/<int:pk>', views.delete_comment , name='delete_comment')
+    
+
 ]
