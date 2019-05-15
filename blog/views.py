@@ -8,7 +8,6 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView , 
 from django.urls import reverse_lazy
 
 # Create your views here.
-
 # 1122
 def delete_comment(request, pk):
     print('함수 실행 확인')

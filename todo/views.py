@@ -1,23 +1,20 @@
 # from django.views.generic import ListView
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from .forms import TodoForm
-from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from . forms import CommentForm
 from django.http import HttpResponse, JsonResponse
+# from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Todo, CommentForTodo, Category
 
-# from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-
 # create your view
-
 def todo_help(request, id):
     todo = get_object_or_404(Todo, id=id)
     now_diff = todo.now_diff
     print("now_diff : ", now_diff)
-    # Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff)
     Todo.objects.filter(Q(id=id)).update(category = 2)
     print("핼프를 요청 id:",id)
     return redirect('/todo')
@@ -35,11 +32,9 @@ class TodoListByComplete(ListView):
     def get_template_names(self):
         return ['todo/todo_list_complete.html']
         # 카테고리 목록
-
     def get_context_data(self, *, object_list=None, **kwargs):
         print('self.request.user : ', self.request.user)
         context = super(type(self), self).get_context_data(**kwargs)
-
         context['category_list'] = Category.objects.all()
         # 미완료이면서 카테고리가 없는것
         context['todos_without_category'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
@@ -47,12 +42,9 @@ class TodoListByComplete(ListView):
         context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
         # 완료
         context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
-
         context['comment_form'] = CommentForm()
-
         context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
-
         return context
 
 class TodoListByCategory(ListView):
@@ -104,13 +96,13 @@ def delete_comment(request, pk):
 class CommentUpdate(UpdateView):
     model = CommentForTodo
     form_class = CommentForm
-    # 댓글 객체의 user와 댓글 수정한 유저가 다를 경우
-    # PermissionError 를 발생 시킨다.
+
     def get_object(self, queryset=None):
         comment = super(CommentUpdate, self).get_object()
         if comment.author != self.request.user:
             raise PermissionError('Comment 수정 권한이 없습니다.')
         return comment
+
 
 def new_comment(request, pk):
     print("댓글 입력 함수 기반뷰 실행")
@@ -129,6 +121,7 @@ def new_comment(request, pk):
             if request.is_ajax():
                 return JsonResponse({
                     'author': comment.author.username,
+                    'title': comment.title,
                     'text':comment.text,
                     'created_at':comment.created_at,
                     'edit_url': resolve_url('todo:edit_url', comment.id),
@@ -142,6 +135,7 @@ def new_comment(request, pk):
         return redirect('/todo/')
 
 
+# todo 상세 보기
 class todoDetail(DetailView):
     model = Todo
     def get_template_names(self):
@@ -155,6 +149,7 @@ class todoDetail(DetailView):
         context['detail_id'] = self.object.pk
         context['comment_form'] = CommentForm()
         return context
+
 
 class TodoList(LoginRequiredMixin,ListView):
     model = Todo
@@ -227,7 +222,6 @@ class todo_delete_view(DeleteView):
     model = Todo
     success_url = reverse_lazy('todo:todo_list')
     # success_message = "delete was complted"
-
 todo_delete = todo_delete_view.as_view()
 
 def todo_new(request):

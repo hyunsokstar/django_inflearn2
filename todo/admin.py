@@ -8,7 +8,7 @@ class TodoAdmin(admin.ModelAdmin):
 
 @admin.register(CommentForTodo)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'todo', 'text', 'author' ,'created_at' , 'modified_at']
+    list_display = ['id', 'todo','title', 'text', 'author' ,'created_at' , 'modified_at']
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

@@ -2,7 +2,7 @@
 
 <!-- The Modal -->
 <!-- <div class="modal fade" id="myModal"> -->
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -23,21 +23,43 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                {{ form.media }}
 
-                <table class="table table-borderd">
+                <!-- 댓글 출력 형식 -->
+                <table class="table table-bordered">
                     <tbody id="reply_list">
                         {% for comment in comments.all %}
                             <tr>
+                                <td>작성자</td>
                                 <td>{{ comment.author }}</td>
-                                <td>{{ comment.text }}</td>
-                                <td>{{ comment.created_at }}</td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td colspan="3">{{comment.title}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>file_name</td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td>code</td>
+                                <td colspan="3">{{comment.text | linebreaks }} </td>
+                            </tr>
+                            <tr>
+                                <td></td>
                                 <td>
                                     {% if comment.author == request.user %}
-                                        <button class="btn btn-sm btn-info float-right" onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'">edit</button>
                                         <button class="btn btn-sm btn-warning float-right" onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'">delete</button>
+                                        <button class="btn btn-sm btn-info float-right" onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'">edit</button>
                                     {% endif %}
                                 </td>
                             </tr>
+
+                            <tr>
+                                <td colspan="3" border="0"></td>
+                            </tr>
+
                         {% endfor %}
                     </tbody>
                 </table>
@@ -57,16 +79,28 @@
 <!-- 댓글 템플릿 -->
 <script class="reply_template" type="text/x-template">
     <tr>
+        <td>작성자</td>
         <td><%= author %></td>
-        <td>
-            <%= text %>
-        </td>
-        <td><%= created_at %></td>
+        <td></td>
         <td>
             <a href="<%= obj.edit_url %>" class="btn btn-sm btn-info float-right">edit</a>
             <a href="<%= obj.delete_url %>" class="btn btn-sm btn-warning float-right">delete</a>
         </td>
     </tr>
+    <tr>
+        <td>title</td>
+        <td colspan="3"><%= title %></td>
+    </tr>
+
+    <tr>
+        <td>file_name</td>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <td>code</td>
+        <td colspan="3"><%= text %></td>
+    </tr>
+
 </script>
 
 
@@ -98,6 +132,7 @@ $(document).ready(function(){
                     created_at : obj.created_at,
                     edit_url : obj.edit_url,
                     delte_ur : obj.delete_url,
+                    title : obj.title,
                 });
                 console.log("rendered : " , rendered);
                 $(rendered).appendTo($('#reply_list'));

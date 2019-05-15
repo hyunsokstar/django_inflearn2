@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'blog',
     'todo',
+    'css_challenge',
     # 'membership',
     # django all auth
     'django.contrib.sites',

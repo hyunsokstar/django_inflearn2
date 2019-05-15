@@ -1,5 +1,6 @@
 {% extends "todo/layout.html" %}
 {%block title %}todo list{% endblock %}
+
 {%block content %}
 {% load crispy_forms_tags %}
 
@@ -23,7 +24,7 @@
         <tr>
             <td>
                 <a href="" id={{p.id}} class="title_for_list">
-                    {{p.title}}
+                    {{p.title}} 
                 </a>
             </td>
             <td>{{p.now_diff}}</td>
@@ -61,12 +62,12 @@
 
 <!-- modal area -->
 <button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
-    Open modal
+    상세 보기 모달
 </button>
 
 <button type="button" id="myModal_button2" class="btn btn-primary invisible" data-toggle="modal"
         data-target="#myModal2">
-    Open modal
+    댓글 모달
 </button>
 
 <!-- The Modal -->

@@ -5,8 +5,7 @@
 {%block title %}{{object.title}} - Blog{% endblock %}
 {%block content %}
 
-<!-- Blog Detail -->
-
+    <!-- Blog Detail -->
     <!-- Preview Image -->
     {% if object.head_image %}
         <img class="img-fluid rounded" src="{{ object.head_image.url }}" alt="{{ object.title }}">
@@ -57,27 +56,21 @@
         <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='/accounts/login'"> 로그인 </button>
     {% endif %}
 
-
-    # post_detail 댓글 영역
+    <!-- post_detail 댓글 영역 -->
     <div id="comment-list">
         {% for comment in object.comment_set.all %}
             <div class="media mb-4" id="comment-id-{{ comment.pk }}">
                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">
+                    <!-- 버튼 영역 -->
                     {% if comment.author == request.user %}
-                        <button
-                            class="btn btn-sm btn-info float-right"
-                            onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'">
+                        <button class="btn btn-sm btn-info float-right" onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'">
                                 edit
                         </button>
-                        <button
-                            class="btn btn-sm btn-warning float-right"
-                            data-toggle="modal"
-                            data-target="#deleteCommentModal-{{ comment.pk }}">
+                        <button class="btn btn-sm btn-warning float-right" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">
                                 delete
                         </button>
                     {% endif %}
-
                     <h5 class="mt-0">
                         {{ comment.author }}
                         <small class="text-muted">{{ comment.created_at }}</small>
@@ -88,10 +81,9 @@
         {% endfor %}
     </div>
 
-    <!-- Modal(댓글 ) 영역 -->
+    <!-- 댓글 삭제 모달  -->
     {% for comment in object.comment_set.all %}
         {% if user == comment.author %}
-            <!-- Modal -->
             <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

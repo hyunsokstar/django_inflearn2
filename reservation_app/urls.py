@@ -11,6 +11,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('', include('membership.urls')),
     path('todo/', include('todo.urls')),
+    path('css_challenge/', include('css_challenge.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

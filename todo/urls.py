@@ -10,20 +10,21 @@ urlpatterns = [
     path('search/<str:q>/', views.TodoSearch.as_view()),
 
     # todo
+    # 상세 보기
     path('<int:pk>/', views.todoDetail.as_view(), name='todo_detail'),
     path('card', views.TodoList_by_card.as_view() , name="todo_list_by_card"),
     path('', views.TodoList.as_view() , name="todo_list"),
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),
     path('<int:pk>/new_comment/', views.new_comment),
 
-    # 댓글
+    # 입력창을 바꿔 보자
+    # location.href='/todo/edit_comment/118/'
     path('edit_comment/<int:pk>/', views.CommentUpdate.as_view(), name="edit_url"),
-    path('delete_comment/<int:pk>/', views.delete_comment, name="delete_url"),
 
+    path('delete_comment/<int:pk>/', views.delete_comment, name="delete_url"),
     path('<int:id>/todo_complete/',views.todo_complete , name ="todo_complete"),
     path('<int:id>/todo_help/', views.todo_help, name="todo_help"),
     path('category/<str:slug>/', views.TodoListByCategory.as_view()),
     path('completeListByMe/', views.TodoListByComplete.as_view() , name="todo_complete_list_byme"),
-
 
 ]

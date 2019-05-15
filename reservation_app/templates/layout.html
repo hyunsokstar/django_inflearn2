@@ -7,12 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{%block title %} ask_class project {% endblock %}</title>
-    <title>{%block extra_header %} ask_class project {% endblock %}</title>
     <!-- bootstrao css -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.css' %}" media="screen">
     <link rel="stylesheet" href="{% static 'blog/_assets/css/custom.min.css' %}">
+
+    <style>
+        {%block extra_css %}{% endblock %}
+    </style>
+    {%block extra_head %} {% endblock %}
+
 
 </head>
 
@@ -38,21 +43,19 @@
             </ul>
             &nbsp;&nbsp;
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a href="" class="nav-link">도전 css!</a>
+                <li class="nav-item ">
+                    <a href={% url 'css_challenge:css_image_list' %} class="nav-link">도전 css!</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a href="" class="nav-link">도전 클론 코딩!</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a href="" class="nav-link">완강 기록!</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a href="" class="nav-link">건의 사항!</a>
                 </li>
             </ul>
-
-
 
             <ul class="nav navbar-nav ml-auto">
                 {% if user.is_authenticated %}
@@ -92,7 +95,6 @@
 
 <!-- 모달 -->
 {% load socialaccount %}
-
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -124,8 +126,7 @@
 <script src="{% static 'blog/_assets/js/popper.min.js' %}"></script>
 <script src="{% static 'blog/bootstrap/bootstrap.min.js' %}"></script>
 <script src="{% static 'blog/_assets/js/custom.js' %}"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="web_underscore.js"></script>
 
 <script>
