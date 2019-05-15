@@ -44,11 +44,18 @@
                             </tr>
                             <tr>
                                 <td>code</td>
-                                <td colspan="3">{{comment.text | linebreaks }} </td>
+                                <td colspan="3" id="my_code_{{comment.id}}">
+
+                                    <textarea name="name" rows="10" cols="80">
+
+                                        {{comment.text}}
+                                    </textarea>
+                                </td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td>
+                                    <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
                                     {% if comment.author == request.user %}
                                         <button class="btn btn-sm btn-warning float-right" onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'">delete</button>
                                         <button class="btn btn-sm btn-info float-right" onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'">edit</button>
@@ -118,10 +125,8 @@ $(document).ready(function(){
 
         $.post(url,data)
             .done(function(obj){
-
                 alert("ajax request is done")
                 console.log(obj)
-
                 var raw_template = $('.reply_template').html();
                 console.log("raw_template : ", raw_template);
                 var tpl = _.template(raw_template);
@@ -140,6 +145,33 @@ $(document).ready(function(){
             .fail(function(xhr, textStatus, error){
                 alert("failed : " + error);
             });
+    });
+
+    // <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
+
+
+    $(".copy_code").click(function(e){
+        e.preventDefault();
+        var id = $(this).attr('id')
+        alert("id : " + id)
+
+        var text = document.getElementById(id),
+        textVal = text.innerText;
+        textTd = $(`#my_code_${id}`).text()
+
+        alert("copy code " + textTd) // textVal  code copy
+        // I want to copy this text as if pressing ctrl + c. Is there a way? Thank you if you let me know.
+
+        var dummy = document.createElement('textarea');
+        dummy.value = textTd;
+        //
+        document.body.appendChild(dummy );
+        dummy.select();
+        //
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+
+        alert("copy code2 " + textTd)
     });
 })
 
