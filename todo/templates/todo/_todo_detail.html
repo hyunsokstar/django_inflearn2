@@ -46,10 +46,7 @@
                                 <td>code</td>
                                 <td colspan="3" id="my_code_{{comment.id}}">
 
-                                    <textarea name="name" rows="10" cols="80">
-
-                                        {{comment.text}}
-                                    </textarea>
+                                    <textarea name="name" rows="10" cols="80">{{comment.text}}</textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -153,14 +150,11 @@ $(document).ready(function(){
     $(".copy_code").click(function(e){
         e.preventDefault();
         var id = $(this).attr('id')
-        alert("id : " + id)
+        // alert("id : " + id)
 
         var text = document.getElementById(id),
         textVal = text.innerText;
-        textTd = $(`#my_code_${id}`).text()
-
-        alert("copy code " + textTd) // textVal  code copy
-        // I want to copy this text as if pressing ctrl + c. Is there a way? Thank you if you let me know.
+        textTd = $(`#my_code_${id}`).val()
 
         var dummy = document.createElement('textarea');
         dummy.value = textTd;
@@ -171,7 +165,7 @@ $(document).ready(function(){
         document.execCommand('copy');
         document.body.removeChild(dummy);
 
-        alert("copy code2 " + textTd)
+        alert("copy is completed")
     });
 })
 
