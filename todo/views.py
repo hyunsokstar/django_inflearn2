@@ -19,7 +19,7 @@ def todo_help(request, id):
     print("핼프를 요청 id:",id)
     return redirect('/todo')
 
-class TodoListByComplete(ListView):
+class TodoListByComplete(LoginRequiredMixin,ListView):
     model = Todo
     def get_queryset(self):
         if self.request.user.is_anonymous:
@@ -210,13 +210,16 @@ class TodoSearch(ListView):
         return context
 
 def todo_complete(request, id):
-    todo = get_object_or_404(Todo, id=id)
-    now_diff = todo.now_diff
-    print("now_diff : ", now_diff)
-    Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff)
-    Todo.objects.filter(Q(id=id)).update(category = None)
-    print("todo 목록을 저장하였습니다.")
-    return redirect('/todo')
+    if request.user.is_authenticated():
+        todo = get_object_or_404(Todo, id=id)
+        now_diff = todo.now_diff
+        print("now_diff : ", now_diff)
+        Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff)
+        Todo.objects.filter(Q(id=id)).update(category = None)
+        print("todo 목록을 저장하였습니다.")
+        return redirect('/todo')
+    else:
+        return redirect('accouts/login')
 
 class todo_delete_view(DeleteView):
     model = Todo
