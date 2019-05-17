@@ -11,6 +11,40 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Todo, CommentForTodo, Category
 
 # create your view
+def delete_comment_ajax(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        todo = CommentForTodo.objects.filter(Q(id=id)).delete()
+        print('delete 성공');
+        return JsonResponse({
+            'message': '댓글 삭제 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def update_comment_ajax(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        title = request.POST['title']
+        file_name = request.POST['file_name']
+        text = request.POST['text']
+
+        print('id : ', id)
+        print("title(view) : ", title)
+        print("file_name : ", file_name)
+        print("text : ", text)
+
+        todo = CommentForTodo.objects.filter(Q(id=id)).update(title = title, file_name = file_name , text = text)
+
+        print('update 성공');
+
+        return JsonResponse({
+            'message': '댓글 업데이트 성공',
+        })
+    else:
+        return redirect('/todo')
+
+
 def todo_help(request, id):
     todo = get_object_or_404(Todo, id=id)
     now_diff = todo.now_diff
@@ -107,8 +141,6 @@ class CommentUpdate(UpdateView):
 def new_comment(request, pk):
     print("댓글 입력 함수 기반뷰 실행")
     todo = Todo.objects.get(pk=pk)
-    edit_id = 'edit_comment/{{comment.pk}}'
-    delete_id = 'delete_id/{{comment.pk}}'
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -122,10 +154,11 @@ def new_comment(request, pk):
                 return JsonResponse({
                     'author': comment.author.username,
                     'title': comment.title,
+                    'file_name': comment.file_name,
                     'text':comment.text,
                     'created_at':comment.created_at,
-                    'edit_url': resolve_url('todo:edit_url', comment.id),
-                    'delete_url': resolve_url('todo:delete_url', comment.id),
+                    'edit_id':pk,
+                    'delete_id':pk
                 })
             return redirect(comment.get_absolute_url())
 
@@ -134,14 +167,13 @@ def new_comment(request, pk):
     else:
         return redirect('/todo/')
 
-
 # todo 상세 보기
 class todoDetail(DetailView):
     model = Todo
     def get_template_names(self):
         if self.request.is_ajax():
             return ['todo/_todo_detail.html']
-        return ['todo/todo_detail.html']
+        return ['todo/_todo_detail.html']
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(todoDetail, self).get_context_data(**kwargs)

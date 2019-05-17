@@ -23,51 +23,54 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                <br>
                 {{ form.media }}
 
                 <!-- 댓글 출력 형식 -->
-                <table class="table table-bordered">
-                    <tbody id="reply_list">
-                        {% for comment in comments.all %}
-                            <tr>
-                                <td>작성자</td>
-                                <td>{{ comment.author }}</td>
-                            </tr>
-                            <tr>
-                                <td>title</td>
-                                <td colspan="3">{{comment.title}}</td>
-                            </tr>
+                {% for comment in comments.all %}
+                <table class="table table-bordered" id="comment_table_{{comment.id}}">
+                    <tr>
+                        <td>author</td>
+                        <td>{{ comment.author }}</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td colspan="3">
+                            <input type="text" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}">
+                        </td>
+                    </tr>
 
-                            <tr>
-                                <td>file_name</td>
-                                <td colspan="3"></td>
-                            </tr>
-                            <tr>
-                                <td>code</td>
-                                <td colspan="3">
-                                    <textarea name="name" rows="10" cols="80" id="my_code_{{comment.id}}">{{comment.text}}</textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
-                                    {% if comment.author == request.user %}
-                                        <button class="btn btn-sm btn-warning float-right" onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'">delete</button>
-                                        <button class="btn btn-sm btn-info float-right" onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'">edit</button>
-                                    {% endif %}
-                                </td>
-                            </tr>
+                    <tr>
+                        <td>file_name</td>
+                        <td colspan="3">
+                            <input type="text" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>code</td>
+                        <td colspan="3">
+                            <textarea name="name" rows="10" cols="80" id="my_code_{{comment.id}}" class="todo_comment_text_{{comment.id}}">{{comment.text}}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <!-- onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'" -->
+                            <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
+                            {% if comment.author == request.user %}
+                            <button class="btn btn-sm btn-warning float-right comment_delete_button" id="{{comment.pk}}">delete</button>
+                            <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}">edit</button>
+                            {% endif %}
+                        </td>
+                    </tr>
 
-                            <tr>
-                                <td colspan="3" border="0"></td>
-                            </tr>
-
-                        {% endfor %}
-                    </tbody>
+                    <tr>
+                        <td colspan="3" border="0"></td>
+                    </tr>
                 </table>
-
                 <br>
+                {% endfor %}
+                <div class="reply_list"></div>
             </div>
 
 
@@ -81,30 +84,49 @@
 
 <!-- 댓글 템플릿 -->
 <script class="reply_template" type="text/x-template">
-    <tr>
-        <td>작성자</td>
-        <td><%= author %></td>
-        <td></td>
-        <td>
-            <a href="<%= obj.edit_url %>" class="btn btn-sm btn-info float-right">edit</a>
-            <a href="<%= obj.delete_url %>" class="btn btn-sm btn-warning float-right">delete</a>
-        </td>
-    </tr>
-    <tr>
-        <td>title</td>
-        <td colspan="3"><%= title %></td>
-    </tr>
+    <table class="table table-bordered" id="comment_table_<%= table_id %>">
+        <tr>
+            <td>author2</td>
+            <td><%= author %></td>
+        </tr>
+        <tr>
+            <td>title</td>
+            <td colspan="3">
+                <input type="text" name="" value="<%= title %>" id="todo_comment_title_{{comment.id}}">
+            </td>
+        </tr>
 
-    <tr>
-        <td>file_name</td>
-        <td colspan="3"></td>
-    </tr>
-    <tr>
-        <td>code</td>
-        <td colspan="3"><%= text %></td>
-    </tr>
+        <tr>
+            <td>file_name</td>
+            <td colspan="3">
+                <input type="text" name="" value="<%= file_name %>" id="">
+            </td>
+        </tr>
+        <tr>
+            <td>code</td>
+            <td colspan="3">
+                <textarea name="name" rows="10" cols="80" id="" class=""><%= text %></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <!-- onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'" -->
+                <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
+                <button class="btn btn-sm btn-warning float-right comment_delete_button" id="">delete</button>
+                <button class="btn btn-sm btn-info float-right comment_edit_button" id="">edit</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3" border="0"></td>
+        </tr>
+    </table>
 
 </script>
+
+
+
 
 
 <!-- _todo_detail.html -->
@@ -128,25 +150,23 @@ $(document).ready(function(){
                 var tpl = _.template(raw_template);
 
                 var rendered = tpl({
-                    text : obj.text,
-                    author : obj.author,
-                    created_at : obj.created_at,
-                    edit_url : obj.edit_url,
-                    delte_ur : obj.delete_url,
                     title : obj.title,
+                    author : obj.author,
+                    text : obj.text,
+                    file_name: obj.file_name,
+                    created_at : obj.created_at,
+                    table_id : obj.edit_id
                 });
                 console.log("rendered : " , rendered);
-                $(rendered).appendTo($('#reply_list'));
+                $(rendered).appendTo($('.reply_list'));
             })
             .fail(function(xhr, textStatus, error){
                 alert("failed : " + error);
             });
     });
 
-    // <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
-
-
     $(".copy_code").click(function(e){
+
         e.preventDefault();
         var id = $(this).attr('id')
 
@@ -166,6 +186,55 @@ $(document).ready(function(){
 
         alert("copy is completed")
     });
+
+    // 댓글 수정 버튼
+    $(".comment_edit_button").click(function(e) {
+        e.preventDefault();
+        var id = $(this).attr("id");
+        var title = $("#todo_comment_title_"+id).val();
+        var file_name = $("#todo_comment_file_name_"+id).val();
+        var text = $(".todo_comment_text_"+id).val();
+
+        // alert('id : ' + id);
+        // alert('title : ' + title);
+        // alert('file_name : ' + file_name);
+        // alert('text : ' + text);
+
+        $.ajax({
+          type: "POST",
+          url: 'update_comment_ajax/'+id,
+          data: {
+              id:id,
+              title:title,
+              file_name:file_name,
+              text:text,
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+            success: function(result) {
+                alert('comment update complete ');
+            }
+        });
+    });
+
+    // 댓글 삭제 버튼
+    $(".comment_delete_button").click(function(e) {
+        e.preventDefault();
+        var id = $(this).attr("id");
+        alert('삭제 id : ' + id);
+        $.ajax({
+          type: "POST",
+          url: 'delete_comment_ajax/'+id,
+          data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+            success: function(result) {
+                $("#comment_table_"+id ).remove();
+                alert('comment 삭제 complete ');
+            }
+        });
+    });
+
+
 })
 
 {% endblock %}

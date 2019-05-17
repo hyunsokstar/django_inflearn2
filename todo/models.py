@@ -15,10 +15,8 @@ class Category(models.Model):
         return self.name
     class Meta:
         verbose_name_plural = 'categories'
-
     def get_absolute_url(self):
         return '/todo/category/{}/'.format(self.slug)
-
 
 class Todo(models.Model):
     lecture = models.CharField(max_length=100, blank=True)
@@ -43,9 +41,11 @@ class Todo(models.Model):
     def get_absolute_url(self):
         return reverse('todo:todo_detail', args=[self.id])
 
+
 class CommentForTodo(models.Model):
     todo= models.ForeignKey(Todo, on_delete=models.CASCADE)
     title= models.CharField(max_length=50)
+    file_name = models.CharField(max_length= 30)
     text = MarkdownxField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

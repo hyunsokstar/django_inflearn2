@@ -122,12 +122,14 @@
 </div>
 
 
+
 <script src="{% static 'blog/_assets/js/jquery.min.js' %}"></script>
 <script src="{% static 'blog/_assets/js/popper.min.js' %}"></script>
 <script src="{% static 'blog/bootstrap/bootstrap.min.js' %}"></script>
 <script src="{% static 'blog/_assets/js/custom.js' %}"></script>
-<script src="cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-<script src="web_underscore.js"></script>
+
+
+
 
 <script>
 
@@ -167,10 +169,13 @@ $(document).ready(function () {
 });
 
 {%block extra_js %}
+
 {% endblock %}
 
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js.map"></script>
 
 
 </body>

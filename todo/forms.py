@@ -10,4 +10,4 @@ class TodoForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = CommentForTodo
-        fields = ('title','text',)
+        fields = ('title','file_name','text')
