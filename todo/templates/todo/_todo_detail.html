@@ -84,7 +84,7 @@
 
 <!-- 댓글 템플릿 -->
 <script class="reply_template" type="text/x-template">
-    <table class="table table-bordered" id="comment_table_<%= table_id %>">
+    <table class="table table-bordered" id="comment_table_<%= comment_id %>">
         <tr>
             <td>author2</td>
             <td><%= author %></td>
@@ -92,29 +92,28 @@
         <tr>
             <td>title</td>
             <td colspan="3">
-                <input type="text" name="" value="<%= title %>" id="todo_comment_title_{{comment.id}}">
+                <input type="text" name="" value="<%= title %>" id="todo_comment_title_<%= comment_id %>">
             </td>
         </tr>
 
         <tr>
             <td>file_name</td>
             <td colspan="3">
-                <input type="text" name="" value="<%= file_name %>" id="">
+                <input type="text" name="" value="<%= file_name %>" id="todo_file_name_<%= comment_id %>">
             </td>
         </tr>
         <tr>
             <td>code</td>
             <td colspan="3">
-                <textarea name="name" rows="10" cols="80" id="" class=""><%= text %></textarea>
+                <textarea name="name" rows="10" cols="80" id="my_code_<%= comment_id %>" class="todo_comment_text_<%= comment_id %>"><%= text %></textarea>
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <!-- onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'" -->
-                <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
-                <button class="btn btn-sm btn-warning float-right comment_delete_button" id="">delete</button>
-                <button class="btn btn-sm btn-info float-right comment_edit_button" id="">edit</button>
+                <button type="button" name="button" id="<%= comment_id %>" class="copy_code">copy</button>
+                <button class="btn btn-sm btn-warning float-right comment_delete_button" id="<%= comment_id %>">delete</button>
+                <button class="btn btn-sm btn-info float-right comment_edit_button" id="<%= comment_id %>">edit</button>
             </td>
         </tr>
 
@@ -155,7 +154,7 @@ $(document).ready(function(){
                     text : obj.text,
                     file_name: obj.file_name,
                     created_at : obj.created_at,
-                    table_id : obj.edit_id
+                    comment_id : obj.edit_id
                 });
                 console.log("rendered : " , rendered);
                 $(rendered).appendTo($('.reply_list'));
