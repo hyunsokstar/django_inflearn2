@@ -99,7 +99,7 @@
         <tr>
             <td>file_name</td>
             <td colspan="3">
-                <input type="text" name="" value="<%= file_name %>" id="todo_file_name_<%= comment_id %>">
+                <input type="text" name="" value="<%= file_name %>" id="todo_comment_file_name_<%= comment_id %>">
             </td>
         </tr>
         <tr>
@@ -112,8 +112,8 @@
             <td></td>
             <td>
                 <button type="button" name="button" id="<%= comment_id %>" class="copy_code">copy</button>
-                <button class="btn btn-sm btn-warning float-right comment_delete_button" id="<%= comment_id %>">delete</button>
-                <button class="btn btn-sm btn-info float-right comment_edit_button" id="<%= comment_id %>">edit</button>
+                <button class="btn btn-sm btn-warning float-right" onclick = deleteToDoComment(<%= comment_id %>)>delete</button>
+                <button class="btn btn-sm btn-info float-right "  onclick = editToDoComment(<%= comment_id %>)>edit</button>
             </td>
         </tr>
 
@@ -233,8 +233,49 @@ $(document).ready(function(){
         });
     });
 
-
 })
+
+function deleteToDoComment(id){
+    alert("id : " +id)
+    $.ajax({
+      type: "POST",
+      url: 'delete_comment_ajax/'+id,
+      data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            $("#comment_table_"+id ).remove();
+            alert('comment 삭제 complete ');
+        }
+    });
+
+}
+
+function editToDoComment(id){
+    var title = $("#todo_comment_title_"+id).val();
+    var file_name = $("#todo_comment_file_name_"+id).val();
+    var text = $(".todo_comment_text_"+id).val();
+
+    alert('id : ' + id);
+    alert('title : ' + title);
+    alert('file_name : ' + file_name);
+    alert('text : ' + text);
+
+    $.ajax({
+      type: "POST",
+      url: 'update_comment_ajax/'+id,
+      data: {
+          id:id,
+          title:title,
+          file_name:file_name,
+          text:text,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert('comment update complete ');
+        }
+    });
+}
 
 {% endblock %}
 
