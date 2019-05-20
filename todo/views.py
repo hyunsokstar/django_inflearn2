@@ -11,6 +11,34 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Todo, CommentForTodo, Category
 
 # create your view
+class TodoListByComplete_total(LoginRequiredMixin,ListView):
+    model = Todo
+    def get_queryset(self):
+        if self.request.user.is_anonymous:
+            print("익명 유저입니다")
+            return Todo.objects.all()
+        else:
+            print("user : ", self.request.user)
+            return Todo.objects.filter(Q(elapsed_time__isnull=False))
+
+    def get_template_names(self):
+        return ['todo/todo_list_complete.html']
+        # 카테고리 목록
+    def get_context_data(self, *, object_list=None, **kwargs):
+        print('self.request.user : ', self.request.user)
+        context = super(type(self), self).get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        # 미완료이면서 카테고리가 없는것
+        context['todos_without_category'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 미완료
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 완료
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
+        context['comment_form'] = CommentForm()
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+        return context
+
 def delete_comment_ajax(request,id):
     user = request.user
     if request.method == "POST" and request.is_ajax():
@@ -44,7 +72,6 @@ def update_comment_ajax(request,id):
     else:
         return redirect('/todo')
 
-
 def todo_help(request, id):
     todo = get_object_or_404(Todo, id=id)
     now_diff = todo.now_diff
@@ -52,6 +79,16 @@ def todo_help(request, id):
     Todo.objects.filter(Q(id=id)).update(category = 2)
     print("핼프를 요청 id:",id)
     return redirect('/todo')
+
+def todo_help_cancle(request, id):
+    print("todo_help_cancle")
+    todo = get_object_or_404(Todo, id=id)
+    now_diff = todo.now_diff
+    print("now_diff : ", now_diff)
+    Todo.objects.filter(Q(id=id)).update(category = "")
+    print("핼프를 요청 id:",id)
+    return redirect('/todo')
+
 
 class TodoListByComplete(LoginRequiredMixin,ListView):
     model = Todo
@@ -91,7 +128,7 @@ class TodoListByCategory(ListView):
         else:
             # 카테고리가 없는 경우 전체 목록
             category = Category.objects.get(slug=slug)
-            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True) & Q(category=category)).order_by('-created')
+            return Todo.objects.filter(Q(elapsed_time__isnull=True) & Q(category=category)).order_by('-created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         print('self.request.user : ', self.request.user)
@@ -189,10 +226,8 @@ class TodoList(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
-            print("익명 유저입니다")
             return Todo.objects.all().order_by('-created')
         else:
-            print('로그인 유저입니다')
             return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).order_by('-created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
