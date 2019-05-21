@@ -44,12 +44,23 @@
                     </button>
 
                     {% if p.category.name == "help" %}
-                        <button type="button" class="btn btn btn-outline-danger btn-sm" style="background-color: white; color: black; border: 2px solid #b0d5f2;">
-                            <a href="{% url "todo:todo_help_cancle" p.pk %}" > question 취소!</a>
+                        <button type="button" class="btn btn-outline-primary btn-sm">
+                            <a href="{% url "todo:todo_help_cancle" p.pk %}" > question 취소<!DOCTYPE html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                                <title>Document</title>
+                            </head>
+                            <body>
+
+                            </body>
+                            </html></a>
                         </button>
                     {% else %}
-                        <button type="button" class="btn btn btn-outline-danger btn-sm">
-                            <a href="{% url "todo:todo_help" p.pk %}" >question! </a>
+                        <button type="button" class="btn btn-outline-warning btn-sm">
+                            <a href="{% url "todo:todo_help" p.pk %}" >question </a>
                         </button>
                     {% endif %}
 
@@ -67,13 +78,15 @@
 </table>
 <hr>
 
-<!-- modal area -->
 <button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
-    상세 보기 모달
+    todo detail modal
 </button>
 
-<button type="button" id="myModal_button2" class="btn btn-primary invisible" data-toggle="modal"
-        data-target="#myModal2">
+<button type="button" id="myModal_button" class="btn btn-primary" onclick="show_todo_detail();">
+    todo detail modal
+</button>
+
+<button type="button" id="myModal_button2" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal2">
     댓글 모달
 </button>
 
@@ -81,6 +94,8 @@
 <div class="modal fade" id="myModal">
     12
 </div>
+
+
 
 <!-- The Modal -->
 <div class="modal fade" id="myModal2">
@@ -119,6 +134,10 @@
 <script type="text/javascript">
 {% block extra_js %}
 
+function show_todo_detail(){
+  alert("modal 출력 함수")
+}
+
 $(document).ready(function(){
     var id;
     $("#todo_list a[class='title_for_list']").click(function(e){
@@ -126,13 +145,12 @@ $(document).ready(function(){
         id = $(this).attr('id');
 
         window.history.pushState("", "", '/todo/'+id)
-
         $.get(id)
             .done((html) => {
-                // console.log(html);
                 $('#myModal_button').hide();
                 $("#myModal").html(html)
-                $( "#myModal_button" ).trigger( "click" );
+                $( "#myModal_button" ).trigger("click");
+                // $( "#myModal_button3" ).trigger("click");
             })
             .fail(() => {
                 console.log("fail");

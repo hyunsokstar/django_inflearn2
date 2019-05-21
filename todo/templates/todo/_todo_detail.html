@@ -1,10 +1,14 @@
 {% load crispy_forms_tags %}
 
-<!-- The Modal -->
+
+
 <!-- <div class="modal fade" id="myModal"> -->
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
+
+            <h2 style="background-color:skyblue;">제목 및 내용</h2>
             <!-- Modal Header -->
+
             <div class="modal-header">
                 <h4 class="modal-title">{{ object.title }}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -15,35 +19,49 @@
                 {{ object.get_markdown_content | safe }}
                 <hr>
 
-                <!-- 댓글 입력 형식 -->
-                <form method="post" action="{{object.get_absolute_url}}new_comment/" id="comment_form" class="hi">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {{ comment_form | crispy }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-                <br>
-                {{ form.media }}
 
-                <!-- 댓글 출력 형식 -->
+                <div class="card border-info mb-3" style="max-width: 40rem;">
+                    <div class="card-header">Enter course and code</div>
+                    <div class="card-body">
+                        <!-- 댓글 입력 형식 -->
+                        <div class="comment_insert_area" style="background-color:white">
+
+                            <form method="post" action="{{object.get_absolute_url}}new_comment/" id="comment_form" class="hi">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {{ comment_form | crispy }}
+                                </div>
+                                <button type="submit" class="btn btn-primary float-right" style="margin-right:20px;">Submit</button>
+                                <br>
+                            </form>
+                            {{ form.media }}
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <hr>
+                <!-- 댓글 출력 -->
+                <h2 style="background-color:lightgreen">Step-by-Step Code</h2>
+                <hr>
                 {% for comment in comments.all %}
                 <table class="table table-bordered" id="comment_table_{{comment.id}}">
                     <tr>
-                        <td>author</td>
+                        <td>author2</td>
                         <td>{{ comment.author }}</td>
                     </tr>
                     <tr>
                         <td>title</td>
                         <td colspan="3">
-                            <input type="text" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}">
+                            <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}">
                         </td>
                     </tr>
 
                     <tr>
                         <td>file_name</td>
                         <td colspan="3">
-                            <input type="text" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}">
+                            <input type="text" class="form-control" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}">
                         </td>
                     </tr>
                     <tr>
@@ -86,13 +104,13 @@
 <script class="reply_template" type="text/x-template">
     <table class="table table-bordered" id="comment_table_<%= comment_id %>">
         <tr>
-            <td>author2</td>
+            <td>author</td>
             <td><%= author %></td>
         </tr>
         <tr>
             <td>title</td>
             <td colspan="3">
-                <input type="text" name="" value="<%= title %>" id="todo_comment_title_<%= comment_id %>">
+                <input type="text" size="50" name="" value="<%= title %>" id="todo_comment_title_<%= comment_id %>">
             </td>
         </tr>
 

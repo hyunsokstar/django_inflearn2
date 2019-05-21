@@ -6,6 +6,8 @@ from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
 from django.urls import reverse
 
+from datetime import timedelta
+
 class Category(models.Model):
     name = models.CharField(max_length=25, unique=True)
     description = models.TextField(blank=True)
@@ -20,7 +22,7 @@ class Category(models.Model):
 
 class Todo(models.Model):
     lecture = models.CharField(max_length=100, blank=True)
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=50)
     content = MarkdownxField()
     created = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=True)
@@ -34,9 +36,9 @@ class Todo(models.Model):
     def get_markdown_content(self):
         return markdown(self.content)
 
-    @property
     def now_diff(self):
-        return timezone.now() - self.created
+        delta = timezone.now() - self.created
+        return str(delta - timedelta(microseconds=delta.microseconds))
 
     def get_absolute_url(self):
         return reverse('todo:todo_detail', args=[self.id])
