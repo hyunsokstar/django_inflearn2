@@ -39,6 +39,7 @@ class TodoListByComplete_total(LoginRequiredMixin,ListView):
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
         return context
 
+
 def delete_comment_ajax(request,id):
     user = request.user
     if request.method == "POST" and request.is_ajax():
@@ -296,12 +297,10 @@ todo_delete = todo_delete_view.as_view()
 def todo_new(request):
     if request.method=="POST":
         form = TodoForm(request.POST, request.FILES)
-
         if form.is_valid():
             todo = form.save(commit=False)
             todo.author = request.user
             todo.save()
-
             return redirect('/todo/')
     else:
         form = TodoForm()

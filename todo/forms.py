@@ -5,7 +5,7 @@ from .models import Todo, CommentForTodo
 class TodoForm(forms.ModelForm):
     class Meta:
         model = Todo
-        fields = ['lecture','title', 'content','note' ]
+        fields = ['title', 'content']
 
 class CommentForm(forms.ModelForm):
     class Meta:
