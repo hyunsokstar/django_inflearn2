@@ -251,7 +251,6 @@ class TodoList_by_card(ListView):
     def get_template_names(self):
         return ['todo/todo_list_by_card.html']
 
-
     def get_queryset(self):
         if self.request.user.is_anonymous:
             print("익명 유저입니다")
