@@ -1,53 +1,34 @@
-{% extends "todo/layout.html" %}
-{%block title %}todo list{% endblock %}
-{%block extra_header %}
-    /* Make the image fully responsive */
-    .carousel-inner img {
-      width: 100%;
-      height: 100%;
+<style media="screen">
+    .wrapper {
+        width: 1000px;
+        margin: 0;
+        text-align: left;
     }
-{% endblock %}
 
-{%block content %}
+    div.nav {
+        float: left;
+        width: 410px;
+        margin-right: 20px;
+        background-color: rgba(102, 153, 204, 1);
+        height: 100vh;
+        position: fixed;
+    }
 
-<div class="container mt-3">
+    .content {
+        margin-left: 415px;
+        overflow: auto;
+    }
+</style>
 
-<h2>Carousel</h2>
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
 
-  <!-- Indicators -->
-  <ul class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-    <li data-target="#myCarousel" data-slide-to="3"></li>
-    <li data-target="#myCarousel" data-slide-to="4"></li>
-    <li data-target="#myCarousel" data-slide-to="5"></li>
-  </ul>
+<body>
 
-  <!-- The slideshow -->
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="la.jpg" alt="Los Angeles" width="1100" height="500">
+<div class="wrapper">
+    <div class='nav'>
+            left side
     </div>
-    <div class="carousel-item">
-      <img src="chicago.jpg" alt="Chicago" width="1100" height="500">
-    </div>
-    <div class="carousel-item">
-      <img src="ny.jpg" alt="New York" width="1100" height="500">
-    </div>
-  </div>
 
-  <!-- Left and right controls -->
-  <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </a>
-  <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </a>
+    <div class='content'>
+        right side
+    </div>
 </div>
-
-</div>
-
-
-{% endblock %}

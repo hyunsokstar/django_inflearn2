@@ -1,6 +1,35 @@
 {% load crispy_forms_tags %}
 
+<style media="screen">
+    .wrapper {
+        width: 1000px;
+        margin: 0;
+        text-align: left;
+    }
+    div.nav {
+        float: left;
+        width: 410px;
+        margin-right: 20px;
+        background-color: rgba(102, 153, 204, 1);
+        height: 100vh;
+        position: fixed;
+    }
+    .content {
+        margin-left: 415px;
+        overflow: auto;
+    }
+</style>
 
+
+<div class="wrapper">
+    <div class='nav'>
+            left side
+    </div>
+
+    <div class='content'>
+        right side
+    </div>
+</div>
 
 <!-- <div class="modal fade" id="myModal"> -->
     <div class="modal-dialog modal-xl">

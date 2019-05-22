@@ -1,11 +1,11 @@
-# from django.views.generic import ListView
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
+
 from .forms import TodoForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 from . forms import CommentForm
+
 from django.http import HttpResponse, JsonResponse
-# from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Todo, CommentForTodo, Category
@@ -211,7 +211,7 @@ class todoDetail(DetailView):
     def get_template_names(self):
         if self.request.is_ajax():
             return ['todo/_todo_detail.html']
-        return ['todo/_todo_detail.html']
+        return ['todo/todo_detail.html']
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(todoDetail, self).get_context_data(**kwargs)

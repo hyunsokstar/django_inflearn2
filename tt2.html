@@ -61,7 +61,61 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-          Modal body..
+            <!-- 댓글 출력 -->
+            <div class="card border-danger mb-3" style="max-width: 60rem;">
+                <div class="card-header">
+                    <h2 style="background-color:lightgreen">Step-by-Step Code</h2>
+                </div>
+                <div class="card-body">
+
+                    {% for comment in comments.all %}
+                    <table class="table table-bordered" id="comment_table_{{comment.id}}">
+                        <tr>
+                            <td>author2</td>
+                            <td>{{ comment.author }}</td>
+                        </tr>
+                        <tr>
+                            <td>title</td>
+                            <td colspan="3">
+                                <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>file_name</td>
+                            <td colspan="3">
+                                <input type="text" class="form-control" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>code</td>
+                            <td colspan="3">
+                                <textarea name="name" rows="10" cols="110" id="my_code_{{comment.id}}" class="todo_comment_text_{{comment.id}}">{{comment.text}}</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <!-- onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'" -->
+                                <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
+                                {% if comment.author == request.user %}
+                                <button class="btn btn-sm btn-warning float-right comment_delete_button" id="{{comment.pk}}">delete</button>
+                                <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}">edit</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" border="0"></td>
+                        </tr>
+                    </table>
+                    <br>
+                    {% endfor %}
+                    <div class="reply_list"></div>
+
+
+                </div>
+            </div>
         </div>
 
         <!-- Modal footer -->
