@@ -92,7 +92,7 @@
                                     {% if comment.author == request.user %}
                                     <button class="btn btn-sm btn-warning float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
                                     <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}" hidden>edit_complete</button> &nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-sm btn-info float-right comment_edit_form_button" id="{{comment.pk}}">edit_mode</button>
+                                    <button class="btn btn-sm btn-info float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -184,7 +184,7 @@ $(document).ready(function(){
 //     $(".comment_edit_form_button").attr("hidden",true);
 // });
 
-
+    // 수정 모드 클릭
     $(".comment_edit_form_button").click(function(e) {
         e.preventDefault();
 
@@ -200,8 +200,8 @@ $(document).ready(function(){
         $("#todo_comment_filename_output_"+id).hide();
         $("#todo_comment_text_output_"+id).hide();
 
-        $(".comment_edit_form_button").attr('hidden',true);
-        
+        $(".comment_edit_form_button_"+id).attr('hidden',true);
+
     });
 
 
@@ -229,8 +229,6 @@ $(document).ready(function(){
                 });
                 console.log("rendered : " , rendered);
                 $(rendered).appendTo($('.reply_list'));
-
-
             })
             .fail(function(xhr, textStatus, error){
                 alert("failed : " + error);
