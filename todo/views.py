@@ -11,6 +11,20 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Todo, CommentForTodo, Category
 
 # create your view
+
+# todo 댓글 수정
+class CommentUpdate(UpdateView):
+    model = CommentForTodo
+    form_class = CommentForm
+
+    def get_object(self, queryset=None):
+        comment = super(CommentUpdate, self).get_object()
+        if comment.author != self.request.user:
+            raise PermissionError('Comment 수정 권한이 없습니다.')
+        return comment
+
+
+
 class TodoListByComplete_total(LoginRequiredMixin,ListView):
     model = Todo
     def get_queryset(self):

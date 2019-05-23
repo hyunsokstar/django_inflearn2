@@ -12,6 +12,7 @@ urlpatterns = [
     # todo
     # 상세 보기
     path('<int:pk>/', views.todoDetail.as_view(), name='todo_detail'),
+    
     path('card', views.TodoList_by_card.as_view() , name="todo_list_by_card"),
     path('', views.TodoList.as_view() , name="todo_list"),
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),
@@ -32,5 +33,8 @@ urlpatterns = [
 
     path('update_comment_ajax/<int:id>', views.update_comment_ajax , name='update_comment_ajax'),
     path('delete_comment_ajax/<int:id>', views.delete_comment_ajax , name='delete_comment_ajax'),
+
+    path('<int:pk>/update/', views.CommentUpdate.as_view()),
+
 
 ]

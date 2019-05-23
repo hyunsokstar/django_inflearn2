@@ -38,9 +38,7 @@
                     </div>
                 </div>
 
-
                 <hr>
-
 
                 <!-- comment output -->
                 <div class="card border-danger mb-3" style="max-width: 80rem;">
@@ -48,7 +46,6 @@
                         <h2>Step-by-Step Code</h2>
                     </div>
                     <div class="card-body">
-
                         {% for comment in comments.all %}
                         <table class="table table-bordered" id="comment_table_{{comment.id}}">
                             <tr>
@@ -89,10 +86,14 @@
                                 <td>
                                     <!-- onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'" -->
                                     <!-- <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button> -->
+                                    <!-- 댓글 업데이트 -->
+                                    <!-- update_comment_modal -->
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick=location.href='{{comment.id}}/update' id={{comment.id}}>update</button>
+
                                     {% if comment.author == request.user %}
-                                    <button class="btn btn-sm btn-warning float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-sm btn-outline-primary float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
                                     <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}" hidden>edit_complete</button> &nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-sm btn-info float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
+                                    <button class="btn btn-sm btn-outline-primary float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -170,25 +171,11 @@
 
 $(document).ready(function(){
 
-// $(".open_text_editor").click(function(e) {
-//     e.preventDefault();
-//     // alert('수정 모드')
-//     var id = $(this).attr("id");
-//     $("#todo_comment_title_"+id).removeAttr('hidden');
-//     $("#todo_comment_file_name_"+id).removeAttr('hidden');
-//     $(".todo_comment_text_"+id).removeAttr('hidden');
-//     $("#todo_comment_title_output_"+id).hide();
-//     $("#todo_comment_filename_output_"+id).hide();
-//     $("#todo_comment_text_output_"+id).hide();
-//     $(".comment_edit_button").removeAttr('hidden');
-//     $(".comment_edit_form_button").attr("hidden",true);
-// });
-
-    // 수정 모드 클릭
+    // modify mode click
     $(".comment_edit_form_button").click(function(e) {
         e.preventDefault();
 
-        alert('수정 모드')
+        alert('modify mode')
         var id = $(this).attr("id");
         $("#todo_comment_title_"+id).removeAttr('hidden');
         $(".comment_edit_button").removeAttr('hidden');
@@ -201,6 +188,7 @@ $(document).ready(function(){
         $("#todo_comment_text_output_"+id).hide();
 
         $(".comment_edit_form_button_"+id).attr('hidden',true);
+        // ajax 요청을 해서 summer note 입력 form 을 가져온뒤 수정할 콘텐트가 summer note 입려폼에  보여지도록 하기
 
     });
 
@@ -258,18 +246,19 @@ $(document).ready(function(){
     });
 
     // 댓글 수정 버튼
+    // $(".update_comment_modal").click(function(e) {
+    //     e.preventDefault();
+    //     var id = $(this).attr("id");
+    //
+    //     alert("id : ", id)
+    // });
+
     $(".comment_edit_button").click(function(e) {
         e.preventDefault();
-
         var id = $(this).attr("id");
         var title = $("#todo_comment_title_"+id).val();
         var file_name = $("#todo_comment_file_name_"+id).val();
         var text = $(".todo_comment_text_"+id).val();
-
-        // alert('id : ' + id);
-        // alert('title : ' + title);
-        // alert('file_name : ' + file_name);
-        // alert('text : ' + text);
 
         $.ajax({
           type: "POST",
