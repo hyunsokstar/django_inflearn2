@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'blog',
     'todo',
     'css_challenge',
+    'django_summernote',
     # 'membership',
     # django all auth
     'django.contrib.sites',

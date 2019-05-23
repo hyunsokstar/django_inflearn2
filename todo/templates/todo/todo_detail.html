@@ -6,13 +6,36 @@
 
 <br><br><br><br>
 
+<style media="screen">
+    .wrapper {
+        width: 1000px;
+        margin: 0;
+        text-align: left;
+    }
+
+    div.nav {
+        float: left;
+        width: 410px;
+        margin-right: 20px;
+        background-color: rgba(102, 153, 204, 1);
+        height: 100vh;
+        position: fixed;
+    }
+
+    .content {
+        margin-left: 415px;
+        overflow: auto;
+    }
+</style>
+
+
 <div class="container">
   <div class="row">
-    <div class="col-xs-6">
+      
+    <div class="col-xl-6">
 
         {% load crispy_forms_tags %}
 
-        <!-- <div class="modal fade" id="myModal"> -->
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
 
@@ -64,7 +87,8 @@
 
 
     </div>
-    <div class="col-xs-6">
+
+    <div class="col-xl-6">
         <!-- 댓글 출력 -->
         <div class="card border-danger mb-3" style="max-width: 60rem;">
             <div class="card-header">

@@ -4,9 +4,8 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
-            <h2 style="background-color:skyblue;">todo detail</h2>
+            <h2 style="background-color:#00BFFF;">todo detail</h2>
             <!-- Modal Header -->
-
             <div class="modal-header">
                 <h4 class="modal-title">{{ object.title }}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -18,16 +17,17 @@
                 <hr>
 
 
-                <div class="card border-info mb-3" style="max-width: 60rem;">
-                    <div class="card-header"><h2 style="background-color:lightgreen">코드 입력</h2></div>
+                <div class="card border-info mb-3" style="max-width: 80rem;">
+                    <div class="card-header" style="background-color:lightgreen"><h2>Insert code</h2></div>
                     <div class="card-body">
-                        <!-- 댓글 입력 형식 -->
+
+                        <!-- comment insert -->
                         <div class="comment_insert_area" style="background-color:white">
 
                             <form method="post" action="{{object.get_absolute_url}}new_comment/" id="comment_form" class="hi">
                                 {% csrf_token %}
                                 <div class="form-group">
-                                    {{ comment_form | crispy }}
+                                    {{ comment_form | safe }}
                                 </div>
                                 <button type="submit" class="btn btn-primary float-right" style="margin-right:20px;">Submit</button>
                                 <br>
@@ -42,10 +42,10 @@
                 <hr>
 
 
-                <!-- 댓글 출력 -->
-                <div class="card border-danger mb-3" style="max-width: 60rem;">
-                    <div class="card-header">
-                        <h2 style="background-color:lightgreen">Step-by-Step Code</h2>
+                <!-- comment output -->
+                <div class="card border-danger mb-3" style="max-width: 80rem;">
+                    <div class="card-header" style="background-color:black; color:white">
+                        <h2>Step-by-Step Code</h2>
                     </div>
                     <div class="card-body">
 
@@ -53,35 +53,46 @@
                         <table class="table table-bordered" id="comment_table_{{comment.id}}">
                             <tr>
                                 <td>author2</td>
-                                <td>{{ comment.author }}</td>
+                                <td>
+                                    {{ comment.author }}
+                                </td>
                             </tr>
                             <tr>
                                 <td>title</td>
                                 <td colspan="3">
-                                    <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}">
+                                    <span id="todo_comment_title_output_{{comment.id}}">
+                                        {{comment.title}}
+                                    </span>
+                                    <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}" hidden>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>file_name</td>
                                 <td colspan="3">
-                                    <input type="text" class="form-control" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}">
+                                    <span id="todo_comment_filename_output_{{comment.id}}">
+                                        {{comment.file_name}}
+                                    </span>
+                                    <input type="text" class="form-control" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}" hidden>
                                 </td>
                             </tr>
-                            <tr>
                                 <td>code</td>
                                 <td colspan="3">
-                                    <textarea name="name" rows="10" cols="110" id="my_code_{{comment.id}}" class="todo_comment_text_{{comment.id}}">{{comment.text}}</textarea>
+                                    <span id="todo_comment_text_output_{{comment.id}}">
+                                        {{ comment.text | safe }}
+                                    </span>
+                                    <textarea name="name" rows="10" cols="110" id="my_code_{{comment.id}}" class="todo_comment_text_{{comment.id}}" hidden>{{comment.text}}</textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td>
                                     <!-- onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'" -->
-                                    <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
+                                    <!-- <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button> -->
                                     {% if comment.author == request.user %}
-                                    <button class="btn btn-sm btn-warning float-right comment_delete_button" id="{{comment.pk}}">delete</button>
-                                    <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}">edit</button>
+                                    <button class="btn btn-sm btn-warning float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}" hidden>edit_complete</button> &nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-sm btn-info float-right comment_edit_form_button" id="{{comment.pk}}">edit_mode</button>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -118,28 +129,28 @@
         <tr>
             <td>title</td>
             <td colspan="3">
-                <input type="text" size="50" name="" value="<%= title %>" id="todo_comment_title_<%= comment_id %>">
+                <%= title %>
             </td>
         </tr>
 
         <tr>
-            <td>file_name</td>
+            <td width="20%">file_name</td>
             <td colspan="3">
-                <input type="text" name="" value="<%= file_name %>" id="todo_comment_file_name_<%= comment_id %>">
+                <%= file_name %>
             </td>
         </tr>
         <tr>
             <td>code</td>
             <td colspan="3">
-                <textarea name="name" rows="10" cols="80" id="my_code_<%= comment_id %>" class="todo_comment_text_<%= comment_id %>"><%= text %></textarea>
+                <div class="todo_comment_text_<%= comment_id %>">
+                    <%= text %>
+                </div>
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <button type="button" name="button" id="<%= comment_id %>" class="copy_code">copy</button>
                 <button class="btn btn-sm btn-warning float-right" onclick = deleteToDoComment(<%= comment_id %>)>delete</button>
-                <button class="btn btn-sm btn-info float-right "  onclick = editToDoComment(<%= comment_id %>)>edit</button>
             </td>
         </tr>
 
@@ -155,7 +166,45 @@
 
 {% block extra_js %}
 
+// 댓글 수정 버튼
+
 $(document).ready(function(){
+
+// $(".open_text_editor").click(function(e) {
+//     e.preventDefault();
+//     // alert('수정 모드')
+//     var id = $(this).attr("id");
+//     $("#todo_comment_title_"+id).removeAttr('hidden');
+//     $("#todo_comment_file_name_"+id).removeAttr('hidden');
+//     $(".todo_comment_text_"+id).removeAttr('hidden');
+//     $("#todo_comment_title_output_"+id).hide();
+//     $("#todo_comment_filename_output_"+id).hide();
+//     $("#todo_comment_text_output_"+id).hide();
+//     $(".comment_edit_button").removeAttr('hidden');
+//     $(".comment_edit_form_button").attr("hidden",true);
+// });
+
+
+    $(".comment_edit_form_button").click(function(e) {
+        e.preventDefault();
+
+        alert('수정 모드')
+        var id = $(this).attr("id");
+        $("#todo_comment_title_"+id).removeAttr('hidden');
+        $(".comment_edit_button").removeAttr('hidden');
+
+        $("#todo_comment_file_name_"+id).removeAttr('hidden');
+        $(".todo_comment_text_"+id).removeAttr('hidden');
+
+        $("#todo_comment_title_output_"+id).hide();
+        $("#todo_comment_filename_output_"+id).hide();
+        $("#todo_comment_text_output_"+id).hide();
+
+        $(".comment_edit_form_button").attr('hidden',true);
+        
+    });
+
+
     $("#comment_form").submit(function(e){
         e.preventDefault();
         var $form = $(this);
@@ -180,6 +229,8 @@ $(document).ready(function(){
                 });
                 console.log("rendered : " , rendered);
                 $(rendered).appendTo($('.reply_list'));
+
+
             })
             .fail(function(xhr, textStatus, error){
                 alert("failed : " + error);
@@ -211,6 +262,7 @@ $(document).ready(function(){
     // 댓글 수정 버튼
     $(".comment_edit_button").click(function(e) {
         e.preventDefault();
+
         var id = $(this).attr("id");
         var title = $("#todo_comment_title_"+id).val();
         var file_name = $("#todo_comment_file_name_"+id).val();
@@ -232,7 +284,9 @@ $(document).ready(function(){
               csrfmiddlewaretoken: '{{ csrf_token }}'
           },
             success: function(result) {
-                alert('comment update complete ');
+                alert("modify is completted")
+                $(".comment_edit_form_button").attr("hidden",true);
+
             }
         });
     });
@@ -273,7 +327,10 @@ function deleteToDoComment(id){
 
 }
 
+
+
 function editToDoComment(id){
+
     var title = $("#todo_comment_title_"+id).val();
     var file_name = $("#todo_comment_file_name_"+id).val();
     var text = $(".todo_comment_text_"+id).val();
