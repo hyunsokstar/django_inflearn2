@@ -5,8 +5,18 @@ from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
 from django.urls import reverse
-
 from datetime import timedelta
+
+class Classification(models.Model):
+    name = models.CharField(max_length=25, unique=True)
+    description = models.TextField(blank=True)
+    slug = models.SlugField(unique=True, allow_unicode=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'classifications'
 
 class Category(models.Model):
     name = models.CharField(max_length=25, unique=True)
@@ -21,14 +31,17 @@ class Category(models.Model):
         return '/todo/category/{}/'.format(self.slug)
 
 class Todo(models.Model):
-    lecture = models.CharField(max_length=100, blank=True)
     title = models.CharField(max_length=50)
     content = MarkdownxField()
     created = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=True)
-    note = models.CharField(max_length=50)
     elapsed_time = models.CharField(max_length=20,blank=True, null=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    classification = models.ForeignKey(Classification, blank=True, null=True, on_delete=models.SET_NULL)
+    completion = models.CharField(max_length=10, default='uncomplete')
+    importance = models.IntegerField(default=1)
+    # lecture = models.CharField(max_length=100, blank=True)
+    # note = models.CharField(max_length=50)
 
     def __str__(self):
         return self.title

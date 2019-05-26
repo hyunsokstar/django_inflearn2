@@ -1,12 +1,14 @@
-from . models import Todo, CommentForTodo, Category
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
+from . models import Todo, CommentForTodo, Category, Classification
+
+@admin.register(Classification)
+class ClassificationAdmin(admin.ModelAdmin):
+    list_display=['id','name','description','slug']
 
 class TodoAdmin(SummernoteModelAdmin):  # instead of ModelAdmin
     summernote_fields = '__all__'
-
 admin.site.register(Todo, TodoAdmin)
-
 
 @admin.register(CommentForTodo)
 class CommentAdmin(admin.ModelAdmin):

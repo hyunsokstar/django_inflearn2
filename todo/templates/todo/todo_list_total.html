@@ -4,11 +4,9 @@
 {%block content %}
 {% load crispy_forms_tags %}
 
-<h2 class="float-left">할일 목록</h2>
-    {% if category %}
-        카테고리 : <small class="text-muted">{{ category }}</small>
-    {% endif %}
-    <a href = "{% url "todo:todo_new" %}" class="btn btn-danger float-right">입력 </a>
+<h2 class="float-left">전체 할일 목록</h2>
+
+    <a href = "{% url "todo:todo_new_admin" %}" class="btn btn-primary float-right">관리자 입력</a>
     <br><br>
 
 <table class="table table-bordered" id="todo_list">
@@ -16,7 +14,7 @@
         <td>분류</td>
         <td>title</td>
         <td>경과시간</td>
-        <td>작성자</td>
+        <td>담당자</td>
         <td></td>
     </tr>
 

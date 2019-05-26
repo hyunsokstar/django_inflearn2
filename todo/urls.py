@@ -26,9 +26,12 @@ urlpatterns = [
 
     path('<int:id>/todo_help_cancle/', views.todo_help_cancle, name="todo_help_cancle"),
 
-    path('category/<str:slug>/', views.TodoListByCategory.as_view()),
-    path('completeListByMe/', views.TodoListByComplete.as_view() , name="todo_complete_list_byme"),
-    path('completeList_total/', views.TodoListByComplete_total.as_view() , name="todo_complete_list_total"),
+    path('category/<str:slug>/', views.TodoListByCategory.as_view() , name="total_ucomplete_todo_list"),
+
+    path('todolist/complete/me/', views.TodoCompleteListByMe.as_view() , name="todo_complete_list_byme"),
+    path('todolist/uncomplete/me', views.TodoUnCompleteListByMe.as_view() , name="todo_complete_list_byme"),
+
+    path('completeList/total/', views.TodoListByComplete_total.as_view() , name="todo_complete_list_total"),
 
     path('update_comment_ajax/<int:id>', views.update_comment_ajax , name='update_comment_ajax'),
     path('delete_comment_ajax/<int:id>', views.delete_comment_ajax , name='delete_comment_ajax'),
@@ -38,9 +41,8 @@ urlpatterns = [
     # ex1
     path('new/admin',views.todo_new_admin, name ="todo_new_admin"),
 
-    # ex2
-    # /todo
-    # /new/admin
+    # Cork
+    # path('cowork/list',views.CoworkList.as_view(), name ="cowork_list"),
 
 
 ]

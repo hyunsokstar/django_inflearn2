@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
-
 from .forms import TodoForm, TodoAdminForm
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -10,9 +9,8 @@ from django.views.generic import ListView, DetailView,CreateView,UpdateView,Dele
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Todo, CommentForTodo, Category
 
-# create your view
+# create your view 1122
 
-# todo admin 입력
 def todo_new_admin(request):
     if request.method=="POST":
         form = TodoAdminForm(request.POST, request.FILES)
@@ -48,7 +46,7 @@ class TodoListByComplete_total(LoginRequiredMixin,ListView):
             return Todo.objects.filter(Q(elapsed_time__isnull=False))
 
     def get_template_names(self):
-        return ['todo/todo_list_complete.html']
+        return ['todo/todo_list_complete_total.html']
         # 카테고리 목록
     def get_context_data(self, *, object_list=None, **kwargs):
         print('self.request.user : ', self.request.user)
@@ -88,9 +86,7 @@ def update_comment_ajax(request,id):
         print("title(view) : ", title)
         print("file_name : ", file_name)
         print("text : ", text)
-
         todo = CommentForTodo.objects.filter(Q(id=id)).update(title = title, file_name = file_name , text = text)
-
         print('update 성공');
 
         return JsonResponse({
@@ -117,7 +113,7 @@ def todo_help_cancle(request, id):
     return redirect('/todo')
 
 
-class TodoListByComplete(LoginRequiredMixin,ListView):
+class TodoCompleteListByMe(LoginRequiredMixin,ListView):
     model = Todo
     def get_queryset(self):
         if self.request.user.is_anonymous:
@@ -128,6 +124,7 @@ class TodoListByComplete(LoginRequiredMixin,ListView):
             return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
 
     def get_template_names(self):
+        print("todo list complete 호출")
         return ['todo/todo_list_complete.html']
         # 카테고리 목록
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -145,10 +142,41 @@ class TodoListByComplete(LoginRequiredMixin,ListView):
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
         return context
 
+class TodoUnCompleteListByMe(LoginRequiredMixin,ListView):
+    model = Todo
+    def get_queryset(self):
+        if self.request.user.is_anonymous:
+            print("익명 유저입니다")
+            return Todo.objects.all()
+        else:
+            print("user : ", self.request.user)
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True))
+
+    def get_template_names(self):
+        return ['todo/todo_list.html']
+        # 카테고리 목록
+    def get_context_data(self, *, object_list=None, **kwargs):
+        print('self.request.user : ', self.request.user)
+        context = super(type(self), self).get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        # 미완료이면서 카테고리가 없는것
+        context['todos_without_category'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 미완료
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 완료
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
+        context['comment_form'] = CommentForm()
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+        return context
+
+
+# 2244
 class TodoListByCategory(ListView):
     def get_queryset(self):
         slug = self.kwargs['slug']
         print('slug : ', slug)
+
         if slug == '_none':
             category = None
             return Todo.objects.filter(Q(elapsed_time__isnull=True)).order_by('-created')
@@ -180,6 +208,10 @@ class TodoListByCategory(ListView):
             category = Category.objects.get(slug=slug)
             context['category'] = category
         return context
+
+    def get_template_names(self):
+            return ['todo/todo_list_total.html']
+
 
 def delete_comment(request, pk):
     comment = CommentForTodo.objects.get(pk=pk)
@@ -245,6 +277,7 @@ class todoDetail(DetailView):
         context['detail_id'] = self.object.pk
         context['comment_form'] = CommentForm()
         return context
+
 
 class TodoList(LoginRequiredMixin,ListView):
     model = Todo

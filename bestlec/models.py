@@ -20,6 +20,10 @@ class Finisher(models.Model):
     note = models.CharField(max_length= 50)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_insert_url(self):
+        return reverse('bestlec:finisher_new', args=[self.bestlec.id])
+
+
 class RecommandBest20(models.Model):
     bestlec = models.ForeignKey(Best20, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

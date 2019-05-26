@@ -8,7 +8,14 @@
   <p>완강자 리스트</p>
 </div>
 
-<button type="button" name="button" onclick="location.href='http://127.0.0.1:8000/bestlec/{{fn_id}}/finisher/new'">post</button>
+<button
+    type="button"
+    class="btn btn-outline-info btn-sm float-right"
+    name="button" onclick="location.href='/bestlec/{{fn_id}}/finisher/new'"
+    >
+        post
+</button>
+
 <br><br>
 
 <table class="table table-bordered" id="todo_list">
@@ -39,10 +46,10 @@
 
                 </td>
                 <td>
-                    <a class="btn btn-outline-info" href="https://{{p.git_hub}}">github</a>
+                    <a class="btn btn-outline-info" href="{{p.git_hub}}">github</a>
                 </td>
                 <td>
-                    <a class="btn btn-outline-info" href="https://{{p.note}}">note</a>
+                    <a class="btn btn-outline-info" href="{{p.note}}">note</a>
                 </td>
                 <td>
                     {{p.created_at}}
