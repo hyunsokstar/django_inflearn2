@@ -16,7 +16,7 @@ class TodoForm(forms.ModelForm):
 class TodoAdminForm(forms.ModelForm):
     class Meta:
         model = Todo
-        fields = ['author','title', 'content']
+        fields = ['author','classification','title', 'content']
 
         widgets = {
             'content': SummernoteWidget(),
