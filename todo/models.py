@@ -43,7 +43,6 @@ class Todo(models.Model):
     def get_absolute_url(self):
         return reverse('todo:todo_detail', args=[self.id])
 
-
 class CommentForTodo(models.Model):
     todo= models.ForeignKey(Todo, on_delete=models.CASCADE)
     title= models.CharField(max_length=50)

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'blog',
     'todo',
+    'bestlec',
     'css_challenge',
     'django_summernote',
     # 'membership',

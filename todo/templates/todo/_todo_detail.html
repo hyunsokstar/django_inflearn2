@@ -49,14 +49,12 @@
                         {% for comment in comments.all %}
                         <table class="table table-bordered" id="comment_table_{{comment.id}}">
                             <tr>
-                                <td>author2</td>
-                                <td>
-                                    {{ comment.author }}
-                                </td>
+                                <td>step{{ forloop.counter }}</td>
+                                <td>작성자 : {{comment.author}}</td>
                             </tr>
                             <tr>
-                                <td>title</td>
-                                <td colspan="3">
+                                <td bgcolor="#BFEFF2">title</td>
+                                <td colspan="3" bgcolor="#BFEFF2">
                                     <span id="todo_comment_title_output_{{comment.id}}">
                                         {{comment.title}}
                                     </span>
@@ -189,7 +187,6 @@ $(document).ready(function(){
 
         $(".comment_edit_form_button_"+id).attr('hidden',true);
         // ajax 요청을 해서 summer note 입력 form 을 가져온뒤 수정할 콘텐트가 summer note 입려폼에  보여지도록 하기
-
     });
 
 
@@ -295,7 +292,6 @@ $(document).ready(function(){
             }
         });
     });
-
 })
 
 function deleteToDoComment(id){

@@ -13,6 +13,7 @@ urlpatterns = [
     path('todo/', include('todo.urls')),
     path('css_challenge/', include('css_challenge.urls')),
     path('summernote/', include('django_summernote.urls')),
+    path('bestlec/', include('bestlec.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

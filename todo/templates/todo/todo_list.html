@@ -46,17 +46,7 @@
                     {% if p.category.name == "help" %}
                         <button type="button" class="btn btn-outline-primary btn-sm">
                             <a href="{% url "todo:todo_help_cancle" p.pk %}" > question 취소<!DOCTYPE html>
-                            <html lang="en">
-                            <head>
-                                <meta charset="UTF-8">
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                                <title>Document</title>
-                            </head>
-                            <body>
-
-                            </body>
-                            </html></a>
+                        </a>
                         </button>
                     {% else %}
                         <button type="button" class="btn btn-outline-warning btn-sm">
@@ -87,7 +77,7 @@
 </button> -->
 
 <button type="button" id="myModal_button2" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal2">
-    todo 상세 보기 모달 
+    todo 상세 보기 모달
 </button>
 
 <!-- The Modal -->

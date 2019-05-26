@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 
-from .forms import TodoForm
+from .forms import TodoForm, TodoAdminForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 from . forms import CommentForm
@@ -12,7 +12,20 @@ from .models import Todo, CommentForTodo, Category
 
 # create your view
 
-# todo 댓글 수정
+# todo admin 입력
+def todo_new_admin(request):
+    if request.method=="POST":
+        form = TodoAdminForm(request.POST, request.FILES)
+        if form.is_valid():
+            todo = form.save(commit=False)
+            todo.save()
+            return redirect('/todo/')
+    else:
+        form = TodoAdminForm()
+    return render(request, 'todo/post_form.html',{
+        'form':form
+    })
+
 class CommentUpdate(UpdateView):
     model = CommentForTodo
     form_class = CommentForm
@@ -22,7 +35,6 @@ class CommentUpdate(UpdateView):
         if comment.author != self.request.user:
             raise PermissionError('Comment 수정 권한이 없습니다.')
         return comment
-
 
 
 class TodoListByComplete_total(LoginRequiredMixin,ListView):
@@ -234,7 +246,6 @@ class todoDetail(DetailView):
         context['comment_form'] = CommentForm()
         return context
 
-
 class TodoList(LoginRequiredMixin,ListView):
     model = Todo
     paginate_by = 20
@@ -321,7 +332,6 @@ def todo_new(request):
     return render(request, 'todo/post_form.html',{
         'form':form
     })
-
 
 def todo_edit(request, id):
     todo = get_object_or_404(Todo, id=id)

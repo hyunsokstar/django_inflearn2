@@ -61,6 +61,7 @@ class PostUpdate(UpdateView):
 class PostList(ListView):
     model = Post
     paginate_by = 2
+    # ordering = ['-created']
 
     def get_template_names(self):
         if self.request.is_ajax():
@@ -134,7 +135,6 @@ class PostListByTag(ListView):
         tag_slug = self.kwargs['slug']
         context['tag'] = Tag.objects.get(slug=tag_slug)
         return context
-
 
 def new_comment(request, pk):
     post = Post.objects.get(pk=pk)
