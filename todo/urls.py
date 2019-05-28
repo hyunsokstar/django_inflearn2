@@ -29,7 +29,7 @@ urlpatterns = [
     path('category/<str:slug>/', views.TodoListByCategory.as_view() , name="total_ucomplete_todo_list"),
 
     path('todolist/complete/me/', views.TodoCompleteListByMe.as_view() , name="todo_complete_list_byme"),
-    path('todolist/uncomplete/me', views.TodoUnCompleteListByMe.as_view() , name="todo_complete_list_byme"),
+    path('todolist/uncomplete/me', views.TodoUnCompleteListByMe.as_view() , name="todo_uncomplete_list_byme"),
 
     path('completeList/total/', views.TodoListByComplete_total.as_view() , name="todo_complete_list_total"),
 

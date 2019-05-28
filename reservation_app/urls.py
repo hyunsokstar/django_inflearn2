@@ -3,7 +3,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('markdownx/', include('markdownx.urls')),
@@ -14,6 +13,7 @@ urlpatterns = [
     path('css_challenge/', include('css_challenge.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('bestlec/', include('bestlec.urls')),
+    path('management/', include('management.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

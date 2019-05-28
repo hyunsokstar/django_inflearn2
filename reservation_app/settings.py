@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'blog',
     'todo',
     'bestlec',
+    'management', 
     'css_challenge',
     'django_summernote',
     # 'membership',
@@ -35,8 +36,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
-    # ... include the providers you want to enable:  => 필요 선택
     'allauth.socialaccount.providers.google',
 ]
 

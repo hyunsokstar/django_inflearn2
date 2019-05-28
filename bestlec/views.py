@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView , DeleteView
-from .models import Best20, Finisher, RecommandBest20
+
+
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
-from django.urls import reverse
+from .models import Best20, Finisher, RecommandBest20
 from django.db.models import Q
 from django.db.models import F
-from .forms import BestLecForm
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.urls import reverse
+from .forms import BestLecForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
