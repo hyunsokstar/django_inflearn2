@@ -21,7 +21,9 @@ urlpatterns = [
     path('edit_comment/<int:pk>/', views.CommentUpdate.as_view(), name="edit_url"),
 
     path('delete_comment/<int:pk>/', views.delete_comment, name="delete_url"),
+
     path('<int:id>/todo_complete/',views.todo_complete , name ="todo_complete"),
+
     path('<int:id>/todo_help/', views.todo_help, name="todo_help"),
 
     path('<int:id>/todo_help_cancle/', views.todo_help_cancle, name="todo_help_cancle"),
@@ -38,8 +40,10 @@ urlpatterns = [
 
     path('<int:pk>/update/', views.CommentUpdate.as_view()),
 
-    # ex1
     path('new/admin',views.todo_new_admin, name ="todo_new_admin"),
+
+    # todo(user) 현황
+    path('status/',views.todo_status_list, name ="todo_status_list"),
 
     # Cork
     # path('cowork/list',views.CoworkList.as_view(), name ="cowork_list"),

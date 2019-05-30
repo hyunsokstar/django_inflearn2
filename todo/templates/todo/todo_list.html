@@ -4,7 +4,15 @@
 {%block content %}
 {% load crispy_forms_tags %}
 
-<h2 class="float-left">할일 목록</h2>
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+     {{ message.message }}<strong>{{ message.tags }}</strong>
+     {% endfor %}
+</div>
+{% endif %}
+
+<h2 class="float-left">할일 목록({{request.user}})</h2>
     {% if category %}
         카테고리 : <small class="text-muted">{{ category }}</small>
     {% endif %}
@@ -16,7 +24,7 @@
         <td>분류</td>
         <td>title</td>
         <td>경과시간</td>
-        <td>작성자</td>
+        <!-- <td>작성자</td> -->
         <td></td>
     </tr>
 
@@ -30,7 +38,7 @@
                 </a>
             </td>
             <td>{{p.now_diff}}</td>
-            <td>{{p.author}}</td>
+            <!-- <td>{{p.author}}</td> -->
             <td>
                 {% if request.user == p.author %}
                     <button type="button" class="btn btn btn-outline-danger btn-sm">
@@ -62,7 +70,7 @@
         {% endfor %}
     {% else %}
         <tr>
-            <td colspan="4">
+            <td colspan="5">
                 <h4>아직 게시물이 없습니다.</h4>
             </td>
         </tr>

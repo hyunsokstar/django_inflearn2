@@ -1,7 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from .forms import TodoForm, TodoAdminForm
 from django.urls import reverse_lazy
+
+from django.db.models import F
 from django.db.models import Q
+
 from . forms import CommentForm
 
 from django.http import HttpResponse, JsonResponse
@@ -9,13 +12,47 @@ from django.views.generic import ListView, DetailView,CreateView,UpdateView,Dele
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Todo, CommentForTodo, Category
 
+from accounts2.models import Profile
+
+from django.contrib import messages
+
+from django.contrib.auth.models import User
+
 # create your view 1122
 
+def todo_status_list(request):
+    print("todo_status_list 실행")
+
+    users = User.objects.all()
+
+    return render(request, 'todo/todo_status_list.html', {
+        'users': users,
+    })
+
+def FinisherList(request, id):
+    fl = Finisher.objects.filter(Q(bestlec=id))
+    print("fl : ", fl)
+    print('해당 id에 대한 FinisherList')
+    return render(request, 'bestlec/finisher_list.html', {
+        'fl': fl,
+        'fn_id':id
+    })
+
+
 def todo_new_admin(request):
+
+    if request.user.is_superuser:
+        print("관리자는 입력할 수 있습니다.")
+    else:
+        messages.success(request,'관리자가 아니면 입력할 수 없습니다.')
+        return redirect('/todo/')
+
     if request.method=="POST":
         form = TodoAdminForm(request.POST, request.FILES)
+
         if form.is_valid():
             todo = form.save(commit=False)
+
             todo.save()
             return redirect('/todo/')
     else:
@@ -170,8 +207,6 @@ class TodoUnCompleteListByMe(LoginRequiredMixin,ListView):
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
         return context
 
-
-# 2244
 class TodoListByCategory(ListView):
     def get_queryset(self):
         slug = self.kwargs['slug']
@@ -232,7 +267,6 @@ class CommentUpdate(UpdateView):
         if comment.author != self.request.user:
             raise PermissionError('Comment 수정 권한이 없습니다.')
         return comment
-
 
 def new_comment(request, pk):
     print("댓글 입력 함수 기반뷰 실행")
@@ -335,22 +369,49 @@ class TodoSearch(ListView):
         return context
 
 def todo_complete(request, id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         todo = get_object_or_404(Todo, id=id)
         now_diff = todo.now_diff
         print("now_diff : ", now_diff)
         Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff)
         Todo.objects.filter(Q(id=id)).update(category = None)
-        print("todo 목록을 저장하였습니다.")
+        Todo.objects.filter(Q(id=id)).update(completion = "complete")
+
+        Profile.objects.filter(Q(user=request.user.id)).update(completecount = F('completecount')+1, uncompletecount = F('uncompletecount')-1)
+        # pf = Profile.objects.filter(Q(id=request.user.id))
+        # print("compltecount : ", pf.completecount)
+        # print("uncompltecount : ", pf.uncompletecount)
+        # AttributeError: 'QuerySet' object has no attribute 'completecount'
+
+        print("todo 완료 업데이트 완료 ")
+
         return redirect('/todo')
     else:
         return redirect('accouts/login')
 
-class todo_delete_view(DeleteView):
-    model = Todo
-    success_url = reverse_lazy('todo:todo_list')
-    # success_message = "delete was complted"
-todo_delete = todo_delete_view.as_view()
+# class todo_delete_view(DeleteView):
+#     model = Todo
+#     success_url = reverse_lazy('todo:todo_list')
+#     # success_message = "delete was complted"
+# todo_delete = todo_delete_view.as_view()
+
+def todo_delete(request, pk):
+    # template = 'todo/todo_confirm_delete.html'
+    todo = get_object_or_404(Todo, pk=pk)
+
+    todo.delete()
+
+    if todo.completion == "uncomplete":
+        Profile.objects.filter(Q(user=request.user.id)).update(uncompletecount = F('uncompletecount')-1)
+    else:
+        Profile.objects.filter(Q(user=request.user.id)).update(completecount = F('completecount')-1)
+
+
+    print("todo" , todo , '를 삭제')
+
+    return redirect('todo:todo_list')
+
+    # AttributeError: '__proxy__' object has no attribute 'get'
 
 def todo_new(request):
     if request.method=="POST":
@@ -359,7 +420,12 @@ def todo_new(request):
             todo = form.save(commit=False)
             todo.author = request.user
             todo.save()
+            print('todo를 저장했습니다')
+            Profile.objects.filter(Q(user=request.user.id)).update(uncompletecount = F('uncompletecount')+1)
+            print('uncompletecount를 +1')
+
             return redirect('/todo/')
+
     else:
         form = TodoForm()
     return render(request, 'todo/post_form.html',{

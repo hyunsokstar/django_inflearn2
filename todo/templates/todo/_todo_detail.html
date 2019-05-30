@@ -30,6 +30,7 @@
                                     {{ comment_form | safe }}
                                 </div>
                                 <button type="submit" class="btn btn-primary float-right" style="margin-right:20px;">Submit</button>
+                                <textarea class="my_textarea"></textarea>
                                 <br>
                             </form>
                             {{ form.media }}
@@ -83,7 +84,7 @@
                                 <td></td>
                                 <td>
                                     <!-- onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'" -->
-                                    <!-- <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button> -->
+                                    <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
                                     <!-- 댓글 업데이트 -->
                                     <!-- update_comment_modal -->
                                     <button type="button" class="btn btn-sm btn-outline-primary" onclick=location.href='{{comment.id}}/update' id={{comment.id}}>update</button>
@@ -225,19 +226,25 @@ $(document).ready(function(){
         e.preventDefault();
         var id = $(this).attr('id')
 
+
+
         var text = document.getElementById(id),
         textVal = text.innerText;
-        textTd = $(`#my_code_${id}`).val()
+        // textTd = $(`#my_code_${id}`).val()
+        textTd = $(".note-codable").text("<h2>hello </h2>")
+        textTd = $(".note-editable").html("<h2>hello </h2>")
+        textTd = $(".my_textarea").text("<h2>hello </h2>")
+        alert("text td : ", textTd)
         // alert(textTd)
 
-        var dummy = document.createElement('textarea');
-        dummy.value = textTd;
-        //
-        document.body.appendChild(dummy );
-        dummy.select();
-        //
-        document.execCommand('copy');
-        document.body.removeChild(dummy);
+        // var dummy = document.createElement('textarea');
+        // dummy.value = textTd;
+        // //
+        // document.body.appendChild(dummy );
+        // dummy.select();
+        // //
+        // document.execCommand('copy');
+        // document.body.removeChild(dummy);
 
         alert("copy is completed")
     });

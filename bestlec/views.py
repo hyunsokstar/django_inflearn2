@@ -33,8 +33,8 @@ class Best20DeleteView(DeleteView):
     success_message = "best is removed"
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, self.success_message)
-        return super(Best20DeleteView, self).delete(request, *args, **kwargs)
+            messages.success(self.request, self.success_message)
+            return super(Best20DeleteView, self).delete(request, *args, **kwargs)
 
 best20_delete = Best20DeleteView.as_view()
 
