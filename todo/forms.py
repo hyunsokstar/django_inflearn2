@@ -7,7 +7,7 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 class TodoForm(forms.ModelForm):
     class Meta:
         model = Todo
-        fields = ['title', 'content']
+        fields = ['title', 'content','classification']
 
         widgets = {
             'content': SummernoteWidget(),

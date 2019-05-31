@@ -40,8 +40,6 @@ class Todo(models.Model):
     classification = models.ForeignKey(Classification, blank=True, null=True, on_delete=models.SET_NULL)
     completion = models.CharField(max_length=10, default='uncomplete')
     importance = models.IntegerField(default=1)
-    # lecture = models.CharField(max_length=100, blank=True)
-    # note = models.CharField(max_length=50)
 
     def __str__(self):
         return self.title

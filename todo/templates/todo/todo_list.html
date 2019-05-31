@@ -21,6 +21,7 @@
 
 <table class="table table-bordered" id="todo_list">
     <tr>
+        <td>check</td>
         <td>분류</td>
         <td>title</td>
         <td>경과시간</td>
@@ -31,6 +32,9 @@
     {% if object_list.exists %}
         {% for p in object_list %}
         <tr>
+            <td>
+                <input type="checkbox">
+            </td>
             <td>{{p.classification}}</td>
             <td>
                 <a href="" id={{p.id}} class="title_for_list">

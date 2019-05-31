@@ -16,7 +16,6 @@
                 {{ object.get_markdown_content | safe }}
                 <hr>
 
-
                 <div class="card border-info mb-3" style="max-width: 80rem;">
                     <div class="card-header" style="background-color:lightgreen"><h2>Insert code</h2></div>
                     <div class="card-body">
@@ -30,7 +29,7 @@
                                     {{ comment_form | safe }}
                                 </div>
                                 <button type="submit" class="btn btn-primary float-right" style="margin-right:20px;">Submit</button>
-                                <textarea class="my_textarea"></textarea>
+                                <!-- <textarea class="my_textarea"></textarea> -->
                                 <br>
                             </form>
                             {{ form.media }}
@@ -92,7 +91,7 @@
                                     {% if comment.author == request.user %}
                                     <button class="btn btn-sm btn-outline-primary float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
                                     <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}" hidden>edit_complete</button> &nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-sm btn-outline-primary float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
+                                    <button class="btn btn-sm btn-primary float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -122,12 +121,15 @@
 <!-- 댓글 템플릿 -->
 <script class="reply_template" type="text/x-template">
     <table class="table table-bordered" id="comment_table_<%= comment_id %>">
+
+
         <tr>
-            <td>author</td>
-            <td><%= author %></td>
+            <td>new comment</td>
+            <td>작성자 : <%= author %></td>
         </tr>
-        <tr>
-            <td>title</td>
+
+        <tr bgcolor="#BFEFF2">
+            <td >title</td>
             <td colspan="3">
                 <%= title %>
             </td>
