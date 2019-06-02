@@ -31,6 +31,8 @@ urlpatterns = [
     path('category/<str:slug>/', views.TodoListByCategory.as_view() , name="total_ucomplete_todo_list"),
 
     path('todolist/complete/me/', views.TodoCompleteListByMe.as_view() , name="todo_complete_list_byme"),
+    path('todolist/complete/me/todo_delete_ajax/', views.todo_delete_ajax , name="todo_delete_ajax"),
+
     path('todolist/uncomplete/me', views.TodoUnCompleteListByMe.as_view() , name="todo_uncomplete_list_byme"),
 
     path('completeList/total/', views.TodoListByComplete_total.as_view() , name="todo_complete_list_total"),
@@ -44,9 +46,11 @@ urlpatterns = [
 
     # todo(user) 현황
     path('status/',views.todo_status_list, name ="todo_status_list"),
+    path('todo_delete_ajax/',views.todo_delete_ajax, name ="todo_delete_ajax"),
 
     # Cork
     # path('cowork/list',views.CoworkList.as_view(), name ="cowork_list"),
+    # todo_delete_ajax
 
 
 ]

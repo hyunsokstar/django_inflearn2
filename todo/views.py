@@ -13,12 +13,37 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Todo, CommentForTodo, Category
 
 from accounts2.models import Profile
-
 from django.contrib import messages
-
 from django.contrib.auth.models import User
 
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 # create your view 1122
+
+# def todo_delete_ajax(request):
+#
+#     todo_ids = request.POST.getlist('todo_arr[]')
+#     # result : todo_ids :  ['76', 97]
+#
+#     if todo_ids:
+#         print("todo_ids : ", todo_ids)
+#         return redirect('/todo/')
+#     else:
+#         print("todo_ids : ", todo_ids)
+#
+#     return redirect('/todo/')
+
+
+@login_required
+def todo_delete_ajax(request):
+    todo_ids = request.POST.getlist('todo_arr[]')
+    if todo_ids:
+        Todo.objects.filter(pk__in=todo_ids, author=request.user).delete()
+
+    return redirect('/todo')
+
+
 
 def todo_status_list(request):
     print("todo_status_list 실행")
@@ -149,15 +174,17 @@ def todo_help_cancle(request, id):
     print("핼프를 요청 id:",id)
     return redirect('/todo')
 
-
 class TodoCompleteListByMe(LoginRequiredMixin,ListView):
     model = Todo
+
     def get_queryset(self):
         if self.request.user.is_anonymous:
             print("익명 유저입니다")
             return Todo.objects.all()
         else:
             print("user : ", self.request.user)
+            list_count = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
+            print("list_count  ", list_count)
             return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
 
     def get_template_names(self):
@@ -178,6 +205,8 @@ class TodoCompleteListByMe(LoginRequiredMixin,ListView):
         context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
         return context
+
+
 
 class TodoUnCompleteListByMe(LoginRequiredMixin,ListView):
     model = Todo
@@ -378,10 +407,7 @@ def todo_complete(request, id):
         Todo.objects.filter(Q(id=id)).update(completion = "complete")
 
         Profile.objects.filter(Q(user=request.user.id)).update(completecount = F('completecount')+1, uncompletecount = F('uncompletecount')-1)
-        # pf = Profile.objects.filter(Q(id=request.user.id))
-        # print("compltecount : ", pf.completecount)
-        # print("uncompltecount : ", pf.uncompletecount)
-        # AttributeError: 'QuerySet' object has no attribute 'completecount'
+        messages.success(request,'할일 : {} 를 완료 처리 하였습니다..'.format(todo))
 
         print("todo 완료 업데이트 완료 ")
 

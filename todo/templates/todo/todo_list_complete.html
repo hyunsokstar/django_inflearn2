@@ -3,7 +3,15 @@
 {%block content %}
 {% load crispy_forms_tags %}
 
-<h2>완료 목록</h2>
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+     {{ message.message }}<strong>{{ message.tags }}</strong>
+     {% endfor %}
+</div>
+{% endif %}
+
+<h2>완료 목록({{request.user}})</h2>
 
     {% if category %}
         카테고리 :
@@ -11,11 +19,15 @@
         <br><br>
     {% endif %}
 
-<a href = "{% url "todo:todo_new" %}" class="btn btn-danger float-right">입력 </a>
+<a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right">입력</a>
+<a href="" class="btn btn-outline-info float-right" id="todo_delete_button"> 삭제 </a>
+
+
 <br><br>
 
 <table class="table table-bordered" id="todo_list">
     <tr>
+        <td>check</td>
         <td>분류</td>
         <td>title</td>
         <td>경과시간</td>
@@ -26,6 +38,9 @@
     {% if object_list.exists %}
         {% for p in object_list %}
         <tr>
+            <td>
+                <input type="checkbox" id="{{p.pk}}" class="td_check">
+            </td>
             <td>{{p.classification}}</td>
             <td>
                 <a href="" id={{p.id}} class="title_for_list">
@@ -50,10 +65,10 @@
         {% endfor %}
     {% else %}
         <tr>
-            <td>
+            <td colspan="6">
                 <h4>아직 게시물이 없습니다.</h4>
             </td>
-        </tr>s
+        </tr>
     {% endif %}
 </table>
 <hr>
@@ -115,11 +130,14 @@
 $(document).ready(function(){
     var id;
     $("#todo_list a[class='title_for_list']").click(function(e){
+
+        alert("삭제 버튼 클릭 2")
+
         e.preventDefault();
+        window.history.pushState("", "", '/todo/')
         id = $(this).attr('id');
 
         // window.location.href = "www.daum.net";
-        window.history.pushState("", "", '/todo/'+id)
 
         $.get(id)
             .done((html) => {
@@ -145,6 +163,35 @@ $(document).ready(function(){
         id=$(this).attr('id');
         alert('id : ', id)
     })
+
+    $('#todo_delete_button').click(function(e){
+        e.preventDefault();
+        // todo_check
+        alert("삭제 버튼 ")
+        // Get checked checkboxes
+        var todo_arr = [];
+        $('.td_check').each(function() {
+            if (jQuery(this).is(":checked")) {
+                var id = this.id;
+                todo_arr.push(id);
+            }
+        });
+        alert('todo_arr : '+ todo_arr)
+
+        $.ajax({
+          type: "POST",
+          url: 'todo_delete_ajax/',
+          data: {
+              'todo_arr[]':todo_arr,
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+            success: function(result) {
+                alert('todo_delete_ajax is success ');
+                jQuery('input:checkbox:checked').parents("tr").remove();
+            }
+        });
+    })
+
 
 })
 

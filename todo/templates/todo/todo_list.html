@@ -16,7 +16,12 @@
     {% if category %}
         카테고리 : <small class="text-muted">{{ category }}</small>
     {% endif %}
-    <a href = "{% url "todo:todo_new" %}" class="btn btn-danger float-right">입력 </a>
+
+
+    <a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right">입력 </a>
+    <a href="" class="btn btn-outline-info float-right" id="todo_delete_button"> 삭제 </a>
+
+
     <br><br>
 
 <table class="table table-bordered" id="todo_list">
@@ -33,7 +38,7 @@
         {% for p in object_list %}
         <tr>
             <td>
-                <input type="checkbox">
+                <input type="checkbox" id="{{p.pk}}" class="td_check">
             </td>
             <td>{{p.classification}}</td>
             <td>
@@ -145,7 +150,8 @@ $(document).ready(function(){
     $("#todo_list a[class='title_for_list']").click(function(e){
         e.preventDefault();
         id = $(this).attr('id');
-        window.history.pushState("", "", '/todo/'+id)
+        // window.history.pushState("", "", '/todo/'+id)
+
         $.get(id)
             .done((html) => {
                 $('#myModal_button').hide();
@@ -168,6 +174,39 @@ $(document).ready(function(){
         id=$(this).attr('id');
         alert('id : ', id)
     })
+
+$('#todo_delete_button').click(function(e){
+    e.preventDefault();
+    // todo_check
+    // window.location = "/todo/"
+    alert("삭제 버튼 ")
+    // Get checked checkboxes
+    var todo_arr = [];
+    $('.td_check').each(function() {
+        if (jQuery(this).is(":checked")) {
+            var id = this.id;
+            todo_arr.push(id);
+        }
+    });
+    alert('todo_arr : '+ todo_arr)
+
+    $.ajax({
+      type: "POST",
+      url: 'todo_delete_ajax/',
+      data: {
+          'todo_arr[]':todo_arr,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert('todo_delete_ajax is success ');
+            jQuery('input:checkbox:checked').parents("tr").remove();
+        }
+    });
+})
+
+// result is todo_arr : 78,76
+
+
 })
 
 
