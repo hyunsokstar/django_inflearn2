@@ -16,23 +16,37 @@
                 {{ object.get_markdown_content | safe }}
                 <hr>
 
+
                 <div class="card border-info mb-3" style="max-width: 80rem;">
-                    <div class="card-header" style="background-color:lightgreen"><h2>Insert code</h2></div>
+                    <div class="card-header" style="background-color:lightgreen">
+                        <font size="14">Insert code</font>
+                        <a class="btn btn-outline-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                          입력
+                        </a>
+
+                    </div>
                     <div class="card-body">
 
                         <!-- comment insert -->
                         <div class="comment_insert_area" style="background-color:white">
 
-                            <form method="post" action="{{object.get_absolute_url}}new_comment/" id="comment_form" class="hi">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {{ comment_form | safe }}
-                                </div>
-                                <button type="submit" class="btn btn-primary float-right" style="margin-right:20px;">Submit</button>
-                                <!-- <textarea class="my_textarea"></textarea> -->
-                                <br>
-                            </form>
-                            {{ form.media }}
+                          <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+
+                                <form method="post" action="{{object.get_absolute_url}}new_comment/" id="comment_form" class="hi">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ comment_form | safe }}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary float-right" style="margin-right:20px;">Submit</button>
+                                    <br>
+                                </form>
+                                {{ form.media }}
+
+                            </div>
+                          </div>
+
+
                         </div>
 
                     </div>
@@ -47,10 +61,24 @@
                     </div>
                     <div class="card-body">
                         {% for comment in comments.all %}
+
+
                         <table class="table table-bordered" id="comment_table_{{comment.id}}">
                             <tr>
                                 <td>step{{ forloop.counter }}</td>
-                                <td>작성자 : {{comment.author}}</td>
+
+                                {% ifequal comment.author request.user %}
+
+                                    <td>작성자 : <p style="color:blue;">{{comment.author}}</p></td>
+
+                                {% else %}
+
+                                <td>작성자 : <p style="color:ornage;">{{comment.author}}</p></td>
+
+                                {% endifequal %}
+
+
+
                             </tr>
                             <tr>
                                 <td bgcolor="#BFEFF2">title</td>
@@ -66,6 +94,7 @@
                                 <td>file_name</td>
                                 <td colspan="3">
                                     <span id="todo_comment_filename_output_{{comment.id}}">
+
                                         {{comment.file_name}}
                                     </span>
                                     <input type="text" class="form-control" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}" hidden>
