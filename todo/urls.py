@@ -13,8 +13,11 @@ urlpatterns = [
     # 상세 보기
     path('<int:pk>/', views.todoDetail.as_view(), name='todo_detail'),
     path('card', views.TodoList_by_card.as_view() , name="todo_list_by_card"),
+
     path('', views.TodoList.as_view() , name="todo_list"),
+
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),
+    
     path('<int:pk>/new_comment/', views.new_comment),
 
     # todo 댓글 수정 뷰

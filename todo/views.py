@@ -10,29 +10,15 @@ from . forms import CommentForm
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Todo, CommentForTodo, Category
 
 from accounts2.models import Profile
 from django.contrib import messages
-from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-# create your view 1122
-
-# def todo_delete_ajax(request):
-#
-#     todo_ids = request.POST.getlist('todo_arr[]')
-#     # result : todo_ids :  ['76', 97]
-#
-#     if todo_ids:
-#         print("todo_ids : ", todo_ids)
-#         return redirect('/todo/')
-#     else:
-#         print("todo_ids : ", todo_ids)
-#
-#     return redirect('/todo/')
+from .models import Todo, CommentForTodo, Category
+from django.contrib.auth.models import User
 
 
 @login_required
@@ -125,7 +111,6 @@ class TodoListByComplete_total(LoginRequiredMixin,ListView):
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
         return context
 
-
 def delete_comment_ajax(request,id):
     user = request.user
     if request.method == "POST" and request.is_ajax():
@@ -135,7 +120,7 @@ def delete_comment_ajax(request,id):
             'message': '댓글 삭제 성공',
         })
     else:
-        return redirect('/todo')
+        return redirect('/myshortcut')
 
 def update_comment_ajax(request,id):
     user = request.user

@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+{%block title %}todo list{% endblock %}
+
+{%block content %}
+
+<div class="jumbotron">
+  <h1>my_shortcut_list</h1>
+  <p>나의 단축키 만들기 </p>
+</div>
+
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+     {{ message.message }}<strong>{{ message.tags }}</strong>
+     {% endfor %}
+</div>
+{% endif %}
+
+<a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-warning float-right">입력(input)</a>
+<a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-danger float-right">입력(textarea)</a>
+
+<br><br>
+
+<table class="table table-bordered" id="todo_list">
+    <tr>
+        <td>index</td>
+        <td>title</td>
+        <td>shortcut</td>
+        <td>author</td>
+    </tr>
+
+    {% if object_list.exists %}
+        {% for p in object_list %}
+            <tr id="shortcut_{{p.id}}">
+                <td>
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                    {{p.title}}
+                    {% if p.author == request.user %}
+                        <button class="badge badge-pill badge-primary short_delete_button" id="{{p.id}}">삭제</button>
+                    {% endif %}
+
+
+                </td>
+                <td>
+                    {% ifequal p.type.type_name "input" %}
+                        <input type="text" name="" value="{{p.content1}}" size="40" id="select-this1">
+                        <button class="btn btn-outline-primary btn-sm myinput float-right" id="copy_code1">copy</button>
+                     {% else %}
+                        <textarea id="select-this2">{{p.content2}} </textarea>
+                        <button class="btn btn-outline-primary btn-sm myinput float-right" id="copy_code2">copy</button>
+                     {% endifequal %}
+
+
+
+
+                </td>
+                <td>{{p.author}}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">
+                <h4>there is no article</h4>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+
+
+{% endblock %}
+
+<script type="text/javascript">
+{% block extra_js %}
+
+// $("span").parent()
+
+$("#copy_code1").click(function(e){
+
+    e.preventDefault();
+
+    // document.execCommand('copy', false, document.getElementById('select-this1').select());
+    document.execCommand('copy', false, $(this).parent().find('#select-this1').select());
+
+    alert("copy is completed")
+});
+
+$("#copy_code2").click(function(e){
+
+    e.preventDefault();
+
+    document.execCommand('copy', false, $(this).parent().find('#select-this2').select());
+
+    alert("copy is completed")
+});
+
+// 댓글 삭제 버튼
+$(".short_delete_button").click(function(e) {
+
+    e.preventDefault();
+    var id = $(this).attr("id");
+
+    // alert('삭제 id : ' + id);
+
+    $.ajax({
+      type: "POST",
+      url: 'delete_shortcut_ajax/'+id,
+      data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            $("#shortcut_"+id ).remove();
+            alert('comment 삭제 complete ');
+        }
+    });
+});
+
+
+{% endblock %}
+</script>
