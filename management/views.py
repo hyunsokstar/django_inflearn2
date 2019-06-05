@@ -30,7 +30,7 @@ def suggestion_new(request):
             suggestion = form.save(commit=False)
             suggestion.author = request.user
             suggestion.save()
-            return redirect('/bestlec')
+            return redirect('management:suggestion_list')
     else:
         form = SuggestionForm()
     return render(request, 'management/suggestion_form.html',{

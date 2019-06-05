@@ -58,7 +58,7 @@ class MyShortcutListByCategory(ListView):
             category = None
         else:
             category = Category.objects.get(slug=slug)
-        return MyShortCut.objects.filter(category=category).order_by('-created')
+        return MyShortCut.objects.filter(category=category, author=self.request.user).order_by('-created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(type(self), self).get_context_data(**kwargs)

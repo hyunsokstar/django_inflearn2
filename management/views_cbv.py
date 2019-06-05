@@ -28,3 +28,6 @@ class SuggestionDeleteView(DeleteView):
 class SuggestionListView(ListView):
     model = Suggestion
     paginate_by = 20
+
+    def get_queryset(self):
+        return Suggestion.objects.all().order_by('-created')
