@@ -29,10 +29,8 @@
 
                         <!-- comment insert -->
                         <div class="comment_insert_area" style="background-color:white">
-
                           <div class="collapse" id="collapseExample">
                             <div class="card card-body">
-
                                 <form method="post" action="{{object.get_absolute_url}}new_comment/" id="comment_form" class="hi">
                                     {% csrf_token %}
                                     <div class="form-group">
@@ -42,16 +40,12 @@
                                     <br>
                                 </form>
                                 {{ form.media }}
-
                             </div>
                           </div>
 
-
                         </div>
-
                     </div>
                 </div>
-
                 <hr>
 
                 <!-- comment output -->
@@ -60,25 +54,18 @@
                         <h2>Step-by-Step Code</h2>
                     </div>
                     <div class="card-body">
-                        {% for comment in comments.all %}
-
-
+                        {% for comment in comments_list_my.all %}
                         <table class="table table-bordered" id="comment_table_{{comment.id}}">
                             <tr>
-                                <td>step{{ forloop.counter }}</td>
+                                <td>
+                                    step{{ forloop.counter }}
+                                </td>
 
                                 {% ifequal comment.author request.user %}
-
                                     <td>작성자 : <p style="color:blue;">{{comment.author}}</p></td>
-
                                 {% else %}
-
                                 <td>작성자 : <p style="color:ornage;">{{comment.author}}</p></td>
-
                                 {% endifequal %}
-
-
-
                             </tr>
                             <tr>
                                 <td bgcolor="#BFEFF2">title</td>
@@ -89,12 +76,10 @@
                                     <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}" hidden>
                                 </td>
                             </tr>
-
                             <tr>
                                 <td>file_name</td>
                                 <td colspan="3">
                                     <span id="todo_comment_filename_output_{{comment.id}}">
-
                                         {{comment.file_name}}
                                     </span>
                                     <input type="text" class="form-control" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}" hidden>
@@ -111,32 +96,88 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <!-- onclick="location.href='/todo/delete_comment/{{ comment.pk }}/'" -->
                                     <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
-                                    <!-- 댓글 업데이트 -->
-                                    <!-- update_comment_modal -->
                                     <button type="button" class="btn btn-sm btn-outline-primary" onclick=location.href='{{comment.id}}/update' id={{comment.id}}>update</button>
 
                                     {% if comment.author == request.user %}
                                     <button class="btn btn-sm btn-outline-primary float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
                                     <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}" hidden>edit_complete</button> &nbsp;&nbsp;&nbsp;
                                     <button class="btn btn-sm btn-primary float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
-                                    <!-- <button class="btn btn-sm btn-primary float-right comment_edit_popup_button" id="{{comment.pk}}">edit popup</button> &nbsp;&nbsp; -->
                                     {% endif %}
-
                                 </td>
                             </tr>
-
                             <tr>
                                 <td colspan="3" border="0"></td>
                             </tr>
                         </table>
                         <br>
                         {% endfor %}
-                        <div class="reply_list"></div>
-
-
                     </div>
+
+                    <div class="card-header" style="background-color:blue; color:white">
+                        <h2>타인의 답변</h2>
+                    </div><br>
+
+                    {% for comment in comments_list_commenter.all %}
+                    <table class="table table-bordered" id="comment_table_{{comment.id}}">
+                        <tr>
+                            <td>
+                                step{{ forloop.counter }}
+                            </td>
+
+                            {% ifequal comment.author request.user %}
+                                <td>작성자 : <p style="color:blue;">{{comment.author}}</p></td>
+                            {% else %}
+                            <td>작성자 : <p style="color:ornage;">{{comment.author}}</p></td>
+                            {% endifequal %}
+                        </tr>
+                        <tr>
+                            <td bgcolor="#BFEFF2">title</td>
+                            <td colspan="3" bgcolor="#BFEFF2">
+                                <span id="todo_comment_title_output_{{comment.id}}">
+                                    {{comment.title}}
+                                </span>
+                                <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}" hidden>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>file_name</td>
+                            <td colspan="3">
+                                <span id="todo_comment_filename_output_{{comment.id}}">
+                                    {{comment.file_name}}
+                                </span>
+                                <input type="text" class="form-control" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}" hidden>
+                            </td>
+                        </tr>
+                            <td>code</td>
+                            <td colspan="3">
+                                <span id="todo_comment_text_output_{{comment.id}}">
+                                    {{ comment.text | safe }}
+                                </span>
+                                <textarea name="name" rows="10" cols="110" id="my_code_{{comment.id}}" class="todo_comment_text_{{comment.id}}" hidden>{{comment.text}}</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick=location.href='{{comment.id}}/update' id={{comment.id}}>update</button>
+
+                                {% if comment.author == request.user %}
+                                <button class="btn btn-sm btn-outline-primary float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
+                                <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}" hidden>edit_complete</button> &nbsp;&nbsp;&nbsp;
+                                <button class="btn btn-sm btn-primary float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" border="0"></td>
+                        </tr>
+                    </table>
+                    <br>
+                    {% endfor %}
+
+                    <div class="reply_list"></div>
                 </div>
 
             </div> <!-- modeal body end -->

@@ -1,37 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-  $("#todo_list a[class='title_for_post_list']").click(function(){
-      alert("hi")
-  });
-});
-</script>
-</head>
-<body>
 
-<h2>This is a heading</h2>
+{% for comment in comments.all %}
 
-<table id="todo_list">
-    <tr>
-        <td>
-            <a href="#" class="title_for_post_list">hello</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="#" class="title_for_post_list">korea</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="#">no</a>
-        </td>
-    </tr>
+    {% for  comment.user != request.user %}
+    {% endfor %}
 
-</table>
-
-</body>
-</html>
+{% endfor %}

@@ -321,7 +321,8 @@ class todoDetail(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(todoDetail, self).get_context_data(**kwargs)
-        context['comments'] = CommentForTodo.objects.filter(todo=self.object.pk)
+        context['comments_list_my'] = CommentForTodo.objects.filter(todo=self.object.pk, author=self.request.user)
+        context['comments_list_commenter'] = CommentForTodo.objects.filter(Q(todo=self.object.pk) & ~Q(author=self.request.user))
         context['detail_id'] = self.object.pk
         context['comment_form'] = CommentForm()
         return context
