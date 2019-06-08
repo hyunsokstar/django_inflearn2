@@ -17,7 +17,7 @@ urlpatterns = [
     path('', views.TodoList.as_view() , name="todo_list"),
 
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),
-    
+
     path('<int:pk>/new_comment/', views.new_comment),
 
     # todo 댓글 수정 뷰
@@ -50,6 +50,9 @@ urlpatterns = [
     # todo(user) 현황
     path('status/',views.todo_status_list, name ="todo_status_list"),
     path('todo_delete_ajax/',views.todo_delete_ajax, name ="todo_delete_ajax"),
+
+    path('todolist/uncomplete/<str:user_id>/',views.UncompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),
+    path('todolist/complete/<str:user_id>/',views.CompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),
 
     # Cork
     # path('cowork/list',views.CoworkList.as_view(), name ="cowork_list"),

@@ -30,13 +30,13 @@ INSTALLED_APPS = [
     'bestlec',
     'accounts2',
     'management',
-    'css_challenge',
     'django_summernote',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'challenge',
 ]
 
 MIDDLEWARE = [

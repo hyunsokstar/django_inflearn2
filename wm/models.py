@@ -24,7 +24,7 @@ class Type(models.Model):
 
 class MyShortCut(models.Model):
     title = models.CharField(max_length=120)
-    content1 = models.CharField(max_length=120)
+    content1 = models.CharField(max_length=180)
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=True)

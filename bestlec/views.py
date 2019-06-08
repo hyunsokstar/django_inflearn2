@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView , DeleteView
 
-
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from .models import Best20, Finisher, RecommandBest20
 from django.db.models import Q

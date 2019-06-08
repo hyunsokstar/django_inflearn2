@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 {%block title %}todo list{% endblock %}
-
 {%block content2 %}
-<!-- url link -->
 
 <div class="jumbotron">
   <h1>건의 사항</h1>
@@ -21,7 +19,6 @@
         <td></td>
     </tr>
 
-
     {% if object_list.exists %}
         {% for p in object_list %}
             <tr>
@@ -34,9 +31,8 @@
                     {% if request.user == p.author %}
                     <a class="badge badge-pill badge-danger btn-sm" href="{% url "management:suggestion_update" p.id %}">수정</a>
                         <a class="badge badge-pill badge-primary btn-sm" href="{% url "management:suggestion_delete" p.id %}">삭제</a>
+                        
                     {% endif %}
-
-
                 </td>
                 <td>
                     {{p.author}}

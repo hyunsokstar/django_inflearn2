@@ -4,8 +4,7 @@
 {%block content %}
 
 <div class="jumbotron">
-  <h1>best lecture 20</h1>
-  <p>Please recommend the best programming lecture 20</p>
+    <h2>강의 정보</h2>
 </div>
 
 {% if messages %}
@@ -38,12 +37,10 @@
                 </td>
                 <td>
                     {{p.title}}
-                    <a class="badge badge-pill badge-dark btn-sm" href="https://{{p.url_lec}}">site</a>
-
+                    <a class="badge badge-pill badge-dark btn-sm" href="http://{{p.url_lec}}">site</a>
                         {% if request.user == p.author %}
                             <a class="badge badge-pill badge-primary btn-sm" href="{% url "bestlec:best20_delete" p.id %}">삭제</a>
                         {% endif %}
-
                 </td>
                 <td>
                     <button type="button" name="button" onclick="location.href='{{p.id}}/finisherlist'" class="btn btn-outline-info btn-sm">완강({{p.finisher_set.count}})</button>

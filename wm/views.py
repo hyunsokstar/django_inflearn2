@@ -18,7 +18,7 @@ from django.http import HttpResponse, JsonResponse
 def update_shortcut1_ajax(request,id):
     user = request.user
     if request.method == "POST" and request.is_ajax():
-        content1 = request.POST['content1']
+        content1 = request.POST.get('content1','')        
 
         print('shortcut을 ajax로 update')
         print('id : ', id)
@@ -49,7 +49,6 @@ def update_shortcut2_ajax(request,id):
     else:
         return redirect('/todo')
 
-
 class MyShortcutListByCategory(ListView):
     def get_queryset(self):
         slug = self.kwargs['slug']
@@ -58,7 +57,7 @@ class MyShortcutListByCategory(ListView):
             category = None
         else:
             category = Category.objects.get(slug=slug)
-        return MyShortCut.objects.filter(category=category, author=self.request.user).order_by('-created')
+        return MyShortCut.objects.filter(category=category, author=self.request.user).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(type(self), self).get_context_data(**kwargs)
@@ -86,17 +85,15 @@ def delete_shortcut_ajax(request,id):
     else:
         return redirect('/todo')
 
-
-# Create your views here.
 class MyShortCutListView(LoginRequiredMixin,ListView):
     model = MyShortCut
     paginate_by = 20
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
-            return MyShortCut.objects.filter(author=self.request.user).order_by('-created')
+            return MyShortCut.objects.filter(author=self.request.user).order_by('created')
         else:
-            return MyShortCut.objects.filter(Q(author=self.request.user)).order_by('-created')
+            return MyShortCut.objects.filter(Q(author=self.request.user, category = 1)).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
             context = super(MyShortCutListView, self).get_context_data(**kwargs)

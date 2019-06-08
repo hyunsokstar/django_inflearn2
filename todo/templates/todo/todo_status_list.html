@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {%block title %}todo list{% endblock %}
 
-{%block content %}
+{%block content4 %}
 
 <div class="jumbotron">
   <h1>status 현황</h1>
@@ -33,8 +33,15 @@
             <td colspan="">
                 <h4>{{p.username}}</h4>
             </td>
-            <td>{{p.profile.uncompletecount}}</td>
-            <td>{{p.profile.completecount}}</td>
+            <td>
+                <a href="/todo/todolist/uncomplete/{{p.username}}">
+                    {{p.profile.uncompletecount}}
+                </a>
+            </td>
+            <td>
+                <a href="/todo/todolist/complete/{{p.username}}">
+                    {{p.profile.completecount}}</td>
+                </a>
             <td>{{p.profile.reputation}}</td>
 
         </tr>
