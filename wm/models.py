@@ -30,11 +30,3 @@ class MyShortCut(models.Model):
     author = models.ForeignKey(User, on_delete=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
     type= models.ForeignKey(Type, on_delete=models.CASCADE)
-
-# class MyCategoryName(models.Model):
-#     category1 = models.CharField(max_length=40)
-#     category2 = models.CharField(max_length=40)
-#     category3 = models.CharField(max_length=40)
-#     category4 = models.CharField(max_length=40)
-#     category5 = models.CharField(max_length=40)
-#     author = models.ForeignKey(User, on_delete=True)

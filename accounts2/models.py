@@ -9,3 +9,5 @@ class Profile(models.Model):
     completecount = models.IntegerField(default=0)
     uncompletecount = models.IntegerField(default=0)
     reputation = models.IntegerField(default=0)
+    shortcut_user_id = models.CharField(default="me", max_length=40)
+    selected_category_id = models.IntegerField(default=1, blank=True)

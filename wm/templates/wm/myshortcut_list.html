@@ -4,8 +4,10 @@
 {%block content2 %}
 
 <div class="jumbotron">
-    <h1>my_shortcut_list</h1>
-    <a href="/wm/myshortcut/category/_none/" class="btn btn-outline-info">카테고리 이름 수정</a>
+    <h2>shorcut list by {{request.user.profile.shortcut_user_id}}</h2>
+    <input type="text" name="" value="{{request.user.profile.shortcut_user_id}}">
+    <button type="button" name="button">수정</button>
+
 </div>
 
 {% if messages %}
@@ -16,13 +18,23 @@
 </div>
 {% endif %}
 
-<a href="/wm/myshortcut/category/_none/" class="btn btn-outline-info">미분류 ({{ posts_without_category }})
+<a href="/wm/myshortcut/category/_none/" class="btn btn-outline-info">미분류 ({{ posts_without_category }})</a>
+<table width="100%">
+    <tr>
+        <td>
 
-</a>
-{% for category in category_list %}
-    <a class="btn btn-outline-info btn-sm" href="{{category.get_absolute_url}}">{{ category.name }} </a>
+            {% for category in category_list %}
+                {% ifequal category.id request.user.profile.selected_category_id %}
+                    <a style="background-color:yellow" class="btn btn-outline-info btn-sm" href="{{category.get_absolute_url}}">{{ category.name }} </a>
+                {% else %}
+                    <a class="btn btn-outline-info btn-sm" href="{{category.get_absolute_url}}">{{ category.name }} </a>
+                {% endifequal %}
 
-{% endfor %}
+            {% endfor %}
+
+        </td>
+    </tr>
+</table>
 
 <a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-warning float-right">입력(input)</a>
 <a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-danger float-right">입력(textarea)</a>
@@ -51,7 +63,7 @@
                     {{ forloop.counter }}
                 </td>
                 <td>
-                    {{p.title}}
+                    {{p.title}} , {{p.author}}
                     {% if p.author == request.user %}
                         <button class="badge badge-pill badge-primary short_delete_button" id="{{p.id}}">삭제</button>
                     {% endif %}
