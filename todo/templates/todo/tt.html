@@ -1,11 +1,234 @@
-{% extends "todo/layout.html" %}
+{% extends "layout.html" %}
+{%block title %}todo list{% endblock %}
 
-{%block title %}todo template test{% endblock %}
+{%block content2 %}
 
-{% block content %}
+<div class="jumbotron">
+    <h2>shorcut list by {{request.user.profile.shortcut_user_id}}</h2>
+    <input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id">
+    <button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">수정</button>
+</div>
+
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+     {{ message.message }}<strong>{{ message.tags }}</strong>
+     {% endfor %}
+</div>
+{% endif %}
+
+<a href="/wm/myshortcut/category/_none/" class="btn btn-outline-info">미분류 ({{ posts_without_category }})</a>
+<table width="100%">
+    <tr>
+        <td>
+            {% for category in category_list %}
+                {% ifequal category.id request.user.profile.selected_category_id %}
+                    <a style="background-color:yellow" class="btn btn-outline-info btn-sm ca-btn-selected" href="{{category.get_absolute_url}}">{{ category.name }} </a>
+                {% else %}
+                    <a class="btn btn-outline-info btn-sm ca-btn-{{category.id}} ca-btn" id={{category.id}} href="{{category.get_absolute_url}}">{{ category.name }} </a>
+                {% endifequal %}
+
+            {% endfor %}
+
+        </td>
+    </tr>
+</table>
+
+<a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-warning float-right">입력(input)</a>
+<a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-danger float-right">입력(textarea)</a>
+<a href="{% url "wm:insert_myshortcut_input_title" %}" class="btn btn-outline-danger float-right">입력(title)</a>
+
+<br><br>
+
+{% if category %}
+    <h2 class="text-muted"> category: {{ category }} </h2>
+{% endif %}
+
+<table class="table table-bordered" id="todo_list" width="100%">
+    <tr>
+        <td>check</td>
+        <td>index</td>
+        <td>title</td>
+        <td>shortcut</td>
+    </tr>
+
+    {% if object_list.exists %}
+        {% for p in object_list %}
+            <tr id="shortcut_{{p.id}}">
+                <td>
+                    <input type="checkbox" id="{{p.pk}}" class="td_check">
+                </td>
+                <td>
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                    {{p.title}}
+                    {% if p.author == request.user %}
+                        <button class="badge badge-pill badge-primary short_delete_button" id="{{p.id}}">삭제</button>
+                    {% endif %}
 
 
+                </td>
+                <td>
+                    {% ifequal p.type.type_name "input" %}
+                        <input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
+                        <button class="btn btn-outline-primary btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
+                        <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}" >edit_complete</button>
+                     {% endifequal %}
 
+                     {% ifequal p.type.type_name "textarea" %}
+                        <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" >{{p.content2 }}</textarea><br>
+                        <button class="btn btn-outline-primary btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
+                        <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="{{p.id}}" >edit_complete</button>
+                    {% endifequal %}
+
+                    {% ifequal p.type.type_name "input_title" %}
+                    <div class="input_title" style="border:2px solid black; color:black" >
+                        <input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
+                        <button class="btn btn-outline-primary btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
+                        <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}" >edit_complete</button>
+                    </div>
+                     {% endifequal %}
+
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">
+                <h4>there is no article</h4>
+            </td>
+        </tr>
+    {% endif %}
+</table>
 
 
 {% endblock %}
+
+<script type="text/javascript">
+{% block extra_js %}
+
+// $(document).ready(function (){
+//
+// })
+
+$('.ca-btn').click(function(e){
+    // const id = this.id
+    // alert("id : "+ id)
+    // $(".ca-btn-selected").css("background-color", "white");
+    // $(".ca-btn-selected").text("color");
+    // $(".ca-btn-"+id).css("background-color", "yellow");
+    // alert("수정 : "+ id)
+})
+
+$('.update_shortcut_user_id').click(function(e){
+    e.preventDefault();
+    const id = this.id
+    const user_id = $("#shortcut_user_id").val()
+
+    // const id = $("")
+    alert("유저 수정 클릭 ")
+    // alert("user_id : "+ user_id)
+
+    window.history.pushState("", "", '/wm/')
+
+    $.ajax({
+      type: "POST",
+      url: 'update/shortcut_id_ajax/'+id,
+      data: {
+          'user_id':user_id,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            // alert('update for user shortcut id is success ');
+            console.log("result : ", result);
+            alert("result.message : " , result.message)
+            window.history.pushState("", "", '/wm/myshortcut/')
+
+            // jQuery('input:checkbox:checked').parents("tr").remove();
+        }
+    });
+})
+
+
+$(".shortcut_edit_button1").click(function(e) {
+    e.preventDefault();
+    var id = $(this).attr("id");
+    const content1 = $("#select-input-"+id).val();
+
+    $.ajax({
+      type: "POST",
+      url: '/wm/myshortcut/update_shortcut1_ajax/'+id,
+      data: {
+          id:id,
+          content1:content1,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert("modify is completted")
+        }
+    });
+});
+
+$(".shortcut_edit_button2").click(function(e) {
+    e.preventDefault();
+    var id = $(this).attr("id");
+    // alert("id : " + id)
+    var content2 = $("#select-textarea-"+id).val();
+    // alert("content2_update : " , content2)
+
+    // var content2 = content2_update
+    // alert("content2 : "+ content2)
+
+    $.ajax({
+      type: "POST",
+      url: '/wm/myshortcut/update_shortcut2_ajax/'+id,
+      data: {
+          id:id,
+          content2:content2,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert("modify is completted")
+        }
+    });
+});
+
+$(".copy_code1").click(function(e){
+    e.preventDefault();
+
+    var id = this.id
+    // alert(id)
+    document.execCommand('copy', false, $(this).parent().find('#select-input-'+id).select());
+    alert("copy is completed")
+});
+
+$(".copy_code2").click(function(e){
+    e.preventDefault();
+    var id = this.id
+    // alert(id)
+    document.execCommand('copy', false, $(this).parent().find('#select-textarea-'+id).select());
+    alert("copy is completed")
+});
+
+// 댓글 삭제 버튼
+$(".short_delete_button").click(function(e) {
+    e.preventDefault();
+    var id = $(this).attr("id");
+
+    $.ajax({
+      type: "POST",
+      url: '/wm/myshortcut/delete_shortcut_ajax/'+id,
+      data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            $("#shortcut_"+id ).remove();
+            alert('comment 삭제 complete ');
+        }
+    });
+});
+
+
+{% endblock %}
+</script>

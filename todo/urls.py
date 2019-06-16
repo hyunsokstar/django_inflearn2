@@ -18,7 +18,8 @@ urlpatterns = [
 
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),
 
-    path('<int:pk>/new_comment/', views.new_comment),
+    path('<int:pk>/new_comment/summer_note', views.new_comment_summer_note),
+    path('<int:pk>/new_comment/text_area', views.new_comment_text_area),
 
     # todo 댓글 수정 뷰
     path('edit_comment/<int:pk>/', views.CommentUpdate.as_view(), name="edit_url"),
@@ -32,6 +33,17 @@ urlpatterns = [
     path('<int:id>/todo_help_cancle/', views.todo_help_cancle, name="todo_help_cancle"),
 
     path('category/<str:slug>/', views.TodoListByCategory.as_view() , name="total_ucomplete_todo_list"),
+
+    # 관리자만 할일 리스트를 출력하고 입력하는 페이지를 따로 만들자
+    # 관리자가 아니면 이페이지에 접근 불가
+    # 현재 로그인 유저(관리자)가 입력한 리스트만 출력
+    # 추가 기능
+    # 1.(유저 리스트 출력, 클릭시 할일 목록 바로 가기,)
+    # 2.할일 분배하기 기능
+    # 3.할일에 대해 user들에게 메세지 알림 기능
+    # todolist by admin
+    path('todolist/admin/', views.TodoListByAdmin.as_view() , name="todo_list_by_admin"),
+    path('todolist/admin/insert_popup/<str:user_name>', views.isnert_todo_popup_by_admin , name="isnert_todo_popup_by_admin"),
 
     path('todolist/complete/me/', views.TodoCompleteListByMe.as_view() , name="todo_complete_list_byme"),
     path('todolist/complete/me/todo_delete_ajax/', views.todo_delete_ajax , name="todo_delete_ajax"),

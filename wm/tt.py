@@ -18,7 +18,7 @@ from .models import MyShortCut
 class MyShortCutForm_input(forms.ModelForm):
     class Meta:
         model = MyShortCut
-        fields = ['title', 'content1', 'category']
+        fields = ['title', 'content1']
 
 # class MyShortCutCreateView_input(LoginRequiredMixin,CreateView):
 #     model = MyShortCut

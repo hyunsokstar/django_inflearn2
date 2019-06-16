@@ -1,88 +1,26 @@
 {% extends "todo/layout.html" %}
-{%block title %}Blog{% endblock %}
+{%block title %}todo{% endblock %}
 {%block content %}
 
 <br>
-<h2>할일 검색 결과 : {{search_word}}</h2>
-
-{% if object_list.exists%}
-{% for p in object_list %}
-
+<h2>할일 검색 결과 1122 : {{search_word}}</h2>
 <table class="table table-bordered">
+{% for p in object_list %}
     <tr>
-        <td style="width: 20%">작성자</td>
         <td>{{p.author}}</td>
-    </tr>
-    <tr>
-        <td style="width: 20%">title</td>
-        <td>{{p.title}}</td>
-    </tr>
-    <tr>
-        <td style="width: 20%">content</td>
-        <td>{{p.content}}</td>
-    </tr>
-    <tr>
-        <td style="width: 20%">note</td>
         <td>
-            <!-- <button class="btn btn-outline-info" onclick="location.href='{{p.note}}'">Note 정리</button> -->
-            <a href="https://{{p.note}}">note</a>
+            <a href="" id={{p.id}} class="title_for_list">
+                {{p.title}}
+            </a>
         </td>
-    </tr>
-    <tr>
-        <td>시작 시간</td>
-        <td>{{p.created}}</td>
-    </tr>
-    <tr>
-        <td>경과 시간</td>
         <td>{{p.now_diff}}</td>
     </tr>
-    <tr>
-        <td colspan="2">
-
-            {% if request.user == p.author %}
-                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
-    				<a
-    				href="{% url "todo:todo_complete" p.id %}"
-                    class=""
-                    data-target-id=""
-                    data-message=""
-                    >
-                        완료
-                    </a>
-                </button>
-
-                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
-    				<a
-    				href="{% url "todo:todo_delete" p.pk %}"
-                    class=""
-                    data-target-id=""
-                    data-message=""
-                    >
-                        삭제
-                    </a>
-                </button>
-
-                <button type="button" class="btn btn btn-outline-danger btn-sm float-right" onclick="updateTodo(this.id)">
-    				<a
-    				href="{% url "todo:todo_edit" p.id %}"
-                    class=""
-                    data-target-id=""
-                    data-message=""
-                    >
-                        수정
-                    </a>
-                </button>
-
-            {% endif %}
-
-        </td>
-    </tr>
-
-</table>
 {% endfor %}
+</table>
+
+
 
 <hr>
-
 {% if is_paginated %}
     <!-- Pagination -->
     <ul class="pagination justify-content-center mb-4">
@@ -111,38 +49,42 @@
 <hr>
 
 <!-- Modal -->
-<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
+<button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
+    todo detail modal
+</button>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
 
-{% else %}
-<h4>아직 게시물이 없습니다.</h4>
-{% endif %}
+</div>
 
 
 <script type="text/javascript">
     // modal 이벤트 : 상세 보기
-    $(document).on('click', '.recommand_button', function (e) {
+    {% block extra_js %}
+    $(".title_for_list").click(function(e){
         e.preventDefault();
-        var href = $(this).attr("href");
-		alert(href);
+        id = $(this).attr('id');
+        alert("id : " +id)
+
+        window.history.pushState("", "", '/todo/')
+
+        $.get(id)
+        .done((html) => {
+            console.log("html : ", html);
+            $('#myModal_button').hide();
+            $("#myModal").html(html)
+            $( "#myModal_button" ).trigger("click");
+            // $( "#myModal_button3" ).trigger("click");
+        })
+        .fail(() => {
+            console.log("fail");
+        })
+        .always(() => {
+            console.log('always');
+        })
+    });
+    {% endblock %}
+
 </script>
 
 

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% load thumbnail %}
+
+{%block title %}메뉴얼 상세{% endblock %}
+
+{% block content2 %}
+
+<br>
+<br>
+
+<table class="table table-bordered">
+    <tr>
+        <td>제목</td>
+        <td>{{object.title}}</td>
+    </tr>
+    <tr>
+        <td>url</td>
+        <td>{{object.url}}</td>
+    </tr>
+    <tr bgcolor=skyblue>
+        <td>포토</td>
+        <td >
+            {% if object.photo %}
+                <img src="{{ object.photo.url }}" alt="" >12
+                <!-- <img src ="{% thumbnail object.photo 1000x600 crop %}" />12 -->
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>내용</td>
+        <td>
+            {{object.content | safe }}
+        </td>
+    </tr>
+</table>
+
+{% endblock %}

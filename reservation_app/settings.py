@@ -14,7 +14,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['167.179.89.223', '127.0.0.1', 'terecal-hyun.co.kr','www.terecal-hyun.co.kr']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +36,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'challenge',
+    'pm',
+    'imagekit',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [

@@ -4,9 +4,11 @@
 {%block content2 %}
 
 <div class="jumbotron">
+
     <h2>shorcut list by {{request.user.profile.shortcut_user_id}}</h2>
-    <input type="text" name="" value="{{request.user.profile.shortcut_user_id}}">
-    <button type="button" name="button">수정</button>
+    <input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id">
+    <button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">수정</button>
+    <button type="button" class="category_name_list_button" id="{{request.user.id}}">목록</button>
 
 </div>
 
@@ -18,16 +20,14 @@
 </div>
 {% endif %}
 
-<a href="/wm/myshortcut/category/_none/" class="btn btn-outline-info">미분류 ({{ posts_without_category }})</a>
 <table width="100%">
     <tr>
         <td>
-
             {% for category in category_list %}
                 {% ifequal category.id request.user.profile.selected_category_id %}
-                    <a style="background-color:yellow" class="btn btn-outline-info btn-sm" href="{{category.get_absolute_url}}">{{ category.name }} </a>
+                    <a style="background-color:yellow" class="btn btn-outline-info btn-sm ca-btn-selected" href="{{category.get_absolute_url}}">{{ category.name }} </a>
                 {% else %}
-                    <a class="btn btn-outline-info btn-sm" href="{{category.get_absolute_url}}">{{ category.name }} </a>
+                    <a class="btn btn-outline-info btn-sm ca-btn-{{category.id}} ca-btn" id={{category.id}} href="{{category.get_absolute_url}}">{{ category.name }} </a>
                 {% endifequal %}
 
             {% endfor %}
@@ -36,8 +36,10 @@
     </tr>
 </table>
 
-<a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-warning float-right">입력(input)</a>
-<a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-danger float-right">입력(textarea)</a>
+<a href="{% url "wm:insert_myshortcut_textarea_summer_note" %}" class="btn btn-outline-success float-right">입력(summernote)</a>
+<a href="{% url "wm:insert_myshortcut_input_title" %}" class="btn btn-outline-success float-right">입력(title)</a>
+<a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-success float-right">입력(textarea)</a>
+<a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-success float-right">입력(input)</a>
 
 <br><br>
 
@@ -45,61 +47,192 @@
     <h2 class="text-muted"> category: {{ category }} </h2>
 {% endif %}
 
-<table class="table table-bordered" id="todo_list">
-    <tr>
-        <td>check</td>
-        <td>index</td>
-        <td>title</td>
-        <td>shortcut</td>
-    </tr>
-
     {% if object_list.exists %}
         {% for p in object_list %}
+        <table class="table table-bordered" id="todo_list" width="100%">
+
+            {% ifequal p.type.type_name "input" %}
             <tr id="shortcut_{{p.id}}">
                 <td>
                     <input type="checkbox" id="{{p.pk}}" class="td_check">
-                </td>
-                <td>
                     {{ forloop.counter }}
                 </td>
                 <td>
-                    {{p.title}} , {{p.author}}
+                    {{p.title}}
                     {% if p.author == request.user %}
-                        <button class="badge badge-pill badge-primary short_delete_button" id="{{p.id}}">삭제</button>
+                    <button class="badge badge-pill badge-primary short_delete_button" id="{{p.id}}">삭제</button>
                     {% endif %}
-
-
-                </td>
-                <td>
-                    {% ifequal p.type.type_name "input" %}
-                        <input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
-                        <button class="btn btn-outline-primary btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
-                        <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}" >edit_complete</button>
-
-                     {% else %}
-                        <textarea id="select-textarea-{{p.id}}" cols="120" rows="10">{{p.content2 }} </textarea><br>
-                        <button class="btn btn-outline-primary btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
-                        <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="{{p.id}}" >edit_complete</button>
-
-                     {% endifequal %}
-
                 </td>
             </tr>
+
+            <tr id="shortcut_{{p.id}}-2">
+                <td colspan="2">
+                    <input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
+                    <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
+                    <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}" >edit_complete</button>
+            </tr>
+            {% endifequal %}
+
+            {% ifequal p.type.type_name "textarea" %}
+            <tr id="shortcut_{{p.id}}">
+                <td>
+                    <input type="checkbox" id="{{p.pk}}" class="td_check">
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                    {{p.title}}
+                    {% if p.author == request.user %}
+                    <button class="badge badge-pill badge-primary short_delete_button" id="{{p.id}}">삭제</button>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr id="shortcut_{{p.id}}-2">
+                <td colspan="2">
+                <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" >{{p.content2 }}</textarea><br>
+                <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
+                <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="{{p.id}}" >edit_complete</button>
+                </td>
+            </tr>
+            {% endifequal %}
+
+            {% ifequal p.type.type_name "summer_note" %}
+            <tr id="shortcut_{{p.id}}">
+                <td>
+                    <input type="checkbox" id="{{p.pk}}" class="td_check">
+                    {{ forloop.counter }}
+                </td>
+                <td>
+
+                    {{p.title}}
+                    {% if p.author == request.user %}
+                    <button class="badge badge-pill badge-primary short_delete_button" id="{{p.id}}">삭제</button>
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr id="shortcut_{{p.id}}-2">
+                <td colspan="2">
+                <div id="select-textarea-{{p.id}}">{{p.content2 | safe}}</textarea></div>
+                <br>
+                <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
+                <a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+                </td>
+            </tr>
+            {% endifequal %}
+
+            {% ifequal p.type.type_name "input_title" %}
+            <tr style="background-color:skyblue; border:2px solid black" id="shortcut_{{p.id}}">
+                <td>
+                    <input type="checkbox" id="{{p.pk}}" class="td_check">
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                    제목 : {{p.title}}
+                    {% if p.author == request.user %}
+                    <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr id="shortcut_{{p.id}}-2">
+                <td colspan="2">
+                <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" >{{p.content2 }}</textarea><br>
+                <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
+                <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="{{p.id}}" >edit_complete</button>
+                </td>
+            </tr>
+            {% endifequal %}
+        </table>
+        <br>
         {% endfor %}
     {% else %}
+    <table class="table table-bordered">
         <tr>
-            <td colspan="4">
+            <td colspan="4" background-color="skyblue">
                 <h4>there is no article</h4>
             </td>
         </tr>
+    </table>
     {% endif %}
-</table>
 
+
+<!-- modal area -->
+
+<!-- category list modal  -->
+  <div class="modal fade" id="CategoryModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Header</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body category_nick_area">
+          <!-- 2244 -->
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 {% endblock %}
 
 <script type="text/javascript">
 {% block extra_js %}
+
+$('.category_name_list_button').click(function(e){
+    const user_name =  $("#shortcut_user_id").val();
+    const url = '/wm/myshorcut/nicklist/'+user_name
+
+    $.get(url)
+        .done((result) => {
+            console.log("result : " , result);
+            $(".category_nick_area").html(result)
+            $("#CategoryModal").modal();
+        })
+        .fail(() => {
+            console.log("fail");
+        })
+        .always(() => {
+            console.log('always');
+        })
+})
+
+$('.update_shortcut_user_id').click(function(e){
+    e.preventDefault();
+    const id = this.id
+    const user_id = $("#shortcut_user_id").val()
+
+
+    // const id = $("")
+    alert("유저 수정 클릭 ")
+    // alert("user_id : "+ user_id)
+
+    window.history.pushState("", "", '/wm/')
+
+    $.ajax({
+      type: "POST",
+      url: 'update/shortcut_id_ajax/'+id,
+      data: {
+          'user_id':user_id,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            // alert('update for user shortcut id is success ');
+            console.log("result : ", result);
+            alert("result.message : " , result.message)
+            window.history.pushState("", "", '/wm/myshortcut/')
+
+            // jQuery('input:checkbox:checked').parents("tr").remove();
+        }
+    });
+})
+
 
 $(".shortcut_edit_button1").click(function(e) {
     e.preventDefault();
@@ -123,11 +256,16 @@ $(".shortcut_edit_button1").click(function(e) {
 $(".shortcut_edit_button2").click(function(e) {
     e.preventDefault();
     var id = $(this).attr("id");
+    // alert("id : " + id)
     var content2 = $("#select-textarea-"+id).val();
+    // alert("content2_update : " , content2)
+
+    // var content2 = content2_update
+    // alert("content2 : "+ content2)
 
     $.ajax({
       type: "POST",
-      url: '/wm/myshortcut/update_shortcut1_ajax/'+id,
+      url: '/wm/myshortcut/update_shortcut2_ajax/'+id,
       data: {
           id:id,
           content2:content2,
@@ -138,7 +276,6 @@ $(".shortcut_edit_button2").click(function(e) {
         }
     });
 });
-
 
 $(".copy_code1").click(function(e){
     e.preventDefault();
@@ -170,6 +307,7 @@ $(".short_delete_button").click(function(e) {
       },
         success: function(result) {
             $("#shortcut_"+id ).remove();
+            $("#shortcut_"+id+"-2" ).remove();
             alert('comment 삭제 complete ');
         }
     });

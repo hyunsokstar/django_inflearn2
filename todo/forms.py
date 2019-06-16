@@ -29,5 +29,9 @@ class CommentForm(forms.ModelForm):
 
         widgets = {
             'text': SummernoteWidget(),
-            'bar': SummernoteInplaceWidget(),
         }
+
+class CommentForm_TextArea(forms.ModelForm):
+    class Meta:
+        model = CommentForTodo
+        fields = ('title','file_name','text')

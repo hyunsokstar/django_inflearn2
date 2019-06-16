@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from . models import Todo, CommentForTodo, Category, Classification
+from . models import Todo, CommentForTodo, Category, Classification, TodoType
+
+@admin.register(TodoType)
+class TodoTypeAdmin(admin.ModelAdmin):
+    list_display=['type_name']
 
 @admin.register(Classification)
 class ClassificationAdmin(admin.ModelAdmin):

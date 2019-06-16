@@ -13,6 +13,7 @@ from .forms import BestLecForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+
 class FinisherDeleteView(DeleteView):
     model = Finisher
     success_url = reverse_lazy('bestlec:best20_list')
@@ -68,7 +69,6 @@ class FinisherCreateView(CreateView):
         id = self.kwargs['bl_pk']
         return reverse('bestlec:FinisherList', args=[self.kwargs['bl_pk']])
 
-
 # FinisherList
 def FinisherList(request, id):
     fl = Finisher.objects.filter(Q(bestlec=id))
@@ -79,14 +79,9 @@ def FinisherList(request, id):
         'fn_id':id
     })
 
-
 # BestLecDetail
 class BestLecDetail(DetailView):
     model = Best20
-    # def get_template_names(self):
-    #     if self.request.is_ajax():
-    #         return ['todo/_todo_detail.html']
-    #     return ['todo/todo_detail.html']
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(todoDetail, self).get_context_data(**kwargs)
@@ -114,7 +109,6 @@ def grade_plus(request, id):
     print('grade +1 success')
     return redirect('/bestlec')
 
-# 2244
 class Best20List(LoginRequiredMixin,ListView):
     model = Best20
     paginate_by = 20

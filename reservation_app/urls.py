@@ -16,7 +16,7 @@ urlpatterns = [
     path('management/', include('management.urls')),
     path('wm/', include('wm.urls')),
     path('challenge/', include('challenge.urls')),
-
+    path('pm/', include('pm.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

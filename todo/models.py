@@ -30,6 +30,12 @@ class Category(models.Model):
     def get_absolute_url(self):
         return '/todo/category/{}/'.format(self.slug)
 
+class TodoType(models.Model):
+    type_name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.type_name
+
 class Todo(models.Model):
     title = models.CharField(max_length=50)
     content = MarkdownxField()
@@ -40,6 +46,8 @@ class Todo(models.Model):
     classification = models.ForeignKey(Classification, blank=True, null=True, on_delete=models.SET_NULL)
     completion = models.CharField(max_length=10, default='uncomplete')
     importance = models.IntegerField(default=1)
+    dead_line = models.DateTimeField(auto_now=True)
+    type= models.ForeignKey(TodoType, on_delete=models.CASCADE, default=2)
 
     def __str__(self):
         return self.title
@@ -60,8 +68,10 @@ class CommentForTodo(models.Model):
     file_name = models.CharField(max_length= 30)
     text = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    type= models.ForeignKey(TodoType, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+    user_type = models.IntegerField(blank=True,default=1)
 
     def get_markdown_content(self):
         return markdown(self.text)

@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Best20, Finisher, RecommandBest20
 from django.db import models
+
+from .models import Best20, Finisher, RecommandBest20
 
 @admin.register(Finisher)
 class FinisherAdmin(admin.ModelAdmin):

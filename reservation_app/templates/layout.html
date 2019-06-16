@@ -38,18 +38,14 @@
                         <a class="dropdown-item" href="{% url "todo:todo_list" %}">할 일</a>
                         <a class="dropdown-item" href="{% url "todo:todo_complete_list_byme" %}">완 료</a>
                         <a class="dropdown-item" href="{% url "todo:todo_status_list" %}">todo 현황</a>
-                        <a class="dropdown-item" href="/todo/category/_none">todo 관리자</a>
+                        <a class="dropdown-item" href="{% url "todo:todo_list_by_admin" %}">todo 관리 (작업중)</a>
                     </div>
                 </li>
             </ul>
 
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">WM<span class="caret"></span></a>
-                    <div class="dropdown-menu" aria-labelledby="download">
-                        <!-- <a class="dropdown-item" href="{% url "wm:my_shortcut_list" %}">doing(작업중)</a> -->
-                        <a class="dropdown-item" href="{% url "wm:my_shortcut_list" %}">shortcut</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "wm:my_shortcut_list" %}">Memo(wm)</a>
                 </li>
             </ul>
 
@@ -71,10 +67,15 @@
                 </li>
             </ul>
 
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "management:suggestion_list" %}">Suggestion</a>
+                </li>
+            </ul>
 
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "management:suggestion_list" %}">건의 사항</a>
+                    <a class="nav-link" href="{% url "pm:manual_list" %}">Manual</a>
                 </li>
             </ul>
 

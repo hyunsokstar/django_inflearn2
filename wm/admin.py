@@ -1,10 +1,14 @@
 from django.contrib import admin
-from . models import MyShortCut, Type, Category
+from . models import MyShortCut, Type, Category,CategoryNick
 
 # Register your models here.
 @admin.register(MyShortCut)
 class MyShortCutAdmin(admin.ModelAdmin):
     list_display=['id','title','content1','content2','created','author','type']
+
+@admin.register(CategoryNick)
+class CategoryNickAdmin(admin.ModelAdmin):
+    list_display=['id','ca_subtitle']
 
 @admin.register(Type)
 class TypeAdmin(admin.ModelAdmin):

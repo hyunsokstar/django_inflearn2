@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.db.models import F
 from django.db.models import Q
 
-from . forms import CommentForm
+from . forms import CommentForm, CommentForm_TextArea
 
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
@@ -17,11 +17,31 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Todo, CommentForTodo, Category
+from .models import Todo, CommentForTodo, Category, TodoType
 from django.contrib.auth.models import User
-
-# add your function
+from django.contrib.auth.decorators import user_passes_test
 # 1122
+
+def isnert_todo_popup_by_admin(request,user_name):
+    print("isnert_todo_popup_by_admin 호출")
+
+
+
+    return render(request, 'todo/insert_todo_by_admin.html', {
+        'foo': 'bar',
+    })
+
+
+class TodoListByAdmin(LoginRequiredMixin,ListView):
+    model = Todo
+    paginate_by = 20
+
+    def get_queryset(self):
+        return Todo.objects.filter(Q(elapsed_time__isnull=False) & Q(author = self.request.user)).order_by('-created')
+
+    def get_template_names(self):
+        print("admin page를 출력")
+        return ['todo/todo_list_by_admin.html']
 
 class CompleteTodoListByUserId(ListView):
     def get_queryset(self):
@@ -113,12 +133,11 @@ def FinisherList(request, id):
 
 
 def todo_new_admin(request):
-
     if request.user.is_superuser:
         print("관리자는 입력할 수 있습니다.")
     else:
         messages.success(request,'관리자가 아니면 입력할 수 없습니다.')
-        return redirect('/todo/')
+        return redirect('/todo/category/_none')
 
     if request.method=="POST":
         form = TodoAdminForm(request.POST, request.FILES)
@@ -345,16 +364,64 @@ class CommentUpdate(UpdateView):
             raise PermissionError('Comment 수정 권한이 없습니다.')
         return comment
 
-def new_comment(request, pk):
+def new_comment_summer_note(request, pk):
     print("댓글 입력 함수 기반뷰 실행")
     todo = Todo.objects.get(pk=pk)
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
+
+        ty = TodoType.objects.get(type_name="summer_note")
+
+
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.todo = todo
             comment.author = request.user
+            if comment.author == request.user:
+                comment.user_type = 1
+            else:
+                comment.user_type = 2
+            comment.type= ty
+            comment.save()
+
+            if request.is_ajax():
+                return JsonResponse({
+                    'author': comment.author.username,
+                    'title': comment.title,
+                    'file_name': comment.file_name,
+                    'text':comment.text,
+                    'created_at':comment.created_at,
+                    'edit_id':pk,
+                    'delete_id':pk
+                })
+            return redirect(comment.get_absolute_url())
+
+        else:
+            return JsonResponse(comment_form.errors,is_success=False)
+    else:
+        return redirect('/todo/')
+
+def new_comment_text_area(request, pk):
+    print("댓글 입력 함수 기반뷰 실행")
+    todo = Todo.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+
+        ty = TodoType.objects.get(type_name="text_area")
+
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.todo = todo
+            comment.author = request.user
+
+            if comment.author == request.user:
+                comment.user_type = 1
+            else:
+                comment.user_type = 2
+
+            comment.type= ty
             comment.save()
 
             if request.is_ajax():
@@ -388,6 +455,8 @@ class todoDetail(DetailView):
         context['comments_list_commenter'] = CommentForTodo.objects.filter(Q(todo=self.object.pk) & ~Q(author=self.request.user))
         context['detail_id'] = self.object.pk
         context['comment_form'] = CommentForm()
+        context['comment_form_text_area'] = CommentForm_TextArea()
+
         return context
 
 
@@ -420,7 +489,7 @@ class TodoList_by_card(ListView):
     paginate_by = 2
 
     def get_template_names(self):
-        return ['todo/todo_list_by_card.html']
+        return ['todo/todo_list_search.html']
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
@@ -428,16 +497,16 @@ class TodoList_by_card(ListView):
             return Todo.objects.all().order_by('-created')
         else:
             print("user : ", self.request.user)
-            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time="")).order_by('-created')
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time !=None)).order_by('-created')
 
 class TodoSearch(ListView):
     def get_template_names(self):
         return ['todo/todo_list_search.html']
-
+    # Q(elapsed_time = None)
     def get_queryset(self):
         print("실행 확인")
         q = self.kwargs['q']
-        object_list = Todo.objects.filter(Q(title__contains=q) | Q(content__contains=q) & ~Q(elapsed_time="")).order_by('-created')
+        object_list = Todo.objects.filter(Q(title__contains=q) & Q(elapsed_time__isnull=False) ).order_by('-created')
         print("result : ", object_list)
         return object_list
 
@@ -449,7 +518,7 @@ class TodoSearch(ListView):
 def todo_complete(request, id):
     if request.user.is_authenticated:
         todo = get_object_or_404(Todo, id=id)
-        now_diff = todo.now_diff
+        now_diff = todo.now_diff()
         print("now_diff : ", now_diff)
         Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff)
         Todo.objects.filter(Q(id=id)).update(category = None)
@@ -491,6 +560,7 @@ def todo_delete(request, pk):
 def todo_new(request):
     if request.method=="POST":
         form = TodoForm(request.POST, request.FILES)
+
         if form.is_valid():
             todo = form.save(commit=False)
             todo.author = request.user
