@@ -5,10 +5,10 @@ from django.contrib.admin import widgets
 
 
 class ManualForm(forms.ModelForm):
-    deadline = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime)
+    # deadline = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime)
     class Meta:
         model = Manual
-        fields = ['title', 'content', 'url']
+        fields = ['title', 'content']
 
         widgets = {
             'content': SummernoteWidget(),

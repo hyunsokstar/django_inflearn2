@@ -5,9 +5,10 @@ from .models import Todo, CommentForTodo
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from django.contrib.admin import widgets
 
+import datetime
 
 class TodoForm(forms.ModelForm):
-    dead_line = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime)
+    dead_line = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime, initial=datetime.datetime.now())
 
     class Meta:
         model = Todo

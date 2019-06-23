@@ -57,15 +57,23 @@
 
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Study<span class="caret"></span></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Study(B)<span class="caret"></span></a>
                 <div class="dropdown-menu" aria-labelledby="download">
-                    <a class="nav-link" href="{% url "challenge:lec_record_list" 1 %}">we_tube(nomadcoder)</a>
-                    <a class="nav-link" href="{% url "challenge:lec_record_list" 2 %}">django+vue todo앱(inflearn)</a>
-                    <a class="nav-link" href="{% url "challenge:lec_record_list" 3 %}">플루터 기초 강의(inflearn)</a>
-                    <a class="nav-link" href="{% url "challenge:lec_record_list" 4 %}">node + react sns 만들기 (inflearn)</a>
-                    <a class="nav-link" href="{% url "challenge:lec_record_list" 5 %}">python pandas (inflearn)</a>
-                    <a class="nav-link" href="{% url "challenge:lec_record_list" 6 %}">react 기초 velopert (inflearn)</a>
-                    <a class="nav-link" href="{% url "challenge:lec_record_list" 7 %}">vue framework 기초 (inflearn)</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 1 %}">we_tube(nomadcoder)</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 2 %}">django+vue todo앱(inflearn)</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 3 %}">플루터 기초 강의(inflearn)</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 4 %}">node + react sns 만들기 (inflearn)</a>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Study(F)<span class="caret"></span></a>
+                <div class="dropdown-menu" aria-labelledby="download">
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 5 %}">python pandas (inflearn)</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 6 %}">react 기초 velopert (inflearn)</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 7 %}">vue framework 기초 (inflearn)</a>
                 </div>
             </li>
         </ul>
