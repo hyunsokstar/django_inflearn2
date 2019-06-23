@@ -14,15 +14,6 @@ from .forms import ManualForm
 class ManulUpdate(UpdateView):
     model = Manual
     form_class = ManualForm
-    # fields = ['title','url', 'content', 'photo']
-    # form_class = CommentForm
-
-    # def get_object(self, queryset=None):
-    #     manual = super(ManulUpdate, self).get_object()
-    #     if manual.author != self.request.user:
-    #         # raise PermissionError('manual 모델 수정 권한이 없습니다.')
-    #         messages.success(self.request, "삭제 권한이 없습니다.")
-    #     return manual
 
 def delete_manual(request, pk):
     manual = Manual.objects.get(pk=pk)

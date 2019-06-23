@@ -7,7 +7,8 @@
   <p>건의 사항을 적어주세요</p>
 </div>
 
-<a href="/management/suggestion/new/" class="btn btn-danger float-right">입력 </a>
+<a href="/management/suggestion/new/" class="btn btn-outline-info float-right">입력 </a>
+<br><br>
 
 <table class="table table-bordered" id="todo_list">
     <tr>
@@ -31,7 +32,7 @@
                     {% if request.user == p.author %}
                     <a class="badge badge-pill badge-danger btn-sm" href="{% url "management:suggestion_update" p.id %}">수정</a>
                         <a class="badge badge-pill badge-primary btn-sm" href="{% url "management:suggestion_delete" p.id %}">삭제</a>
-                        
+
                     {% endif %}
                 </td>
                 <td>

@@ -13,8 +13,8 @@ class Best20(models.Model):
         return self.title
 
 class Finisher(models.Model):
-    bestlec = models.ForeignKey(Best20, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    bestlec = models.ForeignKey(Best20, on_delete=True)
+    author = models.ForeignKey(User, on_delete=True)
     comment = models.CharField(max_length= 50)
     git_hub = models.CharField(max_length= 80)
     note = models.CharField(max_length= 50)
@@ -25,4 +25,4 @@ class Finisher(models.Model):
 
 class RecommandBest20(models.Model):
     bestlec = models.ForeignKey(Best20, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=True)

@@ -38,8 +38,6 @@ class Best20DeleteView(DeleteView):
 
 best20_delete = Best20DeleteView.as_view()
 
-
-
 def recommand_lecture(request, id):
     recommand_count = RecommandBest20.objects.filter(Q(bestlec=id)).count()
     print("recommand_count : ", recommand_count)

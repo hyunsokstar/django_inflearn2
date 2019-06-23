@@ -1,6 +1,5 @@
 {% load crispy_forms_tags %}
 
-
 <!-- <div class="modal fade" id="myModal"> -->
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -480,6 +479,7 @@ $(document).ready(function(){
         e.preventDefault();
         var id = $(this).attr("id");
         alert('삭제 id : ' + id);
+
         $.ajax({
           type: "POST",
           url: 'delete_comment_ajax/'+id,

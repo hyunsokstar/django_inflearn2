@@ -4,9 +4,10 @@
 
 {% block content %}
 
+<h4 >user: <span class="text-primary">{{ user_name }}</span></h4>
+
 <form method="post" enctype="multipart/form-data">
 	{% csrf_token %}
-
 	{{ form | safe }}
 
 	<button type="submit" class="btn btn-primary float-right">Submit</button>
@@ -14,6 +15,5 @@
 </form>
 
 {{ form.media }}
-
 
 {% endblock %}

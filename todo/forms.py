@@ -3,20 +3,27 @@ from django.core.exceptions import ValidationError
 from .models import Todo, CommentForTodo
 
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from django.contrib.admin import widgets
+
 
 class TodoForm(forms.ModelForm):
+    dead_line = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime)
+
     class Meta:
         model = Todo
-        fields = ['title', 'content','classification']
+
+        fields = ['title', 'content','classification','dead_line']
 
         widgets = {
             'content': SummernoteWidget(),
         }
 
 class TodoAdminForm(forms.ModelForm):
+    dead_line = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime)
+
     class Meta:
         model = Todo
-        fields = ['author','classification','title', 'content']
+        fields = ['classification','title', 'content']
 
         widgets = {
             'content': SummernoteWidget(),

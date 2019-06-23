@@ -208,9 +208,7 @@ $('.update_shortcut_user_id').click(function(e){
     const id = this.id
     const user_id = $("#shortcut_user_id").val()
 
-
-    // const id = $("")
-    alert("유저 수정 클릭 ")
+    alert("유저 수정 클릭 2")
     // alert("user_id : "+ user_id)
 
     window.history.pushState("", "", '/wm/')
@@ -223,12 +221,14 @@ $('.update_shortcut_user_id').click(function(e){
           csrfmiddlewaretoken: '{{ csrf_token }}'
       },
         success: function(result) {
-            // alert('update for user shortcut id is success ');
-            console.log("result : ", result);
-            alert("result.message : " , result.message)
+            alert("result.message : " + result.message)
+            const original_id = result.original_id
+            if(original_id !=""){
+                $("#shortcut_user_id").val(original_id)
+            }
+            // alert(original_id)
+            // alert("id 교체 실행")
             window.history.pushState("", "", '/wm/myshortcut/')
-
-            // jQuery('input:checkbox:checked').parents("tr").remove();
         }
     });
 })

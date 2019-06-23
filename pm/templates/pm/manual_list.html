@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
-{%block title %}manual{% endblock %}
-
+{%block title %}(pm)manual{% endblock %}
+{%block extra_head %}
+{% endblock %}
 {%block content2%}
 
 <div class="jumbotron">
     <h2>site 메뉴얼</h2>
 </div>
+
 
 {% if messages %}
 <div class="alert alert-success">
@@ -40,8 +42,8 @@
                     <a href="{{p.get_absolute_url}}">
                         {{p.title}}
                         {% if p.author == request.user %}
-                            <a href = "{% url "pm:delete_manual" p.id %}" class="btn btn-outline-warning float-right btn-sm">삭제</a>
-                            <a class="badge badge-pill badge-danger btn-sm" href="{% url "pm:edit_manual" p.id %}">수정</a>
+                            <a href = "{% url "pm:delete_manual" p.id %}" class="badge badge-pill badge-info">삭제</a>
+                            <a class="badge badge-pill badge-info" href="{% url "pm:edit_manual" p.id %}">수정</a>
                         {% endif %}
 
                     </a>

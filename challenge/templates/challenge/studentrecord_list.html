@@ -2,41 +2,51 @@
 
 {%block title %}Study Challenge{% endblock %}
 
-{%block content2 %}
+{%block content4 %}
 
-<div class="jumbotron">
-  <h2>Lecture Info</h2>
+<br><br><br><br>
 
-  <table class="table table-bordered">
-      <tr>
-          <td>강의명</td>
-          <td colspan="3">{{LecInfo.lec_name}}</td>
-      </tr>
-      <tr>
-          <td>기간</td>
-          <td>{{LecInfo.deadline}}</td>
-          <td>강사</td>
-          <td>{{LecInfo.teacher}}</td>
-      </tr>
-      <tr>
-          <td>site</td>
-          <td>{{LecInfo.lec_url}}</td>
-          <td>github</td>
-          <td>{{LecInfo.git_url}}</td>
-      </tr>
-      <tr>
-          <td>수강생수</td>
-          <td>{{LecInfo.student_count}}</td>
-          <td>reputation</td>
-          <td>{{LecInfo.rec_reputation}}</td>
-      </tr>
-      <tr>
-          <td>best note</td>
-          <td colspan="3"></td>
-      </tr>
+<h2>공동 study</h2>
+{% if user.is_superuser %}
+ <a href="{% url "challenge:lec_info_update" LecInfo.id LecInfo.id %}" class="btn btn-outline-info float-right">수정</a>
+{% endif %}
+<br><br>
 
-  </table>
-</div>
+
+<table class="table table-bordered">
+  <tr>
+      <td>강의명</td>
+      <td colspan="3">
+          <input type="text" name="" value="{{LecInfo.lec_name}}" class="form-control"><br>
+      </td>
+  </tr>
+  <tr>
+      <td>강사</td>
+      <td>
+          <input type="text" name="" value="{{LecInfo.teacher}}" class="form-control">
+      </td>
+      <td>site</td>
+      <td>
+          <a href="{{LecInfo.lec_url }}">
+              <i class="fas fa-home fa-2x"></i>
+          </a>
+      </td>
+  </tr>
+  <tr>
+      <td>github</td>
+      <td>
+          <input type="text" name="" value="{{LecInfo.git_url}}" class="form-control">
+      </td>
+      <td>강의 평점</td>
+      <td>
+          <input type="text" name="" value="{{LecInfo.rec_reputation}}" class="form-control">
+      </td>
+  </tr>
+
+</table>
+
+<br><br><hr>
+
 
 {% if messages %}
 <div class="alert alert-success">
@@ -46,7 +56,7 @@
 </div>
 {% endif %}
 
-<a href="/challenge/record/new/" class="btn btn-outline-warning float-right">입력(input)</a>
+<a href="/challenge/record/new/{{LecInfo.id}}" class="btn btn-outline-warning float-right">입력(input)</a>
 <br><br>
 <table class="table table-bordered" id="todo_list">
     <tr>
@@ -54,9 +64,9 @@
         <td>index</td>
         <td>author</td>
         <td>current_class</td>
-        <td>perfection</td>
         <td>note</td>
-        <td>git_url</td>
+        <td>git</td>
+        <td>yotuube</td>
     </tr>
 
     {% if object_list.exists %}
@@ -77,23 +87,27 @@
                     {{p.current_class}}
 
                     {% if request.user == p.author %}
-                        <a class="badge badge-pill badge-primary btn-sm" href="{% url "challenge:challenge_record_delete" p.id %}">삭제</a>
-                        <a class="badge badge-pill badge-danger btn-sm" href="">수정(작업중)</a>
+                        <a class="badge badge-pill badge-primary btn-sm" href="{% url "challenge:student_record_delete" p.id LecInfo.id %}">삭제</a>
+                        <a class="badge badge-pill badge-primary btn-sm" href="{% url "challenge:student_record_update" p.id LecInfo.id %}">수정</a>
                     {% endif %}
 
                 </td>
-                <td>{{p.perfection}}</td>
                 <td>
-                    <a class="btn btn-outline-info btn-sm" href="http://{{p.note}}">note</a>
+                    <a class="btn btn-outline-info btn-sm" href="{{p.note}}">note</a>
                 </td>
                 <td>
-                    <a class="btn btn-outline-info btn-sm" href="http://{{p.git_url}}">github</a>
+                    <a class="btn btn-outline-info btn-sm" href="{{p.git_url}}">github</a>
+                </td>
+                <td>
+                    <a href="{{p.youtube}}">
+                        <i class="fab fa-youtube-square fa-2x" ></i>
+                    </a>
                 </td>
             </tr>
         {% endfor %}
     {% else %}
         <tr>
-            <td colspan="4">
+            <td colspan="7">
                 <h4>아직 게시물이 없습니다.</h4>
             </td>
         </tr>

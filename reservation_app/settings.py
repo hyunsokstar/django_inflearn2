@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'pm',
     'imagekit',
     'easy_thumbnails',
+    'remote_control',
+    # 'datetimepicker',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +148,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DJANGO_NOTIFICATIONS_CONFIG = {
     'USE_JSONFIELD': True
 }
+
+# BOOTSTRAP4 = {
+#     'include_jquery': True,
+# }

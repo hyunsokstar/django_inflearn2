@@ -13,14 +13,14 @@ class LecInfo(models.Model):
     teacher = models.CharField(max_length=40)
     lec_url = models.CharField(max_length=120)
     git_url = models.CharField(max_length=120)
-    deadline = models.DateTimeField()
     rec_reputation = models.IntegerField(default=0)
     student_count = models.IntegerField(default=0)
 
-class LecRecord(models.Model):
+class StudentRecord(models.Model):
     author = models.ForeignKey(User, on_delete=True)
     current_class = models.CharField(max_length=40)
-    perfection = models.IntegerField(default=0)
+    classification = models.ForeignKey(LecInfo, on_delete=True)
     note = models.CharField(max_length=120)
+    youtube = models.CharField(max_length=120)
     git_url = models.CharField(max_length=120)
     created= models.DateTimeField(auto_now_add=True)

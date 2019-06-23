@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+{%block title %}팀 멤버 정보{% endblock %}
+
+{%block content4 %}
+
+<div class="jumbotron">
+    <h2>Team 정보</h2>
+</div>
+
+<a href="{% url "todo:create_team_info" %}" class="btn btn-outline-warning float-right">팀 생성</a>
+
+<br><br>
+
+<table class="table table-bordered" id="todo_list">
+    <tr>
+        <td>index</td>
+        <td>leader</td>
+        <td>team_name</td>
+        <td>team_description</td>
+        <td>member_count</td>
+        <td>등록</td>
+    </tr>
+    {% if object_list.exists %}
+        {% for p in object_list %}
+            <tr>
+                <td>
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                    {{ p.leader }}
+                </td>
+                <td>
+                    <a href="{% url "todo:team_member_list" p.id %}">
+                        {{ p.team_name }}
+                    </a>
+                    {% if p.leader == request.user %}
+                        <a href = "" class="btn btn-outline-danger btn-sm float-right btn-sm team_info_delete_button" data-id={{p.id}} data-user={{request.user}}>삭제</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ p.team_description }}
+                </td>
+                <td id=m_count_{{p.id}}>
+                    {{ p.member_count }}
+                </td>
+                <td>
+                    <a class="btn btn-outline-info btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >team 가입</a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="6">
+                <h4>아직 등록된 팀이 없습니다.</h4>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+{% endblock %}
+
+<script type="text/javascript">
+{% block extra_js %}
+
+$(".team_register_button").click(function(){
+
+    const teamId = $(this).data("id");
+    const userId = $(this).data("user");
+    const url = "/todo/team_register/"
+    const team_leader =
+
+    // alert(teamId)
+    const member = parseInt($("#m_count_"+teamId).text().trim(), 10)
+    // alert("member : " + member)
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            teamId:teamId,
+            userId:userId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(result) {
+            alert("message " + result.message);
+            // alert("option : " + result.option)
+            if(result.option == "가입"){
+                const result_member = member + 1
+                $("#m_count_"+teamId).text(result_member)
+                window.location.href = '/todo/team_member_list/'+teamId;
+                // window.history.pushState("", "", '/todo/team_member_list/'+teamId)
+            }else{
+                window.location.href = '/todo/team_member_list/'+teamId;
+                const result_member = member - 1
+                $("#m_count_"+teamId).text(result_member)
+            }
+        }
+    });
+
+})
+
+$(".team_info_delete_button").click(function(){
+    alert("클릭")
+
+    const team_info_id = $(this).data("id");
+    const url = "delete/teaminfo/"+team_info_id
+    alert("url : " + url);
+
+
+    $.ajax({
+      type: "GET",
+      url: url,
+      data: {
+          team_info_id:team_info_id,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function(result) {
+          alert('comment 삭제 complete ', result.message);
+        }
+    });
+
+})
+
+{% endblock %}
+
+
+</script>

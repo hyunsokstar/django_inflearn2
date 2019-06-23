@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{%block title %}{{team_name}}팀 회원 정보{% endblock %}
+
+{%block content %}
+<div class="jumbotron">
+    <h2>Team member info</h2><br>
+    팀 이름 : <span id="team_name">{{team_name}}</span> <br>
+    팀장 이름 : {{team_leader_name}}
+</div>
+
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+     {{ message.message }}<strong>{{ message.tags }}</strong>
+     {% endfor %}
+</div>
+{% endif %}
+
+
+<table class="table table-bordered" id="todo_list">
+    <tr>
+        <td>index</td>
+        <td>member</td>
+        <td>position</td>
+        <td>미완료</td>
+        <td>완료</td>
+    </tr>
+    {% if object_list.exists %}
+        {% for p in object_list %}
+
+
+            <tr id=tr_{{p.id}}>
+                <td>
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                        <a href="/todo/todolist/uncomplete/admin/{{p.member.username}}/{{team_leader_name}}">
+                            {{ p.member.username }}
+                        </a>
+                        {% if p.member == request.user %}
+                            <a class="badge badge-pill badge-info delete_team_member_btn"
+                                data-id={{p.id}} data-member={{p.member}} data-team_id={{team_id}}>삭제</a>
+                        {% endif %}
+                </td>
+                <td>
+                    {{ p.position }}
+                </td>
+                <td>
+                    <a href="/todo/todolist/uncomplete/admin/{{p.member.username}}/{{team_leader_name}}">
+                        {{ p.member.profile.uncompletecount }}
+                    </a>
+                </td>
+                <td>
+                    <a href="/todo/todolist/complete/admin/{{p.member.username}}/{{team_leader_name}}">
+                        {{ p.member.profile.completecount }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="5">
+                <h4>아직 등록된 멤버가 없습니다.</h4>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+{% endblock %}
+
+<script type="text/javascript">
+{% block extra_js %}
+
+$(".delete_team_member_btn").click(function(){
+    const team_memeber_id = $(this).data("id");
+    const member = $(this).data("member");
+    const team_id = $(this).data("team_id");
+    const url = "delete/team/memeber"
+
+    // alert("team_memeber_id : " +team_memeber_id)
+    // alert("member : " +member)
+    // alert("team_id : " +team_id)
+    // alert("url : " +url)
+
+    window.history.pushState("", "", '/todo/')
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            team_memeber_id:team_memeber_id,
+            member:member,
+            team_id:team_id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(result) {
+            alert("message " + result.message);
+            window.history.pushState("", "", '/todo/team_member_list/'+team_id)
+            $("#tr_"+team_memeber_id).remove()
+        }
+    });
+
+})
+
+
+
+{% endblock %}
+</script>

@@ -6,9 +6,15 @@ from django.conf import settings
 app_name = 'challenge'
 
 urlpatterns = [
-    # path('', views.LecRecord.as_view() , name="클래스뷰"),
-    path('', views.LecRecordListView.as_view() , name="lec_record_list"),
-    path('record/new/',views.CreateRecordView.as_view(), name ="네임"),
-    path('record/delete/<int:pk>/', views.RecordDeleteView.as_view(), name='challenge_record_delete'),
-    path('record/modify/<int:pk>/', views.RecordUpdateView.as_view(), name=''),    
+    path('<int:classification>', views.LecRecordListView.as_view() , name="lec_record_list"),
+    path('lecinfo_list', views.LecInfoListView.as_view() , name="lecinfo_list"),
+
+    path('record/new/<int:classification>',views.CreateRecordView_11.as_view(), name ="네임"),
+    path('lec_info/new/',views.CreatelecInfo.as_view(), name ="create_lec_info"),
+
+    path('record/delete/<int:pk>/<int:classification>', views.RecordDeleteView.as_view(), name='student_record_delete'),
+    path('record/modify/<int:pk>/<int:classification>', views.RecordUpdateView.as_view(), name='student_record_update'),
+
+    path('lec_info_update/<int:pk>/<int:classification>', views.LecInfoUpdateView.as_view(), name='lec_info_update'),
+
 ]

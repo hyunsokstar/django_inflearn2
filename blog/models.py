@@ -23,7 +23,7 @@ class Category(models.Model):
         return self.name
     class Meta:
         verbose_name_plural = 'categories'
-        
+
     def get_absolute_url(self):
         return '/blog/category/{}/'.format(self.slug)
 
@@ -52,7 +52,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     text = MarkdownxField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

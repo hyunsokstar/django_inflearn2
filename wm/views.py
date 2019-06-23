@@ -80,14 +80,30 @@ def update_shorcut_id_for_user(request, id):
     user = request.user
     if request.method == "POST" and request.is_ajax():
         user_id = request.POST['user_id']
+        original_userId = id
+        option=""
+        original_user = ""
 
-        print('id : ', id)
-        todo = Profile.objects.filter(Q(user=id)).update(shortcut_user_id = user_id)
+        user_exist = User.objects.filter(username = user_id)
+        original_user = user_id
 
-        print('update 성공');
+
+        print("user_exist : ", user_exist)
+
+        if user_exist:
+
+            option = "메모장 유저를 " + user_id + "로 업데이트 하였습니다."
+            todo = Profile.objects.filter(Q(user=id)).update(shortcut_user_id = user_id)
+            print("메모장 유저를 {}로 교체 ".format(user_id))
+        else:
+            original_user = User.objects.get(id = original_userId).username
+            print("original_user : ", original_user)
+            option = user_id+ "유저가 없으므로 업데이트를 하지 않았습니다."
+            print("유저를 업데이트 하지 않았습니다.")
 
         return JsonResponse({
-            'message': 'shortcut user_id 업데이트 성공',
+            'message': option,
+            'original_id': original_user
         })
     else:
         return redirect('/todo')

@@ -1,7 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from .forms import TodoForm, TodoAdminForm
-from django.urls import reverse_lazy
-
 from django.db.models import F
 from django.db.models import Q
 
@@ -11,26 +9,248 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from accounts2.models import Profile
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Todo, CommentForTodo, Category, TodoType
+from .models import Todo, CommentForTodo, Category, TodoType, TeamInfo, TeamMember
 from django.contrib.auth.models import User
+from accounts2.models import Profile
 from django.contrib.auth.decorators import user_passes_test
-# 1122
+from django.urls import reverse_lazy
+from django.urls import reverse
+
+from django.http import HttpResponseRedirect
+
+# 1122 for todo
+
+# class TeamMember(models.Model):
+#     team = models.ForeignKey(TeamInfo, on_delete=models.CASCADE)
+#     member = models.ForeignKey(User, on_delete=True)
+#     position = models.CharField(max_length=50,default="member")
+
+def delete_team_member(request):
+    print("팀 멤버 정보 삭제 22")
+    if request.method == "POST" and request.is_ajax():
+        option = ""
+        team_memeber_id = request.POST['team_memeber_id']
+        member = request.POST['member']
+        team_id = request.POST['team_id']
+
+        print("team_memeber_id : ", team_memeber_id)
+        print("member : ", member)
+        print("team_id : ", team_id)
+
+        dr = TeamMember.objects.filter(Q(id=team_memeber_id)).delete()
+
+        return JsonResponse({
+            'message': '멤버 탈퇴 성공 : '+ member,
+        })
+
+def team_register(request):
+    print("team_register view 실행")
+    if request.method == "POST" and request.is_ajax():
+        option = ""
+        teamId = request.POST['teamId']
+        userId = request.POST['userId']
+
+        ti_obj = TeamInfo.objects.get(Q(id=teamId))
+
+        tm = TeamMember.objects.filter(Q(team=teamId) & Q(member=userId))
+        print("tm : " , tm)
+
+        if not tm:
+            print("팀 가입")
+            option="가입"
+            ti, is_created = TeamMember.objects.get_or_create(
+                team=ti_obj,
+                member=request.user
+            )
+            TeamInfo.objects.filter(id=teamId).update(member_count = F('member_count')+1)
+
+        else:
+            print("팀 탈퇴")
+            option = "탈퇴"
+            dr = TeamMember.objects.filter(Q(team=teamId) & Q(member=userId)).delete()
+            print("dr : ", dr)
+            TeamInfo.objects.filter(id=teamId).update(member_count = F('member_count')-1)
+
+        return JsonResponse({
+            'message': '팀' + option + '성공',
+            "option":option
+        })
+    else:
+        return reverse_lazy('todo:TeamInfoListView')
+
+
+class UncompleteTodoListByUserId_admin(ListView):
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        print("user_id : ", user_id)
+        user = User.objects.get(username=user_id)
+        print("user : " , user.id)
+
+        return Todo.objects.filter(Q(elapsed_time__isnull=True) & Q(author=user.id)).order_by('-created')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        print('self.request.user : ', self.request.user)
+        context = super(type(self), self).get_context_data(**kwargs)
+        user_id = self.kwargs['user_id']
+        user = User.objects.get(username=user_id)
+        print("user_id : ", user_id)
+        print("user : ", user)
+
+        # 유저 이름
+        context['user_name'] = self.kwargs['user_id']
+
+        # 카테고리 정보
+        context['category_list'] = Category.objects.all()
+        # 미완료 개수
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=user) & Q(elapsed_time__isnull=True)).count()
+        # 완료 개수
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=user) & Q(elapsed_time__isnull=False)).count()
+
+        context['comment_form'] = CommentForm()
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+
+        context['current_state_for_list'] = "미완료"
+
+        context['team_leader_name']=self.kwargs['team_leader_name']
+
+        return context
+
+    def get_template_names(self):
+            return ['todo/uncomplete_todo_list_for_user_by_admin.html']
+
+class CompleteTodoListByUserId_admin(ListView):
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        user = User.objects.get(username=user_id)
+        print("user : " , user.id)
+        print("완료 목록 출력 ")
+
+        return Todo.objects.filter(Q(elapsed_time__isnull=False) & Q(author=user.id)).order_by('-created')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        user_id = self.kwargs['user_id']
+        user = User.objects.get(username=user_id)
+        context = super(type(self), self).get_context_data(**kwargs)
+
+        # 유저 이름
+        context['user_name'] = self.kwargs['user_id']
+
+        # 카테고리 정보
+        context['category_list'] = Category.objects.all()
+
+        # 미완료 개수
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=user) & Q(elapsed_time__isnull=True)).count()
+        # 완료 개수
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=user) & Q(elapsed_time__isnull=False)).count()
+
+
+        context['comment_form'] = CommentForm()
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+        context['current_state_for_list'] = "완료"
+        context['team_leader_name'] = self.kwargs['team_leader_name']
+        return context
+
+    def get_template_names(self):
+            return ['todo/complete_todo_list_for_user_by_admin.html']
+
+
+def delete_team_info(request,team_id):
+    user = request.user
+    if request.method == "GET" and request.is_ajax():
+        # team_info_id = request.POST['team_info_id']
+        team_info_id = team_id
+        ti = TeamInfo.objects.filter(Q(id=team_info_id)).delete()
+        print('delete_team_info 성공');
+        return JsonResponse({
+            'message': '댓글 삭제 성공',
+        })
+    else:
+        return JsonResponse({
+            'message': '댓글 삭제 실패',
+        })
+
+# def register_for_team(request, team_id):
+#     print("team_id : " , team_id)
+#
+#     team_name = TeamInfo.objects.get(id = team_id).team_name
+#
+#     Profile.objects.filter(Q(user=request.user.id)).update(team = team_id)
+#     TeamInfo.objects.filter(id=team_id).update(member_count = F('member_count')+1)
+#     member_count=TeamInfo.objects.get(id=team_id).member_count
+#
+#     messages.success(request, '{} 회원이 {}팀에 가입했습니다./'.format(request.user, team_name))
+#     messages.success(request, '{}팀의 회원수가 {}명이 되었습니다./'.format(team_name, member_count))
+#
+#     return HttpResponseRedirect(reverse('todo:team_member_list' , kwargs={'team_info_id': team_id}))
+#
+# def unregister_for_team(request, team_id):
+#     print("team_id : " , team_id)
+#     team_name = TeamInfo.objects.get(id = team_id).team_name
+#
+#     Profile.objects.filter(Q(user=request.user.id)).update(team = "")
+#     TeamInfo.objects.filter(id=team_id).update(member_count = F('member_count')-1)
+#     member_count=TeamInfo.objects.get(id=team_id).member_count
+#
+#     messages.success(request, '{} 회원이 {}팀에서 탈퇴했습니다./'.format(request.user,team_name))
+#     messages.success(request, '{}팀의 회원수가 {}명이 되었습니다./'.format(team_name, member_count))
+#
+#     return HttpResponseRedirect(reverse('todo:team_member_list' , kwargs={'team_info_id': team_id}))
+
+class team_member_list_view(LoginRequiredMixin,ListView):
+    model = TeamMember
+    paginate_by = 40
+
+    def get_queryset(self):
+        team_info_id = self.kwargs['team_info_id']
+        print("team_info_id : " , team_info_id)
+        return TeamMember.objects.filter(team=team_info_id)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(type(self), self).get_context_data(**kwargs)
+        team_info_id = self.kwargs['team_info_id']
+        ti = TeamInfo.objects.get(id=team_info_id)
+        print("ti : ", ti)
+        context["team_id"] = ti.id
+        context['team_name'] = ti.team_name
+        context['team_leader_name'] = ti.leader.username
+        return context
+
+    def get_template_names(self):
+        print("team member list page를 출력")
+        return ['todo/teammember_list.html']
+
+
+class TeamInfoCreateView(CreateView):
+    model = TeamInfo
+    fields = ['team_name','team_description']
+    success_url = reverse_lazy('todo:TeamInfoListView')
+
+    def form_valid(self, form):
+        print("완료 명단 입력 뷰 실행")
+        ti = form.save(commit=False)
+        ti.leader = self.request.user
+        return super().form_valid(form)
+
+
+class TeamInfoListView(LoginRequiredMixin,ListView):
+    model = TeamInfo
+    paginate_by = 20
+
 
 def isnert_todo_popup_by_admin(request,user_name):
     print("isnert_todo_popup_by_admin 호출")
-
-
+    print("user_name : ", user_name)
 
     return render(request, 'todo/insert_todo_by_admin.html', {
         'foo': 'bar',
     })
-
 
 class TodoListByAdmin(LoginRequiredMixin,ListView):
     model = Todo
@@ -111,8 +331,6 @@ def todo_delete_ajax(request):
 
     return redirect('/todo')
 
-
-
 def todo_status_list(request):
     print("todo_status_list 실행")
 
@@ -131,25 +349,26 @@ def FinisherList(request, id):
         'fn_id':id
     })
 
-
-def todo_new_admin(request):
+def todo_new_admin(request,user_name):
     if request.user.is_superuser:
         print("관리자는 입력할 수 있습니다.")
     else:
         messages.success(request,'관리자가 아니면 입력할 수 없습니다.')
         return redirect('/todo/category/_none')
+    user = User.objects.get(username=user_name)
 
     if request.method=="POST":
         form = TodoAdminForm(request.POST, request.FILES)
-
         if form.is_valid():
             todo = form.save(commit=False)
-
+            todo.author = user
+            todo.director = request.user
             todo.save()
-            return redirect('/todo/')
+            return redirect('/todo/todolist/uncomplete/admin/'+user_name)
     else:
         form = TodoAdminForm()
-    return render(request, 'todo/post_form.html',{
+    return render(request, 'todo/insert_todo_form_by_admin.html',{
+        'user_name': user.username,
         'form':form
     })
 
@@ -202,6 +421,7 @@ def delete_comment_ajax(request,id):
         })
     else:
         return redirect('/myshortcut')
+
 
 def update_comment_ajax(request,id):
     user = request.user
@@ -459,7 +679,6 @@ class todoDetail(DetailView):
 
         return context
 
-
 class TodoList(LoginRequiredMixin,ListView):
     model = Todo
     paginate_by = 20
@@ -525,7 +744,7 @@ def todo_complete(request, id):
         Todo.objects.filter(Q(id=id)).update(completion = "complete")
 
         Profile.objects.filter(Q(user=request.user.id)).update(completecount = F('completecount')+1, uncompletecount = F('uncompletecount')-1)
-        messages.success(request,'할일 : {} 를 완료 처리 하였습니다..'.format(todo))
+        messages.success(request,'할일 : {} 를 완료 처리 하였습니다 ~!'.format(todo))
 
         print("todo 완료 업데이트 완료 ")
 
@@ -542,7 +761,6 @@ def todo_complete(request, id):
 def todo_delete(request, pk):
     # template = 'todo/todo_confirm_delete.html'
     todo = get_object_or_404(Todo, pk=pk)
-
     todo.delete()
 
     if todo.completion == "uncomplete":
@@ -550,9 +768,7 @@ def todo_delete(request, pk):
     else:
         Profile.objects.filter(Q(user=request.user.id)).update(completecount = F('completecount')-1)
 
-
     print("todo" , todo , '를 삭제')
-
     return redirect('todo:todo_list')
 
     # AttributeError: '__proxy__' object has no attribute 'get'

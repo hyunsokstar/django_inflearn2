@@ -7,6 +7,21 @@ from markdownx.utils import markdown
 from django.urls import reverse
 from datetime import timedelta
 
+class TeamInfo(models.Model):
+    leader = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    team_name = models.CharField(max_length=50, unique=True)
+    team_description = models.TextField(blank=True)
+    member_count = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.team_name
+
+class TeamMember(models.Model):
+    team = models.ForeignKey(TeamInfo, on_delete=models.CASCADE)
+    member = models.ForeignKey(User, on_delete=True)
+    position = models.CharField(max_length=50,default="member")
+
+
 class Classification(models.Model):
     name = models.CharField(max_length=25, unique=True)
     description = models.TextField(blank=True)
@@ -36,18 +51,20 @@ class TodoType(models.Model):
     def __str__(self):
         return self.type_name
 
+
 class Todo(models.Model):
     title = models.CharField(max_length=50)
-    content = MarkdownxField()
+    content = models.TextField(blank=True)
     created = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(User, on_delete=True)
+    dead_line = models.DateTimeField(blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     elapsed_time = models.CharField(max_length=20,blank=True, null=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
     classification = models.ForeignKey(Classification, blank=True, null=True, on_delete=models.SET_NULL)
     completion = models.CharField(max_length=10, default='uncomplete')
     importance = models.IntegerField(default=1)
-    dead_line = models.DateTimeField(auto_now=True)
     type= models.ForeignKey(TodoType, on_delete=models.CASCADE, default=2)
+    director = models.CharField(max_length=40, default="terecal")
 
     def __str__(self):
         return self.title
@@ -57,6 +74,10 @@ class Todo(models.Model):
 
     def now_diff(self):
         delta = timezone.now() - self.created
+        return str(delta - timedelta(microseconds=delta.microseconds))
+
+    def remaining_time(self):
+        delta = self.dead_line - timezone.now()
         return str(delta - timedelta(microseconds=delta.microseconds))
 
     def get_absolute_url(self):

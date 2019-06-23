@@ -6,10 +6,11 @@ from django.urls import reverse
 class Manual(models.Model):
     title = models.CharField(max_length=40)
     content = models.TextField(blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=True)
     url = models.CharField(max_length= 80)
     photo = ProcessedImageField(blank=True, upload_to='pm/Manual/%Y/%m/%d')
     created_at = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField()
 
     def get_absolute_url(self):
         return reverse('pm:manual_detail', args=[self.id])

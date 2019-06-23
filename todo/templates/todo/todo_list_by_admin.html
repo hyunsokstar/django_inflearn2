@@ -22,8 +22,11 @@ admin page
     <a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right">입력 </a>
     <a href="" class="btn btn-outline-info float-right" id="todo_delete_button"> 삭제 </a>
     <hr>
+    <!-- <a class="btn btn-outline-info" href="{% url "todo:isnert_todo_popup_by_admin" "tiger" %}">입력 페이지로 이동</a> -->
+    <!-- <a class="btn btn-outline-info btn-sm float-right insert_todo_by_admin_btn"  href="">입력(admin)</a> -->
 
-    <a class="btn btn-outline-info btn-sm float-right insert_todo_by_admin_btn"  href="">입력(admin)</a>
+
+    <input type="button" class="float-right" onclick="goToAdminInsert()" value="입력(admin)">
     <input type="text" class="float-right" name="" value="" size="40" id="user_id">
     <br><br>
 
@@ -140,6 +143,21 @@ admin page
 <script type="text/javascript">
 {% block extra_js %}
 
+function goToAdminInsert(){
+    const user_name = $("#user_id").val()
+    if(user_name == ""){
+        $("#user_id").focus();
+        alert("id를 입력하세요")
+        return false;
+    }
+
+
+    alert("user_name : "+ user_name)
+    window.history.pushState("", "", '/todo/')
+    location.href = "todolist/admin/insert_popup/"+user_name
+
+}
+
 $(".insert_todo_by_admin_btn").click(function(e){
     e.preventDefault();
     const user_name = $("#user_id").val()
@@ -158,8 +176,8 @@ $(".insert_todo_by_admin_btn").click(function(e){
         .always(() => {
             console.log('always');
         })
-
         $("#insert_todo_by_admin_modal").modal()
+
 });
 
 
