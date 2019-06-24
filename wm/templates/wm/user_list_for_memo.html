@@ -1,0 +1,82 @@
+{% load static %}
+
+
+<script src="{% static 'blog/_assets/js/custom.js' %}"></script>
+<script src="{% static 'blog/_assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'blog/_assets/js/popper.min.js' %}"></script>
+<script src="{% static 'blog/bootstrap/bootstrap.min.js' %}"></script>
+
+
+<table class="table table-bordered" id="todo_list">
+    <tr>
+        <td>index</td>
+        <td>username</td>
+        <td>subejct for memo</td>
+        <td>메모장으로 이동</td>
+    </tr>
+    {% if user_list.exists %}
+        {% for u in user_list %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td id=user_name_{{u.id}}>{{u.username}}</td>
+                <td>
+                    <input type="text" class="shortcut_subject_input_{{u.id}}" value="{{u.profile.subject_of_memo}}">
+                    {% if u.username == request.user.username %}
+                    <a href="" class="btn btn-outline-warning btn-sm update_memo_subject_btn" data-id={{u.id}}>수정</a>
+                    {% else %}
+
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="" class="btn btn-outline-info move_to_user_btn btn-sm" id={{u.id}}>이동</a>
+                </td>
+
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">
+                <h4>아직 게시물이 없습니다.</h4>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+
+<script type="text/javascript">
+
+$(".update_memo_subject_btn").click(function(e){
+    e.preventDefault();
+    const id = $(this).data("id")
+    // alert("id : " +id)
+    const shortcut_subject = $(".shortcut_subject_input_"+id).val()
+    // alert("shortcut_subject : "+shortcut_subject)
+
+    window.history.pushState("", "", '/wm/myshortcut/')
+
+    $.ajax({
+      type: "POST",
+      url: 'update/shortcut_subject/',
+      data: {
+          'shortcut_subject':shortcut_subject,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert("result.message : " + result.message)
+        }
+    });
+
+})
+
+    $(".move_to_user_btn").click(function(e){
+        e.preventDefault();
+        // alert("유저 메모장으로 이동")
+        const id = this.id
+        // alert("id : "+ id)
+        const user_name = $(this).parent().parent().find("#user_name_"+id).text()
+        alert("user_name : " +user_name)
+        $("#user_list_modal").modal("hide")
+        $("#shortcut_user_id").val(user_name)
+        $(".update_shortcut_user_id").trigger("click");
+    })
+
+</script>

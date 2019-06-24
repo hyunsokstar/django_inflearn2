@@ -15,3 +15,4 @@ class Profile(models.Model):
     selected_category_id = models.IntegerField(default=1, blank=True)
     team = models.ForeignKey(TeamInfo, on_delete=True, null=True, blank=True)
     position = models.CharField(max_length=50,default="member")
+    subject_of_memo = models.CharField(max_length=60)

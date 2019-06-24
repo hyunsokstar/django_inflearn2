@@ -22,10 +22,30 @@ from .models import MyShortCut, Type, Category, CategoryNick
 
 # 1122
 
-#  path('update/category/nick/', views.MyShortCutListView.as_view() , name="update_category_nick"),
-# 'ca_id':ca_id,
-# 'field':field,
-# 'ca_nick_update':ca_nick_update,
+def update_my_shortcut_subject(request):
+    if request.method == "POST" and request.is_ajax():
+        shortcut_subject = request.POST['shortcut_subject']
+
+        print('update shortcut_subject : ',shortcut_subject)
+        pf = Profile.objects.filter(user=request.user).update(subject_of_memo = shortcut_subject)
+
+        print('shortcut_subject success : ' , shortcut_subject);
+
+        return JsonResponse({
+            'message': 'shortcut_subject update 성공 : ' +shortcut_subject
+        })
+    else:
+        return redirect('/wm/shortcut')
+
+def user_list_for_memo(request):
+    if request.method == 'GET':
+        user_list = User.objects.all()
+
+        return render(request, 'wm/user_list_for_memo.html', {
+            "user_list" : user_list
+        })
+    else:
+        return HttpResponse("Request method is not a GET")
 
 def update_shortcut_nick(request):
     if request.method == "POST" and request.is_ajax():
@@ -49,7 +69,6 @@ def update_shortcut_nick(request):
 
 
 def CategoryNickListByUserId(request, user_name):
-
     if request.method == 'GET':
         print("user_name : ", user_name)
         user = User.objects.get(username=user_name)
@@ -61,7 +80,6 @@ def CategoryNickListByUserId(request, user_name):
 
         cn_my = CategoryNick.objects.get(author=user.id)
         print("cn_my : ", cn_my)
-
 
         return render(request, 'wm/categorynick_list.html', {
             "category" : cn_my
@@ -150,29 +168,15 @@ def update_shortcut2_ajax(request,id):
 def myfunc():
     print("myfunc 실행")
 
-
 class MyShortcutListByCategory(ListView):
 
     def get_queryset(self):
-        user = self.request.user.profile.shortcut_user_id
-        # print("user : ", user)
-        print("self.request.user : ", self.request.user)
-
-        if user == "me":
-            user = self.request.user
-        else:
-            user = User.objects.get(username=user)
-
         slug = self.kwargs['slug']
+        category = Category.objects.get(slug=slug)
+        pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
+        print('category id update 성공')
 
-        if slug == '_none':
-            category = None
-        else:
-            category = Category.objects.get(slug=slug)
-            pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
-
-            print('category id update 성공')
-        return MyShortCut.objects.filter(category=category, author=user).order_by('created')
+        return MyShortCut.objects.filter(category=category, author=self.request.user).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(type(self), self).get_context_data(**kwargs)

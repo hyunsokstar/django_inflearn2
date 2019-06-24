@@ -20,7 +20,7 @@ class TodoForm(forms.ModelForm):
         }
 
 class TodoAdminForm(forms.ModelForm):
-    dead_line = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime)
+    dead_line = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime , initial=datetime.datetime.now())
 
     class Meta:
         model = Todo

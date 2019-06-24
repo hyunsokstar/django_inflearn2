@@ -7,8 +7,10 @@
 
     <h2>shorcut list by {{request.user.profile.shortcut_user_id}}</h2>
     <input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id">
-    <button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">수정</button>
-    <button type="button" class="category_name_list_button" id="{{request.user.id}}">목록</button>
+    <button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">changeId</button>
+    <button type="button" class="user_list_btn" id="">유저 리스트</button>
+    <br>
+    <button type="button" class="category_name_list_button" id="{{request.user.id}}">카테고리 정보</button>
 
 </div>
 
@@ -20,6 +22,7 @@
 </div>
 {% endif %}
 
+
 <table width="100%">
     <tr>
         <td>
@@ -27,19 +30,26 @@
                 {% ifequal category.id request.user.profile.selected_category_id %}
                     <a style="background-color:yellow" class="btn btn-outline-info btn-sm ca-btn-selected" href="{{category.get_absolute_url}}">{{ category.name }} </a>
                 {% else %}
-                    <a class="btn btn-outline-info btn-sm ca-btn-{{category.id}} ca-btn" id={{category.id}} href="{{category.get_absolute_url}}">{{ category.name }} </a>
+                    <a class="btn btn-outline-info btn-sm ca-btn-{{category.id}} ca-btn" id=ca_{{category.id}} href="{{category.get_absolute_url}}">{{ category.name }} </a>
                 {% endifequal %}
-
             {% endfor %}
 
         </td>
     </tr>
 </table>
 
+{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+
 <a href="{% url "wm:insert_myshortcut_textarea_summer_note" %}" class="btn btn-outline-success float-right">입력(summernote)</a>
 <a href="{% url "wm:insert_myshortcut_input_title" %}" class="btn btn-outline-success float-right">입력(title)</a>
 <a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-success float-right">입력(textarea)</a>
 <a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-success float-right">입력(input)</a>
+
+{% else %}
+
+<span class="float-right"> {{request.user.profile.shortcut_user_id}} 님만 입력할수 있습니다. </span>
+
+{% endifequal %}
 
 <br><br>
 
@@ -154,23 +164,37 @@
     </table>
     {% endif %}
 
-
 <!-- modal area -->
 
 <!-- category list modal  -->
-  <div class="modal fade" id="CategoryModal" role="dialog">
+<div class="modal fade" id="CategoryModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Header</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body category_nick_area">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- user list modal -->
+  <div class="modal fade" id="user_list_modal" role="dialog">
     <div class="modal-dialog modal-lg">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Modal Header</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modal Header</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <div class="modal-body category_nick_area">
-          <!-- 2244 -->
-
-
+        <div class="modal-body" id="user_table_area">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -185,9 +209,40 @@
 <script type="text/javascript">
 {% block extra_js %}
 
+// $(document).ready(function(){
+//     const ca_id = $("#my_select_category_id").val()
+//     alert("ca_id : " + ca_id)
+//     $("#ca_"+ca_id).css("background-color", "blue");
+// })
+
+
+
+$(".user_list_btn").click(function(){
+    const url ="userlist/byajax"
+    window.history.pushState("", "", '/wm/')
+
+    $.get(url)
+        .done((result) => {
+            // alert("유저 리스트")
+            // console.log("result : " , result);
+            $("#user_table_area").html(result)
+            $("#user_list_modal").modal();
+
+            window.history.pushState("", "", '/wm/myshortcut')
+
+        })
+        .fail(() => {
+            console.log("fail");
+        })
+        .always(() => {
+            console.log('always');
+        })
+})
+
 $('.category_name_list_button').click(function(e){
     const user_name =  $("#shortcut_user_id").val();
     const url = '/wm/myshorcut/nicklist/'+user_name
+
 
     $.get(url)
         .done((result) => {
@@ -208,7 +263,7 @@ $('.update_shortcut_user_id').click(function(e){
     const id = this.id
     const user_id = $("#shortcut_user_id").val()
 
-    alert("유저 수정 클릭 2")
+    // alert("유저 수정 클릭 2")
     // alert("user_id : "+ user_id)
 
     window.history.pushState("", "", '/wm/')
@@ -229,6 +284,7 @@ $('.update_shortcut_user_id').click(function(e){
             // alert(original_id)
             // alert("id 교체 실행")
             window.history.pushState("", "", '/wm/myshortcut/')
+            location.href = "/wm/myshortcut/"
         }
     });
 })

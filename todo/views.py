@@ -220,6 +220,8 @@ class team_member_list_view(LoginRequiredMixin,ListView):
         context["team_id"] = ti.id
         context['team_name'] = ti.team_name
         context['team_leader_name'] = ti.leader.username
+        context['team_member_count']= ti.member_count
+
         return context
 
     def get_template_names(self):
@@ -355,7 +357,9 @@ def todo_new_admin(request,user_name):
     else:
         messages.success(request,'관리자가 아니면 입력할 수 없습니다.')
         return redirect('/todo/category/_none')
+
     user = User.objects.get(username=user_name)
+    print('user name ', user_name)
 
     if request.method=="POST":
         form = TodoAdminForm(request.POST, request.FILES)
@@ -364,6 +368,8 @@ def todo_new_admin(request,user_name):
             todo.author = user
             todo.director = request.user
             todo.save()
+            user_update = Profile.objects.filter(user=user.id).update(uncompletecount = F('uncompletecount')+1)
+
             return redirect('/todo/todolist/uncomplete/admin/'+user_name)
     else:
         form = TodoAdminForm()
@@ -561,7 +567,7 @@ class TodoListByCategory(ListView):
         return context
 
     def get_template_names(self):
-            return ['todo/todo_list_total.html']
+        return ['todo/todo_list_total.html']
 
 
 def delete_comment(request, pk):

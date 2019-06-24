@@ -7,6 +7,7 @@ from django.conf import settings
 app_name = 'wm'
 
 urlpatterns = [
+    path('myshortcut/update/shortcut_subject/' , views.update_my_shortcut_subject, name="update_my_shortcut_subject"),
     path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
     path('myshortcut/update/category/nick/', views.update_shortcut_nick , name="update_category_nick"),
 
@@ -29,5 +30,8 @@ urlpatterns = [
 
     # user_id로 shortcut nick list 출력
     path('myshorcut/nicklist/<str:user_name>/', views.CategoryNickListByUserId , name='category_nick_list'),
+
+    # 유저 리스트 출력 for memo
+    path('userlist/byajax', views.user_list_for_memo, name = 'user_list_for_memo'),
 
 ]

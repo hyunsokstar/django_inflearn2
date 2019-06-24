@@ -26,7 +26,7 @@
                 <td>
                     {{ forloop.counter }}
                 </td>
-                <td>
+                <td id="team_laeder">
                     {{ p.leader }}
                 </td>
                 <td>
@@ -66,7 +66,6 @@ $(".team_register_button").click(function(){
     const teamId = $(this).data("id");
     const userId = $(this).data("user");
     const url = "/todo/team_register/"
-    const team_leader =
 
     // alert(teamId)
     const member = parseInt($("#m_count_"+teamId).text().trim(), 10)

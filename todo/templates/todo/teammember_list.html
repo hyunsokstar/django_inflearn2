@@ -3,9 +3,11 @@
 
 {%block content %}
 <div class="jumbotron">
-    <h2>Team member info</h2><br>
-    팀 이름 : <span id="team_name">{{team_name}}</span> <br>
-    팀장 이름 : {{team_leader_name}}
+    <span id="team_name">
+        {{team_name}}팀
+    </span> <br>
+    팀원수 : {{team_member_count}} 명 <br>
+    팀장 이름 : {{team_leader_name}} 
 </div>
 
 {% if messages %}
