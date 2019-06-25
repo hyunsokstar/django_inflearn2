@@ -37,6 +37,8 @@ class RecordUpdateView(UpdateView):
 
     def get_success_url(self):
         classnum = self.kwargs['classification']
+        return reverse('challenge:lec_record_list', kwargs={'classification': classnum})
+        
 
 class LecInfoUpdateView(UpdateView):
     model = LecInfo

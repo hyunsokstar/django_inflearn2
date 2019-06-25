@@ -46,6 +46,10 @@ urlpatterns = [
     # team
     path('team_register/', views.team_register , name='team_register'),
     path('team_member_list/<int:team_info_id>/delete/team/memeber', views.delete_team_member, name='delete_team_member'),
+    path('delete/team/memeber/byajax', views.delete_team_memeber_info_by_memberId, name="delete_team_memeber_info_by_memberId"),
+
     path('team_member_list/<int:team_info_id>', views.team_member_list_view.as_view() , name="team_member_list"),
+
+
 
 ]

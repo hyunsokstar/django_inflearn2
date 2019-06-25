@@ -1,10 +1,8 @@
 {% extends "todo/layout_by_admin.html" %}
-{%block title %}{{user_name}}(완료){% endblock %}
+{%block title %}회원 관리{% endblock %}
 
 {%block content %}
 {% load crispy_forms_tags %}
-
-aascasdf
 
 <br>
 <h4>팀장: <span class="text-primary"> {{team_leader_name}} </span>     </h4>
@@ -33,7 +31,7 @@ aascasdf
             <td>{{p.classification}}</td>
             <td>
                 <a href="" id={{p.id}} class="title_for_list">
-                    {{p.title}}
+                    {{p.title}} (<font color="blue"> from {{p.director}} </font> )
                 </a>
             </td>
             <td>{{p.elapsed_time}}</td>

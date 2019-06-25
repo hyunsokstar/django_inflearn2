@@ -5,6 +5,7 @@
 {% load crispy_forms_tags %}
 
 <br>
+109821
 <h4>팀장: <span class="text-primary"> {{team_leader_name}} </span> </h4>
 <h4>회원:<span class="text-primary"> {{user_name}} </span> </h4>
 
@@ -13,7 +14,6 @@
 {% else %}
 
 {% endifequal  %}
-
 <br><br>
 <hr>
 
@@ -34,7 +34,7 @@
             <td>{{p.classification}}</td>
             <td>
                 <a href="" id={{p.id}} class="title_for_list">
-                    {{p.title}}
+                    {{p.title}} (<font color="blue"> from {{p.director}}</font> )
                 </a>
             </td>
             <td>{{p.now_diff}}</td>

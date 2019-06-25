@@ -25,10 +25,27 @@ from django.http import HttpResponseRedirect
 
 # 1122 for todo
 
-# class TeamMember(models.Model):
-#     team = models.ForeignKey(TeamInfo, on_delete=models.CASCADE)
-#     member = models.ForeignKey(User, on_delete=True)
-#     position = models.CharField(max_length=50,default="member")
+def delete_team_memeber_info_by_memberId(request):
+    print("팀 멤버 정보 삭제 by ajaz")
+    if request.method == "POST" and request.is_ajax():
+        team_memeber_id = request.POST['team_memeber_id']
+        team_name = request.POST['team_name']
+        team_member_name = request.POST['team_member_name']
+
+        team_id = TeamInfo.objects.get(team_name = team_name).id
+
+        print("team_memeber_id : ", team_memeber_id)
+        print("team_name : ", team_name)
+        print("team_member_name : ", team_member_name)
+
+        dr = TeamMember.objects.filter(Q(id=team_memeber_id)).delete()
+        messages.success(request, '{}팀에서 {} 회원이 탈퇴하셨습니다./'.format(team_name, team_member_name))
+
+
+        return JsonResponse({
+            'message': team_name+'팀에서 '+ team_name + '회원이 탈퇴 하였습니다.',
+            'team_id': team_id
+        })
 
 def delete_team_member(request):
     print("팀 멤버 정보 삭제 22")
