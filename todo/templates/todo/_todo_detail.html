@@ -4,30 +4,31 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
-            <h2 style="background-color:#00BFFF;">todo detail</h2>
+            <h2 style="background-color:#00BFFF; padding:10px">할일 상세사항</h2>
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">{{ object.title }}</h4>
+                <h4 class="modal-title"> todo : {{ object.title }}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
+                content : <br>
                 {{ object.get_markdown_content | safe }}
                 <hr>
 
                 <div class="card border-info mb-3" style="max-width: 80rem;">
-                    <div class="card-header" style="background-color:lightgreen">
-                        <a class="btn btn-outline-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <div class="card-header" style="background-color:orange; color:white">
+                        <a class="btn btn-outline-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                           summer_note
-                        </a>
-                        <a class="btn btn-outline-info" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        </a> &nbsp;
+                        <a class="btn btn-outline-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample">
                           text_area
                         </a>
                     </div>
                     <div class="card-body">
 
-                        <!-- comment insert -->
+                        <!-- comment insert todo 댓글 -->
                         <div class="comment_insert_area" style="background-color:white">
 
                           <div class="collapse" id="collapseExample">
@@ -37,7 +38,8 @@
                                     <div class="form-group">
                                         {{ comment_form | safe }}
                                     </div>
-                                    <button type="submit" class="btn btn-primary float-right" style="margin-right:20px;">Submit</button>
+                                    <hr>
+                                    <button type="submit" class="btn btn-primary btn-block" style="margin-right:20px;">Submit(summer_note)</button>
                                     <br>
                                 </form>
                                 {{ form.media }}
@@ -51,14 +53,12 @@
                                     <div class="form-group">
                                         {{ comment_form_text_area | crispy }}
                                     </div>
-                                    <button type="submit" class="btn btn-primary float-right" style="margin-right:20px;">Submit</button>
+                                    <button type="submit" class="btn btn-primary float-right btn-block" style="margin-right:20px;">Submit</button>
                                     <br>
                                 </form>
                                 {{ form.media }}
                             </div>
                           </div>
-
-
 
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                 <!-- comment output -->
                 <div class="card border-danger mb-3" style="max-width: 80rem;">
                     <div class="card-header" style="background-color:black; color:white">
-                        <h4>단계별 코드 진행</h4>
+                        <h4>Code Process</h4>
                     </div>
                     <div class="card-body">
                         {% for comment in comments_list_my.all %}
@@ -76,23 +76,42 @@
                         {% if comment.user_type == 1 %}
 
                         <table class="table table-bordered" id="comment_table_{{comment.id}}">
-                            <tr>
-                                <td>
-                                    step{{ forloop.counter }}
-                                </td>
 
-                                    <td>작성자 : <p style="color:blue;">{{comment.author}}</p></td>
-                                <td>작성자 : <p style="color:ornage;">{{comment.author}}</p></td>
-                            </tr>
-                            <tr>
-                                <td bgcolor="#BFEFF2">title</td>
-                                <td colspan="3" bgcolor="#BFEFF2">
-                                    <span id="todo_comment_title_output_{{comment.id}}">
-                                        {{comment.title}}
-                                    </span>
-                                    <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}" hidden>
-                                </td>
-                            </tr>
+                                {% if comment.author == request.user %}
+                                <tr bgcolor="#BFEFF2">
+                                    <td>
+                                        step{{ forloop.counter }}
+                                    </td>
+                                    <td colspan="2">작성자 : <p style="color:blue;">{{comment.author}}</p></td>
+                                </tr>
+                                <tr>
+                                    <td bgcolor="#BFEFF2">title</td>
+                                    <td colspan="3" bgcolor="#BFEFF2">
+                                        <span id="todo_comment_title_output_{{comment.id}}">
+                                            {{comment.title}}
+                                        </span>
+                                        <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}" hidden>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr bgcolor="#FFEC77">
+                                    <td>
+                                        step{{ forloop.counter }}
+                                    </td>
+                                    <td colspan="2">작성자 : <p style="color:black;">{{comment.author}}</p></td>
+                                </tr>
+                                <tr bgcolor="#FFEC77">
+                                    <td >title</td>
+                                    <td colspan="3" >
+                                        <span id="todo_comment_title_output_{{comment.id}}">
+                                            {{comment.title}}
+                                        </span>
+                                        <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}" hidden>
+                                    </td>
+                                </tr>
+
+                                {% endif %}
+
                             <tr>
                                 <td>file_name</td>
                                 <td colspan="3">
@@ -105,12 +124,14 @@
                                 <td>code</td>
                                 <td colspan="3">
                                     {% if comment.type.type_name == "summer_note" %}
+                                    <!-- summernote일 경우 -->
                                     <span id="todo_comment_text_output_{{comment.id}}">
                                         {{ comment.text | safe }}
                                     </span>
-                                    <textarea name="name" rows="10" cols="110" id="my_code_{{comment.id}}" class="textarea_for_comment_update_{{comment.id}}" hidden>{{comment.text}}</textarea>
+                                    <textarea name="name" rows="10" cols="110" id="my_code_{{comment.id}}" class="summer_for_comment_update_copy_{{comment.id}}" hidden>{{comment.text}}</textarea>
                                     {% else %}
-                                    <textarea name="name" rows="10" cols="110" id="{{comment.id}}" class="textarea_for_comment_update_copy_{{comment.id}}">{{comment.text}}</textarea>
+                                    <!-- textarea일 경우 -->
+                                    <textarea name="name" rows="10" cols="110" id="{{comment.id}}" class="textarea_for_comment_update_{{comment.id}}">{{comment.text}}</textarea>
                                     <button type="button" name="button" id="{{comment.id}}" class="btn btn-sm btn-outline-danger copy_code">copy</button>
                                     {% endif %}
                                 </td>
@@ -125,11 +146,11 @@
 
                                     {% if comment.type.type_name == "summer_note" %}
                                     <button class="btn btn-sm btn-outline-primary float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-sm btn-outline-primary float-right comment_edit_complete_button_{{comment.pk}} comment_edit_complete_button" id="{{comment.pk}}" hidden>edit_complete</button> &nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-sm btn-outline-primary float-right comment_edit_complete_button_{{comment.pk}} comment_edit_complete_button_for_summernote" id="{{comment.pk}}" hidden>업데이트 완료(summernote)</button> &nbsp;&nbsp;&nbsp;
                                     <button class="btn btn-sm btn-outline-primary float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
                                     {% else %}
                                     <button class="btn btn-sm btn-outline-primary float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-sm btn-outline-primary float-right comment_edit_complete_button_{{comment.pk}} comment_edit_complete_button" id="{{comment.pk}}" >edit_complete</button> &nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-sm btn-outline-primary float-right comment_edit_complete_button_{{comment.pk}} comment_edit_complete_button_for_text_area" id="{{comment.pk}}" >업데이트 textarea</button> &nbsp;&nbsp;
                                     {% endif %}
 
 
@@ -152,72 +173,6 @@
 
                     </div>
 
-                    <div class="card-header" style="background-color:blue; color:white">
-                        <h4>타인의 답변</h4>
-                    </div><br>
-
-                    {% for comment in comments_list_my.all %}
-
-                    {% if comment.user_type == 2 %}
-
-                    <table class="table table-bordered" id="comment_table_{{comment.id}}">
-                        <tr>
-                            <td>
-                                step{{ forloop.counter }}
-                            </td>
-
-                            {% ifequal comment.author request.user %}
-                                <td>작성자 : <p style="color:blue;">{{comment.author}}</p></td>
-                            {% else %}
-                            <td>작성자 : <p style="color:ornage;">{{comment.author}}</p></td>
-                            {% endifequal %}
-                        </tr>
-                        <tr>
-                            <td bgcolor="#BFEFF2">title</td>
-                            <td colspan="3" bgcolor="#BFEFF2">
-                                <span id="todo_comment_title_output_{{comment.id}}">
-                                    {{comment.title}}
-                                </span>
-                                <input type="text" class="form-control" name="" value="{{comment.title}}" id="todo_comment_title_{{comment.id}}" hidden>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>file_name</td>
-                            <td colspan="3">
-                                <span id="todo_comment_filename_output_{{comment.id}}">
-                                    {{comment.file_name}}
-                                </span>
-                                <input type="text" class="form-control" name="" value="{{comment.file_name}}" id="todo_comment_file_name_{{comment.id}}" hidden>
-                            </td>
-                        </tr>
-                            <td>code</td>
-                            <td colspan="3">
-                                <span id="todo_comment_text_output_{{comment.id}}">
-                                    {{ comment.text | safe }}
-                                </span>
-                                <textarea name="name" rows="10" cols="110" id="my_code_{{comment.id}}" class="todo_comment_text_other_{{comment.id}}" hidden>{{comment.text}}</textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button type="button" name="button" id="{{comment.id}}" class="copy_code">copy</button>
-                                <button type="button" class="btn btn-sm btn-outline-primary" onclick=location.href='{{comment.id}}/update' id={{comment.id}}>update</button>
-
-                                {% if comment.author == request.user %}
-                                <button class="btn btn-sm btn-outline-primary float-right comment_delete_button" id="{{comment.pk}}">delete</button> &nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-sm btn-info float-right comment_edit_button" id="{{comment.pk}}" hidden>edit_complete</button> &nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-sm btn-primary float-right comment_edit_form_button comment_edit_form_button_{{comment.pk}}" id="{{comment.pk}}">edit_mode</button>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" border="0"></td>
-                        </tr>
-                    </table>
-                    <br>
-                    {% endif %}
-                    {% endfor %}
 
                 </div>
 
@@ -232,11 +187,11 @@
 
 
 <!-- 댓글 템플릿 -->
+<!-- 2244 2244 -->
 <script class="reply_template_summer_note" type="text/x-template">
     <table class="table table-bordered" id="comment_table_<%= comment_id %>">
 
-
-        <tr>
+        <tr bgcolor="#BFEFF2">
             <td>new comment</td>
             <td>작성자 : <%= author %></td>
         </tr>
@@ -265,6 +220,7 @@
         <tr>
             <td></td>
             <td>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="location.href='<%= comment_id %>/update'" id=<%= comment_id %>>update</button>
                 <button class="btn btn-sm btn-warning float-right" onclick = deleteToDoComment(<%= comment_id %>)>delete</button>
             </td>
         </tr>
@@ -276,11 +232,13 @@
 
 </script>
 
+
+<!-- 2244 -->
 <script class="reply_template_text_area" type="text/x-template">
     <table class="table table-bordered" id="comment_table_<%= comment_id %>">
 
 
-        <tr>
+        <tr bgcolor="#BFEFF2">
             <td>new comment</td>
             <td>작성자 : <%= author %></td>
         </tr>
@@ -301,7 +259,7 @@
         <tr>
             <td>code</td>
             <td colspan="3">
-                <textarea name="name" rows="8" cols="80" class="todo_comment_text_<%= comment_id %>">
+                <textarea name="name" rows="8" cols="80" class="todo_comment_text_<%= comment_id %> form-control">
                     <%= text %>
                 </textarea>
             </td>
@@ -309,7 +267,8 @@
         <tr>
             <td></td>
             <td>
-                <button class="btn btn-sm btn-warning float-right" onclick = deleteToDoComment(<%= comment_id %>)>delete</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="location.href='<%= comment_id %>/update'" id=<%= comment_id %>>update</button>
+                <button class="btn btn-sm btn-primary float-right" onclick = deleteToDoComment(<%= comment_id %>)>delete</button>
             </td>
         </tr>
 
@@ -359,8 +318,8 @@ $(document).ready(function(){
         var id = $(this).attr("id");
         $("#todo_comment_title_"+id).removeAttr('hidden');
         $("#todo_comment_file_name_"+id).removeAttr('hidden');
-        $(".textarea_for_comment_update_"+id).removeAttr('hidden');
-        $(".comment_edit_complete_button").removeAttr('hidden');
+        $(".summer_for_comment_update_copy_"+id).removeAttr('hidden');
+        $(".comment_edit_complete_button_for_summernote").removeAttr('hidden');
 
         $("#todo_comment_title_output_"+id).hide();
         $("#todo_comment_filename_output_"+id).hide();
@@ -376,6 +335,7 @@ $(document).ready(function(){
         e.preventDefault();
         var $form = $(this);
         var url = $form.attr('action');
+        alert("url : "+ url)
         var data = $form.serialize();
 
         $.post(url,data)
@@ -436,29 +396,29 @@ $(document).ready(function(){
 
     $(".copy_code").click(function(e){
 
+        // alert("복사 버튼 클릭")
+
         e.preventDefault();
         var id = this.id
-        alert("id : "+ id)
-        document.execCommand('copy', false, $(this).parent().find('.textarea_for_comment_update_copy_'+id).select());
+        // alert("id : "+ id)
+        document.execCommand('copy', false, $(this).parent().find('.textarea_for_comment_update_'+id).select());
         alert("copy is completed")
     });
 
-
-
-    $(".comment_edit_complete_button").click(function(e) {
+    $(".comment_edit_complete_button_for_summernote").click(function(e) {
         e.preventDefault();
 
-        alert("완료 버튼 클릭 ")
+        alert("수정 버튼 클릭 11")
         var id = $(this).attr("id");
         var title = $("#todo_comment_title_"+id).val();
         var file_name = $("#todo_comment_file_name_"+id).val();
 
-        var text = $(".textarea_for_comment_update_"+id).val();
+        var text = $(".summer_for_comment_update_copy_"+id).val();
         // alert("text : "+ text)
 
         $.ajax({
           type: "POST",
-          url: 'update_comment_ajax/'+id,
+          url: 'update_comment_ajax/summernote/'+id,
           data: {
               id:id,
               title:title,
@@ -467,7 +427,31 @@ $(document).ready(function(){
               csrfmiddlewaretoken: '{{ csrf_token }}'
           },
             success: function(result) {
-                alert("modify is completted")
+                alert("modify is completted for summernote")
+                $(".comment_edit_form_button").attr("hidden",true);
+
+            }
+        });
+    });
+
+    $(".comment_edit_complete_button_for_text_area").click(function(e) {
+        e.preventDefault();
+
+        alert("수정 버튼 클릭 11")
+        var id = $(this).attr("id");
+        var text = $(".textarea_for_comment_update_"+id).val();
+        alert("text : "+ text)
+
+        $.ajax({
+          type: "POST",
+          url: 'update_comment_ajax/textarea/'+id,
+          data: {
+              id:id,
+              text:text,
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+            success: function(result) {
+                alert("modify is completted for textarea")
                 $(".comment_edit_form_button").attr("hidden",true);
 
             }

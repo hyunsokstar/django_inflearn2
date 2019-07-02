@@ -31,7 +31,11 @@ urlpatterns = [
     path('todolist/complete/me/todo_delete_ajax/', views.todo_delete_ajax , name="todo_delete_ajax"),
     path('todolist/uncomplete/me', views.TodoUnCompleteListByMe.as_view() , name="todo_uncomplete_list_byme"),
     path('completeList/total/', views.TodoListByComplete_total.as_view() , name="todo_complete_list_total"),
-    path('update_comment_ajax/<int:id>', views.update_comment_ajax , name='update_comment_ajax'),
+
+    path('update_comment_ajax/summernote/<int:id>', views.update_comment_ajax_for_summernote , name='update_comment_ajax'),
+    path('update_comment_ajax/textarea/<int:id>', views.update_comment_ajax_for_textarea , name='update_comment_ajax'),
+
+
     path('delete_comment_ajax/<int:id>', views.delete_comment_ajax , name='delete_comment_ajax'),
     path('<int:pk>/update/', views.CommentUpdate.as_view()),
     path('new/admin/<str:user_name>',views.todo_new_admin, name ="todo_new_admin"),

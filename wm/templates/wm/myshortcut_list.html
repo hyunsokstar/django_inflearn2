@@ -1,18 +1,40 @@
 {% extends "layout.html" %}
 {%block title %}todo list{% endblock %}
 
-{%block content2 %}
+{%block extra_css %}
 
-<div class="jumbotron">
+.go_input{
+    position:fixed;
+    colort:blue;
+    top:172px;
+    right:20px;
+}
 
-    <h2>shorcut list by {{request.user.profile.shortcut_user_id}}</h2>
+.go_btn{
+    position:fixed;
+    colort:blue;
+    top:200px;
+    right:20px;
+}
+
+{% endblock %}
+
+
+{%block content4 %}
+
+<!-- <div class="jumbotron"> -->
+<br>
+<hr>
+    <h2>메모장 by {{request.user.profile.shortcut_user_id}}</h2>
     <input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id">
-    <button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">changeId</button>
-    <button type="button" class="user_list_btn" id="">유저 리스트</button>
-    <br>
-    <button type="button" class="category_name_list_button" id="{{request.user.id}}">카테고리 정보</button>
+    <button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">id 수정</button>
+    <button type="button" class="user_list_btn" id="">유저 목록</button>
+    <button type="button" class="category_name_list_button" id="{{request.user.id}}">카테고리</button>
 
-</div>
+<hr>
+
+
+<!-- </div> -->
 
 {% if messages %}
 <div class="alert alert-success">
@@ -40,16 +62,21 @@
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
-<a href="{% url "wm:insert_myshortcut_textarea_summer_note" %}" class="btn btn-outline-success float-right">입력(summernote)</a>
-<a href="{% url "wm:insert_myshortcut_input_title" %}" class="btn btn-outline-success float-right">입력(title)</a>
-<a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-success float-right">입력(textarea)</a>
-<a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-success float-right">입력(input)</a>
+<div id="manu_area">
+    <a href="{% url "wm:insert_myshortcut_textarea_summer_note" %}" class="btn btn-outline-success float-right">입력(summernote)</a>
+    <a href="{% url "wm:insert_myshortcut_input_title" %}" class="btn btn-outline-success float-right">입력(title)</a>
+    <a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-success float-right">입력(textarea)</a>
+    <a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-success float-right">입력(input)</a>
+</div>
 
 {% else %}
 
 <span class="float-right"> {{request.user.profile.shortcut_user_id}} 님만 입력할수 있습니다. </span>
-
 {% endifequal %}
+
+
+<input type="text" class="go_input" size=2 >
+<button type="button" name="button" class="go_btn" id="">go</button>
 
 <br><br>
 
@@ -63,9 +90,9 @@
 
             {% ifequal p.type.type_name "input" %}
             <tr id="shortcut_{{p.id}}">
-                <td>
-                    <input type="checkbox" id="{{p.pk}}" class="td_check">
-                    {{ forloop.counter }}
+                <td id=index_{{ forloop.counter }}>
+                    <input type="checkbox" id="{{p.pk}}" >
+                        {{ forloop.counter }}
                 </td>
                 <td>
                     {{p.title}}
@@ -85,7 +112,7 @@
 
             {% ifequal p.type.type_name "textarea" %}
             <tr id="shortcut_{{p.id}}">
-                <td>
+                <td id=index_{{ forloop.counter }}>
                     <input type="checkbox" id="{{p.pk}}" class="td_check">
                     {{ forloop.counter }}
                 </td>
@@ -107,7 +134,7 @@
 
             {% ifequal p.type.type_name "summer_note" %}
             <tr id="shortcut_{{p.id}}">
-                <td>
+                <td id=index_{{ forloop.counter }}>
                     <input type="checkbox" id="{{p.pk}}" class="td_check">
                     {{ forloop.counter }}
                 </td>
@@ -132,7 +159,7 @@
 
             {% ifequal p.type.type_name "input_title" %}
             <tr style="background-color:skyblue; border:2px solid black" id="shortcut_{{p.id}}">
-                <td>
+                <td id=index_{{ forloop.counter }}>
                     <input type="checkbox" id="{{p.pk}}" class="td_check">
                     {{ forloop.counter }}
                 </td>
@@ -215,7 +242,22 @@
 //     $("#ca_"+ca_id).css("background-color", "blue");
 // })
 
+$(".go_btn").click(function(){
 
+    const number = $(".go_input").val();
+    // alert("number : " +number);
+    $('html, body').animate({
+        'scrollTop' : $("#index_"+number).position().top
+    });
+
+})
+
+$(".go_btn").click(function(e) {
+         // Prevent a page reload when a link is pressed
+       e.preventDefault();
+         // Call the scroll function
+       goToByScroll($(this).attr("id"));
+   });
 
 $(".user_list_btn").click(function(){
     const url ="userlist/byajax"

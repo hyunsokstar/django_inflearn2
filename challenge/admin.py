@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from . models import StudentRecord, LecInfo
+from . models import StudentRecord, LecInfo, RecommandLecInfo
+
+@admin.register(RecommandLecInfo)
+class RecommandLecInfoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'lecinfo','author']
 
 @admin.register(LecInfo)
 class LecInfoAdmin(admin.ModelAdmin):

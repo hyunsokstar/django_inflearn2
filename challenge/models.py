@@ -16,6 +16,13 @@ class LecInfo(models.Model):
     rec_reputation = models.IntegerField(default=0)
     student_count = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.lec_name
+
+class RecommandLecInfo(models.Model):
+    lecinfo = models.ForeignKey(LecInfo, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=True)
+
 class StudentRecord(models.Model):
     author = models.ForeignKey(User, on_delete=True)
     current_class = models.CharField(max_length=40)

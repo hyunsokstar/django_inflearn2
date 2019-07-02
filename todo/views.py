@@ -34,6 +34,9 @@ def delete_team_memeber_info_by_memberId(request):
 
         team_id = TeamInfo.objects.get(team_name = team_name).id
 
+        TeamInfo.objects.filter(id=team_id).update(member_count = F('member_count')-1)
+
+
         print("team_memeber_id : ", team_memeber_id)
         print("team_name : ", team_name)
         print("team_member_name : ", team_member_name)
@@ -446,7 +449,11 @@ def delete_comment_ajax(request,id):
         return redirect('/myshortcut')
 
 
-def update_comment_ajax(request,id):
+def update_comment_ajax_for_summernote(request,id):
+
+
+    print("답변 수정 실행 view")
+
     user = request.user
     if request.method == "POST" and request.is_ajax():
         title = request.POST['title']
@@ -458,6 +465,25 @@ def update_comment_ajax(request,id):
         print("file_name : ", file_name)
         print("text : ", text)
         todo = CommentForTodo.objects.filter(Q(id=id)).update(title = title, file_name = file_name , text = text)
+        print('update 성공');
+
+        return JsonResponse({
+            'message': '댓글 업데이트 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def update_comment_ajax_for_textarea(request,id):
+
+    print("답변 수정 실행 view")
+
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        text = request.POST['text']
+
+        print('id : ', id)
+        print("text : ", text)
+        todo = CommentForTodo.objects.filter(Q(id=id)).update(text = text)
         print('update 성공');
 
         return JsonResponse({
@@ -635,8 +661,8 @@ def new_comment_summer_note(request, pk):
                     'file_name': comment.file_name,
                     'text':comment.text,
                     'created_at':comment.created_at,
-                    'edit_id':pk,
-                    'delete_id':pk
+                    'edit_id':comment.id,
+                    'delete_id':comment.id
                 })
             return redirect(comment.get_absolute_url())
 
@@ -694,7 +720,7 @@ class todoDetail(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(todoDetail, self).get_context_data(**kwargs)
-        context['comments_list_my'] = CommentForTodo.objects.filter(todo=self.object.pk, author=self.request.user)
+        context['comments_list_my'] = CommentForTodo.objects.filter(todo=self.object.pk, author=self.object.author)
         context['comments_list_commenter'] = CommentForTodo.objects.filter(Q(todo=self.object.pk) & ~Q(author=self.request.user))
         context['detail_id'] = self.object.pk
         context['comment_form'] = CommentForm()

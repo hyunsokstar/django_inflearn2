@@ -6,11 +6,31 @@ from django.db.models import F
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.urls import reverse
-from .models import StudentRecord, LecInfo
+from .models import StudentRecord, LecInfo , RecommandLecInfo
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import LecInfoForm
 
 # 1122
+
+def recommand_lecture(request, id):
+    lecture =  get_object_or_404(LecInfo, pk=id)
+    recommand_count = RecommandLecInfo.objects.filter(Q(author=request.user) & Q(lecinfo=lecture)).count()
+    print("내가 강의 추천한 개수 : ", recommand_count)
+    print('id : ', id)
+
+    id = str(id)
+
+    if recommand_count < 1:
+        lecinfo = RecommandLecInfo.objects.create(author=request.user, lecinfo= lecture)
+        print('추천을 추가')
+    else:
+        RecommandLecInfo.objects.filter(Q(author=request.user) & Q(lecinfo=lecture)).delete()
+        print('추천을 삭제')
+
+    return redirect("/challenge/"+id)
+    # return reverse('challenge:lec_record_list', kwargs={'classification': id})
+
+
 
 class CreatelecInfo(CreateView):
     model = LecInfo
@@ -38,7 +58,7 @@ class RecordUpdateView(UpdateView):
     def get_success_url(self):
         classnum = self.kwargs['classification']
         return reverse('challenge:lec_record_list', kwargs={'classification': classnum})
-        
+
 
 class LecInfoUpdateView(UpdateView):
     model = LecInfo
@@ -47,6 +67,7 @@ class LecInfoUpdateView(UpdateView):
     def get_success_url(self):
         classnum = self.kwargs['classification']
         return reverse('challenge:lec_record_list', kwargs={'classification': classnum})
+
 
 class RecordDeleteView(DeleteView):
     model = StudentRecord
@@ -74,8 +95,10 @@ class LecRecordListView(LoginRequiredMixin,ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         classnum = self.kwargs['classification']
+        lec_info = LecInfo.objects.get(id=classnum)
         context = super(LecRecordListView, self).get_context_data(**kwargs)
-        context['LecInfo'] = LecInfo.objects.get(id=classnum)
+        context['LecInfo'] = lec_info
+        context['recommnad_count'] = RecommandLecInfo.objects.filter(lecinfo=lec_info).count()
 
         return context
 

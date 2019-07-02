@@ -17,4 +17,6 @@ urlpatterns = [
 
     path('lec_info_update/<int:pk>/<int:classification>', views.LecInfoUpdateView.as_view(), name='lec_info_update'),
 
+    path('<int:id>/recommand_lecture/', views.recommand_lecture, name="recommand_lecture"),
+
 ]

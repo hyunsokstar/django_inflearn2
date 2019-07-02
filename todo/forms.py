@@ -8,6 +8,7 @@ from django.contrib.admin import widgets
 import datetime
 
 class TodoForm(forms.ModelForm):
+    
     dead_line = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime, initial=datetime.datetime.now())
 
     class Meta:

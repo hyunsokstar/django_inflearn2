@@ -44,7 +44,14 @@
                     {{ p.member_count }}
                 </td>
                 <td>
-                    <a class="btn btn-outline-info btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >team 가입</a>
+                    <a class="btn btn-outline-info btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >가입</a>
+                    {% for tm in p.teammember_set.all %}
+                        {% if tm.member.username == request.user.username %}
+                            <a class="btn btn-outline-info btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >탈퇴</a>
+                        {% endif %}
+                    {% endfor %}
+
+
                 </td>
             </tr>
         {% endfor %}
@@ -103,7 +110,6 @@ $(".team_info_delete_button").click(function(){
     const team_info_id = $(this).data("id");
     const url = "delete/teaminfo/"+team_info_id
     alert("url : " + url);
-
 
     $.ajax({
       type: "GET",

@@ -19,6 +19,8 @@
     팀장 이름 : {{team_leader_name}}
 </div>
 
+<a class="btn btn-outline-info btn-sm team_register_button float-right" href="{% url 'todo:TeamInfoListView' %}" >팀 목록</a> <br><hr>
+
 <table class="table table-bordered" id="todo_list">
     <tr>
         <td>index</td>
@@ -69,6 +71,8 @@
         </tr>
     {% endif %}
 </table>
+
+
 {% endblock %}
 
 <script type="text/javascript">
@@ -81,11 +85,13 @@
 // }
 
 $(".delete_team_member_btn").click(function(){
-    // 삭제를 위해
     const team_memeber_id = $(this).data("member_id");
-    // 삭제 관련 정보
     const team_name = $(this).data("team_name")
     const team_member_name = $(this).data("team_member_name")
+
+    alert("team_memeber_id : "+ team_memeber_id)
+    alert("team_name : "+ team_name)
+    alert("team_member_name : "+ team_member_name)
 
     const url = "delete/team/memeber/byajax"
 

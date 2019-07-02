@@ -35,11 +35,16 @@
   <tr>
       <td>github</td>
       <td>
-          <input type="text" name="" value="{{LecInfo.git_url}}" class="form-control">
+          <a href="{{LecInfo.git_url}}">
+              <i class="fab fa-github fa-2x"></i>
+          </a>
       </td>
       <td>강의 평점</td>
       <td>
-          <input type="text" name="" value="{{LecInfo.rec_reputation}}" class="form-control">
+          <input type="text" name="" value="{{recommnad_count}}">
+          <a href="{% url "challenge:recommand_lecture" LecInfo.pk %}">
+              <i class="far fa-plus-square fa-2x"></i>
+          </a>
       </td>
   </tr>
 
