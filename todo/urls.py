@@ -5,7 +5,13 @@ from . import views
 app_name= 'todo'
 urlpatterns = [
 
+    path('add_todo_by_ajax/', views.add_todo_by_ajax, name="add_todo_by_ajax"),
+    path('add_todo_for_team_by_ajax/', views.add_todo_for_team_by_ajax, name="add_todo_for_team_by_ajax"),
+    path('add_todo_by_ajax_by_teamleader/', views.add_todo_by_ajax_by_teamleader, name="add_todo_by_ajax_by_teamleader"),
+
     path('team_info_list/', views.TeamInfoListView.as_view() , name="TeamInfoListView"),
+    path('team_todo_list/<str:team_name>', views.team_todo_list , name="team_todo_list"),
+
     path('TeaminfoCreate/', views.TeamInfoCreateView.as_view() , name="create_team_info"),
     # 팀 리스트 삭제
     path('team_info_list/delete/teaminfo/<int:team_id>', views.delete_team_info , name="delete_team_info"),
@@ -38,7 +44,7 @@ urlpatterns = [
 
     path('delete_comment_ajax/<int:id>', views.delete_comment_ajax , name='delete_comment_ajax'),
     path('<int:pk>/update/', views.CommentUpdate.as_view()),
-    path('new/admin/<str:user_name>',views.todo_new_admin, name ="todo_new_admin"),
+    path('new/admin/<str:user_name>/<str:leader_name>/',views.todo_new_admin, name ="todo_new_admin"),
     path('status/',views.todo_status_list, name ="todo_status_list"),
     path('todo_delete_ajax/',views.todo_delete_ajax, name ="todo_delete_ajax"),
     path('todolist/uncomplete/<str:user_id>/',views.UncompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),

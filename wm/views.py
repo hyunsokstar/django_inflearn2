@@ -22,6 +22,68 @@ from .models import MyShortCut, Type, Category, CategoryNick
 
 # 1122
 
+# myshortcut_row, shorcut_id, shorcut_content
+def create_new1_input(request):
+    print("create_new1_input 실행")
+    ty = Type.objects.get(type_name="input")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    wm = MyShortCut.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        content1 = ""
+    )
+    print("wm : ", wm)
+    return JsonResponse({
+        'message': '인풋 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content':wm.content1,
+    })
+
+def create_new2_textarea(request):
+    print("create_new2_textarea 실행")
+    ty = Type.objects.get(type_name="textarea")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    wm = MyShortCut.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+    print("wm : ", wm)
+    return JsonResponse({
+        'message': 'textarea 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content2':wm.content2,
+    })
+
+def update_category_by_ajax(request):
+    shortcut_ids = request.POST.getlist('shortcut_arr[]')
+    category = request.POST['category']
+
+    if shortcut_ids:
+        MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).update(category=category)
+
+    return redirect('/wm/myshortcut')
+
+def delete_myshortcut_by_ajax(request):
+    shortcut_ids = request.POST.getlist('shortcut_arr[]')
+    if shortcut_ids:
+        MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).delete()
+
+    return redirect('/wm/myshortcut')
+
+
 def update_my_shortcut_subject(request):
     if request.method == "POST" and request.is_ajax():
         shortcut_subject = request.POST['shortcut_subject']
@@ -176,7 +238,13 @@ class MyShortcutListByCategory(ListView):
         pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
         print('category id update 성공')
 
-        return MyShortCut.objects.filter(category=category, author=self.request.user).order_by('created')
+        print("user 정보 : ", )
+
+        user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
+
+        print('user : ' , user)
+
+        return MyShortCut.objects.filter(category=category, author=user).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(type(self), self).get_context_data(**kwargs)
@@ -189,6 +257,7 @@ class MyShortcutListByCategory(ListView):
         else:
             category = Category.objects.get(slug=slug)
             context['category'] = category
+            context['category_nick'] = CategoryNick.objects.values_list(slug, flat=True).get(author=self.request.user)
 
         return context
 

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'imagekit',
     'easy_thumbnails',
     'remote_control',
+    'pd',
     # 'datetimepicker',
 ]
 

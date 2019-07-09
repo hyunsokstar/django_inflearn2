@@ -1,12 +1,26 @@
-{% extends "todo/layout.html" %}
-{%block title %}todo{% endblock %}
-{%block content %}
+{% extends "layout.html" %}
+{%block title %}검색 페이지{% endblock %}
 
-<br>
+{%block content4 %}
+
+<br><br><br><br>
 <h2>할일 검색 결과 1122 : {{search_word}}</h2>
 <table class="table table-bordered">
+
+<tr>
+    <td>id</td>
+    <td>author</td>
+    <td>제목</td>
+    <td>소요 시간</td>
+    <td>남은 시간</td>
+    <td>마감 시간</td>
+</tr>
+
 {% for p in object_list %}
     <tr>
+        <td>
+            {{ forloop.counter }}
+        </td>
         <td>{{p.author}}</td>
         <td>
             <a href="" id={{p.id}} class="title_for_list">
@@ -14,6 +28,8 @@
             </a>
         </td>
         <td>{{p.now_diff}}</td>
+        <td>{{p.remaining_time}}</td>
+        <td>{{p.dead_line}}</td>
     </tr>
 {% endfor %}
 </table>

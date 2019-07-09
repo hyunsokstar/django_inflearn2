@@ -1,0 +1,311 @@
+{% extends "layout.html" %}
+{%block title %}private desk{% endblock %}
+
+{%block content4 %}
+
+<br><br><br><br>
+<h2>private desk</h2>
+
+
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+     {{ message.message }}<strong>{{ message.tags }}</strong>
+     {% endfor %}
+</div>
+{% endif %}
+
+<a href="{% url "pd:mytask_new"  %}" class="btn btn-outline-info float-right btn-block">입력</a>
+
+<br><br>
+
+{% if object_list.exists %}
+    {% for p in object_list %}
+
+    <table class="table table-bordered" id=mytask_table_{{p.id}}>
+        <tr>
+            <td>제목</td>
+            <td>
+                <input type="text" name="" value="{{p.title}}" id=mytask_title_{{p.id}}>
+            </td>
+        </tr>
+        <tr>
+            <td>github</td>
+            <td><input type="text" name="" value="{{p.github}}" id=mytask_github_{{p.id}}></td>
+        </tr>
+        <tr>
+            <td>content</td>
+            <td><textarea name="name" rows="8" cols="80" id=mytask_content_{{p.id}}>{{p.content}}</textarea></td>
+        </tr>
+        <tr>
+            <td>shortcut</td>
+            <td>
+                <input type="text" name="" value="{{p.shortcut_id}}" id=mytask_shortcut_id_{{p.id}}>
+                <a href="" class="btn btn-outline-primary btn-sm float-right mytask_update_btn" id={{p.id}} >수정</a>
+                <a href="" class="btn btn-outline-primary btn-sm float-right mytask_delete_btn" id={{p.id}} >삭제</a>
+            </td>
+        </tr>
+    </table>
+
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="4">
+            <h4>아직 게시물이 없습니다.</h4>
+        </td>
+    </tr>
+{% endif %}
+
+<hr>
+
+        <a class="btn btn-outline-info btn-block" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          즐겨찾기 입력
+        </a><br><br>
+
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <table class="table table-hover table-dark">
+                <tr>
+                    <td>
+                        name
+                    </td>
+                    <td>
+                        <input type="text" name="" value="" size= 60% id="input_site_name"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>url</td>
+                    <td><input type="text" name="" value="" size= 60% id="input_site_url"></td>
+                </tr>
+              </thead>
+            </table>
+            <button type="button" name="button" class="add_mysite_button">create</button>
+        </div>
+      </div><br>
+
+{% if mysite_list.exists %}
+    {% for p in mysite_list %}
+
+    <table class="table table-bordered" id=mysite_table_{{p.id}}>
+        <tr>
+            <td>
+                site : <input type="text" name="" value="{{p.site_name}}" id=site_name_{{p.id}}>
+            </td>
+            <td>
+                url : <input type="text" name="" value="{{p.site_url}}" id=site_url_{{p.id}}>
+                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_update_btn" id={{p.id}} >수정</a>
+                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_delete_btn" id={{p.id}} >삭제</a>
+
+            </td>
+        </tr>
+    </table>
+
+    {% endfor %}
+
+{% else %}
+    <tr>
+        <td colspan="4">
+            <h4>아직 즐겨찾기가 없습니다.</h4>
+        </td>
+    </tr>
+{% endif %}
+
+<div class="mysite_list_tbody">
+
+</div>
+
+
+<script class="mysite_row" type="text/x-template">
+
+    <table class="table table-bordered" id=mysite_table_<%=id %> >
+        <tr>
+            <td>
+                site : <input type="text" name="" value="<%=site_name %>" id=site_name_<%=id %> >
+            </td>
+            <td>
+                url : <input type="text" name="" value="<%=site_url %>" id=site_url_<%=id %>>
+                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_update_btn" id=<%=id %> >수정</a>
+                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_delete_btn" id=<%=id %> >삭제</a>
+            </td>
+        </tr>
+    </table>
+
+</script>
+
+{% endblock %}
+
+{% block side5 %}
+asdfasdasdfasfd
+{% endblock %}
+
+
+<script type="text/javascript">
+{% block extra_js %}
+
+$('body').on('click', '.mysite_delete_btn', function(e) {
+
+    e.preventDefault();
+    alert("my task 삭제 버튼 클릭")
+    var site_id = $(this).attr("id");
+    alert("site_id : " + site_id)
+    window.history.pushState("", "", '/pd/')
+
+    $.ajax({
+      type: "POST",
+      url: 'delete_mysite_by_ajax/',
+      data: {
+          site_id:site_id,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            $("#mysite_table_"+site_id).remove()
+            alert("delete_mysite_by_ajax is success")
+            window.history.pushState("", "", '/pd/private_task_list/')
+        }
+    });
+
+});
+
+$(".add_mysite_button").click(function(e) {
+
+    var site_id = $(this).attr("id");
+
+    const site_name = $("#input_site_name").val()
+    const site_url = $("#input_site_url").val()
+    // alert("site_name : " + site_name)
+    // alert("site_url : " + site_url)
+
+    window.history.pushState("", "", '/pd/')
+
+    $.ajax({
+      type: "POST",
+      url: 'add_mysite_by_ajax/',
+      data: {
+          site_name:site_name,
+          site_url:site_url,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert("insert_mysite_by_ajax is success")
+
+            // underscore를 이용해 row 추가 하기
+            var raw_template = $('.mysite_row').html();
+            var tpl = _.template(raw_template);
+
+            alert("result.site_id : "+ result.site_id)
+            alert("site_name : "+ site_name)
+            alert("site_url : "+ site_url)
+
+            var rendered = tpl({
+                id : result.site_id,
+                site_name : site_name,
+                site_url : site_url
+            });
+            console.log("rendered : " , rendered);
+            $(rendered).appendTo($('.mysite_list_tbody'));
+
+
+            window.history.pushState("", "", '/pd/private_task_list/')
+        }
+    });
+
+});
+
+$('body').on('click', '.mysite_update_btn', function(e) {
+
+    e.preventDefault();
+    alert("my site 수정 버튼 클릭 22")
+    var site_id = $(this).attr("id");
+    var site_name = $("#site_name_"+site_id).val();
+    var site_url = $("#site_url_"+site_id).val();
+
+    window.history.pushState("", "", '/pd/')
+
+    $.ajax({
+      type: "POST",
+      url: 'update_mysite_by_ajax/',
+      data: {
+          site_id:site_id,
+          site_name:site_name,
+          site_url:site_url,
+          csrfmiddlewaretoken:'{{csrf_token}}'
+      },
+        success: function(result) {
+            alert("update_mytask_by_ajax is success")
+            window.history.pushState("", "", '/pd/private_task_list/')
+        }
+    });
+
+})
+
+
+
+$(".mytask_delete_btn").click(function(e) {
+
+    e.preventDefault();
+    // alert("my task 삭제 버튼 클릭")
+
+    var mytask_id = $(this).attr("id");
+
+    alert("mytask_id : " + mytask_id)
+
+    window.history.pushState("", "", '/pd/')
+
+    $.ajax({
+      type: "POST",
+      url: 'delete_mytask_by_ajax/',
+      data: {
+          mytask_id:mytask_id,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            $("#mytask_table_"+mytask_id).remove()
+            alert("delete_mytask_by_ajax is success")
+            window.history.pushState("", "", '/pd/private_task_list/')
+        }
+    });
+
+});
+
+$(".mytask_update_btn").click(function(e) {
+
+    e.preventDefault();
+    alert("my task 수정 버튼 클릭")
+
+    var mytask_id = $(this).attr("id");
+    var mytask_title = $("#mytask_title_"+mytask_id).val();
+    var mytask_github = $("#mytask_github_"+mytask_id).val();
+    var mytask_content = $("#mytask_content_"+mytask_id).val();
+    var mytask_shortcut_id = $("#mytask_shortcut_id_"+mytask_id).val();
+
+    // alert("mytask_id : " + mytask_id)
+    // alert("mytask_title : "+ mytask_title)
+    // alert("mytask_github : "+ mytask_github)
+    // alert("mytask_content_ : "+ mytask_content)
+    // alert("mytask_shortcut_id : "+ mytask_shortcut_id)
+
+    window.history.pushState("", "", '/pd/')
+
+    $.ajax({
+      type: "POST",
+      url: 'update_mytask_by_ajax/',
+      data: {
+          mytask_id:mytask_id,
+          mytask_title:mytask_title,
+          mytask_github:mytask_github,
+          mytask_content:mytask_content,
+          mytask_shorcut_id:mytask_shortcut_id,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert("update_mytask_by_ajax is success")
+            // $(".comment_edit_form_button").attr("hidden",true);
+            window.history.pushState("", "", '/pd/private_task_list/')
+        }
+    });
+
+});
+
+
+{% endblock %}
+</script>

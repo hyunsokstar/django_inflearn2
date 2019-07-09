@@ -14,7 +14,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Todo, CommentForTodo, Category, TodoType, TeamInfo, TeamMember
+from .models import Todo, CommentForTodo, Category, TodoType, TeamInfo, TeamMember, Classification
 from django.contrib.auth.models import User
 from accounts2.models import Profile
 from django.contrib.auth.decorators import user_passes_test
@@ -22,8 +22,194 @@ from django.urls import reverse_lazy
 from django.urls import reverse
 
 from django.http import HttpResponseRedirect
+from datetime import datetime, timedelta
 
 # 1122 for todo
+def team_todo_list(request, team_name):
+    print("team_name : ", team_name)
+
+    teamId = TeamInfo.objects.get(team_name = team_name).id
+    team_leader_name = TeamInfo.objects.get(team_name = team_name).leader.username
+
+    print("team_leader_name : ", team_leader_name)
+
+    team_member = TeamMember.objects.filter(team=teamId)
+    classification_list = Classification.objects.all()
+    team_name= team_name
+
+    member_array = []
+    for member in team_member:
+        # print(member.member.id) # nomad_coder, terecal
+        member_array.append(member.member)
+
+    team_todo_list = Todo.objects.filter(author__in=member_array)
+
+    print('team_todo_list : ' , team_todo_list)
+    print('team_member : ' , team_member)
+
+    return render(request, 'todo/team_todo_list.html', {
+        "team_todo_list":team_todo_list,
+        "team_member_list":team_member,
+        "classification_list":classification_list,
+        "team_name":team_name,
+        "team_leader_name": team_leader_name
+    })
+
+def add_todo_for_team_by_ajax(request):
+
+    title = request.POST['title']
+    leader_name = request.POST['team_leader_name']
+    member_name = request.POST['select_for_team_member']
+    dead_line_option = request.POST['dead_line_option']
+    classification = request.POST['select_for_classification']
+
+    print("leader_name : ", leader_name)
+    print("classification  : ", classification)
+
+    classification_obj = Classification.objects.get(name=classification)
+
+    print("leader_name : " , leader_name),
+    print("member_name : ", member_name)
+
+    author = User.objects.get(username=member_name)
+    director = User.objects.get(username=leader_name)
+
+    dead_line=""
+
+    if dead_line_option == "1h":
+        print ("1h")
+        dead_line = datetime.now() + timedelta(hours=1)
+    elif (dead_line_option == "4h"):
+        print ("4h")
+        dead_line = datetime.now() + timedelta(hours=4)
+
+    elif (dead_line_option == "8h"):
+        print ("8h")
+        dead_line = datetime.now() + timedelta(hours=8)
+
+    elif (dead_line_option == "1d"):
+        print ("1d")
+        dead_line = datetime.now() + timedelta(hours=24)
+
+    elif (dead_line_option == "1w"):
+        print ("1w")
+        dead_line = datetime.now() + timedelta(days=7)
+
+    todo = Todo.objects.create(title=title, author=author, director = director, dead_line = dead_line, classification = classification_obj)
+
+    print("todo(입력 결과) : " , todo)
+    user_update = Profile.objects.filter(user=author).update(uncompletecount = F('uncompletecount')+1)
+
+    return HttpResponse(redirect('/todo/'))
+
+    # return JsonResponse({
+    #     "message":"입력 성공"
+    #     # 'todoId' : todo.id,
+    #     # 'classification':todo.classification.name,
+    #     # 'director':todo.director,
+    #     # 'title':todo.title,
+    #     # 'remaining_time':todo.remaining_time,
+    #     # 'dead_line':todo.dead_line,
+    # })
+
+def add_todo_by_ajax_by_teamleader(request):
+
+    title = request.POST['title']
+    leader_name = request.POST['team_leader_name']
+    member_name = request.POST['team_member_name']
+    dead_line_option = request.POST['dead_line_option']
+    classification = request.POST['classification']
+
+    print("classification  : ", classification)
+
+    classification_obj = Classification.objects.get(name=classification)
+
+    print("leader_name : " , leader_name),
+    print("member_name : ", member_name)
+
+    author = User.objects.get(username=member_name)
+    director = User.objects.get(username=leader_name)
+
+    dead_line=""
+
+    if dead_line_option == "1h":
+        print ("1h")
+        dead_line = datetime.now() + timedelta(hours=1)
+    elif (dead_line_option == "4h"):
+        print ("4h")
+        dead_line = datetime.now() + timedelta(hours=4)
+
+    elif (dead_line_option == "8h"):
+        print ("8h")
+        dead_line = datetime.now() + timedelta(hours=8)
+
+    elif (dead_line_option == "1d"):
+        print ("1d")
+        dead_line = datetime.now() + timedelta(hours=24)
+
+    elif (dead_line_option == "1w"):
+        print ("1w")
+        dead_line = datetime.now() + timedelta(days=7)
+
+    todo = Todo.objects.create(title=title, author=author, director = director, dead_line = dead_line, classification = classification_obj)
+
+    print("todo(입력 결과) : " , todo)
+    user_update = Profile.objects.filter(user=author).update(uncompletecount = F('uncompletecount')+1)
+
+    return HttpResponse(redirect('/todo/'))
+
+    # return JsonResponse({
+    #     "message":"입력 성공"
+    #     # 'todoId' : todo.id,
+    #     # 'classification':todo.classification.name,
+    #     # 'director':todo.director,
+    #     # 'title':todo.title,
+    #     # 'remaining_time':todo.remaining_time,
+    #     # 'dead_line':todo.dead_line,
+    # })
+
+def add_todo_by_ajax(request):
+
+    title = request.POST['title']
+    dead_line_option = request.POST['dead_line_option']
+
+    dead_line=""
+
+    if dead_line_option == "1h":
+        print ("1h")
+        dead_line = datetime.now() + timedelta(hours=1)
+    elif (dead_line_option == "4h"):
+        print ("4h")
+        dead_line = datetime.now() + timedelta(hours=4)
+
+    elif (dead_line_option == "8h"):
+        print ("8h")
+        dead_line = datetime.now() + timedelta(hours=8)
+
+    elif (dead_line_option == "1d"):
+        print ("1d")
+        dead_line = datetime.now() + timedelta(hours=24)
+
+    elif (dead_line_option == "1w"):
+        print ("1w")
+        dead_line = datetime.now() + timedelta(days=7)
+
+    todo = Todo.objects.create(title=title, author=request.user, director = request.user, dead_line = dead_line)
+
+    print("todo(입력 결과) : " , todo)
+    user_update = Profile.objects.filter(user=request.user.id).update(uncompletecount = F('uncompletecount')+1)
+
+    return HttpResponse(redirect('/todo/'))
+
+    # return JsonResponse({
+    #     "message":"입력 성공"
+    #     # 'todoId' : todo.id,
+    #     # 'classification':todo.classification.name,
+    #     # 'director':todo.director,
+    #     # 'title':todo.title,
+    #     # 'remaining_time':todo.remaining_time,
+    #     # 'dead_line':todo.dead_line,
+    # })
 
 def delete_team_memeber_info_by_memberId(request):
     print("팀 멤버 정보 삭제 by ajaz")
@@ -121,6 +307,8 @@ class UncompleteTodoListByUserId_admin(ListView):
         print("user_id : ", user_id)
         print("user : ", user)
 
+        classification_list = Classification.objects.all()
+
         # 유저 이름
         context['user_name'] = self.kwargs['user_id']
 
@@ -138,6 +326,7 @@ class UncompleteTodoListByUserId_admin(ListView):
         context['current_state_for_list'] = "미완료"
 
         context['team_leader_name']=self.kwargs['team_leader_name']
+        context['classification_list'] = classification_list
 
         return context
 
@@ -236,6 +425,7 @@ class team_member_list_view(LoginRequiredMixin,ListView):
         context = super(type(self), self).get_context_data(**kwargs)
         team_info_id = self.kwargs['team_info_id']
         ti = TeamInfo.objects.get(id=team_info_id)
+
         print("ti : ", ti)
         context["team_id"] = ti.id
         context['team_name'] = ti.team_name
@@ -371,7 +561,7 @@ def FinisherList(request, id):
         'fn_id':id
     })
 
-def todo_new_admin(request,user_name):
+def todo_new_admin(request,user_name,leader_name):
     if request.user.is_superuser:
         print("관리자는 입력할 수 있습니다.")
     else:
@@ -387,10 +577,12 @@ def todo_new_admin(request,user_name):
             todo = form.save(commit=False)
             todo.author = user
             todo.director = request.user
+
             todo.save()
             user_update = Profile.objects.filter(user=user.id).update(uncompletecount = F('uncompletecount')+1)
 
-            return redirect('/todo/todolist/uncomplete/admin/'+user_name)
+            return redirect('/todo/todolist/uncomplete/admin/'+user_name+'/'+leader_name)
+            # http://127.0.0.1:8000/todo/todolist/uncomplete/admin/terecal/terecal
     else:
         form = TodoAdminForm()
     return render(request, 'todo/insert_todo_form_by_admin.html',{
@@ -774,7 +966,9 @@ class TodoSearch(ListView):
     def get_queryset(self):
         print("실행 확인")
         q = self.kwargs['q']
-        object_list = Todo.objects.filter(Q(title__contains=q) & Q(elapsed_time__isnull=False) ).order_by('-created')
+        print("검색어 : ", q)
+        # object_list = Todo.objects.filter(Q(title__contains=q) & Q(elapsed_time__isnull=False)).order_by('-created')
+        object_list = Todo.objects.filter(Q(title__icontains=q)).order_by('-created')
         print("result : ", object_list)
         return object_list
 

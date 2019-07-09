@@ -17,9 +17,13 @@
     </span> <br>
     팀원수 : {{team_member_count}} 명 <br>
     팀장 이름 : {{team_leader_name}}
+    <a class="btn btn-outline-dark btn-sm team_register_button float-right team_todo_list_btn btn-block" href="{% url 'todo:team_todo_list' team_name  %}">팀 관리</a>
+
 </div>
 
-<a class="btn btn-outline-info btn-sm team_register_button float-right" href="{% url 'todo:TeamInfoListView' %}" >팀 목록</a> <br><hr>
+<a class="btn btn-outline-dark btn-sm team_register_button float-right" href="{% url 'todo:TeamInfoListView' %}" >팀 목록</a>
+
+<br><hr>
 
 <table class="table table-bordered" id="todo_list">
     <tr>
@@ -78,11 +82,27 @@
 <script type="text/javascript">
 {% block extra_js %}
 
-// var person = prompt("Please enter your name", "Harry Potter");
-// if (person != null) {
-//   document.getElementById("demo").innerHTML =
-//   "Hello " + person + "! How are you today?";
-// }
+// $(".team_todo_list_btn").click(function(){
+//     alert("팀 관리 버튼 클릭");
+//
+//     e.preventDefault();
+//     const user_name = $("#user_id").val()
+//     const url = "insert_popup/"+user_name
+//     alert("user_name : " + user_name)
+//     alert("url : "+ url)
+//
+//     $.get(url)
+//     .done((html) => {
+//             alert("html" + html)
+//             console.log("html : ", html);
+//         })
+//         .fail(() => {
+//             console.log("fail");
+//         })
+//         .always(() => {
+//             console.log('always');
+//         })
+// })
 
 $(".delete_team_member_btn").click(function(){
     const team_memeber_id = $(this).data("member_id");

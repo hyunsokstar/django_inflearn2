@@ -1,11 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+# from datetime import datetime
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
 from django.urls import reverse
-from datetime import timedelta
+# from datetime import timedelta
+from datetime import datetime, timedelta
+
+
+
 
 class TeamInfo(models.Model):
     leader = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
@@ -51,16 +55,18 @@ class TodoType(models.Model):
     def __str__(self):
         return self.type_name
 
+def utc_tomorrow():
+    return datetime.now() + timedelta(days=1)
 
 class Todo(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField(blank=True)
     created = models.DateTimeField(auto_now=True)
-    dead_line = models.DateTimeField(blank=True, null=True)
+    dead_line = models.DateTimeField(blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     elapsed_time = models.CharField(max_length=20,blank=True, null=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
-    classification = models.ForeignKey(Classification, blank=True, null=True, on_delete=models.SET_NULL)
+    classification = models.ForeignKey(Classification, blank=True, null=True, on_delete=models.SET_NULL, default=2)
     completion = models.CharField(max_length=10, default='uncomplete')
     importance = models.IntegerField(default=1)
     type= models.ForeignKey(TodoType, on_delete=models.CASCADE, default=2)

@@ -9,6 +9,10 @@ app_name = 'wm'
 urlpatterns = [
     path('myshortcut/update/shortcut_subject/' , views.update_my_shortcut_subject, name="update_my_shortcut_subject"),
     path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+
+    path('myshortcut/create_new1_input/ajax/', views.create_new1_input , name="create_new1_input"),
+    path('myshortcut/create_new2_textarea/ajax/', views.create_new2_textarea , name="create_new2_textareas"),
+
     path('myshortcut/update/category/nick/', views.update_shortcut_nick , name="update_category_nick"),
 
     path('new/input', views.MyShortCutCreateView_input.as_view() , name="insert_myshortcut_input"),
@@ -33,5 +37,9 @@ urlpatterns = [
 
     # 유저 리스트 출력 for memo
     path('userlist/byajax', views.user_list_for_memo, name = 'user_list_for_memo'),
+
+    path('myshortcut/delete/ajax/', views.delete_myshortcut_by_ajax, name = 'delete_myshortcut_by_ajax'),
+    path('myshortcut/update/category/ajax', views.update_category_by_ajax, name = 'update_category_by_ajax'),
+
 
 ]

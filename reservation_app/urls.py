@@ -21,6 +21,7 @@ urlpatterns = [
     path('wm/', include('wm.urls')),
     path('challenge/', include('challenge.urls')),
     path('pm/', include('pm.urls')),
+    path('pd/', include('pd.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

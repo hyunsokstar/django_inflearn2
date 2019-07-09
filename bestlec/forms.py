@@ -11,13 +11,3 @@ class BestLecForm(forms.ModelForm):
         widgets = {
             'description': SummernoteWidget(),
         }
-
-# class CommentForm(forms.ModelForm):
-#     class Meta:
-#         model = CommentForTodo
-#         fields = ('title','file_name','text')
-#
-#         widgets = {
-#             'text': SummernoteWidget(),
-#             'bar': SummernoteInplaceWidget(),
-#         }

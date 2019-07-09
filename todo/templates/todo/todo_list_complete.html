@@ -1,6 +1,7 @@
 {% extends "todo/layout.html" %}
 {%block title %}todo list{% endblock %}
-{%block content %}
+
+{%block content2 %}
 {% load crispy_forms_tags %}
 
 {% if messages %}
@@ -14,6 +15,14 @@
 2002
 <h2>완료 목록({{request.user}})</h2>
 
+<div class="input-group">
+    <input type="text" id="search-input" onkeyup="wait_for_enterkey_todo()" class="form-control"
+           placeholder="Search for..."/>
+    <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button" onclick="search_todo();">Go!</button>
+    </span>
+</div>
+<br>
     {% if category %}
         카테고리 :
         <small class="text-muted">: {{ category }}</small>
@@ -116,6 +125,17 @@
 <script type="text/javascript">
 
 {% block extra_js %}
+
+function search_todo(){
+    var search_value = document.getElementById('search-input').value;
+    location.href="/todo/search/" + search_value + "/";
+}
+
+function wait_for_enterkey_todo(){
+    if (window.event.keyCode == 13){
+        search_todo();
+    }
+}
 
 $(document).ready(function(){
     var id;

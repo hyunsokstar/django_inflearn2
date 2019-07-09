@@ -8,7 +8,7 @@ from django.contrib.admin import widgets
 import datetime
 
 class TodoForm(forms.ModelForm):
-    
+
     dead_line = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime, initial=datetime.datetime.now())
 
     class Meta:
@@ -25,7 +25,7 @@ class TodoAdminForm(forms.ModelForm):
 
     class Meta:
         model = Todo
-        fields = ['classification','title', 'content']
+        fields = ['classification','title', 'content','dead_line']
 
         widgets = {
             'content': SummernoteWidget(),

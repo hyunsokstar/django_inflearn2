@@ -6,15 +6,43 @@
 .go_input{
     position:fixed;
     colort:blue;
-    top:172px;
-    right:20px;
+    top:180px;
+    right:25px;
 }
 
 .go_btn{
     position:fixed;
     colort:blue;
-    top:200px;
-    right:20px;
+    top:210px;
+    right:25px;
+}
+
+.before_btn {
+    position:fixed;
+    colort:blue;
+    top:240px;
+    right:25px;
+}
+
+.next_btn{
+    position:fixed;
+    colort:blue;
+    top:268px;
+    right:25px;
+}
+
+.new1_btn{
+    position:fixed;
+    colort:blue;
+    top:296px;
+    right:25px;
+}
+
+.new2_btn{
+    position:fixed;
+    colort:blue;
+    top:325px;
+    right:25px;
 }
 
 {% endblock %}
@@ -62,12 +90,13 @@
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
-<div id="manu_area">
+    <a href="" class="btn btn-outline-primary float-left" id="shortcut_delete_button"> 삭제(ch) </a>
+    <a href="" class="btn btn-outline-primary float-left" id="modify_category_button"> 이동(ch) </a>
+
     <a href="{% url "wm:insert_myshortcut_textarea_summer_note" %}" class="btn btn-outline-success float-right">입력(summernote)</a>
     <a href="{% url "wm:insert_myshortcut_input_title" %}" class="btn btn-outline-success float-right">입력(title)</a>
     <a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-success float-right">입력(textarea)</a>
     <a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-success float-right">입력(input)</a>
-</div>
 
 {% else %}
 
@@ -75,23 +104,27 @@
 {% endifequal %}
 
 
-<input type="text" class="go_input" size=2 >
+<input type="text" class="go_input" size=2 value="1">
 <button type="button" name="button" class="go_btn" id="">go</button>
+<button type="button" name="button" class="before_btn" id="">before</button>
+<button type="button" name="button" class="next_btn" id="">next</button>
+<button type="button" name="button" class="new1_btn" id="">new1</button>
+<button type="button" name="button" class="new2_btn" id="">new2</button>
 
+<button type="button" name="button" id="index_first" hidden></button>
 <br><br>
 
 {% if category %}
-    <h2 class="text-muted"> category: {{ category }} </h2>
+    <h2 >{{ category }} : {{category_nick}}</h2>
 {% endif %}
 
     {% if object_list.exists %}
         {% for p in object_list %}
         <table class="table table-bordered" id="todo_list" width="100%">
-
             {% ifequal p.type.type_name "input" %}
             <tr id="shortcut_{{p.id}}">
                 <td id=index_{{ forloop.counter }}>
-                    <input type="checkbox" id="{{p.pk}}" >
+                    <input type="checkbox" id="{{p.pk}}" class="shortcut_check" >
                         {{ forloop.counter }}
                 </td>
                 <td>
@@ -113,7 +146,7 @@
             {% ifequal p.type.type_name "textarea" %}
             <tr id="shortcut_{{p.id}}">
                 <td id=index_{{ forloop.counter }}>
-                    <input type="checkbox" id="{{p.pk}}" class="td_check">
+                    <input type="checkbox" id="{{p.pk}}" class="shortcut_check">
                     {{ forloop.counter }}
                 </td>
                 <td>
@@ -135,7 +168,7 @@
             {% ifequal p.type.type_name "summer_note" %}
             <tr id="shortcut_{{p.id}}">
                 <td id=index_{{ forloop.counter }}>
-                    <input type="checkbox" id="{{p.pk}}" class="td_check">
+                    <input type="checkbox" id="{{p.pk}}" class="shortcut_check">
                     {{ forloop.counter }}
                 </td>
                 <td>
@@ -160,7 +193,7 @@
             {% ifequal p.type.type_name "input_title" %}
             <tr style="background-color:skyblue; border:2px solid black" id="shortcut_{{p.id}}">
                 <td id=index_{{ forloop.counter }}>
-                    <input type="checkbox" id="{{p.pk}}" class="td_check">
+                    <input type="checkbox" id="{{p.pk}}" class="shortcut_check">
                     {{ forloop.counter }}
                 </td>
                 <td>
@@ -190,6 +223,7 @@
         </tr>
     </table>
     {% endif %}
+    <span class="myshort_list_area"></span>
 
 <!-- modal area -->
 
@@ -231,25 +265,258 @@
     </div>
   </div>
 
+
+<script class="myshortcut_row" type="text/x-template">
+
+<table class="table table-bordered" id="todo_list" width="100%">
+    <tr id="shortcut_<%=shortcut_id%>">
+        <td class="counter_row">
+            <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check" >
+            new
+        </td>
+        <td>
+            <%=shortcut_title%>
+            <button class="badge badge-pill badge-primary short_delete_button" id="<%=shortcut_id%>">삭제</button>
+        </td>
+    </tr>
+
+    <tr id="shortcut_<%=shortcut_id%>-2">
+        <td colspan="2">
+            <input type="text" name="" value="<%=shortcut_content%>" size="40" id="select-input-<%=shortcut_id%>" class="form-control">
+            <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="<%=shortcut_id%>">copy</button>
+            <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="<%=shortcut_id%>" >edit_complete</button>
+        </tr>
+</table>
+
+</script>
+
+<script class="myshortcut_row_textarea" type="text/x-template">
+
+<table class="table table-bordered" id="todo_list" width="100%">
+
+    <tr id="shortcut_<%=shortcut_id%>">
+        <td id=index_{{ forloop.counter }}>
+            <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check">
+            new
+        </td>
+        <td>
+            <%=shortcut_title%>
+            <button class="badge badge-pill badge-primary short_delete_button" id="<%=shortcut_id%>">삭제</button>
+        </td>
+    </tr>
+    <tr id="shortcut_<%=shortcut_id%>-2">
+        <td colspan="2">
+        <textarea id="select-textarea-<%=shortcut_id%>" cols="120" rows="10" ><%=shortcut_content2%></textarea><br>
+        <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="<%=shortcut_id%>">copy</button>
+        <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="<%=shortcut_id%>" >edit_complete</button>
+        </td>
+    </tr>
+
+</script>
+
 {% endblock %}
 
 <script type="text/javascript">
 {% block extra_js %}
 
-// $(document).ready(function(){
-//     const ca_id = $("#my_select_category_id").val()
-//     alert("ca_id : " + ca_id)
-//     $("#ca_"+ca_id).css("background-color", "blue");
-// })
+$(".new1_btn").click(function(){
+    // alert("new1 버튼 클릭")
+    window.history.pushState("", "", '/wm/myshortcut/')
+    const title = prompt("title을 입력해 주세요 ", "");
+
+    $.ajax({
+      type: "POST",
+      url: 'create_new1_input/ajax/',
+      data: {
+          title:title,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            console.log("result : " , result);
+            alert("입력 성공")
+            window.history.pushState("", "", '/wm/myshortcut/')
+
+            // underscore를 이용해 row 추가 하기
+            var raw_template = $('.myshortcut_row').html();
+            var tpl = _.template(raw_template);
+
+            // alert("result.shorcut_id : "+ result.shorcut_id)
+            // alert("shorcut_title : "+ result.shorcut_title)
+            // alert("shortcut_content : "+ result.shortcut_content)
+
+            var rendered = tpl({
+                shortcut_id : result.shortcut_id,
+                shortcut_title : result.shortcut_title,
+                shortcut_content : result.shortcut_content,
+            });
+            $(rendered).appendTo($('.myshort_list_area'));
+            // location.reload(true);
+        }
+    });
+})
+
+$(".new2_btn").click(function(){
+    alert("new2 버튼 클릭")
+    window.history.pushState("", "", '/wm/myshortcut/')
+    const title = prompt("title을 입력해 주세요 ", "");
+
+    $.ajax({
+      type: "POST",
+      url: 'create_new2_textarea/ajax/',
+      data: {
+          title:title,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert(result.message);
+
+            // underscore를 이용해 row 추가 하기
+            var raw_template = $('.myshortcut_row_textarea').html();
+            var tpl = _.template(raw_template);
+            // alert("result.shorcut_id : "+ result.shortcut_id)
+            // alert("shorcut_title : "+ result.shorcut_title)
+            // alert("shortcut_content2 : "+ result.shortcut_content2)
+
+            var rendered = tpl({
+                shortcut_id : result.shortcut_id,
+                shortcut_title : result.shortcut_title,
+                shortcut_content2 : result.shortcut_content2,
+            });
+            $(rendered).appendTo($('.myshort_list_area'));
+            // location.reload(true);
+
+            window.history.pushState("", "", '/wm/myshortcut/')
+
+        }
+    });
+})
+
+$(".before_btn").click(function(){
+
+    var number = Number($(".go_input").val());
+    var number_next = number -1
+
+    // alert(number_next)
+    $(".go_input").val(number_next)
+
+    $( ".go_btn" ).trigger("click");
+
+})
+
+$(".next_btn").click(function(){
+
+    var number = Number($(".go_input").val());
+    var number_next = number + 1
+
+    // alert(number_next)
+    $(".go_input").val(number_next)
+
+    $( ".go_btn" ).trigger("click");
+
+})
+
+$("#modify_category_button").click(function(e){
+
+    e.preventDefault();
+    var shortcut_arr = [];
+
+    const text = ""
+
+    $('.shortcut_check').each(function() {
+        if (jQuery(this).is(":checked")) {
+            var id = this.id;
+            shortcut_arr.push(id);
+        }
+    });
+    // alert('이동할 shortcut : '+ shortcut_arr)
+
+    var category = prompt("where do you go? (1~99)", "");
+
+    if (category.match("^[1-9][0-9]?$")){
+
+        if (category == null || category == "") {
+          txt = "User cancelled the prompt.";
+        } else {
+          txt = category + "로 "  + shortcut_arr + "를 이동"
+          alert("txt : " + category + "로 "  + shortcut_arr + "를 이동")
+        }
+
+        window.history.pushState("", "", '/wm/myshortcut/')
+
+        $.ajax({
+          type: "POST",
+          url: 'update/category/ajax',
+          data: {
+              'shortcut_arr[]':shortcut_arr,
+              'category':category,
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+            success: function(result) {
+                alert(shortcut_arr +"을 " + category + '로 이동' );
+                jQuery('input:checkbox:checked').parents("table").remove();
+
+            }
+        });
+
+    } else {
+        alert("이동할 카테고리는 1~99 중에 선택해주세요")
+    }
+
+})
+
+$('#shortcut_delete_button').click(function(e){
+
+    e.preventDefault();
+    var shortcut_arr = [];
+
+        $('.shortcut_check').each(function() {
+            if (jQuery(this).is(":checked")) {
+                var id = this.id;
+                shortcut_arr.push(id);
+            }
+        });
+    // alert('todo_arr : '+ shortcut_arr)
+
+    window.history.pushState("", "", '/wm/myshortcut/')
+
+    option = prompt("삭제 하실래요(x,y)?", "");
+
+    if(shortcut_arr != ""){
+        if(option == "y"){
+            $.ajax({
+              type: "POST",
+              url: 'delete/ajax/',
+              data: {
+                  'shortcut_arr[]':shortcut_arr,
+                  csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+                success: function(result) {
+                    alert('todo_delete_ajax is success ');
+                    jQuery('input:checkbox:checked').parents("table").remove();
+                }
+            });
+
+        } else {
+            alert("삭제를 취소하셨습니다.")
+        }
+    } else {
+        alert("체크 박스를 체크해주세요")
+    }
+
+})
 
 $(".go_btn").click(function(){
 
     const number = $(".go_input").val();
-    // alert("number : " +number);
-    $('html, body').animate({
-        'scrollTop' : $("#index_"+number).position().top
-    });
 
+    if(number == 1){
+        $('html, body').animate({
+            'scrollTop' : $("#index_first").offset().bottom
+        });
+    }
+    $('html, body').animate({
+        'scrollTop' : $("#index_"+number).offset().top
+    });
 })
 
 $(".go_btn").click(function(e) {
@@ -284,7 +551,6 @@ $(".user_list_btn").click(function(){
 $('.category_name_list_button').click(function(e){
     const user_name =  $("#shortcut_user_id").val();
     const url = '/wm/myshorcut/nicklist/'+user_name
-
 
     $.get(url)
         .done((result) => {
@@ -331,8 +597,7 @@ $('.update_shortcut_user_id').click(function(e){
     });
 })
 
-
-$(".shortcut_edit_button1").click(function(e) {
+$('body').on('click', '.shortcut_edit_button1', function(e) {
     e.preventDefault();
     var id = $(this).attr("id");
     const content1 = $("#select-input-"+id).val();
@@ -351,7 +616,7 @@ $(".shortcut_edit_button1").click(function(e) {
     });
 });
 
-$(".shortcut_edit_button2").click(function(e) {
+$('body').on('click', '.shortcut_edit_button2', function(e) {
     e.preventDefault();
     var id = $(this).attr("id");
     // alert("id : " + id)
@@ -375,16 +640,16 @@ $(".shortcut_edit_button2").click(function(e) {
     });
 });
 
-$(".copy_code1").click(function(e){
-    e.preventDefault();
+$('body').on('click', '.copy_code1', function(e) {
 
+    e.preventDefault();
     var id = this.id
-    // alert(id)
+
     document.execCommand('copy', false, $(this).parent().find('#select-input-'+id).select());
     alert("copy is completed")
 });
 
-$(".copy_code2").click(function(e){
+$('body').on('click', '.copy_code2', function(e) {
     e.preventDefault();
     var id = this.id
     // alert(id)
@@ -393,7 +658,7 @@ $(".copy_code2").click(function(e){
 });
 
 // 댓글 삭제 버튼
-$(".short_delete_button").click(function(e) {
+$('body').on('click', '.short_delete_button', function(e) {
     e.preventDefault();
     var id = $(this).attr("id");
 

@@ -1,61 +1,33 @@
-{% extends "todo/layout_by_admin.html" %}
-{%block title %}{{user_name}}(미완료){% endblock %}
+{% extends "layout.html" %}
+{%block title %}TodoListForTeam{% endblock %}
 
 {%block content4 %}
 {% load crispy_forms_tags %}
 
-<br>
-109821
-<h4>팀장: <span class="text-primary team_leader_name"> {{team_leader_name}} </span> &nbsp;&nbsp;
-회원:<span class="text-primary team_member_name"> {{user_name}} </span> </h4>
+<br><br>
 
-<table width="100%">
-    <tr>
-        <td width="50%">
-            <div class="card my-4">
-                <h5 class="card-header">Search</h5>
-                <div class="card-body">
-                    <div class="input-group">
-                        <input type="text" id="search-input" onkeyup="wait_for_enterkey_todo()" class="form-control"
-                               placeholder="Search for..."/>
-                        <span class="input-group-btn">
-                      <button class="btn btn-secondary" type="button" onclick="search_todo();">Go!</button><br><br>
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+     {{ message.message }}<strong>{{ message.tags }}</strong>
+     {% endfor %}
+</div>
+{% endif %}
 
-                    </span>
-                    </div>
-                </div>
-            </div>
-        </td>
-        <td width="50%">
-            <div class="card my-4">
-                <h5 class="card-header">todo by
-                    <span class="text-primary">
-                        {{user_name}}
-                    </span>
-                </h5>
-                <div class="card-body">
-                    <ul>
-                        <li>
-                            <a href="/todo/todolist/uncomplete/admin/{{user_name}}/{{team_leader_name}}">
-                                미완료 ({{todo_count_uncomplete}})
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/todo/todolist/complete/admin/{{user_name}}/{{team_leader_name}}">
-                                완료 ({{todo_count_complete}})
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </td>
-    </tr>
-</table>
+<!-- 2001 -->
+<!-- <h2 class="float-left">할일 목록({{request.user}})</h2> -->
 
+<h2 id=""><span id="team_name">{{team_name}}</span> 팀</h2>
+<h2 id="">팀장 : <span id="team_leader_name">{{team_leader_name}}</span> </h2>
 
-{% ifequal  team_leader_name request.user.username %}
-    <a href = "{% url "todo:todo_new_admin" user_name team_leader_name %}" class="btn btn-primary float-right">팀장 입력</a>
-{% endifequal  %}
+팀원:
+<select id="select_for_team_member">
+    {% if team_member_list.exists %}
+        {% for p in team_member_list %}
+        <option value="{{p.member}}">{{p.member}}</option>
+        {% endfor %}
+    {% endif %}
+</select>
 
 분류 :
 <select id="select_for_classification">
@@ -65,8 +37,6 @@
         {% endfor %}
     {% endif %}
 </select>
-
-&nbsp;&nbsp;
 
 마감 기한:
 <select id="select_for_dead_line">
@@ -82,34 +52,42 @@
 <div class="input-group">
     <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" />
     <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" onclick="create_todo();">Go!</button>
+        <button class="btn btn-secondary" type="button" onclick="create_todo_for_team();" id="{{team_name}}">Go!</button>
     </span>
 </div>
 
-<hr>
-
-<h4 > <span class="text-info">{{current_state_for_list}}</span></h4>
+<br>
+    {% if category %}
+        카테고리 : <small class="text-muted">{{ category }}</small>
+    {% endif %}
+    <a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right btn-sm">입력 </a>
+    <a href="" class="btn btn-outline-info float-right btn-sm" id="todo_delete_button"> 삭제 </a>
+    <br><br>
 
 <table class="table table-bordered" id="todo_list">
     <tr>
-        <td>분류</td>
+        <td>check</td>
+        <td>classification</td>
+        <td>author</td>
         <td>title</td>
-        <td>경과시간</td>
         <td>남은 시간</td>
         <td>마감 기한</td>
     </tr>
 
-    {% if object_list.exists %}
-        {% for p in object_list %}
-
+    {% if team_todo_list.exists %}
+        {% for p in team_todo_list %}
         <tr>
+            <td>
+                <input type="checkbox" id="{{p.pk}}" class="td_check">
+            </td>
             <td>{{p.classification}}</td>
+            <td>{{p.author}}</td>
             <td>
                 <a href="" id={{p.id}} class="title_for_list">
                     {{p.title}} (<font color="blue"> from {{p.director}}</font> )
-                </a>
+                </a><br>
+                <a class="badge badge-pill badge-dark" href="{% url "todo:todo_edit" p.id %}">수정</a>
             </td>
-            <td>{{p.now_diff}}</td>
             <td>
                 {% if p.dead_line %}
                     {{p.remaining_time}}
@@ -119,6 +97,7 @@
             <td>{{p.dead_line}}</td>
         </tr>
         {% endfor %}
+        <tbody id="tbody_todo"></tbody>
     {% else %}
         <tr>
             <td colspan="5">
@@ -126,20 +105,19 @@
             </td>
         </tr>
     {% endif %}
+
+
 </table>
-<hr>
 
 <button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
     todo detail modal
 </button>
 
-<!-- <button type="button" id="myModal_button" class="btn btn-primary" onclick="show_todo_detail();">
-    todo detail modal
-</button> -->
 
 <button type="button" id="myModal_button2" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal2">
     todo 상세 보기 모달
 </button>
+
 
 <!-- The Modal -->
 <div class="modal fade" id="myModal">
@@ -179,61 +157,60 @@
     </div>
 </div>
 
-
 {% endblock %}
+
+<script class="todo_row" type="text/x-template">
+    <tr>
+        <td>
+            <input type="checkbox" id=<%=todoId %> class="td_check">
+        </td>
+        <td><%=classification %></td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td><%=dead_line %></td>
+    </tr>
+</script>
 
 <script type="text/javascript">
 {% block extra_js %}
 
-function search_todo(){
-    var search_value = document.getElementById('search-input').value;
-    location.href="/todo/search/" + search_value + "/";
-}
+function create_todo_for_team(){
 
-function wait_for_enterkey_todo(){
-    if (window.event.keyCode == 13){
-        search_todo();
-    }
-}
-
-function create_todo(){
+    const team_name = $("#team_name").text()
+    const team_leader_name = $("#team_leader_name").text()
     const title = $("#input_todo").val()
-    // alert( "title : " + title )
-    // 2244
     const dead_line_option = $("#select_for_dead_line").val()
-    const team_leader_name = $(".team_leader_name").text().trim()
-    const team_member_name = $(".team_member_name").text().trim()
-    const classification = $("#select_for_classification").val()
-
-    // alert("team_member_name : "+team_member_name)
-    alert("classification : " +classification)
-
+    const select_for_team_member = $("#select_for_team_member").val()
+    const select_for_classification = $("#select_for_classification").val()
     window.history.pushState("", "", '/todo/')
 
     $.ajax({
       type: "POST",
-      url: 'add_todo_by_ajax_by_teamleader/',
+      url: 'add_todo_for_team_by_ajax/',
       data: {
           title:title,
-          team_leader_name : team_leader_name,
-          team_member_name : team_member_name,
           dead_line_option:dead_line_option,
-          classification:classification,
+          select_for_team_member:select_for_team_member,
+          select_for_classification:select_for_classification,
+          team_name:team_name,
+          team_leader_name:team_leader_name,
           csrfmiddlewaretoken: '{{ csrf_token }}'
       },
         success: function(result) {
             alert("insert todo is success")
-            window.history.pushState("", "", '/todo/todolist/uncomplete/admin/'+team_member_name+"/"+team_leader_name+"/")
+            window.history.pushState("", "", '/todo/team_todo_list/'+team_name)
+
             location.reload(true);
         }
     });
-
 }
 
 function insert_todo(){
     if (window.event.keyCode == 13){
         alert("할일 입력")
-        create_todo();
+        create_todo_for_team();
     }
 }
 
@@ -245,13 +222,12 @@ $(document).ready(function(){
     $("#todo_list a[class='title_for_list']").click(function(e){
         e.preventDefault();
         id = $(this).attr('id');
-        window.history.pushState("", "", '/todo/'+id)
+
         $.get(id)
             .done((html) => {
                 $('#myModal_button').hide();
                 $("#myModal").html(html)
                 $( "#myModal_button" ).trigger("click");
-                // $( "#myModal_button3" ).trigger("click");
             })
             .fail(() => {
                 console.log("fail");
@@ -268,6 +244,40 @@ $(document).ready(function(){
         id=$(this).attr('id');
         alert('id : ', id)
     })
+
+$('#todo_delete_button').click(function(e){
+
+    e.preventDefault();
+    alert("삭제 버튼 ")
+
+    var todo_arr = [];
+    $('.td_check').each(function() {
+        if (jQuery(this).is(":checked")) {
+            var id = this.id;
+            todo_arr.push(id);
+        }
+    });
+    alert('todo_arr : '+ todo_arr)
+
+    window.history.pushState("", "", '/todo/')
+
+    $.ajax({
+      type: "POST",
+      url: 'todo_delete_ajax/',
+      data: {
+          'todo_arr[]':todo_arr,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert('todo_delete_ajax is success ');
+            jQuery('input:checkbox:checked').parents("tr").remove();
+        }
+    });
+})
+
+// result is todo_arr : 78,76
+
+
 })
 
 

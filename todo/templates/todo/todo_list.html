@@ -1,8 +1,10 @@
 {% extends "todo/layout.html" %}
 {%block title %}todo list{% endblock %}
 
-{%block content %}
+{%block content2 %}
 {% load crispy_forms_tags %}
+
+<br><br>
 
 {% if messages %}
 <div class="alert alert-success">
@@ -12,8 +14,29 @@
 </div>
 {% endif %}
 
-2001
-<h2 class="float-left">할일 목록({{request.user}})</h2>
+<!-- 2001 -->
+<h4>할일 입력</h4>
+<!-- <h2 class="float-left">할일 목록({{request.user}})</h2> -->
+
+마감 기한:
+<select id="select_for_dead_line">
+ <option value="1h">1시간후</option>
+ <option value="4h">4시간후</option>
+ <option value="8h">8시간후</option>
+ <option value="1d">1일후</option>
+ <option value="1w">1주일후</option>
+</select>
+
+<br><br>
+
+<div class="input-group">
+    <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" />
+    <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button" onclick="create_todo();">Go!</button>
+    </span>
+</div>
+
+<br>
     {% if category %}
         카테고리 : <small class="text-muted">{{ category }}</small>
     {% endif %}
@@ -62,6 +85,7 @@
             <td>{{p.dead_line}}</td>
         </tr>
         {% endfor %}
+        <tbody id="tbody_todo"></tbody>
     {% else %}
         <tr>
             <td colspan="5">
@@ -69,6 +93,8 @@
             </td>
         </tr>
     {% endif %}
+
+
 </table>
 
 <button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
@@ -119,11 +145,51 @@
     </div>
 </div>
 
-
 {% endblock %}
+
+<script class="todo_row" type="text/x-template">
+    <tr>
+        <td>
+            <input type="checkbox" id=<%=todoId %> class="td_check">
+        </td>
+        <td><%=classification %></td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td><%=dead_line %></td>
+    </tr>
+</script>
 
 <script type="text/javascript">
 {% block extra_js %}
+
+function create_todo(){
+    const title = $("#input_todo").val()
+    const dead_line_option = $("#select_for_dead_line").val()
+    window.history.pushState("", "", '/todo/')
+
+    $.ajax({
+      type: "POST",
+      url: 'add_todo_by_ajax/',
+      data: {
+          title:title,
+          dead_line_option:dead_line_option,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert("insert todo is success")
+            location.reload(true);
+        }
+    });
+}
+
+function insert_todo(){
+    if (window.event.keyCode == 13){
+        alert("할일 입력")
+        create_todo();
+    }
+}
 
 function show_todo_detail(){
   alert("modal 출력 함수")
@@ -133,14 +199,12 @@ $(document).ready(function(){
     $("#todo_list a[class='title_for_list']").click(function(e){
         e.preventDefault();
         id = $(this).attr('id');
-        // window.history.pushState("", "", '/todo/'+id)
 
         $.get(id)
             .done((html) => {
                 $('#myModal_button').hide();
                 $("#myModal").html(html)
                 $( "#myModal_button" ).trigger("click");
-                // $( "#myModal_button3" ).trigger("click");
             })
             .fail(() => {
                 console.log("fail");
@@ -159,11 +223,10 @@ $(document).ready(function(){
     })
 
 $('#todo_delete_button').click(function(e){
+
     e.preventDefault();
-    // todo_check
-    // window.location = "/todo/"
     alert("삭제 버튼 ")
-    // Get checked checkboxes
+
     var todo_arr = [];
     $('.td_check').each(function() {
         if (jQuery(this).is(":checked")) {
