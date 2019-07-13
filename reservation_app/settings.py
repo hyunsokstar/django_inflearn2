@@ -144,7 +144,7 @@ MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = '/blog/'
+LOGIN_REDIRECT_URL = '/todo/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DJANGO_NOTIFICATIONS_CONFIG = {

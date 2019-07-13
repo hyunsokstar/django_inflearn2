@@ -361,6 +361,8 @@ $(document).ready(function(){
                 });
                 console.log("rendered : " , rendered);
                 $(rendered).appendTo($('.reply_list'));
+                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+
             })
             .fail(function(xhr, textStatus, error){
                 alert("failed : " + error);
@@ -392,6 +394,7 @@ $(document).ready(function(){
                 });
                 console.log("rendered : " , rendered);
                 $(rendered).appendTo($('.reply_list'));
+                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
             })
             .fail(function(xhr, textStatus, error){
                 alert("failed : " + error);

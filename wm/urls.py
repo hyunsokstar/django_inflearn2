@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('myshortcut/create_new1_input/ajax/', views.create_new1_input , name="create_new1_input"),
     path('myshortcut/create_new2_textarea/ajax/', views.create_new2_textarea , name="create_new2_textareas"),
+    path('myshortcut/create_new4_textarea/ajax/', views.create_new4_textarea , name="create_new4_textareas"),
 
     path('myshortcut/update/category/nick/', views.update_shortcut_nick , name="update_category_nick"),
 
@@ -22,6 +23,9 @@ urlpatterns = [
     path('new/textarea_summer_note', views.MyShortCutCreateView_textarea_summer_note.as_view() , name="insert_myshortcut_textarea_summer_note"),
 
     path('myshortcut/delete_shortcut_ajax/<int:id>', views.delete_shortcut_ajax , name="delete_shortcut_ajax"),
+    path('myshortcut/update_shortcut_ajax/<int:id>', views.update_shortcut_ajax , name="update_shortcut_ajax"),
+
+
     path('myshortcut/category/<str:slug>/', views.MyShortcutListByCategory.as_view()),
     path('myshortcut/update_shortcut1_ajax/<int:id>', views.update_shortcut1_ajax , name='update_shortcut1_ajax'),
 

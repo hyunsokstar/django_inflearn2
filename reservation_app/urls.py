@@ -5,8 +5,9 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    # path('', include('blog.urls')),
-    re_path(r'^login/$', auth_views.LoginView, name = 'login',  kwargs= {'template_name' : 'accounts/login_form.html'}),
+    # path('', include('blog.urls')),accounts2/signup
+    # re_path(r'^login/$', auth_views.LoginView, name = 'login',  kwargs= {'template_name' : 'accounts/login_form.html'}),
+    path('accounts/', include('accounts2.urls')),
     re_path(r'^logout/$', auth_views.LogoutView, name = 'logout', kwargs = {'next_page' : settings.LOGIN_URL}),
     path('admin/', admin.site.urls),
     path('markdownx/', include('markdownx.urls')),

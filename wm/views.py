@@ -22,6 +22,58 @@ from .models import MyShortCut, Type, Category, CategoryNick
 
 # 1122
 
+def create_new4_textarea(request):
+    print("create_new4_textarea 실행")
+    ty = Type.objects.get(type_name="textarea")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    # title = request.POST['title']
+
+    wm1 = MyShortCut.objects.create(
+        author = request.user,
+        title="title1",
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+    wm2 = MyShortCut.objects.create(
+        author = request.user,
+        title="title2",
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+    wm3 = MyShortCut.objects.create(
+        author = request.user,
+        title="title3",
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+    wm4 = MyShortCut.objects.create(
+        author = request.user,
+        title="title4",
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+    wm5 = MyShortCut.objects.create(
+        author = request.user,
+        title="title5",
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+
+    print("wm1 : ", wm1)
+
+    return JsonResponse({
+        'message': 'textarea 박스 추가 성공',
+        'shortcut_id':wm1.id,
+        'shortcut_title':wm1.title,
+        'shortcut_content2':wm1.content2,
+    })
+
 # myshortcut_row, shorcut_id, shorcut_content
 def create_new1_input(request):
     print("create_new1_input 실행")
@@ -136,7 +188,7 @@ def CategoryNickListByUserId(request, user_name):
         user = User.objects.get(username=user_name)
 
         cn = CategoryNick.objects.get_or_create(
-            author=user.id,
+            author=user,
         )
         print("cn : ", cn)
 
@@ -269,6 +321,20 @@ def delete_shortcut_ajax(request,id):
         print('MyShortCut delete 성공 id : ' , id);
         return JsonResponse({
             'message': 'shortcut 삭제 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def update_shortcut_ajax(request,id):
+    user = request.user
+    title = request.POST['title']
+
+    if request.method == "POST" and request.is_ajax():
+        todo = MyShortCut.objects.filter(Q(id=id)).update(title=title)
+        print('MyShortCut update 성공 id : ' , id);
+        return JsonResponse({
+            'message': 'shortcut 업데이트 성공',
+            'title':title
         })
     else:
         return redirect('/todo')
