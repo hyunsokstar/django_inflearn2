@@ -365,6 +365,11 @@ class MyShortCutListView(LoginRequiredMixin,ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
             context = super(MyShortCutListView, self).get_context_data(**kwargs)
             context['category_list'] = Category.objects.all()
+
+            category = Category.objects.get(id=self.request.user.profile.selected_category_id)
+            context['category'] = category
+            context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=self.request.user)
+
             context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
 
             return context

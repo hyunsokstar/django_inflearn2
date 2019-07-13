@@ -73,6 +73,20 @@
     right:16px;
 }
 
+.category_btn{
+    position:fixed;
+    colort:blue;
+    top:500px;
+    right:16px;
+}
+
+.category_user_btn{
+    position:fixed;
+    colort:blue;
+    top:540px;
+    right:16px;
+}
+
 {% endblock %}
 
 
@@ -84,9 +98,8 @@
     <h2>Skil Note by {{request.user.profile.shortcut_user_id}}</h2>
     <input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id">
     <button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">id 수정</button>
-    <button type="button" class="user_list_btn" id="">유저 목록</button>
+    <button type="button" class="user_list_btn">유저 목록</button>
     <button type="button" class="category_name_list_button" id="{{request.user.id}}">카테고리</button>
-
 <hr>
 
 
@@ -139,7 +152,7 @@
 
 
 
-<button type="button" name="button" class="go_btn btn btn-outline-success" id="">go</button>
+<button type="button" name="button" class="go_btn btn btn-outline-success" id="">Go</button>
 <button type="button" name="button" class="before_btn btn btn-outline-success" id="">before</button>
 
 <button type="button" name="button" class="next_btn btn btn-outline-success" id="">next</button>
@@ -148,14 +161,15 @@
 <a class="new3_btn btn btn-outline-success" id="" href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a>
 <a class="new4_btn btn btn-outline-success" id="" href=""> text(5) </a>
 
+<button type="button" class="category_btn category_name_list_button btn btn-outline-success" id="{{request.user.id}}">CH</button>
+<button type="button" class="category_user_btn user_list_btn btn btn-outline-success" >User</button>
 
-<!-- 2244 -->
 
 <button type="button" name="button" id="index_first" hidden></button>
 <br><br>
 
 {% if category %}
-    <h2 >{{ category }} : {{category_nick}}</h2>
+    <h2 > <span id="current_category">{{category}}</span> : {{category_nick}}</h2>
 {% endif %}
 
     {% if object_list.exists %}
@@ -686,15 +700,19 @@ $(".user_list_btn").click(function(){
         })
 })
 
+// 2244
 $('.category_name_list_button').click(function(e){
     const user_name =  $("#shortcut_user_id").val();
     const url = '/wm/myshorcut/nicklist/'+user_name
+    const ch = $("#current_category").text()
 
     $.get(url)
         .done((result) => {
             console.log("result : " , result);
             $(".category_nick_area").html(result)
             $("#CategoryModal").modal();
+            // alert("ch : " + ch)
+            $("#"+ch).css("background-color", "skyblue");
         })
         .fail(() => {
             console.log("fail");
