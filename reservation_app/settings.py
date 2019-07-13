@@ -137,7 +137,11 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 TIME_ZONE = 'Asia/Seoul'
+
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'reservation_app', 'static')
+]
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'_media')
 MEDIA_URL = '/media/'

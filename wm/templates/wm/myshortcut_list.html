@@ -1,75 +1,26 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
+
 {%block title %}todo list{% endblock %}
 
 {%block extra_css %}
 
-.go_start_line_btn{
+button, input, a {
+    margin-bottom:5px;
+}
+
+
+.sideicon_for_scroll{
     position:fixed;
     colort:blue;
     top:100px;
-    right:18px;
-}
-
-.go_end_line_btn{
-    position:fixed;
-    colort:blue;
-    top:140px;
-    right:18px;
-}
-
-.go_input{
-    position:fixed;
-    colort:blue;
-    top:180px;
-    right:18px;
-}
-
-.go_btn{
-    position:fixed;
-    colort:blue;
-    top:210px;
     right:16px;
 }
 
-.before_btn {
+.sideicon_for_insert{
     position:fixed;
     colort:blue;
-    top:248px;
-    right:16px;
-}
-
-.next_btn{
-    position:fixed;
-    colort:blue;
-    top:287px;
-    right:16px;
-}
-
-.new1_btn{
-    position:fixed;
-    colort:blue;
-    top:326px;
-    right:16px;
-}
-
-.new2_btn{
-    position:fixed;
-    colort:blue;
-    top:364px;
-    right:16px;
-}
-
-.new3_btn{
-    position:fixed;
-    colort:blue;
-    top:405px;
-    right:16px;
-}
-
-.new4_btn{
-    position:fixed;
-    colort:blue;
-    top:442px;
+    top:320px;
     right:16px;
 }
 
@@ -144,22 +95,21 @@
 <span class="float-right"> {{request.user.profile.shortcut_user_id}} 님만 입력할수 있습니다. </span>
 {% endifequal %}
 
+<div class="sideicon_for_scroll">
+    <button type="button" name="button" class="go_start_line_btn btn btn-outline-success" id="">first</button><br>
+    <button type="button" name="button" class="go_end_line_btn btn btn-outline-success" id="">end</button><br>
+    <input type="text" class="go_input form" size=2 value="1"><br>
+    <button type="button" name="button" class="go_btn btn btn-outline-success" id="">Go</button><br>
+    <button type="button" name="button" class="before_btn btn btn-outline-success" id="">before</button><br>
+    <button type="button" name="button" class="next_btn btn btn-outline-success" id="">next</button>
+</div>
 
-<input type="text" class="go_input form" size=2 value="1">
-
-<button type="button" name="button" class="go_start_line_btn btn btn-outline-success" id="">first</button>
-<button type="button" name="button" class="go_end_line_btn btn btn-outline-success" id="">end</button>
-
-
-
-<button type="button" name="button" class="go_btn btn btn-outline-success" id="">Go</button>
-<button type="button" name="button" class="before_btn btn btn-outline-success" id="">before</button>
-
-<button type="button" name="button" class="next_btn btn btn-outline-success" id="">next</button>
-<button type="button" name="button" class="new1_btn btn btn-outline-success" id="">input</button>
-<button type="button" name="button" class="new2_btn btn btn-outline-success" id="">text</button>
-<a class="new3_btn btn btn-outline-success" id="" href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a>
-<a class="new4_btn btn btn-outline-success" id="" href=""> text(5) </a>
+<div class="sideicon_for_insert">
+    <a class="new3_btn btn btn-outline-success" id="" href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a><br>
+    <button type="button" name="button" class="new1_btn btn btn-outline-success" id="">input</button><br>
+    <button type="button" name="button" class="new2_btn btn btn-outline-success" id="">text(1)</button><br>
+    <a class="new4_btn btn btn-outline-success" id="" href=""> text(5) </a>
+</div>
 
 <button type="button" class="category_btn category_name_list_button btn btn-outline-success" id="{{request.user.id}}">CH</button>
 <button type="button" class="category_user_btn user_list_btn btn btn-outline-success" >User</button>
@@ -175,6 +125,7 @@
     {% if object_list.exists %}
         {% for p in object_list %}
             <table class="table table-bordered table_row" id="todo_list" width="100%">
+
             {% ifequal p.type.type_name "input" %}
             <tr id="shortcut_{{p.id}}">
                 <td id=index_{{ forloop.counter }}>
@@ -188,6 +139,8 @@
                     {% if p.author == request.user %}
                     <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
                     <button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
+                    <!-- <img src="{% static 'icon/trashcan.png' %}" alt="" > -->
+
                     {% endif %}
                 </td>
             </tr>
@@ -197,6 +150,7 @@
                     <input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
                     <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
                     <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}" >edit_complete</button>
+                </td>
             </tr>
             {% endifequal %}
 
@@ -211,6 +165,8 @@
                     {% if p.author == request.user %}
                     <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
                     <button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
+                    <!-- <img src="{% static 'icon/trashcan.png' %}" alt=""> -->
+
 
                     {% endif %}
                 </td>
@@ -235,6 +191,7 @@
                     {% if p.author == request.user %}
                     <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
                     <button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
+                    <!-- <img src="{% static 'icon/trashcan.png' %}" alt=""> -->
 
                     {% endif %}
                 </td>
@@ -263,6 +220,8 @@
                     {% if p.author == request.user %}
                     <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
                     <button class="badge badge-pill badge-primary short_update_button" id="{{p.id}}">제목 수정</button>
+                    <!-- <img src="{% static 'icon/trashcan.png' %}" alt=""> -->
+
                     {% endif %}
                 </td>
             </tr>
