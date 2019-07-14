@@ -80,12 +80,12 @@
                                 {% if comment.author == request.user %}
                                 <tr bgcolor="#BFEFF2">
                                     <td>
-                                        step{{ forloop.counter }}
+                                        Step{{ forloop.counter }}
                                     </td>
                                     <td colspan="2">작성자 : <p style="color:blue;">{{comment.author}}</p></td>
                                 </tr>
                                 <tr>
-                                    <td bgcolor="#BFEFF2">title</td>
+                                    <td bgcolor="#BFEFF2">Title</td>
                                     <td colspan="3" bgcolor="#BFEFF2">
                                         <span id="todo_comment_title_output_{{comment.id}}">
                                             {{comment.title}}
@@ -96,7 +96,7 @@
                                 {% else %}
                                 <tr bgcolor="#FFEC77">
                                     <td>
-                                        step{{ forloop.counter }}
+                                        Step{{ forloop.counter }}
                                     </td>
                                     <td colspan="2">작성자 : <p style="color:black;">{{comment.author}}</p></td>
                                 </tr>
@@ -131,7 +131,7 @@
                                     <textarea name="name" rows="10" cols="110" id="my_code_{{comment.id}}" class="summer_for_comment_update_copy_{{comment.id}}" hidden>{{comment.text}}</textarea>
                                     {% else %}
                                     <!-- textarea일 경우 -->
-                                    <textarea name="name" rows="10" cols="110" id="{{comment.id}}" class="textarea_for_comment_update_{{comment.id}}">{{comment.text}}</textarea>
+                                    <textarea name="name" rows="10" cols="110" id="{{comment.id}}" class="textarea_for_comment_update_{{comment.id}} form-control">{{comment.text}}</textarea>
                                     <button type="button" name="button" id="{{comment.id}}" class="btn btn-sm btn-outline-danger copy_code">copy</button>
                                     {% endif %}
                                 </td>

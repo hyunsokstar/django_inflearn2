@@ -9,7 +9,6 @@ button, input, a {
     margin-bottom:5px;
 }
 
-
 .sideicon_for_scroll{
     position:fixed;
     colort:blue;
@@ -20,21 +19,21 @@ button, input, a {
 .sideicon_for_insert{
     position:fixed;
     colort:blue;
-    top:320px;
+    top:340px;
     right:16px;
 }
 
 .category_btn{
     position:fixed;
     colort:blue;
-    top:500px;
+    top:510px;
     right:16px;
 }
 
 .category_user_btn{
     position:fixed;
     colort:blue;
-    top:540px;
+    top:550px;
     right:16px;
 }
 
@@ -173,7 +172,7 @@ button, input, a {
             </tr>
             <tr id="shortcut_{{p.id}}-2">
                 <td colspan="2">
-                <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" >{{p.content2 }}</textarea><br>
+                <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" class="form-control">{{p.content2 }}</textarea><br>
                 <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2 float-right" id="{{p.id}}">copy</button>
                 <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2 float-right" id="{{p.id}}" >edit_complete</button>
                 </td>
@@ -199,7 +198,7 @@ button, input, a {
 
             <tr id="shortcut_{{p.id}}-2">
                 <td colspan="2">
-                <div id="select-textarea-{{p.id}}">{{p.content2 | safe}}</textarea></div>
+                <div id="select-textarea-{{p.id}}">{{p.content2 | safe}}</div>
                 <br>
                 <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
                 <a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
@@ -216,18 +215,15 @@ button, input, a {
                 <td>
                     제목 :
                     <span id=title_{{p.id}}>{{p.title}}</span>
-
                     {% if p.author == request.user %}
                     <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
-                    <button class="badge badge-pill badge-primary short_update_button" id="{{p.id}}">제목 수정</button>
-                    <!-- <img src="{% static 'icon/trashcan.png' %}" alt=""> -->
-
+                    <button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
                     {% endif %}
                 </td>
             </tr>
             <tr id="shortcut_{{p.id}}-2">
                 <td colspan="2">
-                <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" >{{p.content2 }}</textarea><br>
+                <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" class="form-control">{{p.content2 }}</textarea><br>
                 <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
                 <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="{{p.id}}" >edit_complete</button>
                 </td>

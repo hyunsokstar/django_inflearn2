@@ -144,5 +144,5 @@ class private_desk_list(LoginRequiredMixin,ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(private_desk_list, self).get_context_data(**kwargs)
-        context['mysite_list'] = MySite.objects.all()
+        context['mysite_list'] = MySite.objects.filter(Q(author=self.request.user))
         return context

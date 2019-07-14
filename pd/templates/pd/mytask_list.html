@@ -1,11 +1,16 @@
 {% extends "layout.html" %}
 {%block title %}private desk{% endblock %}
 
+{%block extra_css %}
+
+
+
+{% endblock %}
+
 {%block content4 %}
 
-<br><br><br><br>
-<h2>private desk</h2>
-
+<br><br>
+<h2>개인 메모</h2>
 
 {% if messages %}
 <div class="alert alert-success">
@@ -35,7 +40,7 @@
         </tr>
         <tr>
             <td>content</td>
-            <td><textarea name="name" rows="8" cols="80" id=mytask_content_{{p.id}}>{{p.content}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="80" id=mytask_content_{{p.id}} class="form-control">{{p.content}}</textarea></td>
         </tr>
         <tr>
             <td>shortcut</td>
@@ -57,14 +62,13 @@
 {% endif %}
 
 <hr>
-
-        <a class="btn btn-outline-info btn-block" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-          즐겨찾기 입력
-        </a><br><br>
+    <a class="btn btn-outline-info btn-block " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin-bottom:5px">
+        즐겨찾기 입력
+    </a>
 
       <div class="collapse" id="collapseExample">
         <div class="card card-body">
-            <table class="table table-hover table-dark">
+            <table class="table table-hover" style="background-color:skyblue">
                 <tr>
                     <td>
                         name
@@ -81,20 +85,22 @@
             </table>
             <button type="button" name="button" class="add_mysite_button">create</button>
         </div>
-      </div><br>
+      </div>
 
 {% if mysite_list.exists %}
     {% for p in mysite_list %}
 
     <table class="table table-bordered" id=mysite_table_{{p.id}}>
         <tr>
-            <td>
-                site : <input type="text" name="" value="{{p.site_name}}" id=site_name_{{p.id}}>
+            <td width="40%">
+                site : <input type="text" name="" value="{{p.site_name}}" id=site_name_{{p.id}} class="form-control">
             </td>
             <td>
-                url : <input type="text" name="" value="{{p.site_url}}" id=site_url_{{p.id}}>
+                url : <input type="text" name="" value="{{p.site_url}}" id=site_url_{{p.id}} class="form-control">
                 <a href="" class="btn btn-outline-primary btn-sm float-right mysite_update_btn" id={{p.id}} >수정</a>
                 <a href="" class="btn btn-outline-primary btn-sm float-right mysite_delete_btn" id={{p.id}} >삭제</a>
+                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_copy_btn" id={{p.id}} >복사</a>
+                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_mobe_btn" id={{p.id}} >이동</a>
 
             </td>
         </tr>
@@ -141,6 +147,17 @@ asdfasdasdfasfd
 
 <script type="text/javascript">
 {% block extra_js %}
+
+$('body').on('click', '.mysite_mobe_btn', function(e) {
+
+    var site_id = $(this).attr("id");
+    var site_url = $("#site_url_"+site_id).val();
+
+    alert("site_url : "+ site_url)
+    window.open("https://"+site_url, '_blank');
+
+});
+
 
 $('body').on('click', '.mysite_delete_btn', function(e) {
 
@@ -192,9 +209,9 @@ $(".add_mysite_button").click(function(e) {
             var raw_template = $('.mysite_row').html();
             var tpl = _.template(raw_template);
 
-            alert("result.site_id : "+ result.site_id)
-            alert("site_name : "+ site_name)
-            alert("site_url : "+ site_url)
+            // alert("result.site_id : "+ result.site_id)
+            // alert("site_name : "+ site_name)
+            // alert("site_url : "+ site_url)
 
             var rendered = tpl({
                 id : result.site_id,
@@ -237,6 +254,17 @@ $('body').on('click', '.mysite_update_btn', function(e) {
     });
 
 })
+
+
+    $('body').on('click', '.mysite_copy_btn', function(e) {
+
+        e.preventDefault();
+        var id = this.id
+
+        document.execCommand('copy', false, $(this).parent().parent().find('#site_url_'+id).select());
+        alert("copy is completed")
+    });
+
 
 
 
