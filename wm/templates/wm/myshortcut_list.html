@@ -336,6 +336,14 @@ button, input, a {
 <script type="text/javascript">
 {% block extra_js %}
 
+$(document).ready(function(){
+    const user = "{{request.user}}"
+    if($("#shortcut_user_id").val()== "me"){
+        $("#shortcut_user_id").val(user)
+        $( ".update_shortcut_user_id" ).trigger("click");
+    }
+})
+
 $(".go_start_line_btn").click(function(){
     $(".go_input").val(1)
     $( ".go_btn" ).trigger("click");

@@ -363,6 +363,11 @@ class MyShortCutListView(LoginRequiredMixin,ListView):
             return MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
+
+            cn = CategoryNick.objects.get_or_create(
+                author=self.request.user,
+            )
+
             context = super(MyShortCutListView, self).get_context_data(**kwargs)
             context['category_list'] = Category.objects.all()
 

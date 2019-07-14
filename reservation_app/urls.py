@@ -12,7 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('markdownx/', include('markdownx.urls')),
     path('accounts/', include('allauth.urls')),
-    path('accounts2/', include('accounts2.urls')),
+    # path('accounts2/', include('accounts2.urls')),
     path('blog/', include('blog.urls')),
     path('', include('remote_control.urls')),
     path('todo/', include('todo.urls')),

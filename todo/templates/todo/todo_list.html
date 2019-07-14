@@ -5,7 +5,6 @@
 {% load crispy_forms_tags %}
 
 <br><br>
-
 {% if messages %}
 <div class="alert alert-success">
     {% for message in messages %}
@@ -64,7 +63,7 @@
     {% if category %}
         카테고리 : <small class="text-muted">{{ category }}</small>
     {% endif %}
-    <a href="" class="btn btn-outline-info float-left btn-sm" id="todo_delete_button"> 삭제(체크) </a> 
+    <a href="" class="btn btn-outline-info float-left btn-sm" id="todo_delete_button"> 삭제(체크) </a>
     <a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right btn-sm">입력 </a>
     <br><br>
 
@@ -116,7 +115,7 @@
         <tbody id="tbody_todo"></tbody>
     {% else %}
         <tr>
-            <td colspan="5">
+            <td colspan="7">
                 <h4>아직 게시물이 없습니다.</h4>
             </td>
         </tr>
