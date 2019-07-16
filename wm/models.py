@@ -35,6 +35,20 @@ class MyShortCut(models.Model):
     def get_absolute_url(self,*args,**kwargs):
             return reverse('wm:my_shortcut_list')
 
+    def __str__(self):
+        return self.title
+
+class CommentForShortCut(models.Model):
+    shortcut= models.ForeignKey(MyShortCut, on_delete=models.CASCADE)
+    title= models.CharField(max_length=50)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    # text_type = models.CharField(max_length=20, blank=True, default="summer_note")
+
+    def __str__(self):
+        return self.title
+
 class CategoryNick(models.Model):
     ca_subtitle = models.CharField(max_length=50, default="my category info")
     author = models.ForeignKey(User, on_delete=True)

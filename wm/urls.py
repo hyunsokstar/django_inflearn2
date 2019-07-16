@@ -7,6 +7,11 @@ from django.conf import settings
 app_name = 'wm'
 
 urlpatterns = [
+
+    path('new_comment_for_my_shortcut/<int:shortcut_id>/ajax/' , views.new_comment_for_my_shortcut, name="new_comment_for_my_shortcut"),
+    path('update_shortcut_comment_ajax/<int:shortcut_comment_id>' , views.update_comment_for_my_shortcut, name="update_comment_for_my_shortcut"),
+    path('delete_shortcut_comment_ajax/<int:shortcut_comment_id>' , views.delete_comment_for_my_shortcut, name="delete_comment_for_my_shortcut"),
+
     path('myshortcut/update/shortcut_subject/' , views.update_my_shortcut_subject, name="update_my_shortcut_subject"),
     path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
 

@@ -12,28 +12,42 @@ button, input, a {
 .sideicon_for_scroll{
     position:fixed;
     colort:blue;
-    top:100px;
+    top:60px;
     right:16px;
 }
 
 .sideicon_for_insert{
     position:fixed;
     colort:blue;
-    top:340px;
+    top:290px;
     right:16px;
 }
 
 .category_btn{
     position:fixed;
     colort:blue;
-    top:510px;
+    top:450px;
     right:16px;
 }
 
 .category_user_btn{
     position:fixed;
     colort:blue;
-    top:550px;
+    top:490px;
+    right:16px;
+}
+
+.go_to_before_channer_btn{
+    position:fixed;
+    colort:blue;
+    top:530px;
+    right:16px;
+}
+
+.go_to_next_channer_btn{
+    position:fixed;
+    colort:blue;
+    top:580px;
     right:16px;
 }
 
@@ -69,7 +83,7 @@ button, input, a {
         <td>
             {% for category in category_list %}
                 {% ifequal category.id request.user.profile.selected_category_id %}
-                    <a style="background-color:yellow" class="btn btn-outline-info btn-sm ca-btn-selected" href="{{category.get_absolute_url}}">{{ category.name }} </a>
+                    <a style="background-color:yellow" class="btn btn-outline-info btn-sm ca-btn-selected" href="{{category.get_absolute_url}}" id={{category.id}}>{{ category.name }} </a>
                 {% else %}
                     <a class="btn btn-outline-info btn-sm ca-btn-{{category.id}} ca-btn" id=ca_{{category.id}} href="{{category.get_absolute_url}}">{{ category.name }} </a>
                 {% endifequal %}
@@ -113,6 +127,15 @@ button, input, a {
 <button type="button" class="category_btn category_name_list_button btn btn-outline-success" id="{{request.user.id}}">CH</button>
 <button type="button" class="category_user_btn user_list_btn btn btn-outline-success" >User</button>
 
+<button type="button" class="go_to_before_channer_btn btn btn-outline-success" >
+    <img src="{% static 'icon/left_arrow.png' %}" alt="" >
+</button>
+
+<button type="button" class="go_to_next_channer_btn btn btn-outline-success" >
+    <img src="{% static 'icon/right_arrow.png' %}" alt="" >
+</button>
+
+
 
 <button type="button" name="button" id="index_first" hidden></button>
 <br><br>
@@ -127,7 +150,7 @@ button, input, a {
 
             {% ifequal p.type.type_name "input" %}
             <tr id="shortcut_{{p.id}}">
-                <td id=index_{{ forloop.counter }}>
+                <td id=index_{{ forloop.counter }} width="10%">
                     <input type="checkbox" id="{{p.pk}}" class="shortcut_check" >
                         {{ forloop.counter }}
                 </td>
@@ -149,13 +172,14 @@ button, input, a {
                     <input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
                     <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
                     <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}" >edit_complete</button>
+                    <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
                 </td>
             </tr>
             {% endifequal %}
 
             {% ifequal p.type.type_name "textarea" %}
-            <tr id="shortcut_{{p.id}}">
-                <td id=index_{{ forloop.counter }}>
+            <tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0">
+                <td id=index_{{ forloop.counter }} width="10%">
                     <input type="checkbox" id="{{p.pk}}" class="shortcut_check">
                     {{ forloop.counter }}
                 </td>
@@ -166,22 +190,22 @@ button, input, a {
                     <button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
                     <!-- <img src="{% static 'icon/trashcan.png' %}" alt=""> -->
 
-
                     {% endif %}
                 </td>
             </tr>
-            <tr id="shortcut_{{p.id}}-2">
+            <tr id="shortcut_{{p.id}}-2" style="background-color:#f7f7e4">
                 <td colspan="2">
                 <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" class="form-control">{{p.content2 }}</textarea><br>
                 <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2 float-right" id="{{p.id}}">copy</button>
                 <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2 float-right" id="{{p.id}}" >edit_complete</button>
+                <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
                 </td>
             </tr>
             {% endifequal %}
 
             {% ifequal p.type.type_name "summer_note" %}
             <tr id="shortcut_{{p.id}}">
-                <td id=index_{{ forloop.counter }}>
+                <td id=index_{{ forloop.counter }} width="10%">
                     <input type="checkbox" id="{{p.pk}}" class="shortcut_check">
                     {{ forloop.counter }}
                 </td>
@@ -191,7 +215,6 @@ button, input, a {
                     <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
                     <button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
                     <!-- <img src="{% static 'icon/trashcan.png' %}" alt=""> -->
-
                     {% endif %}
                 </td>
             </tr>
@@ -207,12 +230,12 @@ button, input, a {
             {% endifequal %}
 
             {% ifequal p.type.type_name "input_title" %}
-            <tr style="background-color:skyblue; border:2px solid black" id="shortcut_{{p.id}}">
-                <td id=index_{{ forloop.counter }}>
+            <tr style="background-color:#caf5f5; color:black;" id="shortcut_{{p.id}}">
+                <td id=index_{{ forloop.counter }} width="10%" >
                     <input type="checkbox" id="{{p.pk}}" class="shortcut_check">
                     {{ forloop.counter }}
                 </td>
-                <td>
+                <td >
                     제목 :
                     <span id=title_{{p.id}}>{{p.title}}</span>
                     {% if p.author == request.user %}
@@ -221,18 +244,49 @@ button, input, a {
                     {% endif %}
                 </td>
             </tr>
-            <tr id="shortcut_{{p.id}}-2">
+            <tr id="shortcut_{{p.id}}-2" style="background-color:#efecf8;">
                 <td colspan="2">
                 <textarea id="select-textarea-{{p.id}}" cols="120" rows="10" class="form-control">{{p.content2 }}</textarea><br>
                 <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
                 <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="{{p.id}}" >edit_complete</button>
+                <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
+
                 </td>
             </tr>
             {% endifequal %}
+
         </table>
+
+        <!-- 댓글 영역 -->
+        {% if p.commentforshortcut_set.exists %}
+        <a class="btn btn-outline-primary btn-block " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin-bottom:5px">
+            Comment Area ({{p.commentforshortcut_set.count}})
+        </a>
+
+            <div class="collapse" id="collapseExample">
+                {% for comment in p.commentforshortcut_set.all %}
+                <table class="table table-bordered" style="background-color:#17ac2d" id=comment_table_{{comment.id}}>
+                    <tr>
+                        <td>
+                            <input type="text" name="" class="form-control" value="{{comment.title}}" id=comment_title_{{comment.id}}>
+                            <button class="badge badge-pill badge-primary comment_delete_button float-right" id={{comment.id}}>댓글 삭제</button>
+                            <button class="badge badge-pill badge-primary comment_update_button float-right" id={{comment.id}}>댓글 수정</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="name" rows="8" cols="80" class="form-control" id=comment_content_{{comment.id}}>{{comment.content}}</textarea>
+                        </td>
+                    </tr>
+                </table>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% endfor %}
         <span class="myshort_list_area"></span>
     {% else %}
+
     <table class="table table-bordered">
         <tr>
             <td colspan="4" background-color="skyblue">
@@ -302,6 +356,7 @@ button, input, a {
             <input type="text" name="" value="<%=shortcut_content%>" size="40" id="select-input-<%=shortcut_id%>" class="form-control">
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="<%=shortcut_id%>">copy</button>
             <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="<%=shortcut_id%>" >edit_complete</button>
+            <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
         </tr>
 </table>
 
@@ -326,6 +381,8 @@ button, input, a {
         <textarea id="select-textarea-<%=shortcut_id%>" cols="120" rows="10" ><%=shortcut_content2%></textarea><br>
         <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="<%=shortcut_id%>">copy</button>
         <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="<%=shortcut_id%>" >edit_complete</button>
+        <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
+
         </td>
     </tr>
 
@@ -336,12 +393,120 @@ button, input, a {
 <script type="text/javascript">
 {% block extra_js %}
 
+$('body').on('click', '.comment_update_button', function(e) {
+    // alert("댓글 제목 수정 버튼 클릭");
+    const comment_id = this.id;
+    const title = $("#comment_title_"+comment_id).val()
+    const content = $("#comment_content_"+comment_id).val()
+    // alert("title : " + title);
+    // alert("content : " + content);
+
+    window.history.pushState("", "", '/wm/')
+
+    $.ajax({
+      type: "POST",
+      url: 'update_shortcut_comment_ajax/'+comment_id,
+      data: {
+          title:title,
+          content:content,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert(result.message);
+            window.history.pushState("", "", '/wm/myshortcut/')
+        }
+    });
+});
+
+// comment_delete_button
+
+$('body').on('click', '.comment_delete_button', function(e) {
+    // alert("댓글 삭제 버튼 클릭");
+    const comment_id = this.id;
+
+    window.history.pushState("", "", '/wm/')
+
+    $.ajax({
+      type: "POST",
+      url: 'delete_shortcut_comment_ajax/'+comment_id,
+      data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            alert(result.message);
+            $("#comment_table_"+comment_id).remove()
+            window.history.pushState("", "", '/wm/myshortcut/')
+        }
+    });
+});
+
+
+$('body').on('click', '.shortcut_comment_button', function(e) {
+    // const option = prompt("새로운 댓글을 추가 하실래요?(x,y)","");
+
+    const option = "y";
+
+    const shortcut_id = this.id
+    // alert("shortcut_id : " +shortcut_id)
+    if (!option) {
+        return;
+    };
+
+    window.history.pushState("", "", '/wm/')
+    if (option == "y"){
+        $.ajax({
+            type: "POST",
+            url: 'new_comment_for_my_shortcut/'+shortcut_id+'/ajax/',
+            data: {
+                shortcut_id:shortcut_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(result) {
+                alert(result.message);
+
+                window.history.pushState("", "", '/wm/myshortcut/')
+                location.reload(true);
+            }
+        });
+    }else{
+        alert("입력을 취소하였습니다.")
+    }
+});
+
+
 $(document).ready(function(){
     const user = "{{request.user}}"
     if($("#shortcut_user_id").val()== "me"){
         $("#shortcut_user_id").val(user)
         $( ".update_shortcut_user_id" ).trigger("click");
     }
+})
+
+$(".go_to_before_channer_btn").click(function(){
+    // alert("클릭22");
+    const category_id = parseInt($(".ca-btn-selected").attr('id'))-1
+    // alert("category_id : "+ category_id)
+
+    if(category_id < 1 ){
+        category_id = 1
+    }
+    // var href = $('.cssbuttongo').attr('href')
+    nect_ch_url = $("#ca_"+category_id).attr('href')
+    window.location.href = nect_ch_url;
+})
+
+$(".go_to_next_channer_btn").click(function(){
+    // alert("클릭22");
+    const category_id = parseInt($(".ca-btn-selected").attr('id'))+1
+    // alert("category_id : "+ category_id)
+
+    if(category_id > 99 ){
+        category_id = 99
+    }
+
+    // var href = $('.cssbuttongo').attr('href')
+    nect_ch_url = $("#ca_"+category_id).attr('href')
+    window.location.href = nect_ch_url;
 })
 
 $(".go_start_line_btn").click(function(){
@@ -351,9 +516,7 @@ $(".go_start_line_btn").click(function(){
 
 $(".go_end_line_btn").click(function(){
     var row_count = $('.table_row').length;
-
     $(".go_input").val(row_count)
-
     $( ".go_btn" ).trigger("click");
 
 })

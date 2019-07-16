@@ -7,7 +7,3 @@ class MyTaskForm(forms.ModelForm):
     class Meta:
         model = MyTask
         fields = ['title', 'github', 'content','shortcut_id']
-
-        # widgets = {
-        #     'description': SummernoteWidget(),
-        # }

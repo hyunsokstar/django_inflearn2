@@ -18,9 +18,45 @@ from django.http import HttpResponse, JsonResponse
 from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_input_title
 from accounts2.models import Profile
 
-from .models import MyShortCut, Type, Category, CategoryNick
+from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut
 
 # 1122
+
+def delete_comment_for_my_shortcut(request, shortcut_comment_id):
+    print('shortcut_comment_id : ' , shortcut_comment_id)
+    co = CommentForShortCut.objects.filter(id=shortcut_comment_id).delete()
+
+    return JsonResponse({
+        'message': '댓글 삭제 성공',
+    })
+
+def update_comment_for_my_shortcut(request, shortcut_comment_id):
+    print('shortcut_comment_id : ' , shortcut_comment_id)
+    co = CommentForShortCut.objects.filter(id=shortcut_comment_id).update(
+        title= request.POST['title'],
+        content = request.POST['content']
+    )
+
+    return JsonResponse({
+        'message': '댓글 수정 성공',
+    })
+
+def new_comment_for_my_shortcut(request, shortcut_id):
+    print('shortcut_id : ' , shortcut_id)
+    shortcut = MyShortCut.objects.get(id=shortcut_id)
+    co = CommentForShortCut.objects.create(
+        shortcut= shortcut,
+        author = request.user,
+        title="default title",
+        content = "default content"
+    )
+
+    return JsonResponse({
+        'message': shortcut.title+ '에 대해 comment 추가 성공 ',
+        'comment_id':co.id,
+        'comment_title':co.title,
+        'comment_content':co.content,
+    })
 
 def create_new4_textarea(request):
     print("create_new4_textarea 실행")
@@ -376,6 +412,7 @@ class MyShortCutListView(LoginRequiredMixin,ListView):
             context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=self.request.user)
 
             context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
+            # context['comments_list'] = CommentForShorCut.objects.all()
 
             return context
 
