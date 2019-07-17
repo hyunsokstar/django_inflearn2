@@ -218,7 +218,7 @@ $('body').on('click', '.search_by_check_user_btn', function(e) {
         success: function(result) {
             // alert('search_by_check_user is success ');
             alert("result : 체크 유저로 검색 성공");
-            // $(".todo-list-area").html(result);
+            $(".todo-list-area").html(result);
             window.history.pushState("", "", '/todo/team_todo_list/'+team_name)
         }
     });
