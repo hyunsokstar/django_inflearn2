@@ -20,6 +20,14 @@
 <h2 id=""><span id="team_name">{{team_name}}</span> 팀</h2>
 <h2 id="">팀장 : <span id="team_leader_name">{{team_leader_name}}</span> </h2>
 
+<table>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+
 팀원:
 <select id="select_for_team_member">
     {% if team_member_list.exists %}
@@ -52,29 +60,36 @@
 <div class="input-group">
     <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" />
     <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" onclick="create_todo_for_team();" id="{{team_name}}">Go!</button>
+        <button class="btn btn-secondary" type="button" onclick="create_todo_for_team();" id="{{team_name}}">팀장 입력!</button>
     </span>
 </div>
 
-<br>
-    {% if category %}
-        카테고리 : <small class="text-muted">{{ category }}</small>
+<br><br>
+
+    {% if team_member_list.exists %}
+        {% for p in team_member_list %}
+            <input type="checkbox" name="vehicle1" value="{{p.member.id}}" class="td_check" id="{{p.member.id}}"> {{p.member}}
+        {% endfor %}
     {% endif %}
+    <input type="button" value="검색" class="search_by_check_user_btn">
+
     <a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right btn-sm">입력 </a>
     <a href="" class="btn btn-outline-info float-right btn-sm" id="todo_delete_button"> 삭제 </a>
     <br><br>
 
-<table class="table table-bordered" id="todo_list">
-    <tr>
-        <td>check</td>
-        <td>classification</td>
-        <td>author</td>
-        <td>title</td>
-        <td>남은 시간</td>
-        <td>마감 기한</td>
-    </tr>
+<div class="todo-list-area">
 
-    {% if team_todo_list.exists %}
+    <table class="table table-bordered" id="todo_list">
+        <tr>
+            <td>check</td>
+            <td>classification</td>
+            <td>author</td>
+            <td>title</td>
+            <td>남은 시간</td>
+            <td>마감 기한</td>
+        </tr>
+
+        {% if team_todo_list.exists %}
         {% for p in team_todo_list %}
         <tr>
             <td>
@@ -90,7 +105,7 @@
             </td>
             <td>
                 {% if p.dead_line %}
-                    {{p.remaining_time}}
+                {{p.remaining_time}}
                 {% else %}
                 {% endif %}
             </td>
@@ -98,16 +113,17 @@
         </tr>
         {% endfor %}
         <tbody id="tbody_todo"></tbody>
-    {% else %}
+        {% else %}
         <tr>
             <td colspan="5">
                 <h4>아직 게시물이 없습니다.</h4>
             </td>
         </tr>
-    {% endif %}
+        {% endif %}
 
+    </table>
 
-</table>
+</div>
 
 <button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
     todo detail modal
@@ -175,6 +191,39 @@
 
 <script type="text/javascript">
 {% block extra_js %}
+
+$('body').on('click', '.search_by_check_user_btn', function(e) {
+
+    e.preventDefault();
+    // alert("user array로 team_todo_list 검색 ")
+    const team_name = $("#team_name").text()
+
+    var user_arr = [];
+    $('.td_check').each(function() {
+        if (jQuery(this).is(":checked")) {
+            var id = this.id;
+            user_arr.push(id);
+        }
+    });
+    // alert('user_arr : '+ user_arr)
+    window.history.pushState("", "", '/todo/')
+
+    $.ajax({
+      type: "POST",
+      url: 'team_todo_list_by_check_user/'+team_name,
+      data: {
+          'user_arr[]':user_arr,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+        success: function(result) {
+            // alert('search_by_check_user is success ');
+            alert("result : 체크 유저로 검색 성공");
+            // $(".todo-list-area").html(result);
+            window.history.pushState("", "", '/todo/team_todo_list/'+team_name)
+        }
+    });
+
+});
 
 function create_todo_for_team(){
 

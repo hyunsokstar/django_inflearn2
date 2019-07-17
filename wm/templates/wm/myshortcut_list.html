@@ -149,7 +149,7 @@ button, input, a {
             <table class="table table-bordered table_row" id="todo_list" width="100%">
 
             {% ifequal p.type.type_name "input" %}
-            <tr id="shortcut_{{p.id}}">
+            <tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0">
                 <td id=index_{{ forloop.counter }} width="10%">
                     <input type="checkbox" id="{{p.pk}}" class="shortcut_check" >
                         {{ forloop.counter }}
@@ -167,7 +167,7 @@ button, input, a {
                 </td>
             </tr>
 
-            <tr id="shortcut_{{p.id}}-2">
+            <tr id="shortcut_{{p.id}}-2" style="background-color:#f7f7e4">
                 <td colspan="2">
                     <input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
                     <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
@@ -188,7 +188,6 @@ button, input, a {
                     {% if p.author == request.user %}
                     <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
                     <button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
-                    <!-- <img src="{% static 'icon/trashcan.png' %}" alt=""> -->
 
                     {% endif %}
                 </td>
@@ -204,7 +203,7 @@ button, input, a {
             {% endifequal %}
 
             {% ifequal p.type.type_name "summer_note" %}
-            <tr id="shortcut_{{p.id}}">
+            <tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0">
                 <td id=index_{{ forloop.counter }} width="10%">
                     <input type="checkbox" id="{{p.pk}}" class="shortcut_check">
                     {{ forloop.counter }}
@@ -219,7 +218,7 @@ button, input, a {
                 </td>
             </tr>
 
-            <tr id="shortcut_{{p.id}}-2">
+            <tr id="shortcut_{{p.id}}-2" style="background-color:#f1e9f5">
                 <td colspan="2">
                 <div id="select-textarea-{{p.id}}">{{p.content2 | safe}}</div>
                 <br>
@@ -250,18 +249,16 @@ button, input, a {
                 <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
                 <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="{{p.id}}" >edit_complete</button>
                 <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
-
                 </td>
             </tr>
             {% endifequal %}
-
         </table>
-
         <!-- 댓글 영역 -->
         {% if p.commentforshortcut_set.exists %}
         <a class="btn btn-outline-primary btn-block " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin-bottom:5px">
-            Comment Area ({{p.commentforshortcut_set.count}})
-        </a>
+            Comment Area
+            ({{p.commentforshortcut_set.count}})
+        </a> <br>
 
             <div class="collapse" id="collapseExample">
                 {% for comment in p.commentforshortcut_set.all %}
@@ -340,23 +337,27 @@ button, input, a {
 <script class="myshortcut_row" type="text/x-template">
 
 <table class="table table-bordered table_row" id="todo_list" width="100%">
-    <tr id="shortcut_<%=shortcut_id%>">
+    <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0" >
         <td class="counter_row">
             <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check" >
                 <%=table_row_id %>
         </td>
-        <td>
-            <%=shortcut_title%>
-            <button class="badge badge-pill badge-primary short_delete_button" id="<%=shortcut_id%>">삭제</button>
+        <td >
+            <span id="title_<%=shortcut_id %>">
+                <%=shortcut_title%>
+            </span>
+            <button class="badge badge-pill badge-primary short_delete_button float-right" id="<%=shortcut_id%>">삭제</button>
+            <button class="badge badge-pill badge-primary short_update_button float-right" id="<%=shortcut_id %>">제목 수정</button>
+
         </td>
     </tr>
 
-    <tr id="shortcut_<%=shortcut_id%>-2">
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f7f7e4;" >
         <td colspan="2">
             <input type="text" name="" value="<%=shortcut_content%>" size="40" id="select-input-<%=shortcut_id%>" class="form-control">
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="<%=shortcut_id%>">copy</button>
             <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="<%=shortcut_id%>" >edit_complete</button>
-            <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
+            <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="<%=shortcut_id %>" >댓글 추가</button>
         </tr>
 </table>
 
@@ -366,22 +367,25 @@ button, input, a {
 
 <table class="table table-bordered table_row" id="todo_list" width="100%">
 
-    <tr id="shortcut_<%=shortcut_id%>">
+    <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0">
         <td id=index_{{ forloop.counter }}>
             <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check">
             <%=table_row_id %>
         </td>
         <td>
-            <%=shortcut_title%>
-            <button class="badge badge-pill badge-primary short_delete_button" id="<%=shortcut_id%>">삭제</button>
+            <span id="title_<%=shortcut_id%>">
+                <%=shortcut_title%>
+            </span>
+            <button class="badge badge-pill badge-primary short_delete_button float-right" id="<%=shortcut_id%>">삭제</button>
+            <button class="badge badge-pill badge-primary short_update_button float-right" id="<%=shortcut_id%>"">제목 수정</button>
         </td>
     </tr>
-    <tr id="shortcut_<%=shortcut_id%>-2">
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f7f7e4">
         <td colspan="2">
         <textarea id="select-textarea-<%=shortcut_id%>" cols="120" rows="10" ><%=shortcut_content2%></textarea><br>
         <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="<%=shortcut_id%>">copy</button>
         <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="<%=shortcut_id%>" >edit_complete</button>
-        <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
+        <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="<%=shortcut_id%>"" >댓글 추가</button>
 
         </td>
     </tr>

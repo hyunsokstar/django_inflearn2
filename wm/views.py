@@ -335,8 +335,10 @@ class MyShortcutListByCategory(ListView):
         return MyShortCut.objects.filter(category=category, author=user).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
+        
         context = super(type(self), self).get_context_data(**kwargs)
-        context['posts_without_category'] = MyShortCut.objects.filter(category=None,author=self.request.user).count()
+        context['posts_without_category'] = MyShortCut.objects.filter(category=None,author=user).count()
         context['category_list'] = Category.objects.all()
 
         slug = self.kwargs['slug']
@@ -345,7 +347,7 @@ class MyShortcutListByCategory(ListView):
         else:
             category = Category.objects.get(slug=slug)
             context['category'] = category
-            context['category_nick'] = CategoryNick.objects.values_list(slug, flat=True).get(author=self.request.user)
+            context['category_nick'] = CategoryNick.objects.values_list(slug, flat=True).get(author=user)
 
         return context
 

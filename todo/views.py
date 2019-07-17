@@ -25,6 +25,35 @@ from django.http import HttpResponseRedirect
 from datetime import datetime, timedelta
 
 # 1122 for todo
+
+def team_todo_list_by_check_user(request, team_name):
+    print("team_name 22 : ", team_name)
+
+    teamId = TeamInfo.objects.get(team_name = team_name).id
+    team_leader_name = TeamInfo.objects.get(team_name = team_name).leader.username
+
+    print("team_leader_name 22 : ", team_leader_name)
+
+    team_member = TeamMember.objects.filter(team=teamId)
+    classification_list = Classification.objects.all()
+    team_name= team_name
+
+    user_arr = request.POST.getlist('user_arr[]')
+    print('user_arr : ', user_arr)
+
+    team_todo_list = Todo.objects.filter(author__in=user_arr)
+
+    # print('team_todo_list : ' , team_todo_list)
+    # print('team_member : ' , team_member)
+
+    return render(request, 'todo/team_todo_list_by_check_user.html', {
+        "team_todo_list":team_todo_list,
+            # "team_member_list":team_member,
+            # "classification_list":classification_list,
+            # "team_name":team_name,
+        # "message": "체크 유저로 검색 성공"
+    })
+
 def team_todo_list(request, team_name):
     print("team_name : ", team_name)
 

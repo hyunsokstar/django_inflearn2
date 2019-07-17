@@ -82,7 +82,7 @@
 <div class="input-group">
     <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" />
     <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" onclick="create_todo();">Go!</button>
+        <button class="btn btn-secondary" type="button" onclick="create_todo();">입력!</button>
     </span>
 </div>
 
@@ -223,7 +223,7 @@ function create_todo(){
       },
         success: function(result) {
             alert("insert todo is success")
-            window.history.pushState("", "", '/todo/todolist/uncomplete/admin/'+team_member_name+"/"+team_leader_name+"/")
+            window.history.pushState("", "", '/todo/todolist/uncomplete/admin/'+team_member_name+"/"+team_leader_name)
             location.reload(true);
         }
     });

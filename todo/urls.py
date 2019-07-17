@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('team_info_list/', views.TeamInfoListView.as_view() , name="TeamInfoListView"),
     path('team_todo_list/<str:team_name>', views.team_todo_list , name="team_todo_list"),
+    path('team_todo_list_by_check_user/<str:team_name>', views.team_todo_list_by_check_user , name="team_todo_list_by_check_user"),
 
     path('TeaminfoCreate/', views.TeamInfoCreateView.as_view() , name="create_team_info"),
     # 팀 리스트 삭제
