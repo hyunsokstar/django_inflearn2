@@ -40,7 +40,7 @@ def create_post(title, content, author, category=None):
     blog_post = Post.objects.create(
         title=title,
         content=content,
-        created=timezone.now(),
+            created=timezone.now(),
         author=author,
         category=category
     )

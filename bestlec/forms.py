@@ -9,5 +9,6 @@ class BestLecForm(forms.ModelForm):
         fields = ['title', 'description', 'url_lec']
 
         widgets = {
+            'title': forms.TextInput(attrs={'size': 80}),
             'description': SummernoteWidget(),
         }

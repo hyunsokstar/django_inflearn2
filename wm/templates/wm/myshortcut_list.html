@@ -136,7 +136,6 @@ button, input, a {
 </button>
 
 
-
 <button type="button" name="button" id="index_first" hidden></button>
 <br><br>
 
@@ -222,6 +221,7 @@ button, input, a {
                 <td colspan="2">
                 <div id="select-textarea-{{p.id}}">{{p.content2 | safe}}</div>
                 <br>
+                <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
                 <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
                 <a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
                 </td>
@@ -253,26 +253,34 @@ button, input, a {
             </tr>
             {% endifequal %}
         </table>
+
         <!-- 댓글 영역 -->
         {% if p.commentforshortcut_set.exists %}
-        <a class="btn btn-outline-primary btn-block " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin-bottom:5px">
-            Comment Area
-            (hg{{p.commentforshortcut_set.count}})
+        <a class="btn btn-outline-primary btn-block comment_area_button" data-toggle="collapse" href="#collapse_{{p.id}}" role="button" aria-expanded="false" aria-controls=collapseExample style="margin-bottom:5px">
+            <span id="comment_title_area">
+                Comment Area
+                <span id="comment_count_area">
+                    {{p.commentforshortcut_set.count}}
+                </span>
+            </span>
         </a> <br>
 
-            <div class="collapse" id="collapseExample">
+            <div class="collapse" id="collapse_{{p.id}}">
                 {% for comment in p.commentforshortcut_set.all %}
-                <table class="table table-bordered" style="background-color:#17ac2d" id=comment_table_{{comment.id}}>
+                <table class="table table-bordered" style="background-color:green" id=comment_table_{{comment.id}}>
                     <tr>
                         <td>
-                            <input type="text" name="" class="form-control" value="{{comment.title}}" id=comment_title_{{comment.id}}>
                             <button class="badge badge-pill badge-primary comment_delete_button float-right" id={{comment.id}}>댓글 삭제</button>
-                            <button class="badge badge-pill badge-primary comment_update_button float-right" id={{comment.id}}>댓글 수정</button>
+                            <input type="text" name="" class="form-control" value="{{comment.title}}" id=comment_title_{{comment.id}}>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <textarea name="name" rows="8" cols="80" class="form-control" id=comment_content_{{comment.id}}>{{comment.content}}</textarea>
+                            <button class="btn btn-outline-primary btn-sm show_total_comment_button" id={{comment.id}}>40row</button>
+                            <button class="btn btn-outline-primary btn-sm show_basic_comment_button" id={{comment.id}}>8row</button>
+                            <textarea name="name" rows="8" cols="80" class="form-control" id=comment_content_{{comment.id}} style="margin-bottom:4px">{{comment.content}}</textarea>
+                            <button class="btn btn-outline-primary btn-sm comment_update_button float-right" id={{comment.id}}>댓글 수정</button>
+                            <button class="btn btn-outline-primary btn-sm myinput copy_comment float-right" id="{{comment.id}}">copy</button>
                         </td>
                     </tr>
                 </table>
@@ -397,6 +405,22 @@ button, input, a {
 <script type="text/javascript">
 {% block extra_js %}
 
+// show_total_comment_button
+// comment_content_
+$('body').on('click', '.show_total_comment_button', function(e) {
+    let option = ""
+    const comment_id = this.id;
+    // alert("id : " +comment_id)
+    $("#comment_content_"+comment_id).attr('rows' , 40);
+});
+$('body').on('click', '.show_basic_comment_button', function(e) {
+    let option = ""
+    const comment_id = this.id;
+    // alert("id : " +comment_id)
+    $("#comment_content_"+comment_id).attr('rows' , 8);
+
+});
+
 $('body').on('click', '.comment_update_button', function(e) {
     // alert("댓글 제목 수정 버튼 클릭");
     const comment_id = this.id;
@@ -423,7 +447,6 @@ $('body').on('click', '.comment_update_button', function(e) {
 });
 
 // comment_delete_button
-
 $('body').on('click', '.comment_delete_button', function(e) {
     // alert("댓글 삭제 버튼 클릭");
     const comment_id = this.id;
@@ -440,6 +463,15 @@ $('body').on('click', '.comment_delete_button', function(e) {
             alert(result.message);
             $("#comment_table_"+comment_id).remove()
             window.history.pushState("", "", '/wm/myshortcut/')
+
+            const comment_count = parseInt($("#comment_count_area").text().trim())-1
+
+            if(comment_count <1 ){
+                $(".comment_area_button").remove();
+            }else{
+                // alert("comment_count : "+ comment_count)
+                $("#comment_title_area").text("comment area "+comment_count)
+            }
         }
     });
 });
@@ -509,8 +541,9 @@ $(".go_to_next_channer_btn").click(function(){
     }
 
     // var href = $('.cssbuttongo').attr('href')
-    nect_ch_url = $("#ca_"+category_id).attr('href')
-    window.location.href = nect_ch_url;
+    next_ch_url = $("#ca_"+category_id).attr('href')
+    alert("next_ch_url : "+ next_ch_url);
+    window.location.href = next_ch_url;
 })
 
 $(".go_start_line_btn").click(function(){
@@ -830,7 +863,6 @@ $(".user_list_btn").click(function(){
         })
 })
 
-// 2244
 $('.category_name_list_button').click(function(e){
     const user_name =  $("#shortcut_user_id").val();
     const url = '/wm/myshorcut/nicklist/'+user_name
@@ -924,6 +956,15 @@ $('body').on('click', '.shortcut_edit_button2', function(e) {
             alert("modify is completted")
         }
     });
+});
+
+$('body').on('click', '.copy_comment', function(e) {
+
+    e.preventDefault();
+    var id = this.id
+
+    document.execCommand('copy', false, $(this).parent().find('#comment_content_'+id).select());
+    alert("copy is completed")
 });
 
 $('body').on('click', '.copy_code1', function(e) {

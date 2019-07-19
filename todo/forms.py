@@ -15,8 +15,8 @@ class TodoForm(forms.ModelForm):
         model = Todo
 
         fields = ['title', 'content','classification','dead_line']
-
         widgets = {
+            'title': forms.TextInput(attrs={'size': 80}),
             'content': SummernoteWidget(),
         }
 
@@ -28,6 +28,7 @@ class TodoAdminForm(forms.ModelForm):
         fields = ['classification','title', 'content','dead_line']
 
         widgets = {
+            'title': forms.TextInput(attrs={'size': 80}),
             'content': SummernoteWidget(),
         }
 
@@ -37,6 +38,7 @@ class CommentForm(forms.ModelForm):
         fields = ('title','file_name','text')
 
         widgets = {
+            'title': forms.TextInput(attrs={'size': 80}),
             'text': SummernoteWidget(),
         }
 

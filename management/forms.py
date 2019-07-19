@@ -11,5 +11,6 @@ class SuggestionForm(forms.ModelForm):
         fields = ['title', 'content']
 
         widgets = {
+            'title': forms.TextInput(attrs={'size': 80}),
             'content': SummernoteWidget(),
         }

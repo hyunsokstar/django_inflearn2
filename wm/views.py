@@ -19,6 +19,7 @@ from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCut
 from accounts2.models import Profile
 
 from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut
+from django.http import HttpResponseRedirect
 
 # 1122
 
@@ -241,6 +242,11 @@ class modify_myshortcut_by_summer_note(UpdateView):
     model = MyShortCut
     form_class = MyShortCutForm_summer_note
 
+    def form_valid(self, form):
+        form = form.save(commit=False)
+        form.save()
+        return HttpResponseRedirect(reverse('wm:my_shortcut_list'))
+
     def get_template_names(self):
         return ['wm/myshortcut_summernote_form.html']
 
@@ -254,12 +260,9 @@ def update_shorcut_id_for_user(request, id):
 
         user_exist = User.objects.filter(username = user_id)
         original_user = user_id
-
-
         print("user_exist : ", user_exist)
 
         if user_exist:
-
             option = "메모장 유저를 " + user_id + "로 업데이트 하였습니다."
             todo = Profile.objects.filter(Q(user=id)).update(shortcut_user_id = user_id)
             print("메모장 유저를 {}로 교체 ".format(user_id))
@@ -336,7 +339,7 @@ class MyShortcutListByCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
-        
+
         context = super(type(self), self).get_context_data(**kwargs)
         context['posts_without_category'] = MyShortCut.objects.filter(category=None,author=user).count()
         context['category_list'] = Category.objects.all()
