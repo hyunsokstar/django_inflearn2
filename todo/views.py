@@ -25,6 +25,9 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from datetime import datetime, timedelta
 
+from django.utils import timezone
+
+
 # 1122 for todo
 
 def team_todo_list_by_check_user(request, team_name):
@@ -1012,9 +1015,7 @@ def todo_complete(request, id):
         todo = get_object_or_404(Todo, id=id)
         now_diff = todo.now_diff()
         print("now_diff : ", now_diff)
-        Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff)
-        Todo.objects.filter(Q(id=id)).update(category = None)
-        Todo.objects.filter(Q(id=id)).update(completion = "complete")
+        Todo.objects.filter(Q(id=id)).update(elapsed_time = now_diff,category = None, completion = "complete" , updated = timezone.now())
 
         Profile.objects.filter(Q(user=request.user.id)).update(completecount = F('completecount')+1, uncompletecount = F('uncompletecount')-1)
         messages.success(request,'할일 : {} 를 완료 처리 하였습니다 ~!'.format(todo))

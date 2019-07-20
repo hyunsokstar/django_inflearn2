@@ -57,7 +57,7 @@
 <div class="input-group">
     <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" />
     <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" onclick="create_todo();">Go!</button>
+        <button class="btn btn-secondary" type="button" onclick="create_todo();">간편 입력</button>
     </span>
 </div>
 
@@ -65,13 +65,16 @@
     {% if category %}
         카테고리 : <small class="text-muted">{{ category }}</small>
     {% endif %}
-    <a href="" class="btn btn-outline-info float-left btn-sm" id="todo_delete_button"> 삭제(체크) </a>
-    <a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right btn-sm">입력 </a>
+    <a href="" class="btn btn-outline-info float-left" id="todo_delete_button"> 삭제(체크) </a>
+    <a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right">입력 </a>
     <br><br>
 
 <table class="table table-bordered" id="todo_list">
     <tr>
-        <td>check</td>
+        <td>
+            <input type="checkbox" class="all_check" value="">
+            check
+        </td>
         <td>분류</td>
         <td>title</td>
         <td>director</td>
@@ -192,6 +195,19 @@
 
 <script type="text/javascript">
 {% block extra_js %}
+
+$(".all_check").change(function() {
+    if (this.checked) {
+        alert('클릭')
+        $(".td_check").each(function() {
+            this.checked=true;
+        });
+    } else {
+        $(".td_check").each(function() {
+            this.checked=false;
+        });
+    }
+});
 
 function create_todo(){
     const title = $("#input_todo").val()

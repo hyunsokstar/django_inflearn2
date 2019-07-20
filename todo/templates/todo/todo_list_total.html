@@ -1,17 +1,41 @@
 {% extends "todo/layout.html" %}
 {%block title %}todo list{% endblock %}
 
-{%block content %}
+{%block content4 %}
 {% load crispy_forms_tags %}
 
-<h2 class="float-left">전체 할일 목록</h2>
 <br><br>
+<h2 class="float-left">전체 할일 목록</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <td>todo(my)</td>
+        <td>todo(전체)</td>
+        <td>question</td>
+    </tr>
+    <tr>
+        <td>
+            <a href="/todo/todolist/uncomplete/me"> 할일 ({{todo_count_uncomplete}})</a> <br>
+            <a href="/todo/todolist/complete/me"> 완료 ({{todo_count_complete}})</a>
+        </td>
+        <td>
+            <a href="/todo/category/_none/"> 전체(미완료)({{total_todo_count_uncomplete}}) </a><br>
+            <a href="/todo/completeList/total"> 전체(완료) ({{total_todo_count_complete}}) </a>
+        </td>
+        <td>
+            {% for category in category_list %}
+                <a href="{{category.get_absolute_url}}">{{ category.name }} ({{ category.todo_set.count }})</a>
+            {% endfor %}
+        </td>
+    </tr>
+</table>
 
 <table class="table table-bordered" id="todo_list">
     <tr>
         <td>분류</td>
         <td>title</td>
-        <td>경과시간</td>
+        <td>남은 시간</td>
+        <td>마감 시한</td>
         <td>담당자</td>
         <td></td>
     </tr>
@@ -26,6 +50,14 @@
                 </a>
             </td>
             <td>{{p.now_diff}}</td>
+
+            <td>
+                {% if p.dead_line %}
+                    {{p.remaining_time}}
+                {% else %}
+                {% endif %}
+            </td>
+
             <td>{{p.author}}</td>
             <td>
                 {% if request.user == p.author %}

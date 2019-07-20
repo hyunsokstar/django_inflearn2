@@ -1,7 +1,7 @@
 {% extends "todo/layout.html" %}
 {%block title %}todo list{% endblock %}
 
-{%block content2 %}
+{%block content4 %}
 {% load crispy_forms_tags %}
 
 {% if messages %}
@@ -11,9 +11,32 @@
      {% endfor %}
 </div>
 {% endif %}
-
-2002
+<br><br>
+2018
 <h2>완료 목록({{request.user}})</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <td>todo(my)</td>
+        <td>todo(전체)</td>
+        <td>question</td>
+    </tr>
+    <tr>
+        <td>
+            <a href="/todo/todolist/uncomplete/me"> 할일 ({{todo_count_uncomplete}})</a> <br>
+            <a href="/todo/todolist/complete/me"> 완료 ({{todo_count_complete}})</a>
+        </td>
+        <td>
+            <a href="/todo/category/_none/"> 전체(미완료)({{total_todo_count_uncomplete}}) </a><br>
+            <a href="/todo/completeList/total"> 전체(완료) ({{total_todo_count_complete}}) </a>
+        </td>
+        <td>
+            {% for category in category_list %}
+                <a href="{{category.get_absolute_url}}">{{ category.name }} ({{ category.todo_set.count }})</a>
+            {% endfor %}
+        </td>
+    </tr>
+</table>
 
 <div class="input-group">
     <input type="text" id="search-input" onkeyup="wait_for_enterkey_todo()" class="form-control"
@@ -41,6 +64,7 @@
         <td>분류</td>
         <td>title</td>
         <td>소요 시간</td>
+        <td>완료 일자</td>
         <td>완료 여부</td>
     </tr>
 
@@ -59,6 +83,7 @@
                 {% endif %}
             </td>
             <td>{{p.elapsed_time}}</td>
+            <td>{{p.updated}}</td>
             <td>{{p.completion}}</td>
         </tr>
         {% endfor %}

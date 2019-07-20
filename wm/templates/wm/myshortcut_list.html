@@ -105,6 +105,7 @@ button, input, a {
 
 {% else %}
 
+
 <span class="float-right"> {{request.user.profile.shortcut_user_id}} 님만 입력할수 있습니다. </span>
 {% endifequal %}
 
@@ -139,13 +140,22 @@ button, input, a {
 <button type="button" name="button" id="index_first" hidden></button>
 <br><br>
 
-{% if category %}
-    <h2 > <span id="current_category">{{category}}</span> : {{category_nick}}</h2>
-{% endif %}
+<table class="table table-bordered">
+    <tr style="background-color:#f0f1f5">
+        <td width="10%">
+            <input type="checkbox" class="all_check" value="">
+        </td>
+        <td>
+            {% if category %}
+                <h2 > <span id="current_category">{{category}}</span> : {{category_nick}}</h2>
+            {% endif %}
+        </td>
+    </tr>
+</table>
 
     {% if object_list.exists %}
         {% for p in object_list %}
-            <table class="table table-bordered table_row" id="todo_list" width="100%">
+            <table class="table table-bordered table_row" id="todo_list" width="<100></100>%">
 
             {% ifequal p.type.type_name "input" %}
             <tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0">
@@ -207,7 +217,7 @@ button, input, a {
                     <input type="checkbox" id="{{p.pk}}" class="shortcut_check">
                     {{ forloop.counter }}
                 </td>
-                <td>
+                <td width="90%">
                     <span id=title_{{p.id}}>{{p.title}}</span>
                     {% if p.author == request.user %}
                     <button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
@@ -219,11 +229,11 @@ button, input, a {
 
             <tr id="shortcut_{{p.id}}-2" style="background-color:#f1e9f5">
                 <td colspan="2">
-                <div id="select-textarea-{{p.id}}">{{p.content2 | safe}}</div>
-                <br>
-                <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
-                <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
-                <a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+                    <div id="select-textarea-{{p.id}}" style="width:400px;">{{p.content2 | safe}}</div>
+                    <br>
+                    <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글 추가</button>
+                    <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
+                    <a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
                 </td>
             </tr>
             {% endifequal %}
@@ -405,8 +415,27 @@ button, input, a {
 <script type="text/javascript">
 {% block extra_js %}
 
-// show_total_comment_button
-// comment_content_
+// $('#all_check_button').click(function(){
+//     alert("클릭")
+//     $('input:checkbox').prop('checked', this.checked);
+// });
+
+$(".all_check").change(function() {
+    if (this.checked) {
+        alert('클릭')
+        $(".shortcut_check").each(function() {
+            this.checked=true;
+        });
+    } else {
+        $(".shortcut_check").each(function() {
+            this.checked=false;
+        });
+    }
+});
+
+
+
+
 $('body').on('click', '.show_total_comment_button', function(e) {
     let option = ""
     const comment_id = this.id;

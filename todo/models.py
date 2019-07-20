@@ -60,6 +60,7 @@ class Todo(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField(blank=True)
     created = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     dead_line = models.DateTimeField(blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     elapsed_time = models.CharField(max_length=20,blank=True, null=True)
