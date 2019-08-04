@@ -1,0 +1,59 @@
+	<table class="table table-borderd">
+		<tr>
+			<td>번호</td>
+			<td>category</td>
+			<td>title</td>
+			<td>name</td>
+		</tr>
+		<tbody>
+		{% if object_list.exists %}
+			{% for p in object_list %}
+				<tr>
+					<td>
+						{{ forloop.counter }}
+					</td>
+					<td>
+						<a href="/wm/myshortcut/category/{{p.category}}/">
+							{{p.category}}
+						</a>
+					</td>
+					<td>
+						{{p.title}} 
+						<a href="#wm_detail_{{p.id}}" class="btn btn-outline-dark btn-sm" data-toggle="collapse">상세 보기</a>
+						<br>
+						
+						{% ifequal p.type.type_name "input" %}
+						<input href="#wm_detail_{{p.id}}" class="collapse form-control" value="{{p.content1}}" />
+						{% endifequal %}
+						
+						{% ifequal p.type.type_name "textarea" %}
+						<textarea id="wm_detail_{{p.id}}" class="collapse form-control" cols="120" rows="10">{{p.content2}}</textarea>
+						{% endifequal %}
+						
+						{% ifequal p.type.type_name "summer_note" %}
+						<div id="wm_detail_{{p.id}}" class="collapse form-control">{{p.content2 | safe}}</div>
+						{% endifequal %}
+						
+						{% ifequal p.type.type_name "input_title" %}
+						<textarea id="wm_detail_{{p.id}}" class="collapse" cols="120" rows="10">{{p.content2}}</textarea>
+						{% endifequal %}
+						
+					</td>
+					
+					<td>
+						<a href="" onclick="change_user_for_search(this)" id={{p.author}}>
+							{{p.author}}
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		{% else %}
+			<tr>
+				<td colspan="4">
+					<h4>아직 게시물이 없습니다.</h4>
+				</td>
+			</tr>
+		{% endif %}
+
+		</tbody>
+	</table>

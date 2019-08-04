@@ -47,15 +47,8 @@ def team_todo_list_by_check_user(request, team_name):
 
     team_todo_list = Todo.objects.filter(author__in=user_arr)
 
-    # print('team_todo_list : ' , team_todo_list)
-    # print('team_member : ' , team_member)
-
     return render(request, 'todo/team_todo_list_by_check_user.html', {
         "team_todo_list":team_todo_list,
-            # "team_member_list":team_member,
-            # "classification_list":classification_list,
-            # "team_name":team_name,
-        # "message": "체크 유저로 검색 성공"
     })
 
 def team_todo_list(request, team_name):
@@ -87,6 +80,8 @@ def team_todo_list(request, team_name):
         "team_name":team_name,
         "team_leader_name": team_leader_name
     })
+	
+	
 
 def add_todo_for_team_by_ajax(request):
 
@@ -765,7 +760,6 @@ class TodoCompleteListByMe(LoginRequiredMixin,ListView):
         context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
         return context
-
 
 
 class TodoUnCompleteListByMe(LoginRequiredMixin,ListView):

@@ -7,319 +7,442 @@
 {% if category %}
 
 <h2>category list for {{category.author}}</h2>
-<table class="table table-bordered" id="todo_list" width="100%">
+<table class="table table-bordered" id="todo_list">
     <tr id="ca1">
         <td>ca1</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca1}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary btn-sm cn-btn" data-id={{category.id}} data-field = "ca1">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca1/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca1}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm cn-btn" data-id={{category.id}} data-field="ca1">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca1
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca1/">이동</a>
+		</td>
     </tr>
     <tr id="ca2">
         <td>ca2</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca2}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary btn-sm cn-btn" data-id={{category.id}} data-field = "ca2">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca2/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca2}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm cn-btn" data-id={{category.id}} data-field="ca2">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category="ca2"
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca2/">이동</a>
+		</td>
     </tr>
     <tr id="ca3">
         <td>ca3</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca3}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field = "ca3">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca3/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca3}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca3">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category="ca3"
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca3/">이동</a>
+		</td>
     </tr>
     <tr id="ca4">
         <td>ca4</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca4}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca4">수정</a>
-            {% endif %}
-                <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca4/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca4}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca4">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category="ca4" href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca4/">이동</a>
+		</td>
     </tr>
     <tr id="ca5">
         <td>ca5</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca5}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca5">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca5/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca5}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca5">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category="ca5"
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca5/">이동</a>
+		</td>
     </tr>
     <tr id="ca6">
         <td>ca6</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca6}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca6">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca6/">이동</a>
-        </td>
-    </tr>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca6}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca6">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca6
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca6/">이동</a>
+		</td>
+	</tr>
 
     <tr id="ca7">
         <td>ca7</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca7}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca7">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca7/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca7}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca7">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca7
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca7/">이동</a>
+		</td>
     </tr>
 
     <tr id="ca8">
         <td>ca8</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca8}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca8">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca8/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca8}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca8">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca8
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca8/">이동</a>
+		</td>
     </tr>
 
     <tr id="ca9">
         <td>ca9</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca9}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca9">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca9/">이동</a>
-        </td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca9}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca9">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca9
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca9/">이동</a>
+		</td>
     </tr>
 
     <tr id="ca10">
         <td>ca10</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca10}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca10">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca10/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca10}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca10">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca10
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca10/">이동</a>
+		</td>
     </tr>
 
     <tr id="ca11">
         <td>ca11</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca11}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca11">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca11/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca11}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca11">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca11
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca11/">이동</a>
+		</td>
     </tr>
     <tr id="ca12">
         <td>ca12</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca12}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca12">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca12/">이동</a>
-        </td>
-    </tr>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca12}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca12">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca12 href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca12/">이동</a>
+		</td>
+
+	</tr>
+	
     <tr id="ca13">
         <td>ca13</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca13}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca13">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca13/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca13}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca13">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca13
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca13/">이동</a>
+		</td>
     </tr>
     <tr id="ca14">
         <td>ca14</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca14}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca14">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca14/">이동</a>
-
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca14}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca14">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca14
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca14/">이동</a>
+		</td>
     </tr>
     <tr id="ca15">
         <td>ca15</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca15}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca15">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca15/">이동</a>
-
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca15}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca15">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca15
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca15/">이동</a>
+		</td>
     </tr>
     <tr id="ca16">
         <td>ca16</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca16}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca16">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca16/">이동</a>
-
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca16}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca16">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca16
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca16/">이동</a>
+		</td>
     </tr>
     <tr id="ca17">
         <td>ca17</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca17}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca17">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca17/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca17}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca17">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca17
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca17/">이동</a>
+		</td>
+
     </tr>
     <tr id="ca18">
         <td>ca18</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca18}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca18">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca18/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca18}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca18">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca18
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca18/">이동</a>
+		</td>
     </tr>
     <tr id="ca19">
         <td>ca19</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca19}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary btn-sm cn-btn" data-id={{category.id}} data-field = "ca19">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca19/">이동</a>
-        </td>
-    </tr>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca19}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm cn-btn" data-id={{category.id}} data-field="ca19">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca19
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca19/">이동</a>
+		</td>
+	</tr>
+	
     <tr id="ca20">
         <td>ca20</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca20}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field = "ca20">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca20/">이동</a>
-        </td>
-    </tr>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca20}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca20">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca20
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca20/">이동</a>
+		</td>
+	</tr>
+	
     <tr id="ca21">
         <td>ca21</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca21}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field = "ca21">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca21/">이동</a>
-        </td>
+            <input type="text" name="" id="input_category_nick" value="{{category.ca21}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca21">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca21
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca21/">이동</a>
+		</td>
     </tr>
     <tr id="ca22">
-        <td>ca22</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca22}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field = "ca22">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca22/">이동</a>
-        </td>
+		<td>ca22</td>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca22}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca22">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca22
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca22/">이동</a>
+		</td>
     </tr>
     <tr id="ca23">
         <td>ca23</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca23}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary btn-sm cn-btn" data-id={{category.id}} data-field = "ca23">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca23/">이동</a>
-        </td>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca23}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca23">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca23
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca23/">이동</a>
+		</td>
     </tr>
     <tr id="ca24">
         <td>ca24</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca24}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca24">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca24/">이동</a>
-        </td>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca24}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca24">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca24
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca24/">이동</a>
+		</td>
     </tr>
     <tr id="ca25">
         <td>ca25</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca25}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca25">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca25/">이동</a>
-        </td>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca25}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca25">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca25
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca25/">이동</a>
+		</td>
     </tr>
     <tr id="ca26">
         <td>ca26</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca26}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca26">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca26/">이동</a>
-        </td>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca26}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca26">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca26
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca26/">이동</a>
+		</td>
     </tr>
     <tr id="ca27">
         <td>ca27</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca27}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca27">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca27/">이동</a>
-        </td>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca27}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca27">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca27
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca27/">이동</a>
+		</td>
     </tr>
     <tr id="ca28">
         <td>ca28</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca28}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca28">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca28/">이동</a>
-        </td>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca28}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca28">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca28
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca28/">이동</a>
+		</td>
     </tr>
     <tr id="ca29">
         <td>ca29</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca29}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca29">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca29/">이동</a>
-        </td>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca29}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca29">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca29
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca29/">이동</a>
+		</td>
     </tr>
     <tr id="ca30">
         <td>ca30</td>
-        <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca30}}">
-            {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca30">수정</a>
-            {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca30/">이동</a>
-        </td>
-    </tr>
+		<td>
+			<input type="text" name="" id="input_category_nick" value="{{category.ca30}}" class="form-control">
+		</td>
+		<td>
+			{% if category.author == request.user %}
+			<a class="btn btn-outline-primary btn-sm  cn-btn" data-id={{category.id}} data-field="ca30">수정</a>
+			{% endif %}
+			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca30
+				href="">복사</a>
+			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca30/">이동</a>
+		</td>
+	</tr>
+	
+	<!-- 2244 -->
+	
     <tr id="ca31">
         <td>ca31</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca31}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca31}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca31">수정</a>
             {% endif %}
@@ -329,7 +452,7 @@
     <tr id="ca32">
         <td>ca32</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca32}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca32}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca32">수정</a>
             {% endif %}
@@ -339,7 +462,7 @@
     <tr id="ca33">
         <td>ca33</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca33}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca33}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca33">수정</a>
             {% endif %}
@@ -349,7 +472,7 @@
     <tr id="ca34">
         <td>ca34</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca34}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca34}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca34">수정</a>
             {% endif %}
@@ -359,7 +482,7 @@
     <tr id="ca35">
         <td>ca35</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca35}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca35}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca35">수정</a>
             {% endif %}
@@ -369,7 +492,7 @@
     <tr id="ca36">
         <td>ca36</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca36}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca36}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca36">수정</a>
             {% endif %}
@@ -379,7 +502,7 @@
     <tr id="ca37">
         <td>ca37</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca37}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca37}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca37">수정</a>
             {% endif %}
@@ -389,7 +512,7 @@
     <tr id="ca38">
         <td>ca38</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca38}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca38}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca38">수정</a>
             {% endif %}
@@ -399,7 +522,7 @@
     <tr  id="ca39">
         <td>ca39</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca39}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca39}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca39">수정</a>
             {% endif %}
@@ -409,7 +532,7 @@
     <tr  id="ca40">
         <td>ca40</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca40}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca40}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca40">수정</a>
             {% endif %}
@@ -419,7 +542,7 @@
     <tr  id="ca41">
         <td>ca41</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca41}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca41}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca41">수정</a>
             {% endif %}
@@ -429,7 +552,7 @@
     <tr  id="ca42">
         <td>ca42</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca42}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca42}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca42">수정</a>
             {% endif %}
@@ -439,7 +562,7 @@
     <tr  id="ca43">
         <td>ca43</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca43}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca43}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca43">수정</a>
             {% endif %}
@@ -450,7 +573,7 @@
     <tr  id="ca44">
         <td>ca44</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca44}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca44}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca44">수정</a>
             {% endif %}
@@ -461,7 +584,7 @@
     <tr  id="ca45">
         <td>ca45</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca45}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca45}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca45">수정</a>
             {% endif %}
@@ -472,7 +595,7 @@
     <tr  id="ca46">
         <td>ca46</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca46}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca46}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca46">수정</a>
             {% endif %}
@@ -483,7 +606,7 @@
     <tr  id="ca47">
         <td>ca47</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca47}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca47}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca47">수정</a>
             {% endif %}
@@ -494,7 +617,7 @@
     <tr  id="ca48">
         <td>ca48</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca48}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca48}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca48">수정</a>
             {% endif %}
@@ -505,7 +628,7 @@
     <tr  id="ca49">
         <td>ca49</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca49}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca49}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca49">수정</a>
             {% endif %}
@@ -516,7 +639,7 @@
     <tr  id="ca50">
         <td>ca50</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca50}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca50}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca50">수정</a>
             {% endif %}
@@ -526,7 +649,7 @@
     <tr  id="ca51">
         <td>ca51</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca51}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca51}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca51">수정</a>
             {% endif %}
@@ -536,7 +659,7 @@
     <tr  id="ca52">
         <td>ca52</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca52}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca52}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca52">수정</a>
             {% endif %}
@@ -547,7 +670,7 @@
     <tr  id="ca53">
         <td>ca53</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca53}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca53}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca53">수정</a>
             {% endif %}
@@ -558,7 +681,7 @@
     <tr  id="ca54">
         <td>ca54</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca54}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca54}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca54">수정</a>
             {% endif %}
@@ -569,7 +692,7 @@
     <tr  id="ca55">
         <td>ca55</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca55}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca55}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca55">수정</a>
             {% endif %}
@@ -580,7 +703,7 @@
     <tr  id="ca56">
         <td>ca56</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca56}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca56}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca56">수정</a>
             {% endif %}
@@ -592,7 +715,7 @@
     <tr id="ca57">
         <td>ca57</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca57}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca57}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca57">수정</a>
             {% endif %}
@@ -603,7 +726,7 @@
     <tr id="ca58">
         <td>ca58</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca58}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca58}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca58">수정</a>
             {% endif %}
@@ -614,7 +737,7 @@
     <tr id="ca59">
         <td>ca59</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca59}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca59}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca59">수정</a>
             {% endif %}
@@ -625,7 +748,7 @@
     <tr id="ca60">
         <td>ca60</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca60}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca60}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca60">수정</a>
             {% endif %}
@@ -636,7 +759,7 @@
     <tr id="ca61">
         <td>ca61</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca61}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca61}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca61">수정</a>
             {% endif %}
@@ -647,7 +770,7 @@
     <tr id="ca62">
         <td>ca62</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca62}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca62}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca62">수정</a>
             {% endif %}
@@ -658,7 +781,7 @@
     <tr id="ca63">
         <td>ca63</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca63}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca63}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca63">수정</a>
             {% endif %}
@@ -669,7 +792,7 @@
     <tr id="ca64">
         <td>ca64</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca64}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca64}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca64">수정</a>
             {% endif %}
@@ -680,7 +803,7 @@
     <tr id="ca65">
         <td>ca65</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca65}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca65}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca65">수정</a>
             {% endif %}
@@ -691,7 +814,7 @@
     <tr id="ca66">
         <td>ca66</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca66}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca66}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca66">수정</a>
             {% endif %}
@@ -703,7 +826,7 @@
     <tr id="ca67">
         <td>ca67</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca67}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca67}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca67">수정</a>
             {% endif %}
@@ -714,7 +837,7 @@
     <tr id="ca68">
         <td>ca68</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca68}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca68}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca68">수정</a>
             {% endif %}
@@ -725,7 +848,7 @@
     <tr id="ca69">
         <td>ca69</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca69}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca69}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca69">수정</a>
             {% endif %}
@@ -736,7 +859,7 @@
     <tr id="ca70">
         <td>ca70</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca70}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca70}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca70">수정</a>
             {% endif %}
@@ -748,7 +871,7 @@
     <tr id="ca71">
         <td>ca71</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca71}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca71}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca71">수정</a>
             {% endif %}
@@ -759,7 +882,7 @@
     <tr id="ca72">
         <td>ca72</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca72}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca72}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca72">수정</a>
             {% endif %}
@@ -770,7 +893,7 @@
     <tr id="ca73">
         <td>ca73</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca73}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca73}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca73">수정</a>
             {% endif %}
@@ -782,7 +905,7 @@
     <tr id="ca74">
         <td>ca74</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca74}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca74}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca74">수정</a>
             {% endif %}
@@ -793,7 +916,7 @@
     <tr id="ca75">
         <td>ca75</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca75}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca75}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca75">수정</a>
             {% endif %}
@@ -804,7 +927,7 @@
     <tr id="ca76">
         <td>ca76</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca76}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca76}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca76">수정</a>
             {% endif %}
@@ -815,7 +938,7 @@
     <tr id="ca77">
         <td>ca77</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca77}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca77}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca77">수정</a>
             {% endif %}
@@ -826,7 +949,7 @@
     <tr id="ca78">
         <td>ca78</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca78}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca78}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca78">수정</a>
             {% endif %}
@@ -837,7 +960,7 @@
     <tr id="ca79">
         <td>ca79</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca79}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca79}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca79">수정</a>
             {% endif %}
@@ -845,21 +968,21 @@
         </td>
     </tr>
 
-    <tr id="ca70">
-        <td>ca70</td>
+    <tr id="ca80">
+        <td>ca80</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca70}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca80}}">
             {% if category.author == request.user %}
-                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca70">수정</a>
+                <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca80">수정</a>
             {% endif %}
-            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca70/">이동</a>
+            <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca80/">이동</a>
         </td>
     </tr>
 
     <tr id="ca81">
         <td>ca81</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca81}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca81}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca81">수정</a>
             {% endif %}
@@ -870,7 +993,7 @@
     <tr id="ca82">
         <td>ca82</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca82}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca82}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca82">수정</a>
             {% endif %}
@@ -881,7 +1004,7 @@
     <tr id="ca83">
         <td>ca83</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca83}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca83}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca83">수정</a>
             {% endif %}
@@ -892,7 +1015,7 @@
     <tr id="ca84">
         <td>ca84</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca84}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca84}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca84">수정</a>
             {% endif %}
@@ -903,7 +1026,7 @@
     <tr id="ca85">
         <td>ca85</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca85}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca85}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca85">수정</a>
             {% endif %}
@@ -914,7 +1037,7 @@
     <tr id="ca86">
         <td>ca86</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca86}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca86}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca86">수정</a>
             {% endif %}
@@ -925,7 +1048,7 @@
     <tr id="ca87">
         <td>ca87</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca87}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca87}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca87">수정</a>
             {% endif %}
@@ -936,7 +1059,7 @@
     <tr id="ca88">
         <td>ca88</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca88}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca88}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca88">수정</a>
             {% endif %}
@@ -947,7 +1070,7 @@
     <tr id="ca89">
         <td>ca89</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca89}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca89}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca89">수정</a>
             {% endif %}
@@ -958,7 +1081,7 @@
     <tr id="ca90">
         <td>ca90</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca90}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca90}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca90">수정</a>
             {% endif %}
@@ -969,7 +1092,7 @@
     <tr id="ca91">
         <td>ca91</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca91}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca91}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca91">수정</a>
             {% endif %}
@@ -980,7 +1103,7 @@
     <tr id="ca92">
         <td>ca92</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca92}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca92}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca92">수정</a>
             {% endif %}
@@ -991,7 +1114,7 @@
     <tr id="ca93">
         <td>ca93</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca93}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca93}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca93">수정</a>
             {% endif %}
@@ -1001,7 +1124,7 @@
     <tr  id="ca94">
         <td>ca94</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca94}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca94}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca94">수정</a>
             {% endif %}
@@ -1011,7 +1134,7 @@
     <tr id="ca95">
         <td>ca95</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca95}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca95}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca95">수정</a>
             {% endif %}
@@ -1021,7 +1144,7 @@
     <tr id="ca96">
         <td>ca96</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca96}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca96}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca96">수정</a>
             {% endif %}
@@ -1031,7 +1154,7 @@
     <tr id="ca97">
         <td>ca97</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca97}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca97}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca97">수정</a>
             {% endif %}
@@ -1041,7 +1164,7 @@
     <tr id="ca98">
         <td>ca98</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca98}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca98}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field = "ca98">수정</a>
             {% endif %}
@@ -1052,7 +1175,7 @@
     <tr id="ca99">
         <td>ca99</td>
         <td>
-            <input type="text" size="70%" name="" id="input_category_nick" value="{{category.ca99}}">
+            <input type="text" name="" id="input_category_nick" value="{{category.ca99}}">
             {% if category.author == request.user %}
                 <a class="btn btn-outline-primary btn-sm cn-btn" data-id={{category.id}} data-field = "ca99">수정</a>
             {% endif %}
@@ -1073,15 +1196,46 @@
 {% endif %}
 
 <!-- modal area -->
-
+<!-- js -->
 
 <script type="text/javascript">
+
+	$(".copyforNickSubjectBtn").click(function (e){
+		const author = $(this).data("author")
+		const original_category = $(this).data("category")
+		// alert("author : "+ author);
+		// alert("category : "+ category);
+		
+		var destination_category = prompt("어디로 복사 하시겠습니까? (1~99)", "");
+		
+		if (destination_category.match("^[1-9][0-9]?$")) {
+
+			window.history.pushState("", "", '/wm/myshortcut/')
+
+			$.ajax({
+				type: "POST",
+				url: 'copyForCategorySubjectToMyCategory/',
+				data: {
+					'author': author,
+					'original_category': original_category,
+					'destination_category': destination_category,
+					csrfmiddlewaretoken: '{{ csrf_token }}'
+				},
+				success: function (result) {
+					alert(author +'의 '+ original_category + "에서 나의 " + destination_category + '로 복사(기존 내용 삭제)');
+				}
+			});
+		} else {
+			alert("이동할 카테고리는 1~99 중에 선택해주세요")
+		}		
+		
+	})
 
     $(".cn-btn").click(function(e){
         // alert("클릭");
         const ca_id = $(this).data("id");
         const field = $(this).data("field");
-        const ca_nick_update = $(this).parent().find("#input_category_nick").val()
+        const ca_nick_update = $(this).parent().parent().find("#input_category_nick").val()
 
         // alert("ca_id : " + ca_id)
         // alert("field : " + field);

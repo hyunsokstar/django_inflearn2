@@ -7,7 +7,9 @@ from django.conf import settings
 app_name = 'wm'
 
 urlpatterns = [
-
+    path('myshortcut/search_by_id_and_word/' , views.search_by_id_and_word, name="search_by_id_and_word"),
+    path('myshortcut/copyForCategorySubjectToMyCategory/' , views.copyForCategorySubjectToMyCategory, name="copyForCategorySubjectToMyCategory"),
+	
     path('new_comment_for_my_shortcut/<int:shortcut_id>/ajax/' , views.new_comment_for_my_shortcut, name="new_comment_for_my_shortcut"),
     path('update_shortcut_comment_ajax/<int:shortcut_comment_id>' , views.update_comment_for_my_shortcut, name="update_comment_for_my_shortcut"),
     path('delete_shortcut_comment_ajax/<int:shortcut_comment_id>' , views.delete_comment_for_my_shortcut, name="delete_comment_for_my_shortcut"),
@@ -20,6 +22,7 @@ urlpatterns = [
     path('myshortcut/create_new4_textarea/ajax/', views.create_new4_textarea , name="create_new4_textareas"),
 
     path('myshortcut/update/category/nick/', views.update_shortcut_nick , name="update_category_nick"),
+    path('myshortcut/update/category_nick_by_author/', views.update_shortcut_nick2 , name="update_category_nick2"),
 
     path('new/input', views.MyShortCutCreateView_input.as_view() , name="insert_myshortcut_input"),
     path('new/input_title/', views.MyShortCutCreateView_input_title.as_view() , name="insert_myshortcut_input_title"),

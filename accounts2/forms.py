@@ -14,5 +14,6 @@ class SignupForm(UserCreationForm):
         profile = Profile.objects.create(
             user = user,
             phone = self.cleaned_data['phone'],
-            address = self.cleaned_data['address'])
+            address = self.cleaned_data['address']
+		)
         return user

@@ -22,6 +22,69 @@ from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut
 from django.http import HttpResponseRedirect
 
 # 1122
+# def search_by_id_and_word():
+# 	pass
+	
+	
+def copyForCategorySubjectToMyCategory(request):
+	author = request.POST['author']
+	original_category = request.POST['original_category']
+	destination_category = request.POST['destination_category']
+	
+	print("author : ", author)
+	print("original_category : ", original_category)
+	print("destination_category : ", destination_category)
+	
+	MyShortCut.objects.filter(Q(author=request.user) & Q(category=destination_category)).delete()
+	
+	user_id = User.objects.get(username=author).id
+	ca_id = Category.objects.get(name=original_category)
+	
+	list_for_copy = MyShortCut.objects.filter(Q(author=user_id) & Q(category = ca_id))
+
+	category = Category.objects.get(id=destination_category)
+
+	for p in list_for_copy:
+		profile = MyShortCut.objects.create(
+			author = request.user,
+			title = p.title,
+			content1 = p.content1,
+			content2 = p.content2,
+			type_id = p.type_id,
+			category = category,
+		)
+	return JsonResponse({
+		'message': author+'의 '+ original_category +'를 나의 ' +destination_category +'로 복사 했습니다',
+	})
+	
+def search_by_id_and_word(request):
+	
+	search_user_id = request.POST['search_user_id']
+
+	if(search_user_id == "all"):
+		search_word = request.POST['search_word']
+		object_list = MyShortCut.objects.filter(Q(title__icontains=search_word)).order_by('-created')
+		print("search_user_id : ", search_user_id)
+		print("search_word : ", search_word)
+		print("object_list : ", object_list)
+		
+		return render(request, 'wm/MyShortCut_list_for_search.html', {
+			'object_list': object_list
+		})				
+	else:
+		user = User.objects.get(username=search_user_id)
+		
+		search_word = request.POST['search_word']
+		object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author=user)).order_by('-created')
+		
+		print("search_user_id : ", search_user_id)
+		print("search_word : ", search_word)
+		print("object_list : ", object_list)
+		
+		return render(request, 'wm/MyShortCut_list_for_search.html', {
+			'object_list': object_list
+		})
+	
 
 def delete_comment_for_my_shortcut(request, shortcut_comment_id):
     print('shortcut_comment_id : ' , shortcut_comment_id)
@@ -207,6 +270,27 @@ def update_shortcut_nick(request):
         print('update id : ',ca_id)
         print('update field  : ',field)
         print('update value : ',ca_nick_update)
+        cn = CategoryNick.objects.filter(id=ca_id).update(**{field: ca_nick_update})
+        # .update(field = ca_nick_update)
+
+        # print('update success : ' , update.id);
+
+        return JsonResponse({
+            'message': 'shortcut category nick name update 성공 ' +ca_nick_update,
+        })
+    else:
+        return redirect('/wm/shortcut')
+
+def update_shortcut_nick2(request):
+    if request.method == "POST" and request.is_ajax():
+        ca_id = CategoryNick.objects.get(author=request.user).id
+        field = request.POST['field']
+        ca_nick_update = request.POST['ca_nick_update']
+
+        print('update id : ',ca_id)
+        print('update field  : ',field)
+        print('update value : ',ca_nick_update)
+        
         cn = CategoryNick.objects.filter(id=ca_id).update(**{field: ca_nick_update})
         # .update(field = ca_nick_update)
 
