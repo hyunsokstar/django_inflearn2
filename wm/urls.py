@@ -7,9 +7,37 @@ from django.conf import settings
 app_name = 'wm'
 
 urlpatterns = [
+    # 1122
+    path('myshortcut/edit_complete_skill_note_for_front_end/<int:id>', views.edit_complete_skill_note_for_front_end , name='edit_complete_skill_note_for_front_end'),
+    path('myshortcut/edit_complete_skill_note_for_backend/<int:id>', views.edit_complete_skill_note_for_backend , name='edit_complete_skill_note_for_backend'),
+
+    path('myshortcut/edit_temp_skill_note_using_textarea_for_backend/<int:id>', views.edit_temp_skill_note_using_textarea_for_backend , name='edit_temp_skill_note_using_textarea_for_backend'),
+
+    path('myshortcut/edit_temp_skill_note_using_input_for_backend/<int:id>', views.edit_temp_skill_note_using_input_for_backend , name='edit_temp_skill_note_using_input_for_backend'),
+
+    path('myshortcut/update_temp_skil_title_for_backend/<int:id>', views.update_temp_skil_title_for_backend , name="update_temp_skil_title_for_backend"),
+    path('myshortcut/delete_temp_skill_note_for_backendarea/<int:id>', views.delete_temp_skill_note_for_backendarea , name="delete_temp_skill_note_for_backendarea"),
+    path('myshortcut/insert_temp_skill_note_using_input_for_backend/', views.insert_temp_skill_note_using_input_for_backend , name="insert_temp_skill_note_using_input_for_backend"),
+    path('myshortcut/insert_temp_skill_note_using_textarea_for_backend/', views.insert_temp_skill_note_using_textarea_for_backend , name="insert_temp_skill_note_using_textarea_for_backend"),
+    path('myshortcut/temp_skill_list_for_backend/', views.temp_skill_list_for_backend , name="temp_skill_list_for_backend"),
+
+
+    path('myshortcut/insert_temp_skill_note_for_input/', views.insert_temp_skill_note_for_input , name="insert_temp_skill_note_for_input"),
+    path('myshortcut/edit_temp_skill_note_for_input/<int:id>', views.edit_temp_skill_note_for_input , name='edit_temp_skill_note_for_input'),
+
+    path('myshortcut/update_temp_skill_note_for_textarea/<int:id>', views.update_temp_skill_note_for_textarea , name='update_temp_skill_note_for_textarea'),
+
+
+    path('myshortcut/insert_temp_skill_note_for_textarea/', views.insert_temp_skill_note_for_textarea , name="insert_temp_skill_note_for_textarea"),
+
+    path('myshortcut/update_temp_skil_title/<int:id>', views.update_temp_skil_title , name="update_temp_skil_title"),
+    path('myshortcut/delete_temp_memo_by_ajax/<int:id>', views.delete_temp_memo_by_ajax , name="delete_temp_memo_by_ajax"),
+
+
+    path('myshortcut/temp_skill_list/', views.temp_skill_list , name="temp_skill_list"),
     path('myshortcut/search_by_id_and_word/' , views.search_by_id_and_word, name="search_by_id_and_word"),
     path('myshortcut/copyForCategorySubjectToMyCategory/' , views.copyForCategorySubjectToMyCategory, name="copyForCategorySubjectToMyCategory"),
-	
+
     path('new_comment_for_my_shortcut/<int:shortcut_id>/ajax/' , views.new_comment_for_my_shortcut, name="new_comment_for_my_shortcut"),
     path('update_shortcut_comment_ajax/<int:shortcut_comment_id>' , views.update_comment_for_my_shortcut, name="update_comment_for_my_shortcut"),
     path('delete_shortcut_comment_ajax/<int:shortcut_comment_id>' , views.delete_comment_for_my_shortcut, name="delete_comment_for_my_shortcut"),
@@ -18,7 +46,9 @@ urlpatterns = [
     path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
 
     path('myshortcut/create_new1_input/ajax/', views.create_new1_input , name="create_new1_input"),
+
     path('myshortcut/create_new2_textarea/ajax/', views.create_new2_textarea , name="create_new2_textareas"),
+
     path('myshortcut/create_new4_textarea/ajax/', views.create_new4_textarea , name="create_new4_textareas"),
 
     path('myshortcut/update/category/nick/', views.update_shortcut_nick , name="update_category_nick"),
@@ -37,7 +67,6 @@ urlpatterns = [
     path('myshortcut/category/<str:slug>/', views.MyShortcutListByCategory.as_view()),
     path('myshortcut/update_shortcut1_ajax/<int:id>', views.update_shortcut1_ajax , name='update_shortcut1_ajax'),
 
-    path('myshortcut/update_shortcut2_ajax/<int:id>', views.update_shortcut2_ajax , name='update_shortcut2_ajax'),
     path('myshortcut/update_shortcut2_ajax/<int:id>', views.update_shortcut2_ajax , name='update_shortcut2_ajax'),
 
     path('update/shortcut_id_ajax/<int:id>', views.update_shorcut_id_for_user , name="update_shorcut_id_for_user"),

@@ -6,42 +6,42 @@
 {%block extra_css %}
 
 button, input, a {
-margin-bottom:5px;
+	margin-bottom:5px;
 }
 
 .sideicon_for_scroll{
-position:fixed;
-colort:blue;
-top:60px;
-right:16px;
+	position:fixed;
+	colort:blue;
+	top:300px;
+	right:8px;
 }
 
 .sideicon_for_insert{
-position:fixed;
-colort:blue;
-top:170px;
-right:16px;
+	position:fixed;
+	colort:blue;
+	top:140px;
+	right:8px;
 }
 
-.category_btn{
-position:fixed;
-colort:blue;
-top:330px;
-right:16px;
-}
+.sidearea_for_category_btn{
+	position:fixed;
+	colort:blue;
+	top:60px;
+	right:16px;
 
-.category_user_btn{
-position:fixed;
-colort:blue;
-top:370px;
-right:16px;
 }
 
 .sideicon_for_move{
-position:fixed;
-colort:blue;
-top:410px;
-right:16px;
+	position:fixed;
+	colort:blue;
+	top:420px;
+	right:8px;
+}
+
+.temp_memo_btn_area {
+	position:fixed;
+	top:80px;
+	left:20px;
 }
 
 
@@ -120,14 +120,21 @@ right:16px;
 <div class="sideicon_for_insert">
 	<a class="new3_btn btn btn-outline-success" id=""
 		href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a><br>
-	<button type="button" name="button" class="new1_btn btn btn-outline-success" id="">input(1)</button><br>
+	<button type="button" name="button" class="new1_btn btn btn-outline-success" id="">인풋(1)</button><br>
 	<button type="button" name="button" class="new2_btn btn btn-outline-success" id="">text(1)</button><br>
 	<a class="new4_btn btn btn-outline-success" id="" href=""> text(5) </a>
 </div>
 
-<button type="button" class="category_btn category_name_list_button btn btn-outline-success"
-	id="{{request.user.id}}">CH</button>
-<button type="button" class="category_user_btn user_list_btn btn btn-outline-success">User</button>
+
+
+<div class="sidearea_for_category_btn">
+	<button type="button" class="category_btn category_name_list_button btn btn-outline-success"
+	id="{{request.user.id}}">CH</button> <br>
+	<button type="button" class="category_user_btn user_list_btn btn btn-outline-success">User</button>
+</div>
+
+
+
 
 <div class="sideicon_for_move">
 	<button type="button" name="button" class="go_start_line_btn btn btn-outline-success" id="">first</button><br>
@@ -140,11 +147,14 @@ right:16px;
 	<button type="button" class="go_to_next_channer_btn btn btn-outline-success">
 		<img src="{% static 'icon/right_arrow.png' %}" alt="">
 	</button>
+	<br>
 </div>
 
+<div class="temp_memo_btn_area">
+	<button type="button" name="button" class="temp_memo_btn btn btn-outline-success" id="">front</button> <br>
+	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-success" id="">beckend</button>
+</div>
 
-
-<button type="button" name="button" id="index_first" hidden></button>
 <br><br>
 
 <table class="table table-bordered category_subject_table">
@@ -350,6 +360,97 @@ right:16px;
 <span class="myshort_list_area"></span>
 
 <!-- modal area -->
+
+<div class="modal fade" id="text_for_backend_modal" role="dialog">
+	<div class="modal-dialog modal-xl">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="popup_title">skill note for frontend</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				js
+				<button class="btn btn-outline-danger btn-sm float-right float-right edit_complete_skill_note_for_backend_btn"  id="">edit_complete</button>
+				<textarea name="" id="textarea_for_popup" class="form-control" rows="34"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="modal fade" id="text_for_frontend_modal" role="dialog">
+	<div class="modal-dialog modal-xl">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="popup_title">skill note for frontend</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<button class="btn btn-outline-danger btn-sm float-right float-right edit_complete_skill_note_for_front_end_btn"  id="">edit_complete</button>
+				<textarea name="" id="textarea_for_popup" class="form-control" rows="34"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="modal fade" id="temp_skill_for_backend_modal" role="dialog">
+  <div class="modal-dialog modal-xl">
+
+	<!-- Modal content-->
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h4 class="modal-title">Back End</h4>
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+	  </div>
+	  <div class="modal-body" id="">
+		  <button type="button" name="button" class=" btn btn-outline-success float-right insert_temp_skill_note_using_textarea_for_backend_btn" id="">text(1)</button>
+		  <button type="button" name="button" class="btn btn-outline-success float-right insert_temp_skill_note_using_input_for_backend_btn" id="">인풋(1)</button>
+
+		  <div id="temp_shorcut_list_for_backend_area"></div>
+
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+
+  </div>
+</div>
+
+<div class="modal fade" id="temp_skill_modal" role="dialog">
+  <div class="modal-dialog modal-xl">
+
+	<!-- Modal content-->
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h4 class="modal-title">Front End</h4>
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+	  </div>
+	  <div class="modal-body" id="">
+		  <button type="button" name="button" class="insert_temp_skill_note_for_textarea_btn btn btn-outline-success float-right" id="">text(1)</button>
+		  <button type="button" name="button" class="insert_temp_skill_note_for_input_btn btn btn-outline-success float-right" id="">인풋(1)</button>
+
+		  <div id="temp_shorcut_list_area"></div>
+
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+
+  </div>
+</div>
+
+
 <div class="modal fade" id="search_skill_modal" role="dialog">
 	<div class="modal-dialog modal-xl">
 
@@ -367,17 +468,18 @@ right:16px;
 					<input class="form-control skill_input_box" type="text" placeholder="Search" onkeyup="enter_for_search_skil_note()">
 					<button class="btn btn-secondary skill_search_button" type="button">Search</button>
 				</form>
-				
+
 				<input type="radio" class="search" id="{{request.user}}" name='foo' checked="true"> me<br>
 				<input type="radio" class="search" id="all" name='foo'> all<br>
 
 				<br>
 				<hr>
-				
+
 				<div id="wm_list_area_for_popup"></div>
 
 			</div>
 			<div class="modal-footer">
+
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -395,7 +497,11 @@ right:16px;
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-				<textarea name="" id="textarea_for_popup" class="form-control" rows="38"></textarea>
+
+				<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2_for_popup float-right"
+					id="">edit_complete</button>
+
+				<textarea name="" id="textarea_for_popup" class="form-control" rows="34"></textarea>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -408,7 +514,7 @@ right:16px;
 </div>
 
 <!-- category list modal  -->
-<div class="modal fade" id="CategoryModal" role="dialog">
+<div class="modal fade categoynick_modal" id="CategoryModal" role="dialog">
 	<div class="modal-dialog modal-xl">
 		<!-- Modal content-->
 		<div class="modal-content">
@@ -445,6 +551,66 @@ right:16px;
 	</div>
 </div>
 
+<!-- script area -->
+
+<script class="temp_skill_note_row_for_input" type="text/x-template">
+
+<table class="table table-bordered table_row" id="todo_list" width="100%">
+    <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0" >
+        <td class="counter_row">
+            <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check" >
+                <%=table_row_id %>
+        </td>
+        <td >
+            <span id="title_<%=shortcut_id %>">
+                <%=shortcut_title%>
+            </span>
+            <button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="<%=shortcut_id%>">삭제</button>
+            <button class="badge badge-pill badge-primary update_temp_skil_title_btn float-right" id="<%=shortcut_id %>">제목 수정</button>
+
+        </td>
+    </tr>
+
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f0f1f5;" >
+        <td colspan="2">
+            <input type="text" name="" value="<%=shortcut_content%>" size="40" id="select-input-<%=shortcut_id%>" class="form-control">
+            <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="<%=shortcut_id%>">copy</button>
+            <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_input_btn" id="<%=shortcut_id%>" >edit_complete</button>
+        </tr>
+</table>
+
+</script>
+
+<script class="temp_skill_note_row_for_textarea" type="text/x-template">
+
+<table class="table table-bordered table_row" id="todo_list" width="100%">
+
+    <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0">
+        <td id=index_{{ forloop.counter }}>
+            <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check">
+            <%=table_row_id %>
+        </td>
+        <td>
+            <span id="title_<%=shortcut_id%>">
+                <%=shortcut_title%>
+            </span>
+            <button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="<%=shortcut_id%>">삭제</button>
+            <button class="badge badge-pill badge-primary update_temp_skil_title_btn float-right" id="<%=shortcut_id%>"">제목 수정</button>
+        </td>
+    </tr>
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f0f1f5">
+        <td colspan="2">
+            <button class="btn btn-outline-primary btn-sm show_total_textInput_button" id=<%=shortcut_id%>>40row</button>
+			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id=<%=shortcut_id%>>8row</button>
+			<button class="btn btn-outline-primary btn-sm show_text_popup_button" id=<%=shortcut_id%>>popup</button>
+
+            <textarea class="form-control" id="select-textarea-<%=shortcut_id%>" cols="120" rows="10" ><%=shortcut_content2%></textarea><br>
+            <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="<%=shortcut_id%>">copy</button>
+            <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_textarea_btn" id="<%=shortcut_id%>" >edit_complete</button>
+        </td>
+    </tr>
+
+</script>
 
 <script class="myshortcut_row" type="text/x-template">
 
@@ -496,8 +662,8 @@ right:16px;
         <td colspan="2">
             <button class="btn btn-outline-primary btn-sm show_total_textInput_button" id=<%=shortcut_id%>>40row</button>
 			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id=<%=shortcut_id%>>8row</button>
-			
-			
+			<button class="btn btn-outline-primary btn-sm show_text_popup_button" id=<%=shortcut_id%>>popup</button>
+
             <textarea class="form-control" id="select-textarea-<%=shortcut_id%>" cols="120" rows="10" ><%=shortcut_content2%></textarea><br>
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="<%=shortcut_id%>">copy</button>
             <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="<%=shortcut_id%>" >edit_complete</button>
@@ -513,6 +679,533 @@ right:16px;
 
 {% block extra_js %}
 
+// show_text_popup_button_for_frontend_skill_btn
+// show_text_popup_button_for_backend_skill_btn
+
+$('body').on('click', '.edit_complete_skill_note_for_backend_btn', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	alert("id : " + id)
+	var content2 = $("#textarea_for_popup").val();
+	// alert("content2_update : " , content2)
+
+	// var content2 = content2_update
+	// alert("content2 : "+ content2)
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/edit_complete_skill_note_for_backend/' + id,
+		data: {
+			id: id,
+			content2: content2,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert("modify is completted")
+		}
+	});
+});
+
+$('body').on('click', '.show_text_popup_button_for_backend_skill_btn', function (e) {
+	let option = ""
+	const text_id = this.id;
+	alert("실행 확인 11")
+	alert("text_id : " + text_id)
+	$("#text_for_backend_modal").modal();
+
+	const text_title = $("#shortcut_" + text_id).text()
+	console.log("text_title : ", text_title);
+
+	$(".popup_title").text(text_title)
+	$(".edit_complete_skill_note_for_backend_btn").attr('id', text_id)
+
+	const text_content = $("#select-textarea-" + text_id).val()
+	console.log("text_content : ", text_content);
+
+	$("#textarea_for_popup").val(text_content)
+});
+
+$('body').on('click', '.edit_complete_skill_note_for_front_end_btn', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	alert("id : " + id)
+	var content2 = $("#textarea_for_popup").val();
+	// alert("content2_update : " , content2)
+
+	// var content2 = content2_update
+	// alert("content2 : "+ content2)
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/edit_complete_skill_note_for_front_end/' + id,
+		data: {
+			id: id,
+			content2: content2,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert("modify is completted")
+		}
+	});
+});
+
+$('body').on('click', '.show_text_popup_button_for_frontend_skill_btn', function (e) {
+	let option = ""
+	const text_id = this.id;
+	// alert("실행 확인 11")
+	alert("text_id : " + text_id)
+	$("#text_for_frontend_modal").modal();
+
+	const text_title = $("#shortcut_" + text_id).text()
+	console.log("text_title : ", text_title);
+
+	$(".popup_title").text(text_title)
+	$(".edit_complete_skill_note_for_front_end_btn").attr('id', text_id)
+
+	const text_content = $("#select-textarea-" + text_id).val()
+	console.log("text_content : ", text_content);
+
+	$("#textarea_for_popup").val(text_content)
+});
+
+$('body').on('click', '.edit_temp_skill_note_using_textarea_for_backend_btn', function (e) {
+	e.preventDefault();
+	// alert("실행 확인")
+	var id = $(this).attr("id");
+	// alert("id : " + id)
+	var content2 = $("#select-textarea-" + id).val();
+	// alert("content2_update : " , content2)
+
+	// var content2 = content2_update
+	// alert("content2 : "+ content2)
+
+	// edit_temp_skill_note_for_textarea_btn
+	$.ajax({
+		type: "POST",
+		// update_temp_skill_note_for_textarea
+		// update_shortcut2_ajax
+		url: '/wm/myshortcut/edit_temp_skill_note_using_textarea_for_backend/' + id,
+		data: {
+			id: id,
+			content2: content2,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert("modify is completted")
+		}
+	});
+});
+
+$('body').on('click', '.edit_temp_skill_note_using_input_for_backend_btn', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	const content1 = $("#select-input-" + id).val();
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/edit_temp_skill_note_using_input_for_backend/' + id,
+		data: {
+			id: id,
+			content1: content1,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert("modify is completted")
+		}
+	});
+});
+
+$('body').on('click', '.update_temp_skil_title_for_bacekend_btn', function (e) {
+	e.preventDefault();
+	const title = prompt("title을 입력해 주세요 22", "");
+
+	if (!title) {
+		return;
+	};
+
+	var id = $(this).attr("id");
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/update_temp_skil_title_for_backend/' + id,
+		data: {
+			title: title,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#title_" + id).text(result.title)
+			alert(result.message);
+		}
+	});
+});
+
+$('body').on('click', '.delete_temp_skill_note_for_backendarea_btn', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/delete_temp_skill_note_for_backendarea/' + id,
+		data: {
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#shortcut_" + id).remove();
+			$("#shortcut_" + id + "-2").remove();
+			alert('comment 삭제 complete ');
+		}
+	});
+});
+
+
+$(".insert_temp_skill_note_using_input_for_backend_btn").click(function () {
+	// alert("new1 버튼 클릭")
+	window.history.pushState("", "", '/wm/myshortcut/')
+	const title = prompt("title을 입력해 주세요 ", "");
+
+	if (!title) {
+		return;
+	};
+
+	if (title != "" && title != null) {
+		$.ajax({
+			type: "POST",
+			url: 'insert_temp_skill_note_using_input_for_backend/',
+			data: {
+				title: title,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				console.log("result : ", result);
+				alert("insert success")
+				window.history.pushState("", "", '/wm/myshortcut/')
+
+				var table_row = $('.table_row').length;
+				// alert("table_row : "+ table_row)
+
+				var raw_template = $('.temp_skill_note_row_for_input').html();
+				var tpl = _.template(raw_template);
+
+				var rendered = tpl({
+					table_row_id: table_row + 1,
+					shortcut_id: result.shortcut_id,
+					shortcut_title: result.shortcut_title,
+					shortcut_content: result.shortcut_content,
+				});
+				$(rendered).appendTo($('#temp_shorcut_list_for_backend_area'));
+				// I want to scropp to bottom how to make it?
+				// $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+			}
+		});
+	} else {
+		alert("title : ", title)
+		alert('제목을 입력하지 않으셨어여 다시 시도해주세요')
+		return;
+	}
+})
+
+$(".insert_temp_skill_note_using_textarea_for_backend_btn").click(function () {
+	// alert("new2 버튼 클릭")
+	window.history.pushState("", "", '/wm/myshortcut/')
+	const title = prompt("title을 입력해 주세요 ", "");
+
+	if (!title) {
+		return;
+	};
+
+	if (title != "") {
+		$.ajax({
+			type: "POST",
+			url: 'insert_temp_skill_note_using_textarea_for_backend/',
+			data: {
+				title: title,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				alert(result.message);
+
+				// underscore를 이용해 row 추가 하기
+				var raw_template = $('.temp_skill_note_row_for_textarea').html();
+				var tpl = _.template(raw_template);
+				var table_row = $('.table_row').length;
+
+				var rendered = tpl({
+					table_row_id: table_row + 1,
+					shortcut_id: result.shortcut_id,
+					shortcut_title: result.shortcut_title,
+					shortcut_content2: result.shortcut_content2,
+				});
+				$(rendered).appendTo($('#temp_shorcut_list_area'));
+			}
+		});
+	} else {
+		// alert("title : ", title)
+		alert("제목을 입력하지 않으셨어여 다시 시도해주세요")
+	}
+})
+
+$('body').on('click', '.temp_memo_for_backend_btn', function (e) {
+	$("#temp_skill_for_backend_modal").modal();
+
+	const url = ""
+	window.history.pushState("", "", '/wm/myshortcut/')
+
+	$.ajax({
+		type: "GET",
+		url: 'temp_skill_list_for_backend/',
+		data: {
+		},
+		success: function (result) {
+			$("#temp_shorcut_list_for_backend_area").html(result)
+
+			$("#temp_skill_for_backend_modal").modal();
+		}
+	});
+
+});
+
+// create_new1_input
+// insert_temp_skill_note_for_input
+$(".insert_temp_skill_note_for_input_btn").click(function () {
+	// alert("new1 버튼 클릭")
+	window.history.pushState("", "", '/wm/myshortcut/')
+	const title = prompt("title을 입력해 주세요 ", "");
+
+	if (!title) {
+		return;
+	};
+
+	if (title != "" && title != null) {
+		$.ajax({
+			type: "POST",
+			url: 'insert_temp_skill_note_for_input/',
+			data: {
+				title: title,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				console.log("result : ", result);
+				alert("insert success")
+				window.history.pushState("", "", '/wm/myshortcut/')
+
+				var table_row = $('.table_row').length;
+				// alert("table_row : "+ table_row)
+
+				var raw_template = $('.temp_skill_note_row_for_input').html();
+				var tpl = _.template(raw_template);
+
+				var rendered = tpl({
+					table_row_id: table_row + 1,
+					shortcut_id: result.shortcut_id,
+					shortcut_title: result.shortcut_title,
+					shortcut_content: result.shortcut_content,
+				});
+				$(rendered).appendTo($('#temp_shorcut_list_area'));
+				// I want to scropp to bottom how to make it?
+				// $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+			}
+		});
+	} else {
+		alert("title : ", title)
+		alert('제목을 입력하지 않으셨어여 다시 시도해주세요')
+		return;
+	}
+})
+
+$('body').on('click', '.show_delete_temp_memo_btn', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/delete_temp_memo_by_ajax/' + id,
+		data: {
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#shortcut_" + id).remove();
+			$("#shortcut_" + id + "-2").remove();
+			alert('comment 삭제 complete ');
+		}
+	});
+});
+
+$('body').on('click', '.edit_temp_skill_note_for_input_btn', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	const content1 = $("#select-input-" + id).val();
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/edit_temp_skill_note_for_input/' + id,
+		data: {
+			id: id,
+			content1: content1,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert("modify is completted")
+		}
+	});
+});
+
+$('body').on('click', '.edit_temp_skill_note_for_textarea_btn', function (e) {
+	e.preventDefault();
+	// alert("실행 확인")
+	var id = $(this).attr("id");
+	// alert("id : " + id)
+	var content2 = $("#select-textarea-" + id).val();
+	// alert("content2_update : " , content2)
+
+	// var content2 = content2_update
+	// alert("content2 : "+ content2)
+
+	// edit_temp_skill_note_for_textarea_btn
+	$.ajax({
+		type: "POST",
+		// update_temp_skill_note_for_textarea
+		// update_shortcut2_ajax
+		url: '/wm/myshortcut/update_temp_skill_note_for_textarea/' + id,
+		data: {
+			id: id,
+			content2: content2,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert("modify is completted")
+		}
+	});
+});
+
+$('body').on('click', '.shortcut_edit_button1', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	const content1 = $("#select-input-" + id).val();
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/update_shortcut1_ajax/' + id,
+		data: {
+			id: id,
+			content1: content1,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert("modify is completted")
+		}
+	});
+});
+
+$(".insert_temp_skill_note_for_textarea_btn").click(function () {
+	// alert("new2 버튼 클릭")
+	window.history.pushState("", "", '/wm/myshortcut/')
+	const title = prompt("title을 입력해 주세요 ", "");
+
+	if (!title) {
+		return;
+	};
+
+	if (title != "") {
+		$.ajax({
+			type: "POST",
+			url: 'insert_temp_skill_note_for_textarea/',
+			data: {
+				title: title,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				alert(result.message);
+
+				// underscore를 이용해 row 추가 하기
+				var raw_template = $('.temp_skill_note_row_for_textarea').html();
+				var tpl = _.template(raw_template);
+				var table_row = $('.table_row').length;
+
+				var rendered = tpl({
+					table_row_id: table_row + 1,
+					shortcut_id: result.shortcut_id,
+					shortcut_title: result.shortcut_title,
+					shortcut_content2: result.shortcut_content2,
+				});
+				$(rendered).appendTo($('#temp_shorcut_list_area'));
+			}
+		});
+	} else {
+		// alert("title : ", title)
+		alert("제목을 입력하지 않으셨어여 다시 시도해주세요")
+	}
+})
+
+$('body').on('click', '.update_temp_skil_title_btn', function (e) {
+	e.preventDefault();
+	const title = prompt("title을 입력해 주세요 ", "");
+
+	if (!title) {
+		return;
+	};
+
+	var id = $(this).attr("id");
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/update_temp_skil_title/' + id,
+		data: {
+			title: title,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#title_" + id).text(result.title)
+			alert(result.message);
+		}
+	});
+});
+
+$('body').on('click', '.temp_memo_btn', function (e) {
+	// $("#temp_skill_modal").modal();
+	const url = ""
+	window.history.pushState("", "", '/wm/myshortcut/')
+
+	$.ajax({
+		type: "GET",
+		url: 'temp_skill_list/',
+		data: {
+			// 'field': ch_name,
+			// 'ca_nick_update': ca_nick_update,
+			// csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			// $("#current_category_subject").text(ca_nick_update)
+			$("#temp_shorcut_list_area").html(result)
+			$("#temp_skill_modal").modal();
+		}
+	});
+
+});
+
+	$('body').on('click', '.shortcut_edit_button2_for_popup', function (e) {
+		e.preventDefault();
+		var id = $(this).attr("id");
+		// alert("id : " + id)
+		var content2 = $("#textarea_for_popup").val();
+		// alert("content2_update : " , content2)
+
+		// var content2 = content2_update
+		// alert("content2 : "+ content2)
+
+		$.ajax({
+			type: "POST",
+			url: '/wm/myshortcut/update_shortcut2_ajax/' + id,
+			data: {
+				id: id,
+				content2: content2,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				alert("modify is completted")
+			}
+		});
+	});
+
 function change_user_for_search(obj){
 	alert("클릭");
 	e.preventDefault();
@@ -523,19 +1216,19 @@ function change_user_for_search(obj){
 function enter_for_search_skil_note(){
 	if (window.event.keyCode == 13) {
 		$(".skill_search_button").trigger("click");
-	}	
+	}
 }
 
 $('body').on('click', '.skill_search_button', function (e) {
 	e.preventDefault();
-	
-	window.history.pushState("", "", '/wm/myshortcut/')		
-	
+
+	window.history.pushState("", "", '/wm/myshortcut/')
+
 	const search_word = $(".skill_input_box").val();
 	let search_user_id = ""
 	// alert("search_word : " + search_word);
 	console.log("search_word : " + search_word);
-			
+
 	$("input:radio.search").each(function () {
 		if (jQuery(this).is(":checked")) {
 			search_user_id = this.id;
@@ -544,8 +1237,8 @@ $('body').on('click', '.skill_search_button', function (e) {
 			// alert("체크 하세요")
 		}
 	});
-	
-	// window.history.pushState("", "", '/wm/myshortcut/')		
+
+	// window.history.pushState("", "", '/wm/myshortcut/')
 
 	$.ajax({
 		type: "POST",
@@ -556,17 +1249,18 @@ $('body').on('click', '.skill_search_button', function (e) {
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 		success: function (result) {
-			window.history.pushState("", "", '/wm/myshortcut/')		
-			// alert("성공");	
+			window.history.pushState("", "", '/wm/myshortcut/')
+			// alert("성공");
 			// alert("result: "+ result)
 			$("#wm_list_area_for_popup").html("")
 			$("#wm_list_area_for_popup").append(result)
 		}
-		
-		
+
+
 	});
 
 });
+
 
 $('body').on('click', '.search_popup_btn', function (e) {
 
@@ -654,6 +1348,7 @@ $('body').on('click', '.show_text_popup_button', function (e) {
 	console.log("text_title : ", text_title);
 
 	$(".popup_title").text(text_title)
+	$(".shortcut_edit_button2_for_popup").attr('id', text_id)
 
 	const text_content = $("#select-textarea-" + text_id).val()
 	console.log("text_content : ", text_content);
@@ -842,6 +1537,7 @@ $(".new4_btn").click(function () {
 
 })
 
+
 $(".new1_btn").click(function () {
 	// alert("new1 버튼 클릭")
 	window.history.pushState("", "", '/wm/myshortcut/')
@@ -934,7 +1630,6 @@ $(".new2_btn").click(function () {
 		// alert("title : ", title)
 		alert("제목을 입력하지 않으셨어여 다시 시도해주세요")
 	}
-
 })
 
 
@@ -1118,18 +1813,25 @@ $('.category_name_list_button').click(function (e) {
 	const url = '/wm/myshorcut/nicklist/' + user_name
 	const ch = $("#current_category").text()
 
+	// alert("ch : "+ch)
+
 	$.get(url)
 		.done((result) => {
-			console.log("result : ", result);
+			// console.log("result : ", result);
 			$(".category_nick_area").html(result)
+
 			$("#CategoryModal").modal();
 
 			$("#" + ch).css("background-color", "skyblue");
 
-			// alert("ch : " +ch)
-			//
-			// $('html, body').animate({
-			//     'scrollTop' : $("#"+ch).offset().top
+			// document.getElementById('CategoryModal').scrollTo({
+			// 	top: $("#" + ch).offset().top,
+			// 	left: 0,
+			// 	behavior: 'smooth'
+			// });
+
+			// $('html, .categoynick_modal').animate({
+			// 	'scrollTop': $("#"+ch).offset().top
 			// });
 
 		})
@@ -1159,7 +1861,7 @@ $('.update_shortcut_user_id').click(function (e) {
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function (result) {
-			alert("result.message : " + result.message)
+			alert("result.message : " 	+ result.message)
 			const original_id = result.original_id
 			if (original_id != "") {
 				$("#shortcut_user_id").val(original_id)
@@ -1242,6 +1944,7 @@ $('body').on('click', '.copy_code2', function (e) {
 });
 
 // 댓글 삭제 버튼
+// show_delete_temp_memo_btn
 $('body').on('click', '.short_delete_button', function (e) {
 	e.preventDefault();
 	var id = $(this).attr("id");
@@ -1260,7 +1963,7 @@ $('body').on('click', '.short_delete_button', function (e) {
 	});
 });
 
-// 댓글 수정 버튼
+// 제목 수정 버튼
 $('body').on('click', '.short_update_button', function (e) {
 	e.preventDefault();
 	const title = prompt("title을 입력해 주세요 ", "");

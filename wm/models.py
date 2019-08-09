@@ -23,9 +23,40 @@ class Type(models.Model):
     def __str__(self):
         return self.type_name
 
+class TempMyShortCut(models.Model):
+    title = models.CharField(max_length=120)
+    content1 = models.CharField(max_length=180 , blank=True)
+    content2 = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True , editable = False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    type= models.ForeignKey(Type, on_delete=models.CASCADE)
+
+    def get_absolute_url(self,*args,**kwargs):
+            return reverse('wm:my_shortcut_list')
+
+    def __str__(self):
+        return self.title
+
+class TempMyShortCutForBackEnd(models.Model):
+    title = models.CharField(max_length=120)
+    content1 = models.CharField(max_length=180 , blank=True)
+    content2 = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True , editable = False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    type= models.ForeignKey(Type, on_delete=models.CASCADE)
+
+    def get_absolute_url(self,*args,**kwargs):
+            return reverse('wm:my_shortcut_list')
+
+    def __str__(self):
+        return self.title
+
+
 class MyShortCut(models.Model):
     title = models.CharField(max_length=120)
-    content1 = models.CharField(max_length=180)
+    content1 = models.CharField(max_length=180, blank=True)
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True , editable = False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -18,28 +18,301 @@ from django.http import HttpResponse, JsonResponse
 from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_input_title
 from accounts2.models import Profile
 
-from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut
+from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd
 from django.http import HttpResponseRedirect
 
 # 1122
-# def search_by_id_and_word():
-# 	pass
-	
-	
+
+def edit_complete_skill_note_for_backend(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        print("content2 변수 넘어 왔다.")
+        content2 = request.POST.get('content2','')
+        # content2 = request.POST['content2']
+
+        print('TempMyShortCutForBackEnd text를 ajax로 update textarea')
+        print('id : ', id)
+        print("content2 : ", content2)
+        todo = TempMyShortCutForBackEnd.objects.filter(Q(id=id)).update(content2 = content2)
+        print('backend update 성공');
+
+        return JsonResponse({
+            'message': '댓글 업데이트 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def edit_complete_skill_note_for_front_end(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        print("content2 변수 넘어 왔다.")
+        content2 = request.POST.get('content2','')
+        # content2 = request.POST['content2']
+
+        print('shortcut을 ajax로 update textarea')
+        print('id : ', id)
+        print("content2 : ", content2)
+        todo = TempMyShortCut.objects.filter(Q(id=id)).update(content2 = content2)
+        print('frontend update 성공');
+
+        return JsonResponse({
+            'message': '댓글 업데이트 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def edit_temp_skill_note_using_textarea_for_backend(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        print("content2 변수 넘어 왔다.")
+        content2 = request.POST.get('content2','')
+        # content2 = request.POST['content2']
+
+        print('TempMyShortCut 을 ajax로 update textarea')
+        print('id : ', id)
+        print("content2 : ", content2)
+        todo = TempMyShortCutForBackEnd.objects.filter(Q(id=id)).update(content2 = content2)
+        print('TempMyShortCut update 성공');
+
+        return JsonResponse({
+            'message': '댓글 업데이트 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def edit_temp_skill_note_using_input_for_backend(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        content1 = request.POST.get('content1','')
+
+        print('TempMyShortCutForBackEnd 을 ajax로 update input')
+        print('id : ', id)
+        print("content1 : ", content1)
+        todo = TempMyShortCutForBackEnd.objects.filter(Q(id=id)).update(content1 = content1)
+        print('update 성공');
+
+        return JsonResponse({
+            'message': '댓글 업데이트 성공 22',
+        })
+    else:
+        return redirect('/todo')
+
+def update_temp_skil_title_for_backend(request,id):
+    user = request.user
+    title = request.POST['title']
+
+    if request.method == "POST" and request.is_ajax():
+        todo = TempMyShortCutForBackEnd.objects.filter(Q(id=id)).update(title=title)
+        print('TempMyShortCutForBackEnd update 성공 id : ' , id);
+
+        return JsonResponse({
+            'message': 'shortcut 업데이트 성공',
+            'title':title
+        })
+    else:
+        return redirect('/todo')
+
+def delete_temp_skill_note_for_backendarea(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        todo = TempMyShortCutForBackEnd.objects.filter(Q(id=id)).delete()
+        print('TempMyShortCutForBackEnd delete 성공 id : ' , id);
+        return JsonResponse({
+            'message': 'shortcut 삭제 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def insert_temp_skill_note_using_input_for_backend(request):
+    print("create_new1_input 실행")
+    ty = Type.objects.get(type_name="input")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    wm = TempMyShortCutForBackEnd.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        content1 = ""
+    )
+    print("wm : ", wm)
+    return JsonResponse({
+        'message': '인풋 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content':wm.content1,
+    })
+
+def insert_temp_skill_note_using_textarea_for_backend(request):
+    print("insert_temp_skill_note_for_textarea 실행")
+    ty = Type.objects.get(type_name="textarea")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    wm = TempMyShortCutForBackEnd.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+
+    print("wm : ", wm)
+
+    return JsonResponse({
+        'message': 'textarea 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content2':wm.content2,
+    })
+
+
+def temp_skill_list_for_backend(request):
+	print("temp_skill_list 실행")
+	user = request.user
+
+	object_list = TempMyShortCutForBackEnd.objects.filter(author=user)
+
+	return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
+		'object_list': object_list
+	})
+
+def insert_temp_skill_note_for_input(request):
+    print("create_new1_input 실행")
+    ty = Type.objects.get(type_name="input")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    wm = TempMyShortCut.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        content1 = ""
+    )
+    print("wm : ", wm)
+    return JsonResponse({
+        'message': '인풋 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content':wm.content1,
+    })
+
+def edit_temp_skill_note_for_input(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        content1 = request.POST.get('content1','')
+
+        print('TempMyShortCut 을 ajax로 update input')
+        print('id : ', id)
+        print("content1 : ", content1)
+        todo = TempMyShortCut.objects.filter(Q(id=id)).update(content1 = content1)
+        print('update 성공');
+
+        return JsonResponse({
+            'message': '댓글 업데이트 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def update_temp_skill_note_for_textarea(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        print("content2 변수 넘어 왔다.")
+        content2 = request.POST.get('content2','')
+        # content2 = request.POST['content2']
+
+        print('TempMyShortCut 을 ajax로 update textarea')
+        print('id : ', id)
+        print("content2 : ", content2)
+        todo = TempMyShortCut.objects.filter(Q(id=id)).update(content2 = content2)
+        print('TempMyShortCut update 성공');
+
+        return JsonResponse({
+            'message': '댓글 업데이트 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def insert_temp_skill_note_for_textarea(request):
+    print("insert_temp_skill_note_for_textarea 실행")
+    ty = Type.objects.get(type_name="textarea")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    wm = TempMyShortCut.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+
+    print("wm : ", wm)
+
+    return JsonResponse({
+        'message': 'textarea 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content2':wm.content2,
+    })
+
+
+def delete_temp_memo_by_ajax(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        todo = TempMyShortCut.objects.filter(Q(id=id)).delete()
+        print('TempMyShortCut delete 성공 id : ' , id);
+        return JsonResponse({
+            'message': 'shortcut 삭제 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def update_temp_skil_title(request,id):
+    user = request.user
+    title = request.POST['title']
+
+    if request.method == "POST" and request.is_ajax():
+        todo = TempMyShortCut.objects.filter(Q(id=id)).update(title=title)
+        print('TempMyShortCut update 성공 id : ' , id);
+
+        return JsonResponse({
+            'message': 'shortcut 업데이트 성공',
+            'title':title
+        })
+    else:
+        return redirect('/todo')
+
+def temp_skill_list(request):
+	print("temp_skill_list 실행")
+	user = request.user
+
+	object_list = TempMyShortCut.objects.filter(author=user)
+
+	return render(request, 'wm/TempMyShortCut_list.html', {
+		'object_list': object_list
+	})
+
 def copyForCategorySubjectToMyCategory(request):
 	author = request.POST['author']
 	original_category = request.POST['original_category']
 	destination_category = request.POST['destination_category']
-	
+
 	print("author : ", author)
 	print("original_category : ", original_category)
 	print("destination_category : ", destination_category)
-	
+
 	MyShortCut.objects.filter(Q(author=request.user) & Q(category=destination_category)).delete()
-	
+
 	user_id = User.objects.get(username=author).id
 	ca_id = Category.objects.get(name=original_category)
-	
+
 	list_for_copy = MyShortCut.objects.filter(Q(author=user_id) & Q(category = ca_id))
 
 	category = Category.objects.get(id=destination_category)
@@ -56,9 +329,9 @@ def copyForCategorySubjectToMyCategory(request):
 	return JsonResponse({
 		'message': author+'의 '+ original_category +'를 나의 ' +destination_category +'로 복사 했습니다',
 	})
-	
+
 def search_by_id_and_word(request):
-	
+
 	search_user_id = request.POST['search_user_id']
 
 	if(search_user_id == "all"):
@@ -67,24 +340,24 @@ def search_by_id_and_word(request):
 		print("search_user_id : ", search_user_id)
 		print("search_word : ", search_word)
 		print("object_list : ", object_list)
-		
-		return render(request, 'wm/MyShortCut_list_for_search.html', {
-			'object_list': object_list
-		})				
-	else:
-		user = User.objects.get(username=search_user_id)
-		
-		search_word = request.POST['search_word']
-		object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author=user)).order_by('-created')
-		
-		print("search_user_id : ", search_user_id)
-		print("search_word : ", search_word)
-		print("object_list : ", object_list)
-		
+
 		return render(request, 'wm/MyShortCut_list_for_search.html', {
 			'object_list': object_list
 		})
-	
+	else:
+		user = User.objects.get(username=search_user_id)
+
+		search_word = request.POST['search_word']
+		object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author=user)).order_by('-created')
+
+		print("search_user_id : ", search_user_id)
+		print("search_word : ", search_word)
+		print("object_list : ", object_list)
+
+		return render(request, 'wm/MyShortCut_list_for_search.html', {
+			'object_list': object_list
+		})
+
 
 def delete_comment_for_my_shortcut(request, shortcut_comment_id):
     print('shortcut_comment_id : ' , shortcut_comment_id)
@@ -290,7 +563,7 @@ def update_shortcut_nick2(request):
         print('update id : ',ca_id)
         print('update field  : ',field)
         print('update value : ',ca_nick_update)
-        
+
         cn = CategoryNick.objects.filter(id=ca_id).update(**{field: ca_nick_update})
         # .update(field = ca_nick_update)
 
@@ -362,8 +635,6 @@ def update_shorcut_id_for_user(request, id):
         })
     else:
         return redirect('/todo')
-
-
 
 def update_shortcut1_ajax(request,id):
     user = request.user
