@@ -493,7 +493,7 @@ button, input, a {
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="popup_title">skill note pop up</h4>
+				<h4 class="popup_title_original">skill note pop up</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
@@ -501,7 +501,7 @@ button, input, a {
 				<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2_for_popup float-right"
 					id="">edit_complete</button>
 
-				<textarea name="" id="textarea_for_popup" class="form-control" rows="34"></textarea>
+				<textarea name="" id="textarea_for_popup_original" class="form-control" rows="34"></textarea>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1186,11 +1186,9 @@ $('body').on('click', '.temp_memo_btn', function (e) {
 		e.preventDefault();
 		var id = $(this).attr("id");
 		// alert("id : " + id)
-		var content2 = $("#textarea_for_popup").val();
+		var content2 = $("#textarea_for_popup_original").val();
 		// alert("content2_update : " , content2)
 
-		// var content2 = content2_update
-		// alert("content2 : "+ content2)
 
 		$.ajax({
 			type: "POST",
@@ -1347,13 +1345,13 @@ $('body').on('click', '.show_text_popup_button', function (e) {
 	const text_title = $("#shortcut_" + text_id).text()
 	console.log("text_title : ", text_title);
 
-	$(".popup_title").text(text_title)
+	$(".popup_title_original").text(text_title)
 	$(".shortcut_edit_button2_for_popup").attr('id', text_id)
 
 	const text_content = $("#select-textarea-" + text_id).val()
 	console.log("text_content : ", text_content);
 
-	$("#textarea_for_popup").val(text_content)
+	$("#textarea_for_popup_original").val(text_content)
 });
 
 
