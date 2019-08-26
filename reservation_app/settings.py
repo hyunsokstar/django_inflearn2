@@ -60,7 +60,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR,'reservation_app','templates')
+            os.path.join(BASE_DIR,'reservation_app','templates'),
+            os.path.join(BASE_DIR, 'allauth_templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
