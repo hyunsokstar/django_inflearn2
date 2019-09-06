@@ -8,6 +8,9 @@ app_name = 'wm'
 
 urlpatterns = [
     # 1122
+    # copy_to_me_from_user_id_btn
+    path('myshortcut/copy_to_me_from_user_id/', views.copy_to_me_from_user_id , name='copy_to_me_from_user_id'),
+
     path('myshortcut/edit_complete_skill_note_for_front_end/<int:id>', views.edit_complete_skill_note_for_front_end , name='edit_complete_skill_note_for_front_end'),
     path('myshortcut/edit_complete_skill_note_for_backend/<int:id>', views.edit_complete_skill_note_for_backend , name='edit_complete_skill_note_for_backend'),
 

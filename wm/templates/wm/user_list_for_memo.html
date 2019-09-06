@@ -11,7 +11,8 @@
         <td>index</td>
         <td>username</td>
         <td>skill note subject</td>
-        <td>메모장으로 이동</td>
+        <td>이동</td>
+        <td>복사</td>
     </tr>
     {% if user_list.exists %}
         {% for u in user_list %}
@@ -26,8 +27,12 @@
 
                     {% endif %}
                 </td>
+
                 <td>
                     <a href="" class="btn btn-outline-info move_to_user_btn btn-sm" id={{u.id}}>이동</a>
+                </td>
+                <td>
+                    <a href="" class="btn btn-outline-info btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>copy_to_me</a>
                 </td>
 
             </tr>
@@ -42,6 +47,39 @@
 </table>
 
 <script type="text/javascript">
+
+// wm 앱임
+
+$(".copy_to_me_from_user_id_btn").click(function(e){
+    e.preventDefault();
+    const author = this.id
+    alert("this.id : " + this.id);
+
+    if (!author) {
+		return;
+	};
+
+    const selection = prompt("나의 note를 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
+    window.history.pushState("", "", '/wm/myshortcut/')
+
+    if (selection == "y" || selection == "Y") {
+        $.ajax({
+            type: "POST",
+            url: 'copy_to_me_from_user_id/',
+            data: {
+                "author":author,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(result) {
+                alert("result.message : " + result.message)
+            }
+        });
+    } else {
+        alert("취소 하셨습니다.")
+    }
+
+});
+
 
 $(".update_memo_subject_btn").click(function(e){
     e.preventDefault();

@@ -1,27 +1,153 @@
 # from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
-
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth.models import User
-
 from django.db.models import F
 from django.db.models import Q
-
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
-
-# form import
 from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_input_title
 from accounts2.models import Profile
-
 from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd
 from django.http import HttpResponseRedirect
 
 # 1122
+def copy_to_me_from_user_id(request):
+
+    author = request.POST['author']
+    # 나의 노트 모두 지우기
+    if( MyShortCut.objects.filter(Q(author=request.user)).count() != 0):
+        MyShortCut.objects.filter(Q(author=request.user)).delete()
+        CategoryNick.objects.filter(Q(author=request.user)).delete()
+
+    user_id = User.objects.get(username=author).id
+    print("user_id : " , user_id)
+
+    list_for_copy = MyShortCut.objects.filter(Q(author=user_id))
+    print("list_for_copy : " , list_for_copy);
+
+    for p in list_for_copy:
+        profile = MyShortCut.objects.create(
+            author = request.user,
+            title = p.title,
+            content1 = p.content1,
+            content2 = p.content2,
+            type_id = p.type_id,
+            category = p.category,
+        )
+
+    list_for_copy2 = CategoryNick.objects.filter(Q(author=user_id))
+    print("list_for_copy2 : " , list_for_copy2);
+
+    for p in list_for_copy2:
+        CN = CategoryNick.objects.create(
+            author = request.user,
+            ca1 = p.ca1,
+            ca2 = p.ca2,
+            ca3 = p.ca3,
+            ca4 = p.ca4,
+            ca5 = p.ca5,
+            ca6 = p.ca6,
+            ca7 = p.ca7,
+            ca8 = p.ca8,
+            ca9 = p.ca9,
+            ca10 = p.ca10,
+            ca11 = p.ca11,
+            ca12 = p.ca12,
+            ca13 = p.ca13,
+            ca14 = p.ca14,
+            ca15 = p.ca15,
+            ca16 = p.ca16,
+            ca17 = p.ca17,
+            ca18 = p.ca18,
+            ca19 = p.ca19,
+            ca20 = p.ca20,
+            ca21 = p.ca21,
+            ca22 = p.ca22,
+            ca23 = p.ca23,
+            ca24 = p.ca24,
+            ca25 = p.ca25,
+            ca26 = p.ca26,
+            ca27 = p.ca27,
+            ca28 = p.ca28,
+            ca29 = p.ca29,
+            ca30 = p.ca30,
+            ca31 = p.ca31,
+            ca32 = p.ca32,
+            ca33 = p.ca33,
+            ca34 = p.ca34,
+            ca35 = p.ca35,
+            ca36 = p.ca36,
+            ca37 = p.ca37,
+            ca38 = p.ca38,
+            ca39 = p.ca39,
+            ca40 = p.ca40,
+            ca41 = p.ca41,
+            ca42 = p.ca42,
+            ca43 = p.ca43,
+            ca44 = p.ca44,
+            ca45 = p.ca45,
+            ca46 = p.ca46,
+            ca47 = p.ca47,
+            ca48 = p.ca48,
+            ca49 = p.ca49,
+            ca50 = p.ca50,
+            ca51 = p.ca51,
+            ca52 = p.ca52,
+            ca53 = p.ca53,
+            ca54 = p.ca54,
+            ca55 = p.ca55,
+            ca56 = p.ca56,
+            ca57 = p.ca57,
+            ca58 = p.ca58,
+            ca59 = p.ca59,
+            ca60 = p.ca60,
+            ca61 = p.ca61,
+            ca62 = p.ca62,
+            ca63 = p.ca63,
+            ca64 = p.ca64,
+            ca65 = p.ca65,
+            ca66 = p.ca66,
+            ca67 = p.ca67,
+            ca68 = p.ca68,
+            ca69 = p.ca69,
+            ca70 = p.ca70,
+            ca71 = p.ca71,
+            ca72 = p.ca72,
+            ca73 = p.ca73,
+            ca74 = p.ca74,
+            ca75 = p.ca75,
+            ca76 = p.ca76,
+            ca77 = p.ca77,
+            ca78 = p.ca78,
+            ca79 = p.ca79,
+            ca80 = p.ca80,
+            ca81 = p.ca81,
+            ca82 = p.ca82,
+            ca83 = p.ca83,
+            ca84 = p.ca84,
+            ca85 = p.ca85,
+            ca86 = p.ca86,
+            ca87 = p.ca87,
+            ca88 = p.ca88,
+            ca89 = p.ca89,
+            ca90 = p.ca90,
+            ca91 = p.ca91,
+            ca92 = p.ca92,
+            ca93 = p.ca93,
+            ca94 = p.ca94,
+            ca95 = p.ca95,
+            ca96 = p.ca96,
+            ca97 = p.ca97,
+            ca98 = p.ca98,
+            ca99 = p.ca99,
+        )
+
+    return JsonResponse({
+        'message': author+'의 노트 전체를 나의 노트로 복사 했습니다',
+    })
 
 def edit_complete_skill_note_for_backend(request,id):
     user = request.user
