@@ -24,5 +24,5 @@ class MyShortCutForm_summer_note(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={'size': 80}),
-            'content2': SummernoteWidget(),
+            'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '480px', 'iframe': False, 'lineHeight':10, 'fontSize':11 }}),
         }

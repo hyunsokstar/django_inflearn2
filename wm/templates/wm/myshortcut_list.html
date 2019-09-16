@@ -259,7 +259,13 @@ button, input, a {
 
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f1f5">
 		<td colspan="2">
-			<div id="select-textarea-{{p.id}}" style="width:900px;">{{p.content2 | safe}}</div>
+
+			<!-- <textarea name="" id="" cols="120" rows="10" contenteditable="true"> -->
+				<span id="select-textarea-{{p.id}}" style="width:900px;" contenteditable="true">
+					{{p.content2 | safe}}
+				</span>
+			<!-- </textarea> -->
+
 			<br>
 			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글 추가</button>
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
@@ -1212,14 +1218,14 @@ function change_user_for_search(obj){
 }
 
 function enter_for_search_skil_note(){
+
 	if (window.event.keyCode == 13) {
-		$(".skill_search_button").trigger("click");
+		alert("enter")
 	}
 }
 
 $('body').on('click', '.skill_search_button', function (e) {
 	e.preventDefault();
-
 	window.history.pushState("", "", '/wm/myshortcut/')
 
 	const search_word = $(".skill_input_box").val();
@@ -1678,7 +1684,6 @@ $("#modify_category_button").click(function (e) {
 
 	e.preventDefault();
 	var shortcut_arr = [];
-
 	const text = ""
 
 	$('.shortcut_check').each(function () {
@@ -1687,10 +1692,9 @@ $("#modify_category_button").click(function (e) {
 			shortcut_arr.push(id);
 		}
 	});
+
 	// alert('이동할 shortcut : '+ shortcut_arr)
-
 	var category = prompt("where do you go? (1~99)", "");
-
 	if (category.match("^[1-9][0-9]?$")) {
 
 		if (category == null || category == "") {
@@ -1715,7 +1719,6 @@ $("#modify_category_button").click(function (e) {
 				jQuery('input:checkbox:checked').parents("table").remove();
 			}
 		});
-
 	} else {
 		alert("이동할 카테고리는 1~99 중에 선택해주세요")
 	}

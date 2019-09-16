@@ -10,8 +10,10 @@ from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_input_title
 from accounts2.models import Profile
-from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd
+from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut
 from django.http import HttpResponseRedirect
+from datetime import datetime
+
 
 # 1122
 def copy_to_me_from_user_id(request):
@@ -21,15 +23,18 @@ def copy_to_me_from_user_id(request):
     if( MyShortCut.objects.filter(Q(author=request.user)).count() != 0):
         MyShortCut.objects.filter(Q(author=request.user)).delete()
         CategoryNick.objects.filter(Q(author=request.user)).delete()
+        CommentForShortCut.objects.filter(Q(author=request.user)).delete()
 
     user_id = User.objects.get(username=author).id
     print("user_id : " , user_id)
 
-    list_for_copy = MyShortCut.objects.filter(Q(author=user_id))
-    print("list_for_copy : " , list_for_copy);
+    wm_list_for_copy = MyShortCut.objects.filter(Q(author=user_id))
+    print("wm_list_for_copy : " , wm_list_for_copy);
 
-    for p in list_for_copy:
-        profile = MyShortCut.objects.create(
+    comment_wm_list_for_copy = CommentForShortCut.objects.filter(Q(author=user_id))
+
+    for p in wm_list_for_copy:
+        myshortcut = MyShortCut.objects.create(
             author = request.user,
             title = p.title,
             content1 = p.content1,
@@ -37,6 +42,19 @@ def copy_to_me_from_user_id(request):
             type_id = p.type_id,
             category = p.category,
         )
+        # print("myshortcut : " , myshortcut.id)
+        for comment in comment_wm_list_for_copy:
+            # print("comment.id : ", comment.id)
+            # print("myshortcut.id : ", myshortcut.id )
+            if comment.shortcut.id == p.id:
+                print("댓글 생성 시도 확인")
+                wm = MyShortCut.objects.filter(id = comment.id)
+                wm_comment = CommentForShortCut.objects.create(
+                    author = request.user,
+                    shortcut = myshortcut,
+                    content = comment.content,
+                    created_at = comment.created_at,
+                )
 
     list_for_copy2 = CategoryNick.objects.filter(Q(author=user_id))
     print("list_for_copy2 : " , list_for_copy2);
@@ -618,12 +636,16 @@ def create_new2_textarea(request):
         'shortcut_content2':wm.content2,
     })
 
+# 2244 0914 업데이트할떄 시간을 현재 시간으로
+# 다른 카테고리로 수정 하기
 def update_category_by_ajax(request):
     shortcut_ids = request.POST.getlist('shortcut_arr[]')
     category = request.POST['category']
 
+    # datetime.now()
     if shortcut_ids:
-        MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).update(category=category)
+        MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).update(category=category, created = datetime.now())
+        print('카테고리 수정 success')
 
     return redirect('/wm/myshortcut')
 
