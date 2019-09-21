@@ -53,28 +53,18 @@ button, input, a {
 <!-- <div class="jumbotron"> -->
 <br>
 <hr>
-<h2>Skil Note by {{request.user.profile.shortcut_user_id}}</h2>
-<input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id">
-<button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">id 수정</button>
-<button type="button" class="user_list_btn">유저 목록</button>
-<button type="button" class="category_name_list_button" id="{{request.user.id}}">카테고리</button>
-<hr>
 
-
-<!-- </div> -->
-
-{% if messages %}
-<div class="alert alert-success">
-	{% for message in messages %}
-	{{ message.message }}<strong>{{ message.tags }}</strong>
-	{% endfor %}
-</div>
-{% endif %}
-
-
-<table width="100%">
+<table class="table table-bordered category_subject_table">
 	<tr>
-		<td>
+		<td width="20%">
+			<h2>Skil Note by {{request.user.profile.shortcut_user_id}}</h2>
+			<input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id">
+			<button type="button" class="update_shortcut_user_id" id="{{request.user.id}}">id 수정</button>
+			<button type="button" class="user_list_btn">유저 목록</button>
+			<button type="button" class="category_name_list_button" id="{{request.user.id}}">카테고리</button>
+		</td>
+
+		<td width="80%">
 			{% for category in category_list %}
 			{% ifequal category.id request.user.profile.selected_category_id %}
 			<a style="background-color:yellow" class="btn btn-outline-info btn-sm ca-btn-selected"
@@ -88,6 +78,16 @@ button, input, a {
 		</td>
 	</tr>
 </table>
+<!-- </div> -->
+
+{% if messages %}
+<div class="alert alert-success">
+	{% for message in messages %}
+	{{ message.message }}<strong>{{ message.tags }}</strong>
+	{% endfor %}
+</div>
+{% endif %}
+
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
