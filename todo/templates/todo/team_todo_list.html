@@ -87,17 +87,13 @@
         {% regroup team_todo_list by author as author_list %}
 
         {% for author in author_list %}
-
-
-        <tr>
-            <td colspan="6">
-                <h4>
-                    {{ author.grouper }}
-                </h4>
-            </td>
-        </tr>
-            {% for todo in author.list %}
-
+            <tr>
+                <td colspan="6">
+                    <h4>
+                        {{ author.grouper }}
+                    </h4>
+                </td>
+            </tr>
 
             <tr>
                 <td>체크</td>
@@ -107,6 +103,8 @@
                 <td>남은 시간</td>
                 <td>마감 기한</td>
             </tr>
+
+            {% for todo in author.list %}
 
             <tr>
                 <td>
@@ -130,6 +128,7 @@
                 <td>{{todo.dead_line}}</td>
             </tr>
             {% endfor %}
+
         {% endfor %}
 
     </table>
