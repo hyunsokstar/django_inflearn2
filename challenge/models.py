@@ -21,10 +21,10 @@ class LecInfo(models.Model):
 
 class RecommandLecInfo(models.Model):
     lecinfo = models.ForeignKey(LecInfo, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class StudentRecord(models.Model):
-    author = models.ForeignKey(User, on_delete=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     current_class = models.CharField(max_length=40)
     classification = models.ForeignKey(LecInfo, on_delete=True)
     note = models.CharField(max_length=120)

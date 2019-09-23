@@ -9,7 +9,7 @@ class Category(models.Model):
     name = models.CharField(max_length=25, unique=True)
     description = models.TextField(blank=True)
     slug = models.SlugField(unique=True, allow_unicode=True)
-    author = models.ForeignKey(User, on_delete=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -81,7 +81,7 @@ class CommentForShortCut(models.Model):
 
 class CategoryNick(models.Model):
     ca_subtitle = models.CharField(max_length=50, default="my category info")
-    author = models.ForeignKey(User, on_delete=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     ca1 = models.CharField(max_length=50, default="ca1")
     ca2 = models.CharField(max_length=50 , default="ca2")
     ca3 = models.CharField(max_length=50 , default="ca3")

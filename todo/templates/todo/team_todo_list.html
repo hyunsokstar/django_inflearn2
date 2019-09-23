@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{%block title %}TodoListForTeam{% endblock %}
+{%block title %}팀업무 관리 by 팀장{% endblock %}
 
 {%block content4 %}
 {% load crispy_forms_tags %}
@@ -17,8 +17,10 @@
 <!-- 2001 -->
 <!-- <h2 class="float-left">할일 목록({{request.user}})</h2> -->
 
-<h2 id=""><span id="team_name">{{team_name}}</span> 팀</h2>
-<h2 id="">팀장 : <span id="team_leader_name">{{team_leader_name}}</span> </h2>
+<h4 id="">
+    팀명 : <span id="team_name">{{team_name}}</span> &nbsp;&nbsp;
+    팀장 : <span id="team_leader_name">{{team_leader_name}}</span>
+</h4>
 
 <table>
     <tr>
@@ -58,9 +60,9 @@
 <br><br>
 
 <div class="input-group">
-    <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" />
+    <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" placeholder="팀장만 입력 가능"/>
     <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" onclick="create_todo_for_team();" id="{{team_name}}">팀장 입력!</button>
+        <button class="btn btn-secondary" type="button" onclick="create_todo_for_team();" id="{{team_name}}" data-userid={{request.user}}>팀장 입력!</button>
     </span>
 </div>
 
@@ -80,46 +82,55 @@
 <div class="todo-list-area">
 
     <table class="table table-bordered" id="todo_list">
-        <tr>
-            <td>check</td>
-            <td>classification</td>
-            <td>author</td>
-            <td>title</td>
-            <td>남은 시간</td>
-            <td>마감 기한</td>
-        </tr>
 
-        {% if team_todo_list.exists %}
-        {% for p in team_todo_list %}
+
+        {% regroup team_todo_list by author as author_list %}
+
+        {% for author in author_list %}
+
+
         <tr>
-            <td>
-                <input type="checkbox" id="{{p.pk}}" class="td_check">
+            <td colspan="6">
+                <h4>
+                    {{ author.grouper }}
+                </h4>
             </td>
-            <td>{{p.classification}}</td>
-            <td>{{p.author}}</td>
-            <td>
-                <a href="" id={{p.id}} class="title_for_list">
-                    {{p.title}} (<font color="blue"> from {{p.director}}</font> )
-                </a><br>
-                <a class="badge badge-pill badge-dark" href="{% url "todo:todo_edit" p.id %}">수정</a>
-            </td>
-            <td>
-                {% if p.dead_line %}
-                {{p.remaining_time}}
-                {% else %}
-                {% endif %}
-            </td>
-            <td>{{p.dead_line}}</td>
         </tr>
+            {% for todo in author.list %}
+
+
+            <tr>
+                <td>체크</td>
+                <td>분류</td>
+                <td>담당</td>
+                <td>title</td>
+                <td>남은 시간</td>
+                <td>마감 기한</td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="checkbox" id="{{todo.pk}}" class="td_check">
+                </td>
+                <td>{{todo.classification}}</td>
+                <td>{{todo.author}}</td>
+                <td>
+                    <a href="" id={{p.id}} class="title_for_list">
+                        {{todo.title}} (<font color="blue"> from {{todo.director}}</font> )
+                    </a><br>
+                    <a class="badge badge-pill badge-dark" href="{% url "todo:todo_edit" todo.id %}">수정</a>
+                </td>
+                <td>
+                    {% if todo.dead_line %}
+                        {{todo.remaining_time}}
+                    {% else %}
+
+                    {% endif %}
+                </td>
+                <td>{{todo.dead_line}}</td>
+            </tr>
+            {% endfor %}
         {% endfor %}
-        <tbody id="tbody_todo"></tbody>
-        {% else %}
-        <tr>
-            <td colspan="5">
-                <h4>아직 게시물이 없습니다.</h4>
-            </td>
-        </tr>
-        {% endif %}
 
     </table>
 
@@ -233,6 +244,15 @@ function create_todo_for_team(){
     const dead_line_option = $("#select_for_dead_line").val()
     const select_for_team_member = $("#select_for_team_member").val()
     const select_for_classification = $("#select_for_classification").val()
+    const userid = $(this).data("userid");
+
+    // 2244 팀리더 아니면 입력 못하게 바꾸기
+    // data-userid={{request.user}}
+    if(team_leader_name != userid){
+        alert('팀장이 아니면 입력할수 없습니다')
+        return
+    }
+
     window.history.pushState("", "", '/todo/')
 
     $.ajax({
@@ -267,16 +287,20 @@ function show_todo_detail(){
   alert("modal 출력 함수")
 }
 $(document).ready(function(){
+
     var id;
+
     $("#todo_list a[class='title_for_list']").click(function(e){
         e.preventDefault();
         id = $(this).attr('id');
+        window.history.pushState("", "", '/todo/'+id)
 
         $.get(id)
             .done((html) => {
+                console.log(html);
                 $('#myModal_button').hide();
                 $("#myModal").html(html)
-                $( "#myModal_button" ).trigger("click");
+                $( "#myModal_button" ).trigger( "click" );
             })
             .fail(() => {
                 console.log("fail");
@@ -286,6 +310,9 @@ $(document).ready(function(){
             })
     });
 })
+
+
+
 
 $(document).ready(function(){
     $('.comment_button_for_todo_detail').click(function(e){

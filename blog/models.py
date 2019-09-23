@@ -11,7 +11,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-        
+
     def get_absolute_url(self):
         return '/blog/tag/{}/'.format(self.slug)
 
@@ -34,7 +34,7 @@ class Post(models.Model):
     content = MarkdownxField()
     head_image = models.ImageField(upload_to='blog/%y%m%d', blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
     tags = models.ManyToManyField(Tag, blank=True)
 
@@ -53,7 +53,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     text = MarkdownxField()
-    author = models.ForeignKey(User, on_delete=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

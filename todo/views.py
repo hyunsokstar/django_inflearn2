@@ -53,11 +53,12 @@ def team_todo_list_by_check_user(request, team_name):
 
 def team_todo_list(request, team_name):
     print("team_name : ", team_name)
+    print("팀의 todo list를 출력 합니다.");
 
     teamId = TeamInfo.objects.get(team_name = team_name).id
     team_leader_name = TeamInfo.objects.get(team_name = team_name).leader.username
 
-    print("team_leader_name : ", team_leader_name)
+    # print("team_leader_name : ", team_leader_name)
 
     team_member = TeamMember.objects.filter(team=teamId)
     classification_list = Classification.objects.all()
@@ -70,8 +71,8 @@ def team_todo_list(request, team_name):
 
     team_todo_list = Todo.objects.filter(author__in=member_array)
 
-    print('team_todo_list : ' , team_todo_list)
-    print('team_member : ' , team_member)
+    # print('team_todo_list : ' , team_todo_list)
+    # print('team_member : ' , team_member)
 
     return render(request, 'todo/team_todo_list.html', {
         "team_todo_list":team_todo_list,
@@ -80,8 +81,8 @@ def team_todo_list(request, team_name):
         "team_name":team_name,
         "team_leader_name": team_leader_name
     })
-	
-	
+
+
 
 def add_todo_for_team_by_ajax(request):
 

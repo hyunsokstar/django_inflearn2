@@ -5,7 +5,7 @@ from todo.models import TeamInfo
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=20)
     address = models.CharField(max_length=100)
     completecount = models.IntegerField(default=0)

@@ -20,7 +20,7 @@ class TeamInfo(models.Model):
 
 class TeamMember(models.Model):
     team = models.ForeignKey(TeamInfo, on_delete=models.CASCADE)
-    member = models.ForeignKey(User, on_delete=True)
+    member = models.ForeignKey(User, on_delete=models.CASCADE)
     position = models.CharField(max_length=50,default="member")
 
 

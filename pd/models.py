@@ -7,7 +7,7 @@ class MyTask(models.Model):
     github = models.CharField(max_length= 100)
     content = models.TextField(blank=True)
     shortcut_id = models.CharField(max_length= 60)
-    author = models.ForeignKey(User, on_delete=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -17,7 +17,7 @@ class MyTask(models.Model):
 class MySite(models.Model):
     site_name = models.CharField(max_length=50)
     site_url = models.CharField(max_length= 100)
-    author = models.ForeignKey(User, on_delete=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
