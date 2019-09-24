@@ -30,6 +30,20 @@ from django.utils import timezone
 
 # 1122 for todo
 
+def pass_task_to_selected_user(request):
+    todo_arr = request.POST.getlist('todo_arr[]')
+    selected_user = request.POST['selected_user']
+
+    print('업무를 이전받을 id : ',selected_user)
+    print('업데이트할 row  : ',todo_arr)
+
+    author_for_update = User.objects.get(username=selected_user)
+    Todo.objects.filter(Q(pk__in=todo_arr)).update(author = author_for_update)
+
+    return JsonResponse({
+        'message': selected_user+'에게 업무 이관 성공',
+    })
+
 def team_todo_list_by_check_user(request, team_name):
     print("team_name 22 : ", team_name)
 

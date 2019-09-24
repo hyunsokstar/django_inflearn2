@@ -66,15 +66,25 @@
     </span>
 </div>
 
-<br><br>
+<br>
+
+<select id="select_for_team_member2">
+    {% if team_member_list.exists %}
+        {% for p in team_member_list %}
+        <option value="{{p.member}}">{{p.member}}</option>
+        {% endfor %}
+    {% endif %}
+</select>
+
+<button type="button" name="button" class="user_change_button" data-team_name="{{team_name}}">유저로 업무 이관</button> &nbsp;&nbsp;
+
 
     {% if team_member_list.exists %}
         {% for p in team_member_list %}
-            <input type="checkbox" name="vehicle1" value="{{p.member.id}}" class="td_check" id="{{p.member.id}}"> {{p.member}}
+            <input type="checkbox" name="vehicle1" value="{{p.member.id}}" id="{{p.member.id}}"> {{p.member}}
         {% endfor %}
     {% endif %}
     <input type="button" value="검색" class="search_by_check_user_btn">
-
     <a href = "{% url "todo:todo_new" %}" class="btn btn-outline-info float-right btn-sm">입력 </a>
     <a href="" class="btn btn-outline-info float-right btn-sm" id="todo_delete_button"> 삭제 </a>
     <br><br>
@@ -108,7 +118,7 @@
 
             <tr>
                 <td>
-                    <input type="checkbox" id="{{todo.pk}}" class="td_check">
+                    <input type="checkbox" id="{{todo.pk}}" class="team_todo_check" >
                 </td>
                 <td>{{todo.classification}}</td>
                 <td>{{todo.author}}</td>
@@ -202,10 +212,54 @@
 <script type="text/javascript">
 {% block extra_js %}
 
+$('body').on('click', '.user_change_button', function(e) {
+
+    const selected_user = $("#select_for_team_member2").val()
+    const team_name=$(this).data("team_name");
+    var todo_arr = [];
+    // alert('team_name : ' + team_name)
+    // alert("selected_user : " + selected_user)
+
+	$('.team_todo_check').each(function () {
+		if (jQuery(this).is(":checked")) {
+			var id = this.id;
+			todo_arr.push(id);
+		}
+	});
+
+	// alert('todo_arr : '+ shortcut_arr)
+
+
+    // 새로 고침 눌렀을때 원래 페이지로 돌아오도록 수정
+	option = prompt("체크한 todo 업무를 "+ selected_user+ "에게 이관하시겠습니까? (x,y)?", "");
+
+	if (todo_arr != "") {
+		if (option == "y") {
+			$.ajax({
+				type: "POST",
+				url: 'pass_task_to_selected_user/',
+				data: {
+					'todo_arr[]': todo_arr,
+                    'selected_user':selected_user,
+					csrfmiddlewaretoken: '{{ csrf_token }}'
+				},
+				success: function (result) {
+					alert(result.message);
+                    location.reload(true);
+				}
+			});
+		} else {
+			alert("이관을 취소하셨습니다.")
+		}
+	} else {
+		alert("체크 박스를 체크해주세요")
+	}
+})
+
+
 $('body').on('click', '.search_by_check_user_btn', function(e) {
 
     e.preventDefault();
-    // alert("user array로 team_todo_list 검색 ")
     const team_name = $("#team_name").text()
 
     var user_arr = [];
@@ -215,7 +269,6 @@ $('body').on('click', '.search_by_check_user_btn', function(e) {
             user_arr.push(id);
         }
     });
-    // alert('user_arr : '+ user_arr)
     window.history.pushState("", "", '/todo/')
 
     $.ajax({
@@ -241,7 +294,9 @@ function create_todo_for_team(){
     const team_leader_name = $("#team_leader_name").text()
     const title = $("#input_todo").val()
     const dead_line_option = $("#select_for_dead_line").val()
+
     const select_for_team_member = $("#select_for_team_member").val()
+
     const select_for_classification = $("#select_for_classification").val()
     const userid = $(this).data("userid");
 

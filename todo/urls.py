@@ -6,6 +6,9 @@ from . import views
 app_name= 'todo'
 urlpatterns = [
 
+    # /todo/team_todo_list/pass_task_to_selected_user/
+    path('team_todo_list/pass_task_to_selected_user/', views.pass_task_to_selected_user, name="pass_task_to_selected_user"),
+
     path('add_todo_by_ajax/', views.add_todo_by_ajax, name="add_todo_by_ajax"),
     path('add_todo_for_team_by_ajax/', views.add_todo_for_team_by_ajax, name="add_todo_for_team_by_ajax"),
     path('add_todo_by_ajax_by_teamleader/', views.add_todo_by_ajax_by_teamleader, name="add_todo_by_ajax_by_teamleader"),

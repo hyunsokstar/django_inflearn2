@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 # Create your models here.
+
+class RecommandationUserAboutSkillNote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    author_id = models.CharField(max_length=40)
+
 class Category(models.Model):
     name = models.CharField(max_length=25, unique=True)
     description = models.TextField(blank=True)

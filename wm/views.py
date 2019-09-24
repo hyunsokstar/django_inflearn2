@@ -10,12 +10,47 @@ from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_input_title
 from accounts2.models import Profile
-from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut
+from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote
 from django.http import HttpResponseRedirect
 from datetime import datetime
 
 
 # 1122
+def plus_recommand_for_skillnote_user(request):
+    user_pk = request.POST['user_pk']
+    user_id = request.POST['user_id']
+
+    user =  get_object_or_404(User, pk=user_pk)
+    print("user : " , user)
+    print("user_id : ", user_id)
+
+    recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).count()
+    print("recommand_count : ", recommand_count)
+
+    if recommand_count < 1:
+        rc = RecommandationUserAboutSkillNote.objects.create(user=user ,author_id=user_id)
+        print('추천을 추가')
+        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).count()
+
+        return JsonResponse({
+            'message': "추천 +1",
+            "option":"plus",
+            "recommand_count":recommand_count
+        })
+
+    else:
+        RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).delete()
+        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).count()
+
+        return JsonResponse({
+            'message': "추천 -1 ",
+            "option":"minus",
+            "recommand_count":recommand_count
+        })
+
+
+
+
 def copy_to_me_from_user_id(request):
 
     author = request.POST['author']
@@ -672,6 +707,10 @@ def update_my_shortcut_subject(request):
     else:
         return redirect('/wm/shortcut')
 
+# 2244
+# user list를 정렬할떄 {{ u.recommandationuseraboutskillnote_set.count }} 를 기준으로 정렬하고 싶으면
+# 어떤식으로 쿼리셋 객체를 검색해야 되나요?
+
 def user_list_for_memo(request):
     if request.method == 'GET':
         user_list = User.objects.all()
@@ -681,6 +720,7 @@ def user_list_for_memo(request):
         })
     else:
         return HttpResponse("Request method is not a GET")
+
 
 def update_shortcut_nick(request):
     if request.method == "POST" and request.is_ajax():

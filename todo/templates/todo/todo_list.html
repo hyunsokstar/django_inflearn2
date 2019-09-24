@@ -73,7 +73,6 @@
     <tr>
         <td>
             <input type="checkbox" class="all_check" value="">
-            check
         </td>
         <td>분류</td>
         <td>title</td>
@@ -198,7 +197,7 @@
 
 $(".all_check").change(function() {
     if (this.checked) {
-        alert('클릭')
+        alert('모두 체크')
         $(".td_check").each(function() {
             this.checked=true;
         });
