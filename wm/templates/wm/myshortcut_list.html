@@ -171,7 +171,7 @@ button, input, a {
 			<span id="current_category_subject">
 				{{category_nick}}
 			</span>
-			<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}">주제
+			<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제
 				수정</button>
 			{% endif %}
 		</td>
@@ -1273,11 +1273,10 @@ $('body').on('click', '.search_popup_btn', function (e) {
 $('body').on('click', '.update_nick_button', function (e) {
 	const ch_name = $(this).data("id");
 	const ca_nick_update = prompt(ch_name + "의 주제를 입력해 주세요", "");
+
 	if (ca_nick_update == "") {
 		return;
 	}
-
-
 
 
 	var note_author = $("#shortcut_user_id").val()
@@ -1285,6 +1284,7 @@ $('body').on('click', '.update_nick_button', function (e) {
 
 
 	if(note_author == current_user){
+		// alert("주제 수정을 실행해 보겠습니다.");
 		$.ajax({
 			type: "POST",
 			url: 'update/category_nick_by_author/',
