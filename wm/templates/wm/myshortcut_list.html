@@ -183,6 +183,8 @@ button, input, a {
 <table class="table table-bordered table_row" id="todo_list" width="<100></100>%">
 
 	{% ifequal p.type.type_name "input" %}
+
+	<!-- 2244 -->
 	<tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0">
 		<td id=index_{{ forloop.counter }} width="10%">
 			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
@@ -193,8 +195,8 @@ button, input, a {
 				{{p.title}}
 			</span>
 			{% if p.author == request.user %}
-			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
-			<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
+				<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
+				<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
 			<!-- <img src="{% static 'icon/trashcan.png' %}" alt="" > -->
 
 			{% endif %}
@@ -229,7 +231,7 @@ button, input, a {
 	</tr>
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f1f5">
 		<td colspan="2">
-			<button class="btn btn-outline-primary btn-sm show_total_textInput_button" id={{p.id}}>40row</button>
+			<button class="btn btn-outline-primary btn-sm show_total_textInput_button" id={{p.id}}>24row</button>
 			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id={{p.id}}>8row</button>
 			<button class="btn btn-outline-primary btn-sm show_text_popup_button" id={{p.id}}>popup</button>
 
@@ -264,7 +266,7 @@ button, input, a {
 		<td colspan="2">
 
 			<!-- <textarea name="" id="" cols="120" rows="10" contenteditable="true"> -->
-				<span id="select-textarea-{{p.id}}" style="width:900px;" contenteditable="true">
+				<span id="select-textarea-{{p.id}}" style="width:900px; background-color:white;" contenteditable="true">
 					{{p.content2 | safe}}
 				</span>
 			<!-- </textarea> -->
@@ -500,9 +502,10 @@ button, input, a {
 	<div class="modal-dialog modal-xl">
 
 		<!-- Modal content-->
+		<!-- 2244 -->
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="popup_title_original">skill note pop up</h4>
+				<h4 class="popup_title_original" style="background-color:#bfff00">skill note pop up</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
@@ -510,7 +513,7 @@ button, input, a {
 				<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2_for_popup float-right"
 					id="">edit_complete</button>
 
-				<textarea name="" id="textarea_for_popup_original" class="form-control" rows="34"></textarea>
+				<textarea name="" id="textarea_for_popup_original" class="form-control" rows="24"></textarea>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1279,34 +1282,34 @@ $('body').on('click', '.update_nick_button', function (e) {
 	}
 
 
-	var note_author = $("#shortcut_user_id").val()
-	var current_user = $(this).data("user_id");
+	var note_author = $("#shortcut_user_id").val().trim()
+	var current_user = $(this).data("user_id").trim();
 
+	console.log("note_author : ", note_author);
+	console.log("current_user : ",current_user);
 
-	if(note_author == current_user){
-		// alert("주제 수정을 실행해 보겠습니다.");
-		$.ajax({
-			type: "POST",
-			url: 'update/category_nick_by_author/',
-			data: {
-				'field': ch_name,
-				'ca_nick_update': ca_nick_update,
-				csrfmiddlewaretoken: '{{ csrf_token }}'
-			},
-			success: function (result) {
-				// alert("category nick update success")
-				$("#current_category_subject").text(ca_nick_update)
-				alert("result.message : " + ca_nick_update);
-				// 이동한후 목록 버튼 클릭하도록 설정
-				// $(location). attr('href', 'http://127.0.0.1:7000/wm/myshortcut/');
-			}
-		});
-	}else{
-		alert("노트 주인인 " + note_author + "님만 수정 할수 있습니다.")
+	if(note_author != current_user) {
+		alert("작성자만 수정 가능");
+		return;
 	}
+	console.log("user를 수정 합니다");
 
 	// 서버로 ch_id를 보내서 wm의 CategoryNick모델의 author=request.user인 row의 필드를 업데이트
 	window.history.pushState("", "", '/wm/myshortcut/')
+
+	$.ajax({
+		type: "POST",
+		url: 'update/category_nick_by_author/',
+		data: {
+			'field': ch_name,
+			'ca_nick_update': ca_nick_update,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#current_category_subject").text(ca_nick_update)
+			alert("result.message : " + ca_nick_update);
+		}
+	});
 
 });
 
@@ -1327,7 +1330,7 @@ $('body').on('click', '.show_total_textInput_button', function (e) {
 	let option = ""
 	const id = this.id;
 	// alert("id : " +comment_id)
-	$("#select-textarea-" + id).attr('rows', 40);
+	$("#select-textarea-" + id).attr('rows', 24);
 });
 
 $('body').on('click', '.show_basic_textInput_button', function (e) {
@@ -1358,7 +1361,7 @@ $('body').on('click', '.show_text_popup_button', function (e) {
 	// alert("text_id : " + text_id)
 	$("#text_modal").modal();
 
-	const text_title = $("#shortcut_" + text_id).text()
+	const text_title = $("#title_"+text_id).text()
 	console.log("text_title : ", text_title);
 
 	$(".popup_title_original").text(text_title)
@@ -1492,7 +1495,7 @@ $(".go_to_next_channer_btn").click(function () {
 
 	// var href = $('.cssbuttongo').attr('href')
 	next_ch_url = $("#ca_" + category_id).attr('href')
-	alert("next_ch_url : " + next_ch_url);
+	console.log("next_ch_url : " + next_ch_url);
 	window.location.href = next_ch_url;
 })
 
@@ -1904,7 +1907,6 @@ $('body').on('click', '.shortcut_edit_button1', function (e) {
 	});
 });
 
-// 작성자와 current user 비교해서 아니면 리턴  2244
 $('body').on('click', '.shortcut_edit_button2', function (e) {
 	e.preventDefault();
 
