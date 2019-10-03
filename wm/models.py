@@ -4,8 +4,6 @@ from markdownx.utils import markdown
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-# Create your models here.
-
 class RecommandationUserAboutSkillNote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     author_id = models.CharField(max_length=40)
@@ -15,10 +13,8 @@ class Category(models.Model):
     description = models.TextField(blank=True)
     slug = models.SlugField(unique=True, allow_unicode=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-
     def __str__(self):
         return self.name
-
     def get_absolute_url(self):
             return '/wm/myshortcut/category/{}/'.format(self.slug)
 
@@ -69,7 +65,6 @@ class MyShortCut(models.Model):
 
     def get_absolute_url(self,*args,**kwargs):
             return reverse('wm:my_shortcut_list')
-
     def __str__(self):
         return self.title
 

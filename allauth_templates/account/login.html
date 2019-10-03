@@ -32,7 +32,8 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
     <br>
     이사이트는 업무 관리 및 노트 공유 강의 정보 공유에 관한 사이트입니다
     회원 가입해 주시면 감사여
-<a href="{{ signup_url }}">회원 가입</a> {% endblocktrans %}</p>
+<hr>
+<a class="primaryAction btn btn-outline-success btn-block" href="{{ signup_url }}">회원 가입</a> {% endblocktrans %}</p>
 {% endif %}
 
 <form class="login" method="POST" action="{% url 'account_login' %}">

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'remote_control',
     'pd',
+    'skilblog',
     # 'datetimepicker',
 ]
 

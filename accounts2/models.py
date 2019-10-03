@@ -5,7 +5,7 @@ from todo.models import TeamInfo
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', parent_link=True)
     phone = models.CharField(max_length=20)
     address = models.CharField(max_length=100)
     completecount = models.IntegerField(default=0)
@@ -16,3 +16,4 @@ class Profile(models.Model):
     team = models.ForeignKey(TeamInfo, on_delete=True, null=True, blank=True)
     position = models.CharField(max_length=50,default="member")
     subject_of_memo = models.CharField(max_length=60)
+    skill_note_reputation = models.IntegerField(default=0) # skill note 점수

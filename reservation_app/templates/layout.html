@@ -51,49 +51,53 @@
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="{% url "wm:my_shortcut_list" %}">Skill Note</a>
+                <a class="nav-link" href="{% url "wm:my_shortcut_list" %}">Skil Note</a>
             </li>
         </ul>
 
         <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "skilblog:SkilBlogTitleList" %}">Skil Blog</a>
+            </li>
+        </ul>
+
+        <!-- <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "wm:my_shortcut_list" %}">Tech Info</a>
+            </li>
+        </ul> -->
+
+        <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Study(B)<span class="caret"></span></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">단체 study<span class="caret"></span></a>
                 <div class="dropdown-menu" aria-labelledby="download">
-                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 1 %}">we_tube(nomadcoder)</a>
-                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 2 %}">django+vue todo앱(inflearn)</a>
-                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 3 %}">플루터 기초 강의(inflearn)</a>
-                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 4 %}">node + react sns 만들기 (inflearn)</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 9 %}">js 기초</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 10 %}">데이터 시각화</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 11 %}">플루터 기초</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 12 %}">에어엔비 클론</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 13 %}">nodebird(react)</a>
+                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 14 %}">nodebird(vue)</a>
                 </div>
             </li>
         </ul>
 
-        <ul class="navbar-nav">
+        <!-- <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Study(F)<span class="caret"></span></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">풀스택 강의<span class="caret"></span></a>
                 <div class="dropdown-menu" aria-labelledby="download">
-                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 5 %}">python pandas (inflearn)</a>
-                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 6 %}">react 기초 velopert (inflearn)</a>
-                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 7 %}">vue framework 기초 (inflearn)</a>
-                    <a class="dropdown-item" href="{% url "challenge:lec_record_list" 8 %}">react 기초 게임 만들기 (inflearn)</a>
                 </div>
             </li>
-        </ul>
+        </ul> -->
 
-        <ul class="navbar-nav">
+        <!-- <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{% url "bestlec:best20_list" %}">best 강의</a>
             </li>
-        </ul>
+        </ul> -->
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="{% url "blog:post_list" %}"> blog </a>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url "management:suggestion_list" %}">제안 하기 </a>
+                <a class="nav-link" href="{% url "blog:post_list" %}"> tech news </a>
             </li>
         </ul>
 
@@ -109,6 +113,11 @@
             </li>
         </ul>
 
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "management:suggestion_list" %}">건의 사항</a>
+            </li>
+        </ul>
 
         &nbsp;&nbsp;
 

@@ -51,7 +51,7 @@ class CreatelecInfo(CreateView):
 
 class RecordUpdateView(UpdateView):
     model = StudentRecord
-    fields = ['current_class','git_url','note','youtube']
+    fields = ['current_class']
     success_url = reverse_lazy('challenge:lec_record_list')
     success_message = "record is modified"
 

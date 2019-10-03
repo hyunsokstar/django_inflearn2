@@ -300,7 +300,6 @@ function create_todo_for_team(){
     const select_for_classification = $("#select_for_classification").val()
     const userid = $(this).data("userid");
 
-    // 2244 팀리더 아니면 입력 못하게 바꾸기
     // data-userid={{request.user}}
     if(team_leader_name != userid){
         alert('팀장이 아니면 입력할수 없습니다')

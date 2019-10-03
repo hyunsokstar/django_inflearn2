@@ -1,6 +1,6 @@
 {% extends "blog/layout.html" %}
 {% load static %}
-{%block title %}Blog{% endblock %}
+{%block title %}기술 블로그{% endblock %}
 {%block content %}
 
 <style media="screen">
@@ -56,7 +56,7 @@
                     <a href="{{p.get_absolute_url}}" class="btn btn-primary">Read More &rarr;</a>
 
                     {% if request.user == p.author %}
-                        <a href="{% url "blog:post_delete" p.pk %}" class="btn btn-outline-dark">삭제</a>
+                        <a href={% url 'blog:post_delete' p.pk %} class="btn btn-outline-dark">삭제</a>
                     {% endif %}
                 </div>
                 <div class="card-footer text-muted">

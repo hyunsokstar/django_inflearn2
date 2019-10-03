@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{%block title %}{{object.title}} - Blog{% endblock %}
+{%block title %}블로그 상세보기{% endblock %}
 {%block content %}
 
     <!-- Blog Detail -->
@@ -31,7 +31,7 @@
     <!-- {{object.author}} -->
     {% if request.user == object.author %}
         <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href='{% url "blog:post_list"  %}'>목록</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href={% url "blog:post_delete" object.pk %}>Delete</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href='{% url "blog:post_delete" object.id %}'>삭제</button>
         <button type="button" class="btn btn-sm btn-outline-secondary float-right" onclick=location.href='{{ object.get_update_url }}'>EDIT</button>
     {% endif %}
 

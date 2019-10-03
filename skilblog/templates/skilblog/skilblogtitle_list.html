@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{%block title %}스킬 블로그{% endblock %}
+
+{%block content2 %}
+
+<div class="jumbotron">
+    <h2>스킬 블로그</h2>
+</div>
+
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+     {{ message.message }}<strong>{{ message.tags }}</strong>
+     {% endfor %}
+</div>
+{% endif %}
+<!-- <a href="/bestlec/new/" class="btn btn-danger float-right">입력 </a> -->
+
+<br><br>
+
+<table class="table table-bordered" id="skilblog_list">
+    <tr>
+        <td>index</td>
+        <td>title</td>
+        <td>author</td>
+    </tr>
+
+    {% if object_list.exists %}
+        {% for p in object_list %}
+            <tr>
+                <td>
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                    <a href="{% url 'skilblog:SkilBlogContentList' p.pk %}">
+                        {{p.title}}
+                    </a>
+                </td>
+                <td>
+                    {{p.author}}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">
+                <h4>아직 게시물이 없습니다.</h4>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+
+
+{%endblock%}
+
+<script type="text/javascript">
+{% block extra_js %}
+
+
+{% endblock %}
+</script>

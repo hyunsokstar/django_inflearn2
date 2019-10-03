@@ -11,14 +11,38 @@ from django.http import HttpResponse, JsonResponse
 from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_input_title
 from accounts2.models import Profile
 from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote
+from skilblog.models import SkilBlogTitle, SkilBlogContent
 from django.http import HttpResponseRedirect
 from datetime import datetime
 
-
 # 1122
+# move_to_skil_blog
+def move_to_skil_blog(request):
+    title = request.POST['title'] # 어떤 유저에 대해
+    shortcut_ids = request.POST.getlist('shortcut_arr[]')
+
+    sbt = SkilBlogTitle.objects.create(title=title, author=request.user)
+
+    if shortcut_ids:
+        skill_note_list = MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user)
+        print('skill_note_lists : ', skill_note_list)
+
+    for p in skill_note_list:
+        profile = SkilBlogContent.objects.create(
+            sbt = sbt,
+			author = request.user,
+			title = p.title,
+			content1 = p.content1,
+			content2 = p.content2,
+			type_id = p.type_id,
+		)
+    return JsonResponse({
+        'message': "체크한 항목들을 스킬 블로그로 옮겼습니다."+title,
+    })
+
 def plus_recommand_for_skillnote_user(request):
-    user_pk = request.POST['user_pk']
-    user_id = request.POST['user_id']
+    user_pk = request.POST['user_pk'] # 어떤 유저에 대해
+    user_id = request.POST['user_id'] # 추천을 누가
 
     user =  get_object_or_404(User, pk=user_pk)
     print("user : " , user)
@@ -30,7 +54,8 @@ def plus_recommand_for_skillnote_user(request):
     if recommand_count < 1:
         rc = RecommandationUserAboutSkillNote.objects.create(user=user ,author_id=user_id)
         print('추천을 추가')
-        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).count()
+        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user)).count()
+        profile = Profile.objects.filter(Q(user=user)).update(skill_note_reputation = recommand_count)
 
         return JsonResponse({
             'message': "추천 +1",
@@ -40,7 +65,8 @@ def plus_recommand_for_skillnote_user(request):
 
     else:
         RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).delete()
-        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).count()
+        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user)).count()
+        profile = Profile.objects.filter(Q(user=user)).update(skill_note_reputation = recommand_count)
 
         return JsonResponse({
             'message': "추천 -1 ",
@@ -510,30 +536,42 @@ def copyForCategorySubjectToMyCategory(request):
 	})
 
 def search_by_id_and_word(request):
+    search_user_id = request.user
+    search_word = request.POST['search_word']
+    search_option = request.POST['search_option']
+    print("search_user_id : ", search_user_id)
+    print("search_word : ", search_word)
+    print("search_option : ", search_option)
 
-	search_user_id = request.POST['search_user_id']
+    user = User.objects.get(username=search_user_id)
 
-	if(search_user_id == "all"):
-		search_word = request.POST['search_word']
-		object_list = MyShortCut.objects.filter(Q(title__icontains=search_word)).order_by('-created')
-		print("search_user_id : ", search_user_id)
-		print("search_word : ", search_word)
-		print("object_list : ", object_list)
 
-		return render(request, 'wm/MyShortCut_list_for_search.html', {
+    if(search_option == "content+title"):
+        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word) & Q(author = user)).order_by('-created')
+        print("search , content+title")
+
+        return render(request, 'wm/MyShortCut_list_for_search.html', {
 			'object_list': object_list
 		})
-	else:
-		user = User.objects.get(username=search_user_id)
 
-		search_word = request.POST['search_word']
-		object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author=user)).order_by('-created')
+    elif(search_option == "only_title"):
+        search_word = request.POST['search_word']
+        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author = user) ).order_by('-created')
+        print("search , only_title")
 
-		print("search_user_id : ", search_user_id)
-		print("search_word : ", search_word)
-		print("object_list : ", object_list)
+        return render(request, 'wm/MyShortCut_list_for_search.html', {
+			'object_list': object_list
+		})
+    else:
+        user = User.objects.get(username=search_user_id)
+        search_word = request.POST['search_word']
+        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word)).order_by('-created')
 
-		return render(request, 'wm/MyShortCut_list_for_search.html', {
+        print("search_user_id : ", search_user_id)
+        print("search_word : ", search_word)
+        print("object_list : ", object_list)
+
+        return render(request, 'wm/MyShortCut_list_for_search.html', {
 			'object_list': object_list
 		})
 
@@ -671,8 +709,6 @@ def create_new2_textarea(request):
         'shortcut_content2':wm.content2,
     })
 
-# 2244 0914 업데이트할떄 시간을 현재 시간으로
-# 다른 카테고리로 수정 하기
 def update_category_by_ajax(request):
     shortcut_ids = request.POST.getlist('shortcut_arr[]')
     category = request.POST['category']
@@ -707,13 +743,11 @@ def update_my_shortcut_subject(request):
     else:
         return redirect('/wm/shortcut')
 
-# 2244
-# user list를 정렬할떄 {{ u.recommandationuseraboutskillnote_set.count }} 를 기준으로 정렬하고 싶으면
-# 어떤식으로 쿼리셋 객체를 검색해야 되나요?
 
 def user_list_for_memo(request):
     if request.method == 'GET':
-        user_list = User.objects.all()
+        print("user_list_for_memo 실행")
+        user_list = User.objects.all().order_by('-profile__skill_note_reputation');
 
         return render(request, 'wm/user_list_for_memo.html', {
             "user_list" : user_list
@@ -1030,7 +1064,6 @@ class MyShortCutCreateView_textarea(LoginRequiredMixin,CreateView):
 
     def get_success_url(self):
         return reverse('wm:my_shortcut_list')
-
 
 class MyShortCutCreateView_textarea_summer_note(LoginRequiredMixin,CreateView):
     model = MyShortCut

@@ -26,8 +26,8 @@ class RecommandLecInfo(models.Model):
 class StudentRecord(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     current_class = models.CharField(max_length=40)
-    classification = models.ForeignKey(LecInfo, on_delete=True)
-    note = models.CharField(max_length=120)
-    youtube = models.CharField(max_length=120)
-    git_url = models.CharField(max_length=120)
+    classification = models.ForeignKey(LecInfo, on_delete=models.CASCADE)
+    # note = models.CharField(max_length=120)
+    # youtube = models.CharField(max_length=120)
+    # git_url = models.CharField(max_length=120)
     created= models.DateTimeField(auto_now_add=True)

@@ -1,12 +1,15 @@
-{% extends 'blog/layout.html' %}
+{% extends 'layout.html' %}
+
 {% block title %} {{ object.title }} - Blog {% endblock %}
 
-{% block content %}
+{% block content4 %}
+
+<br><br><br><br>
 <form method="post" enctype="multipart/form-data">{% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
-    <button type="submit" class="btn btn-primary float-right">Submit</button>
+    <button type="submit" class="btn btn-primary float-right btn-block">Submit</button>
 </form>
 
 {{ form.media }}

@@ -55,6 +55,7 @@
 
             {% if request.user == p.author %}
                 <a href="{% url "blog:post_delete" p.pk %}" class="btn btn-outline-dark">삭제</a>
+
             {% endif %}
 
         </div>

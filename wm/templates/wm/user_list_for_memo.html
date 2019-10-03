@@ -61,6 +61,29 @@
 
 // wm 앱임
 
+function refresh_user_list_popup(){
+
+    // console.log("refresh_user_list_popup 실행");
+    // alert("refresh_user_list_popup()");
+    const url = "userlist/byajax"
+	window.history.pushState("", "", '/wm/')
+
+	$.get(url)
+		.done((result) => {
+            $("#user_table_area").html("")
+			$("#user_table_area").html(result)
+
+			window.history.pushState("", "", '/wm/myshortcut')
+
+		})
+		.fail(() => {
+			console.log("fail");
+		})
+		.always(() => {
+			console.log('always');
+		})
+
+}
 
 $(".plus_btn_for_user").click(function(){
     // alert('plus button 클릭');
@@ -86,15 +109,17 @@ $(".plus_btn_for_user").click(function(){
             // 0924 plus_btn_for_user
             if(result.option == "plus") {
                 alert("추천 +1 ")
-                const point = $("#skill_note_point_"+user_pk).text().trim();
-                $("#skill_note_point_"+user_pk).text(result.recommand_count).trim();
+                // const point = $("#skill_note_point_"+user_pk).text().trim();
+                // $("#skill_note_point_"+user_pk).text(result.recommand_count).trim();
+                refresh_user_list_popup()
                 // alert("result.recommand_count : "+ result.recommand_count);
                 // alert("point : "+ point);
                 // $(this).parent().find("#skill_note_point").text(result.recommand_count)
             }else {
                 alert("추천 -1 ")
-                const val = $(this).parent().find("#skill_note_point").text();
-                $("#skill_note_point_"+user_pk).text(result.recommand_count).trim();
+                // const val = $(this).parent().find("#skill_note_point").text();
+                // $("#skill_note_point_"+user_pk).text(result.recommand_count).trim();
+                refresh_user_list_popup()
                 // alert("val : "+ val);
                 // alert("result.recommand_count : "+ result.recommand_count);
                 // $(this).parent().find("#skill_note_point").text(result.recommand_count)
