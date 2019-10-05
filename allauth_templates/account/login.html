@@ -6,11 +6,9 @@
 {% load account socialaccount %}
 {% load static %}
 
-
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-
 
 {% if socialaccount_providers %}
 <p>{% blocktrans with site.name as site_name %}Please sign in with one
@@ -18,11 +16,9 @@ of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a
 for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 <div class="socialaccount_ballot">
-
   <ul class="socialaccount_providers">
     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
   </ul>
-
   <div class="login-or">{% trans 'or' %}</div>
 
 </div>
@@ -35,14 +31,12 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
     메카닉 코더에 오신것을 환영합니다. 아직 회원 가입을 안하신분들은 회원 가입을 해주세요 ~!
 <a class="primaryAction btn btn-outline-success float-right" href="{{ signup_url }}">회원 가입</a> {% endblocktrans %}</p>
 <hr>
-<img src="{% static 'icon/tank.jpg' %}" width="100%" alt="">
+<img src="{% static 'icon/tank2.jpg' %}" width="100%" height="50%" alt="">
 
 
 {% endif %}
-
-<hr>
-<h2>로그인 하기</h2>
-
+<br>
+<h2>LogIn</h2>
 <form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
   {{ form | crispy }}
@@ -54,3 +48,16 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 </form>
 
 {% endblock %}
+
+
+<script type="text/javascript">
+{% block extra_js %}
+
+    $(document).ready(function(){
+        // alert("mechanic coder에 오신것을 환영합니다.");
+        $(".navbar").remove();
+        $("body").css("padding-top","10px");
+    });
+
+{% endblock %}
+</script>

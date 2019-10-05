@@ -40,15 +40,16 @@
                         <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:delete_skilblog_title_list" p.id %}">삭제</a>
                         <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:modify_skilblog_title_list" p.id %}">수정</a>
                     </a>
-                    <a class="plus_btn_for_user btn btn-outline-dark btn-sm" href="{% url "skilblog:like_skil_blog_title" p.pk %}">
-                        <img src="{% static 'icon/like.png' %}" alt="">
-                    </a>
+
                 </td>
                 <td>
                     {{p.author}}
                 </td>
                 <td>
-                    {{p.reputation}}
+                    <a class="plus_btn_for_user btn btn-outline-dark btn-sm" href="{% url "skilblog:like_skil_blog_title" p.pk %}">
+                        <img src="{% static 'icon/like.png' %}" alt="">
+                    </a>
+                    ({{p.reputation}})
                 </td>
             </tr>
         {% endfor %}

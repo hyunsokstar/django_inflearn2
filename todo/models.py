@@ -92,8 +92,8 @@ class Todo(models.Model):
 
 class CommentForTodo(models.Model):
     todo= models.ForeignKey(Todo, on_delete=models.CASCADE)
-    title= models.CharField(max_length=50)
-    file_name = models.CharField(max_length= 30)
+    title= models.CharField(max_length=60)
+    file_name = models.CharField(max_length= 60)
     text = models.TextField()
     text_type = models.CharField(max_length=20, blank=True, default="summer_note")
     author = models.ForeignKey(User, on_delete=models.CASCADE)

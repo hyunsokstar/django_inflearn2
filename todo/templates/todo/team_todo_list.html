@@ -81,7 +81,7 @@
 
     {% if team_member_list.exists %}
         {% for p in team_member_list %}
-            <input type="checkbox" name="vehicle1" value="{{p.member.id}}" id="{{p.member.id}}"> {{p.member}}
+            <input type="checkbox" name="vehicle1" value="{{p.member.id}}" id="{{p.member.id}}" class="checkbox_for_search"> {{p.member}}
         {% endfor %}
     {% endif %}
     <input type="button" value="검색" class="search_by_check_user_btn">
@@ -198,7 +198,7 @@
 <script class="todo_row" type="text/x-template">
     <tr>
         <td>
-            <input type="checkbox" id=<%=todoId %> class="td_check">
+            <input type="checkbox" id="<%=todoId %>" class="td_check">
         </td>
         <td><%=classification %></td>
         <td>
@@ -263,13 +263,16 @@ $('body').on('click', '.search_by_check_user_btn', function(e) {
     const team_name = $("#team_name").text()
 
     var user_arr = [];
-    $('.td_check').each(function() {
+    // td_check
+    $('.checkbox_for_search').each(function() {
         if (jQuery(this).is(":checked")) {
             var id = this.id;
             user_arr.push(id);
         }
     });
     window.history.pushState("", "", '/todo/')
+    console.log("user_arr : ", user_arr);
+
 
     $.ajax({
       type: "POST",
@@ -279,7 +282,7 @@ $('body').on('click', '.search_by_check_user_btn', function(e) {
           csrfmiddlewaretoken: '{{ csrf_token }}'
       },
         success: function(result) {
-            // alert('search_by_check_user is success ');
+
             alert("result : 체크 유저로 검색 성공");
             $(".todo-list-area").html(result);
             window.history.pushState("", "", '/todo/team_todo_list/'+team_name)
