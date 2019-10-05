@@ -6,7 +6,11 @@ from . import views
 app_name= 'todo'
 urlpatterns = [
 
-    # /todo/team_todo_list/pass_task_to_selected_user/
+
+    # todolist detail popup 출력 
+    path('<int:pk>/', views.todoDetail.as_view(), name='todo_detail'),
+
+
     path('team_todo_list/pass_task_to_selected_user/', views.pass_task_to_selected_user, name="pass_task_to_selected_user"),
 
     path('add_todo_by_ajax/', views.add_todo_by_ajax, name="add_todo_by_ajax"),
@@ -24,7 +28,6 @@ urlpatterns = [
     path('<int:pk>/delete/', views.todo_delete, name='todo_delete'),
     path('new/',views.todo_new , name ="todo_new"),
     path('search/<str:q>/', views.TodoSearch.as_view()),
-    path('<int:pk>/', views.todoDetail.as_view(), name='todo_detail'),
     path('card', views.TodoList_by_card.as_view() , name="todo_list_by_card"),
     path('', views.TodoList.as_view() , name="todo_list"),
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),

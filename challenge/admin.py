@@ -12,4 +12,4 @@ class LecInfoAdmin(admin.ModelAdmin):
 
 @admin.register(StudentRecord)
 class StudentRecordAdmin(admin.ModelAdmin):
-    list_display = ['id', 'author','current_class', 'created']
+    list_display = ['id', 'author','current_class','github_url', 'created']

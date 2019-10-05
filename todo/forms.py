@@ -38,8 +38,8 @@ class CommentForm(forms.ModelForm):
         fields = ('title','file_name','text')
 
         widgets = {
-            'title': forms.TextInput(attrs={'size': 80}),
-            'text': SummernoteWidget(),
+            'title': forms.TextInput(attrs={'size': 60}),
+            'text': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '380px', 'airMode': False, 'line-height': 1, 'fontSize':12, 'tabSize': 4, "backcolor":"white", 'foreColor':"white"  }}),
         }
 
 class CommentForm_TextArea(forms.ModelForm):

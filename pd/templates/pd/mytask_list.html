@@ -12,7 +12,6 @@
 {%block content4 %}
 
 <br><br>
-<h2>개인 메모</h2>
 
 {% if messages %}
 <div class="alert alert-success">
@@ -22,14 +21,14 @@
 </div>
 {% endif %}
 
-<a href="{% url "pd:mytask_new"  %}" class="btn btn-outline-primary float-right btn-block">Main Memo</a>
+<a href="{% url "pd:mytask_new"  %}" class="btn btn-outline-primary float-right">메모 입력</a>
 
 <br><br>
 
 {% if object_list.exists %}
     {% for p in object_list %}
 
-    <table class="table table-bordered" id=mytask_table_{{p.id}}>
+    <table class="table table-bordered" id=mytask_table_{{p.id}} style="background-color:#e6eff5">
         <tr>
             <td>제목</td>
             <td>

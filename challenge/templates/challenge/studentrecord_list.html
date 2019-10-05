@@ -69,6 +69,7 @@
         <td>index</td>
         <td>author</td>
         <td>current_class</td>
+        <td>github</td>
     </tr>
 
     {% if object_list.exists %}
@@ -92,6 +93,13 @@
                         <a class="badge badge-pill badge-primary btn-sm" href="{% url "challenge:student_record_delete" p.id LecInfo.id %}">삭제</a>
                         <a class="badge badge-pill badge-primary btn-sm" href="{% url "challenge:student_record_update" p.id LecInfo.id %}">수정</a>
                     {% endif %}
+
+                </td>
+                <td>
+
+                    <a class="go_to_next_channer_btn btn btn-outline-success" href=http://{{p.github_url}}>
+                    	<img src="/static/icon/git_icon.png" alt="">
+                    </a>
 
                 </td>
             </tr>

@@ -4,16 +4,32 @@ from markdownx.utils import markdown
 from django.contrib.auth.models import User
 from django.urls import reverse
 from wm.models import Type
+from django.urls import reverse
 
 # Create your models here.
+
 
 class SkilBlogTitle(models.Model):
     title = models.CharField(max_length=120)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+    reputation = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('skilblog:SkilBlogTitleList')
+
+class CommentForSkilBlogTitle(models.Model):
+    sbt = models.ForeignKey(SkilBlogTitle, on_delete=models.CASCADE)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+
 
 class SkilBlogContent(models.Model):
     sbt = models.ForeignKey(SkilBlogTitle, on_delete=models.CASCADE)
@@ -26,3 +42,7 @@ class SkilBlogContent(models.Model):
 
     def __str__(self):
         return self.title
+
+class LikeForSkilBlogTitle(models.Model):
+    sbt = models.ForeignKey(SkilBlogTitle, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)

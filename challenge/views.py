@@ -108,7 +108,7 @@ class LecInfoListView(LoginRequiredMixin,ListView):
 
 class CreateRecordView_11(CreateView):
     model = StudentRecord
-    fields = ['current_class','note', 'git_url','youtube']
+    fields = ['current_class','github_url']
     success_message = "강의 수강 기록을 입력하였습니다."
 
     def form_valid(self, form):

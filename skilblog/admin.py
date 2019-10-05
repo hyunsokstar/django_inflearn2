@@ -1,9 +1,13 @@
 from django.contrib import admin
-from . models import SkilBlogTitle,SkilBlogContent, Type
+from . models import SkilBlogTitle,SkilBlogContent, Type, CommentForSkilBlogTitle
 
 # category 삭제
 
 # Register your models here.
+
+@admin.register(CommentForSkilBlogTitle)
+class CommentForSkilBlogTitleAdmin(admin.ModelAdmin):
+    list_display=['id','content','author']
 
 @admin.register(SkilBlogTitle)
 class SkilBlogTitleAdmin(admin.ModelAdmin):

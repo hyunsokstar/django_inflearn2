@@ -159,11 +159,165 @@ cjs -->
 </table>
 {% endif %}
 
+
+<!-- underscore area template area -->
+
+<script class="comment_for_sbt" type="text/x-template">
+
+    <table class="table" id="comment_table_<%= id %>">
+        <tr>
+            <td width="10%"><%=author%></td>
+            <td width="70%">
+                <%=content%>
+                <a class="badge badge-pill badge-primary btn-sm delete_comment_for_sbt_btn" data-comment_id = <%= id %>>삭제</a>
+                <a class="badge badge-pill badge-primary btn-sm modify_comment_for_sbt_btn" data-comment_id = <%= id %>>수정</a>
+            </td>
+            <td><%=created_at%></td>
+        </tr>
+    </table>
+
+</script>
+
+<!-- 댓글 입력 영역 -->
+
+<div class="input-group mb-3">
+  <input type="text" class="form-control comment_input" onkeyup="enter_for_insert_comment_for_sbt()" placeholder="댓글을 입력하세요" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary insert_commment_for_sbt_btn" data-sbt_id = {{sbt.id}} type="button">댓글</button>
+  </div>
+</div>
+
+<!-- 댓글 출력 영역 -->
+<div id="comment-list">
+    {% for co in sbt.commentforskilblogtitle_set.all %}
+    <table class="table" id="comment_table_{{co.id}}">
+        <tr>
+            <td width="10%">{{co.author}}</td>
+            <td width="70%">
+                <span id="comment_text_{{co.id}}">{{co.content}}</span>
+                {% if request.user == co.author %}
+                    <a class="badge badge-pill badge-primary btn-sm delete_comment_for_sbt_btn" data-comment_id = {{co.id}}>삭제</a>
+                    <a class="badge badge-pill badge-primary btn-sm modify_comment_for_sbt_btn" data-comment_id = {{co.id}}>수정</a>
+                {% endif %}
+            </td>
+            <td width="20%">{{co.created_at}}</td>
+
+        </tr>
+    </table>
+    {% endfor %}
+</div>
+
+<div class="comment_area">
+
+</div>
+
+
 {%endblock%}
 
 <!-- js area -->
 <script type="text/javascript">
 {% block extra_js %}
+
+function enter_for_insert_comment_for_sbt(){
+    if (window.event.keyCode == 13){
+        $( ".insert_commment_for_sbt_btn" ).trigger( "click" );
+    }
+}
+
+// const title = prompt("", before_title);
+
+// modify_comment_for_sbt_btn
+$('body').on('click', '.modify_comment_for_sbt_btn', function (e) {
+    const comment_id = $(this).data("comment_id");
+    const before_comment_text = $("#comment_text_"+comment_id).text()
+    const comment_text_for_modify = prompt("수정 text를 입력해주세요", before_comment_text);
+
+    if(comment_text_for_modify == "" & comment_text_for_modify != null){
+        alert("수정할 문자를 입력해 주세요");
+        return
+    }
+
+    if(!comment_text_for_modify){
+        return
+    }
+
+        $.ajax({
+            type: "POST",
+            url: '/skilblog/modify_comment_for_sbt',
+            data: {
+                comment_id: comment_id,
+                comment_text_for_modify: comment_text_for_modify,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (result) {
+                $("#comment_text_"+result.comment_id).text(result.comment_text_for_modify);
+                alert(result.message);
+            }
+        });
+});
+
+$('body').on('click', '.delete_comment_for_sbt_btn', function (e) {
+    const comment_id = $(this).data("comment_id");
+
+    const option = prompt("삭제 하시겠습니까 (x,y)", "");
+
+    if(option =="y"){
+        $.ajax({
+            type: "POST",
+            url: '/skilblog/delete_comment_for_sbt',
+            data: {
+                comment_id: comment_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (result) {
+                alert(result.message);
+                $("#comment_table_"+result.comment_id).remove();
+            }
+        });
+    }else{
+        alert("삭제 취소")
+    }
+
+})
+
+$('body').on('click', '.insert_commment_for_sbt_btn', function (e) {
+
+    const content = $(".comment_input").val();
+    const sbt_id = $(this).data("sbt_id")
+    // alert("content : " +content);
+
+    if (!content) {
+        alert("내용을 입력해 주세요")
+		return;
+	};
+
+    $.ajax({
+        type: "POST",
+        url: '/skilblog/insert_comment_for_sbt',
+        data: {
+            sbt_id: sbt_id,
+            content:content,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function (result) {
+            alert(result.message);
+            var raw_template = $('.comment_for_sbt').html();
+            var tpl = _.template(raw_template);
+            //
+            var rendered = tpl({
+                id: result.id,
+                content: result.content,
+                author: result.author,
+                created_at:result.created_at
+            });
+            $(rendered).appendTo($('.comment_area'));
+            // location.reload(true);
+            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+
+        }
+    });
+
+});
 
 $('body').on('click', '.copy_code1', function (e) {
 

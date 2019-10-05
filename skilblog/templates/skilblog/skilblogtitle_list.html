@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
-{%block title %}스킬 블로그{% endblock %}
+{%block title %}skil blog title list{% endblock %}
+{% load static %}
+
 
 {%block content2 %}
 
@@ -23,6 +25,7 @@
         <td>index</td>
         <td>title</td>
         <td>author</td>
+        <td>reputation</td>
     </tr>
 
     {% if object_list.exists %}
@@ -34,10 +37,18 @@
                 <td>
                     <a href="{% url 'skilblog:SkilBlogContentList' p.pk %}">
                         {{p.title}}
+                        <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:delete_skilblog_title_list" p.id %}">삭제</a>
+                        <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:modify_skilblog_title_list" p.id %}">수정</a>
+                    </a>
+                    <a class="plus_btn_for_user btn btn-outline-dark btn-sm" href="{% url "skilblog:like_skil_blog_title" p.pk %}">
+                        <img src="{% static 'icon/like.png' %}" alt="">
                     </a>
                 </td>
                 <td>
                     {{p.author}}
+                </td>
+                <td>
+                    {{p.reputation}}
                 </td>
             </tr>
         {% endfor %}
@@ -59,3 +70,8 @@
 
 {% endblock %}
 </script>
+
+
+<a class="go_to_next_channer_btn btn btn-outline-success" href="http://www.github.com">
+    <img src="/static/icon/git_icon.png" alt="">
+</a>

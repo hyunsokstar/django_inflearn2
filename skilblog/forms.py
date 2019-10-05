@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
-from .models import SkilBlogContent
+from .models import SkilBlogTitle,SkilBlogContent
 from django.db.models import F
 
 # category 모델이 foreignkey인데
@@ -14,4 +14,13 @@ class SkilBlogContentForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'size': 80}),
             'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '480px', 'airMode': False, 'line-height': 1, 'fontSize':12, 'tabSize': 4, "backcolor":"white", 'foreColor':"white"  }}),
+        }
+
+class ModifySkilBlogTitleForm(forms.ModelForm):
+    class Meta:
+        model = SkilBlogTitle
+        fields = ['title']
+
+        widgets = {
+            'title': forms.TextInput(attrs={'size': 80}),
         }
