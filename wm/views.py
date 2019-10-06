@@ -8,7 +8,7 @@ from django.db.models import F
 from django.db.models import Q
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
-from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_input_title
+from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_image
 from accounts2.models import Profile
 from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote
 from skilblog.models import SkilBlogTitle, SkilBlogContent
@@ -1019,16 +1019,14 @@ class MyShortCutCreateView_input(LoginRequiredMixin,CreateView):
         return reverse('wm:my_shortcut_list')
 
 
-
-
-class MyShortCutCreateView_input_title(LoginRequiredMixin,CreateView):
+class MyShortCutCreateView_image(LoginRequiredMixin,CreateView):
     model = MyShortCut
-    form_class = MyShortCutForm_input_title
+    form_class = MyShortCutForm_image
     # fields = ['title','content1','category']
 
     def form_valid(self, form):
         print("완료 명단 입력 뷰 실행2")
-        ty = Type.objects.get(type_name="input_title")
+        ty = Type.objects.get(type_name="image")
         print("ty : ", ty)
         ms = form.save(commit=False)
         ms.author = self.request.user

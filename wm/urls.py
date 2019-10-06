@@ -61,7 +61,7 @@ urlpatterns = [
     path('myshortcut/update/category_nick_by_author/', views.update_shortcut_nick2 , name="update_category_nick2"),
 
     path('new/input', views.MyShortCutCreateView_input.as_view() , name="insert_myshortcut_input"),
-    path('new/input_title/', views.MyShortCutCreateView_input_title.as_view() , name="insert_myshortcut_input_title"),
+    path('new/input_title/', views.MyShortCutCreateView_image.as_view() , name="MyShortCutCreateView_image"),
 
     path('new/textarea', views.MyShortCutCreateView_textarea.as_view() , name="insert_myshortcut_textarea"),
     path('new/textarea_summer_note', views.MyShortCutCreateView_textarea_summer_note.as_view() , name="insert_myshortcut_textarea_summer_note"),

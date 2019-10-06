@@ -46,10 +46,7 @@
                             {{ p.member.username }}
                         </a>
                         {% if p.member == request.user %}
-                            <a class="badge badge-pill badge-info delete_team_member_btn float-right"
-                                data-member_id={{p.id}} data-team_member_name={{p.member.username}} data-team_name={{team_name}}
-
-                                >탈퇴</a>
+                            <a class="badge badge-pill badge-info delete_team_member_btn float-right" data-member_id={{p.id}} data-team_member_name={{p.member.username}} data-team_name={{team_name}}>탈퇴</a>
                         {% endif %}
                 </td>
                 <td>
@@ -82,27 +79,6 @@
 <script type="text/javascript">
 {% block extra_js %}
 
-// $(".team_todo_list_btn").click(function(){
-//     alert("팀 관리 버튼 클릭");
-//
-//     e.preventDefault();
-//     const user_name = $("#user_id").val()
-//     const url = "insert_popup/"+user_name
-//     alert("user_name : " + user_name)
-//     alert("url : "+ url)
-//
-//     $.get(url)
-//     .done((html) => {
-//             alert("html" + html)
-//             console.log("html : ", html);
-//         })
-//         .fail(() => {
-//             console.log("fail");
-//         })
-//         .always(() => {
-//             console.log('always');
-//         })
-// })
 
 $(".delete_team_member_btn").click(function(){
     const team_memeber_id = $(this).data("member_id");

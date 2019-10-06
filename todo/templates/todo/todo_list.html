@@ -4,6 +4,27 @@
 {%block content4 %}
 {% load crispy_forms_tags %}
 
+{%block extra_css %}
+
+.modal-dialog {
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content {
+    width:120%;
+}
+
+<!-- .row2 {
+    width:100%;
+} -->
+
+
+{% endblock %}
+
+
 <br><br>
 {% if messages %}
 <div class="alert alert-success">
@@ -24,7 +45,7 @@
     </tr>
     <tr>
         <td>
-            <a href="/todo/todolist/uncomplete/me"> 할일 ({{todo_count_uncomplete}})</a> <br>
+            <a href="/todo/todolist/uncomplete/me"> 미완료 ({{todo_count_uncomplete}})</a> <br>
             <a href="/todo/todolist/complete/me"> 완료 ({{todo_count_complete}})</a>
         </td>
         <td>

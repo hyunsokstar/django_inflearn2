@@ -1,36 +1,4 @@
 
-
-
-<br><br><br><br>
-
-<style media="screen">
-    .wrapper {
-        width: 1000px;
-        margin: 0;
-        text-align: left;
-    }
-
-    div.nav {
-        float: left;
-        width: 410px;
-        margin-right: 20px;
-        background-color: rgba(102, 153, 204, 1);
-        height: 100vh;
-        position: fixed;
-    }
-
-    .content {
-        margin-left: 415px;
-        overflow: auto;
-    }
-</style>
-
-
-<div class="container">
-  <div class="row">
-
-    <div class="col-xl-6">
-
         {% load crispy_forms_tags %}
 
             <div class="modal-dialog modal-xl">
@@ -47,7 +15,7 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         {{ object.get_markdown_content | safe }}
-                        <hr>
+                        <hr>12
 
                         <div class="card border-info mb-3" style="max-width: 60rem;">
                             <div class="card-header"><h2 style="background-color:lightgreen">코드 입력</h2></div>
@@ -82,9 +50,7 @@
             </div>
 
 
-    </div>
 
-    <div class="col-xl-6">
         <!-- 댓글 출력 -->
         <div class="card border-danger mb-3" style="max-width: 60rem;">
             <div class="card-header">
@@ -137,12 +103,8 @@
                 {% endfor %}
                 <div class="reply_list"></div>
 
-
             </div>
         </div>
-    </div>
-  </div>
-</div>
 
 
 

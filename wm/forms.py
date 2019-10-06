@@ -11,10 +11,10 @@ class MyShortCutForm_input(forms.ModelForm):
         model = MyShortCut
         fields = ['title', 'content1']
 
-class MyShortCutForm_input_title(forms.ModelForm):
+class MyShortCutForm_image(forms.ModelForm):
     class Meta:
         model = MyShortCut
-        fields = ['title','content2']
+        fields = ['title','image']
 
 class MyShortCutForm_summer_note(forms.ModelForm):
 
