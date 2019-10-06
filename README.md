@@ -8,7 +8,9 @@
 기타 : jquery 등등
 
 참고한 강의 : https://www.inflearn.com/course/%ED%8C%8C%EC%9D%B4%EC%8D%AC#
+
 one note 정리 : https://1drv.ms/o/s!Ao_yef3asA3fkTW0VLddX_KOEdmX
+
 사이트 주소 : http://terecal-hyun.co.kr/accounts/login/?next=/
 
 사이트를 만든 동기:
