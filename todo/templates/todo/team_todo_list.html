@@ -62,7 +62,7 @@
 <div class="input-group">
     <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" placeholder="팀장만 입력 가능"/>
     <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" onclick="create_todo_for_team();" id="{{team_name}}" data-userid={{request.user}}>팀장 입력!</button>
+        <a class="btn btn-secondary create_todo_for_team_btn" type="button"  id="{{team_name}}" data-userid={{request.user}}>팀장 입력!</a>
     </span>
 </div>
 
@@ -291,8 +291,10 @@ $('body').on('click', '.search_by_check_user_btn', function(e) {
 
 });
 
-function create_todo_for_team(){
 
+// create_todo_for_team_btn
+$('body').on('click', '.create_todo_for_team_btn', function(e) {
+    e.preventDefault();
     const team_name = $("#team_name").text()
     const team_leader_name = $("#team_leader_name").text()
     const title = $("#input_todo").val()
@@ -305,6 +307,8 @@ function create_todo_for_team(){
 
     // data-userid={{request.user}}
     if(team_leader_name != userid){
+        alert("team_leader_name : "+ team_leader_name)
+        alert("userid : "+ userid)
         alert('팀장이 아니면 입력할수 없습니다')
         return
     }
@@ -330,12 +334,13 @@ function create_todo_for_team(){
             location.reload(true);
         }
     });
-}
+})
+
 
 function insert_todo(){
     if (window.event.keyCode == 13){
         alert("할일 입력")
-        create_todo_for_team();
+        $(".create_todo_for_team_btn").trigger("click");
     }
 }
 

@@ -97,7 +97,7 @@ def team_todo_list(request, team_name):
     })
 
 
-
+# 확인 미완료 목록 개수
 def add_todo_for_team_by_ajax(request):
 
     title = request.POST['title']
@@ -141,7 +141,13 @@ def add_todo_for_team_by_ajax(request):
     todo = Todo.objects.create(title=title, author=author, director = director, dead_line = dead_line, classification = classification_obj)
 
     print("todo(입력 결과) : " , todo)
-    user_update = Profile.objects.filter(user=author).update(uncompletecount = F('uncompletecount')+1)
+
+    uncompletecount = Todo.objects.filter(author=author, elapsed_time__isnull=True).count()
+    print("uncompletecount (current): " , uncompletecount)
+
+    user_update = Profile.objects.filter(user=author).update(uncompletecount = uncompletecount)
+
+    # user_update = Profile.objects.filter(user=author).update(uncompletecount = F('uncompletecount')+1)
 
     return HttpResponse(redirect('/todo/'))
 
@@ -197,7 +203,13 @@ def add_todo_by_ajax_by_teamleader(request):
     todo = Todo.objects.create(title=title, author=author, director = director, dead_line = dead_line, classification = classification_obj)
 
     print("todo(입력 결과) : " , todo)
-    user_update = Profile.objects.filter(user=author).update(uncompletecount = F('uncompletecount')+1)
+
+
+
+    uncompletecount = Todo.objects.filter(author=author, elapsed_time__isnull=True).count()
+    print("uncompletecount (current): " , uncompletecount)
+
+    user_update = Profile.objects.filter(user=author).update(uncompletecount = uncompletecount)
 
     return HttpResponse(redirect('/todo/'))
 
@@ -211,6 +223,8 @@ def add_todo_by_ajax_by_teamleader(request):
     #     # 'dead_line':todo.dead_line,
     # })
 
+
+# uncomplte count +1 수정 확인
 def add_todo_by_ajax(request):
 
     title = request.POST['title']
@@ -240,7 +254,12 @@ def add_todo_by_ajax(request):
     todo = Todo.objects.create(title=title, author=request.user, director = request.user, dead_line = dead_line)
 
     print("todo(입력 결과) : " , todo)
-    user_update = Profile.objects.filter(user=request.user.id).update(uncompletecount = F('uncompletecount')+1)
+
+    uncompletecount = Todo.objects.filter(author=request.user, elapsed_time__isnull=True).count()
+    print("uncompletecount (current): " , uncompletecount)
+
+    user_update = Profile.objects.filter(user=request.user.id).update(uncompletecount = uncompletecount)
+
 
     return HttpResponse(redirect('/todo/'))
 
@@ -262,6 +281,8 @@ def delete_team_memeber_info_by_memberId(request):
         team_member_name = request.POST['team_member_name']
 
         team_id = TeamInfo.objects.get(team_name = team_name).id
+
+
 
         TeamInfo.objects.filter(id=team_id).update(member_count = F('member_count')-1)
 
@@ -622,7 +643,12 @@ def todo_new_admin(request,user_name,leader_name):
             todo.director = request.user
 
             todo.save()
-            user_update = Profile.objects.filter(user=user.id).update(uncompletecount = F('uncompletecount')+1)
+
+            uncompletecount = Todo.objects.filter(author=user, elapsed_time__isnull=True).count()
+            print("uncompletecount (current): " , uncompletecount)
+
+            user_update = Profile.objects.filter(user=user.id).update(uncompletecount = uncompletecount)
+
 
             return redirect('/todo/todolist/uncomplete/admin/'+user_name+'/'+leader_name)
             # http://127.0.0.1:8000/todo/todolist/uncomplete/admin/terecal/terecal
@@ -1047,9 +1073,14 @@ def todo_delete(request, pk):
     todo.delete()
 
     if todo.completion == "uncomplete":
-        Profile.objects.filter(Q(user=request.user.id)).update(uncompletecount = F('uncompletecount')-1)
+        uncompletecount = Todo.objects.filter(author=request.user, elapsed_time__isnull=True).count()
+        print("uncompletecount (current): " , uncompletecount)
+
+        Profile.objects.filter(Q(user=request.user.id)).update(uncompletecount = uncompletecount)
     else:
-        Profile.objects.filter(Q(user=request.user.id)).update(completecount = F('completecount')-1)
+        uncompletecount = Todo.objects.filter(author=request.user, elapsed_time__isnull=True).count()
+        print("uncompletecount (current): " , uncompletecount)
+        Profile.objects.filter(Q(user=request.user.id)).update(completecount = uncompletecount)
 
     print("todo" , todo , '를 삭제')
     return redirect('todo:todo_list')
@@ -1065,7 +1096,11 @@ def todo_new(request):
             todo.author = request.user
             todo.save()
             print('todo를 저장했습니다')
-            Profile.objects.filter(Q(user=request.user.id)).update(uncompletecount = F('uncompletecount')+1)
+
+            uncompletecount = Todo.objects.filter(author=request.user, elapsed_time__isnull=True).count()
+            print("uncompletecount (current): " , uncompletecount)
+
+            Profile.objects.filter(Q(user=request.user.id)).update(uncompletecount = uncompletecount)
             print('uncompletecount를 +1')
 
             return redirect('/todo/')
