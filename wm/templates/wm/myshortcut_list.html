@@ -286,7 +286,7 @@ button, input, a {
 
 			<br>
 			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글 추가</button>
-			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
+			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
 			<a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}"
 				class="btn btn-outline-danger float-right btn-sm">summernote update</a>
 		</td>
@@ -712,7 +712,7 @@ $(document).ready(function () {
 	$(window).scroll(function () {
 		console.log("scroll event 실행");
 		if ($(document).scrollTop() > jbOffset.top) {
-			console.log("scroll event 메뉴 위치 지나고 있음");
+			// console.log("scroll event 메뉴 위치 지나고 있음");
 			// $('.category_subject_table').addClass('jbFixed');
 			// $('.category_subject_table').css("margin-bottom", "20px");
 			// $('#todo_list').css("margin-top", "20px");
@@ -730,7 +730,18 @@ $(document).ready(function () {
 	});
 });
 
-// move_to_skilblog_btn 2244
+// copy_code_summernote 2244
+$('body').on('click', '.copy_code_summernote', function (e) {
+
+	e.preventDefault();
+	var id = this.id
+	console.log("summer note text area id : " +id);
+
+	document.execCommand('copy', false, $(this).parent().find('#select-textarea-'+id).select());
+	alert("copy is completed")
+
+})
+
 $('body').on('click', '#move_to_skilblog_btn', function (e) {
 	e.preventDefault();
 
