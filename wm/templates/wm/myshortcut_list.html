@@ -174,8 +174,7 @@ button, input, a {
 				{{category_nick}}
 			</span>
 
-			<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제
-				수정</button>
+			<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제 수정</button>
 
 			<!-- <button type="button" class="go_to_next_channer_btn btn btn-outline-success float-right">
 				<img src="{% static 'icon/right_arrow.png' %}" alt="">
@@ -190,7 +189,6 @@ button, input, a {
 		</td>
 	</tr>
 </table>
-<br>
 
 {% if object_list.exists %}
 {% for p in object_list %}
