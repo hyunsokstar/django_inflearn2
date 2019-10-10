@@ -13,7 +13,7 @@ class SkilBlogContentForm(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={'size': 80}),
-            'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '480px', 'airMode': False, 'line-height': 1, 'fontSize':12, 'tabSize': 4, "backcolor":"white", 'foreColor':"white"  }}),
+            'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '480px', 'airMode': False, 'height': 1.2, 'fontSize':12, 'tabSize': 4, "backcolor":"white", 'foreColor':"white"  }}),
         }
 
 class ModifySkilBlogTitleForm(forms.ModelForm):

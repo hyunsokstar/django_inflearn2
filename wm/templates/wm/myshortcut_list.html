@@ -49,6 +49,10 @@ button, input, a {
   top: 0px;
 }
 
+.content_area_for_summernote {
+	background-color:green
+}
+
 {% endblock %}
 
 
@@ -162,7 +166,7 @@ button, input, a {
 
 <br><br>
 
-<table class="table table-borderd category_subject_table" width="1110" style="" border="1">
+<table class="table table-bordered category_subject_table" width="1110" style="">
 	<tr style="background-color:#f1e9f5">
 		<td width="10%" style="padding:10px;">
 			<input type="checkbox" class="all_check" value="">
@@ -273,11 +277,11 @@ button, input, a {
 		</td>
 	</tr>
 
-	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f1f5">
+	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f6f9;">
 		<td colspan="2">
 
 			<!-- <textarea name="" id="" cols="120" rows="10" contenteditable="true"> -->
-				<span id="select-textarea-{{p.id}}" style="width:900px; background-color:white;" contenteditable="true">
+				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="true" >
 					{{p.content2 | safe}}
 				</span>
 			<!-- </textarea> -->
