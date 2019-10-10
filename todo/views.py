@@ -966,7 +966,8 @@ def new_comment_text_area(request, pk):
             return redirect(comment.get_absolute_url())
 
         else:
-            return JsonResponse(comment_form.errors,is_success=False)
+            print("에러 발생")
+            # return JsonResponse(comment_form.errors,is_success=False)
     else:
         return redirect('/todo/')
 
