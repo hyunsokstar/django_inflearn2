@@ -36,5 +36,7 @@ https://brunch.co.kr/@isaacyouspace/67
 3.기술 공유 <br />
 4.뉴스 공유 <br />
 
+# presentation
 
+https://docs.google.com/presentation/d/1fZUcmC1BOEm_NMyAbyRkFEGejtOPjkLUkVJUF9ERKXc/edit?usp=sharing
 
