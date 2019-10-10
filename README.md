@@ -24,11 +24,11 @@ one note 정리 : https://1drv.ms/o/s!Ao_yef3asA3fkTW0VLddX_KOEdmX <br />
 https://brunch.co.kr/@isaacyouspace/67
 
 # site 장점 
-1.nodebird라는 id에 react로 nodebird 만들기 front 부분이 괜찮게 정리 되어 있음 
-2.토이 프로젝트를 만들면서 그 과정을 쉽게 노트로 정리 및 공유 할 수 있음
-3.신뢰성 있는 코딩 정보 사이트로 만들어 가려 함 
-4.와이드 모니터에서 활용성이 극대화됨(clone 코딩 학습등에 유리)
-5.django+jquery라 쉽게 유지 보수 가능 
+1.nodebird라는 id에 react로 nodebird 만들기 front 부분이 괜찮게 정리 되어 있음 <br />
+2.토이 프로젝트를 만들면서 그 과정을 쉽게 노트로 정리 및 공유 할 수 있음 <br />
+3.신뢰성 있는 코딩 정보 사이트로 만들어 가려 함 <br />
+4.와이드 모니터에서 활용성이 극대화됨(clone 코딩 학습등에 유리) <br />
+5.django+jquery라 쉽게 유지 보수 가능 <br />
 
 # 추후 사이트의 목적
 1.교육용 혹은 교육자를 위한 교육 자료 저장 사이트
