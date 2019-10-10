@@ -218,7 +218,7 @@ button, input, a {
 		</td>
 	</tr>
 
-	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f1f5">
+	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f6f9">
 		<td colspan="2">
 			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
@@ -244,7 +244,7 @@ button, input, a {
 			{% endif %}
 		</td>
 	</tr>
-	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f1f5">
+	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f6f9">
 		<td colspan="2">
 			<button class="btn btn-outline-primary btn-sm show_total_textInput_button" id={{p.id}}>24row</button>
 			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id={{p.id}}>8row</button>
@@ -1530,34 +1530,34 @@ $('body').on('click', '.comment_update_button', function (e) {
 });
 
 // comment_delete_button
-$('body').on('click', '.comment_delete_button', function (e) {
-	// alert("댓글 삭제 버튼 클릭");
-	const comment_id = this.id;
-
-	window.history.pushState("", "", '/wm/')
-
-	$.ajax({
-		type: "POST",
-		url: 'delete_shortcut_comment_ajax/' + comment_id,
-		data: {
-			csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
-		success: function (result) {
-			alert(result.message);
-			$("#comment_table_" + comment_id).remove()
-			window.history.pushState("", "", '/wm/myshortcut/')
-
-			const comment_count = parseInt($("#comment_count_area").text().trim()) - 1
-
-			if (comment_count < 1) {
-				$(".comment_area_button").remove();
-			} else {
-				// alert("comment_count : "+ comment_count)
-				$("#comment_title_area").text("comment area " + comment_count)
-			}
-		}
-	});
-});
+	// $('body').on('click', '.comment_delete_button', function (e) {
+	// 	// alert("댓글 삭제 버튼 클릭");
+	// 	const comment_id = this.id;
+	//
+	// 	window.history.pushState("", "", '/wm/')
+	//
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		url: 'delete_shortcut_comment_ajax/' + comment_id,
+	// 		data: {
+	// 			csrfmiddlewaretoken: '{{ csrf_token }}'
+	// 		},
+	// 		success: function (result) {
+	// 			alert(result.message);
+	// 			$("#comment_table_" + comment_id).remove()
+	// 			window.history.pushState("", "", '/wm/myshortcut/')
+	//
+	// 			const comment_count = parseInt($("#comment_count_area").text().trim()) - 1
+	//
+	// 			if (comment_count < 1) {
+	// 				$(".comment_area_button").remove();
+	// 			} else {
+	// 				// alert("comment_count : "+ comment_count)
+	// 				$("#comment_title_area").text("comment area " + comment_count)
+	// 			}
+	// 		}
+	// 	});
+	// });
 
 
 $('body').on('click', '.shortcut_comment_button', function (e) {

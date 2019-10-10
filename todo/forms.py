@@ -38,7 +38,7 @@ class CommentForm(forms.ModelForm):
         fields = ('title','file_name','text')
 
         widgets = {
-            'title': forms.TextInput(attrs={'size': 70}),
+            'title': forms.TextInput(attrs={'size': 80}),
             'file_name': forms.TextInput(attrs={'size': 60}),
             'text': SummernoteWidget(attrs={'summernote': {'width': '100%', 'iframe': False, "dialogsInBody":False}}),
         }

@@ -117,11 +117,7 @@
 
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td colspan="3" border="0"></td>
-                                        </tr>
                                     </table>
-                                    <br>
                                     {% else %}
 
                                     {% endif %}
@@ -141,7 +137,6 @@
                             <div class="card border-info mb-3" style="width:100%">
                                 <div class="card-body">
                                     <div class="comment_insert_area" style="background-color:white">
-                                        <div class="card card-body">
                                             <form method="post" action="{{object.get_absolute_url}}new_comment/summer_note" id="comment_form_summer_note" class="hi">
                                                 <div class="form-group">
                                                 {% csrf_token %}
@@ -149,7 +144,6 @@
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-block" style="margin-right:20px;">Submit(summer_note)</button>
                                             </form>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -464,7 +458,7 @@ $(document).ready(function(){
           },
             success: function(result) {
                 $("#comment_table_"+id ).remove();
-                alert('comment 삭제 complete ');
+                alert('comment 삭제 성공');
             }
         });
     });
