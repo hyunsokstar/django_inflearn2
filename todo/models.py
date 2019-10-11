@@ -9,8 +9,6 @@ from django.urls import reverse
 from datetime import datetime, timedelta
 
 
-
-
 class TeamInfo(models.Model):
     leader = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     team_name = models.CharField(max_length=50, unique=True)

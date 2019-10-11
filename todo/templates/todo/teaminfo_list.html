@@ -44,14 +44,11 @@
                     {{ p.member_count }}
                 </td>
                 <td>
-                    <a class="btn btn-outline-info btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >가입</a>
-                    {% for tm in p.teammember_set.all %}
-                        {% if tm.member.username == request.user.username %}
-                            <a class="btn btn-outline-info btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >탈퇴</a>
-                        {% endif %}
-                    {% endfor %}
-
-
+                    {% if p.team_name == myteam.team_name %}
+                        <a class="btn btn-outline-primary btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >탈퇴</a>
+                    {% else %}
+                        <a class="btn btn-outline-info btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >가입</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

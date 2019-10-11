@@ -4,6 +4,21 @@
 {%block content4 %}
 {% load crispy_forms_tags %}
 
+{%block extra_css %}
+
+.modal-dialog {
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content {
+    width:132%;
+}
+
+{% endblock %}
+
 <br>
 109821
 <h4>팀장: <span class="text-primary team_leader_name"> {{team_leader_name}} </span> &nbsp;&nbsp;

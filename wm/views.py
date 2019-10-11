@@ -906,7 +906,6 @@ class MyShortcutListByCategory(ListView):
         pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
         print('category id update 성공')
 
-        print("user 정보 : ", )
 
         user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
 

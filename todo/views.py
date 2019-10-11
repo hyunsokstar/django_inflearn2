@@ -485,6 +485,7 @@ class team_member_list_view(LoginRequiredMixin,ListView):
         print("team_info_id : " , team_info_id)
         return TeamMember.objects.filter(team=team_info_id)
 
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(type(self), self).get_context_data(**kwargs)
         team_info_id = self.kwargs['team_info_id']
@@ -495,6 +496,7 @@ class team_member_list_view(LoginRequiredMixin,ListView):
         context['team_name'] = ti.team_name
         context['team_leader_name'] = ti.leader.username
         context['team_member_count']= ti.member_count
+        # context['my_team_name'] = request.user.profile.team
 
         return context
 
@@ -518,6 +520,20 @@ class TeamInfoCreateView(CreateView):
 class TeamInfoListView(LoginRequiredMixin,ListView):
     model = TeamInfo
     paginate_by = 20
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(type(self), self).get_context_data(**kwargs)
+        myteam=TeamMember.objects.filter(member=self.request.user)
+
+        if myteam.exists():
+            myteam=TeamMember.objects.get(member=self.request.user).team
+            print("myteam : ", myteam)
+
+        context['myteam']= myteam
+
+        return context
+
+
 
 
 def isnert_todo_popup_by_admin(request,user_name):

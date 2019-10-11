@@ -6,6 +6,14 @@
 
 <br><br>
 
+{%block extra_css %}
+
+.modal-content {
+    width:132%;
+}
+
+{% endblock %}
+
 {% if messages %}
 <div class="alert alert-success">
     {% for message in messages %}
