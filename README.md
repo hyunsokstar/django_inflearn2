@@ -7,21 +7,30 @@
 one note 정리 : https://1drv.ms/o/s!Ao_yef3asA3fkTW0VLddX_KOEdmX <br />
 사이트 주소 : http://terecal-hyun.co.kr/ <br />
 
+<br />
+
 # 사이트를 만든 동기:
 최신 웹 개발 프레임 워크에 대한 복습 자료 저장,편집 및 공유, 학습 정보 공유 
+
+<br />
 
 # 사이트의 핵심 기능
 
 1.팀 만들기 및 팀 관리 <br />
 2.todo 관리 <br />
-3.skill note  <br />
+3.skill note <br /> 
 4.skil blog <br />
 5.단체 스터디 (강의 평가 및 단체 학습) <br />
 6.테크 뉴스(각종 프로그래밍 뉴스를 블로그 형식으로 입력 및 조회) <br />
 
+* 현재 nodebird id에 react를 활용한 twitter clone coding 강의가 1-37 까지 꽤 잘 정리되어 있음 
+
+<br />
 
 # 메모의 중요성에 대해 
 https://brunch.co.kr/@isaacyouspace/67
+
+<br />
 
 # site 장점 
 1.nodebird라는 id에 react로 nodebird 만들기 front 부분이 괜찮게 정리 되어 있음 <br />
@@ -30,13 +39,21 @@ https://brunch.co.kr/@isaacyouspace/67
 4.와이드 모니터에서 활용성이 극대화됨(clone 코딩 학습등에 유리) <br />
 5.django+jquery라 쉽게 유지 보수 가능 <br />
 
+<br />
+
 # 추후 사이트의 목적
 1.교육용 혹은 교육자를 위한 교육 자료 저장 사이트 <br />
 2.업무 관리 협업등 실무에 적용 <br />
 3.기술 공유 <br />
 4.뉴스 공유 <br />
 
-# presentation
+<br />
 
+# presentation
 https://docs.google.com/presentation/d/1fZUcmC1BOEm_NMyAbyRkFEGejtOPjkLUkVJUF9ERKXc/edit?usp=sharing
+
+<br />
+
+# how to use (skil note)
+https://docs.google.com/presentation/d/124ByBvBwOfJ32Gk55ccclxhsNzshYSSSrTFdKONMo_U/edit?usp=sharing
 
