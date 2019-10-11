@@ -37,6 +37,8 @@ https://brunch.co.kr/@isaacyouspace/67
 4.뉴스 공유 <br />
 
 # presentation
-
 https://docs.google.com/presentation/d/1fZUcmC1BOEm_NMyAbyRkFEGejtOPjkLUkVJUF9ERKXc/edit?usp=sharing
+
+# how to use (skil note)
+https://docs.google.com/presentation/d/124ByBvBwOfJ32Gk55ccclxhsNzshYSSSrTFdKONMo_U/edit?usp=sharing
 
