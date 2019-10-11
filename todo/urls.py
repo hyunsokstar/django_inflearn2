@@ -7,7 +7,7 @@ app_name= 'todo'
 urlpatterns = [
 
 
-    # todolist detail popup 출력 
+    # todolist detail popup 출력
     path('<int:pk>/', views.todoDetail.as_view(), name='todo_detail'),
 
 
@@ -18,6 +18,7 @@ urlpatterns = [
     path('add_todo_by_ajax_by_teamleader/', views.add_todo_by_ajax_by_teamleader, name="add_todo_by_ajax_by_teamleader"),
 
     path('team_info_list/', views.TeamInfoListView.as_view() , name="TeamInfoListView"),
+    
     path('team_todo_list/<str:team_name>', views.team_todo_list , name="team_todo_list"),
     path('team_todo_list_by_check_user/<str:team_name>', views.team_todo_list_by_check_user , name="team_todo_list_by_check_user"),
 

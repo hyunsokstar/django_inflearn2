@@ -5,4 +5,3 @@ venv/
 .gitignore
 
 migrations/
-_media/ 
