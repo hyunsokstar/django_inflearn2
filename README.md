@@ -18,10 +18,12 @@ one note 정리 : https://1drv.ms/o/s!Ao_yef3asA3fkTW0VLddX_KOEdmX <br />
 
 1.팀 만들기 및 팀 관리 <br />
 2.todo 관리 <br />
-3.skill note  <br />
+3.skill note <br /> 
 4.skil blog <br />
 5.단체 스터디 (강의 평가 및 단체 학습) <br />
 6.테크 뉴스(각종 프로그래밍 뉴스를 블로그 형식으로 입력 및 조회) <br />
+
+* 현재 nodebird id에 react를 활용한 twitter clone coding 강의가 1-37 까지 꽤 잘 정리되어 있음 
 
 <br />
 
