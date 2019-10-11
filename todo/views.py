@@ -327,24 +327,42 @@ def team_register(request):
 
         ti_obj = TeamInfo.objects.get(Q(id=teamId))
 
-        tm = TeamMember.objects.filter(Q(team=teamId) & Q(member=userId))
-        print("tm : " , tm)
+        team_ox = TeamMember.objects.filter(Q(team=teamId) & Q(member=userId))
+        print("team_ox : " , team_ox)
 
-        if not tm:
+        my_regi_count = TeamMember.objects.filter(Q(member=request.user)).count()
+
+        # 생성한 팀이 있는지 확인
+        team_leader_ox = TeamInfo.objects.filter(Q(leader=request.user)).count()
+
+        if not team_ox:
+
+            if(team_leader_ox >=1):
+                return JsonResponse({
+                    'message': "팀장이 다른팀에 가입할수 없습니다."
+                })
+
+            if(my_regi_count >= 1):
+                return JsonResponse({
+                    'message': "1개이상의 팀에 가입할수 없습니다."
+                })
             print("팀 가입")
             option="가입"
             ti, is_created = TeamMember.objects.get_or_create(
                 team=ti_obj,
                 member=request.user
             )
-            TeamInfo.objects.filter(id=teamId).update(member_count = F('member_count')+1)
-
+            team_member_count = TeamMember.objects.filter(team=teamId).count()
+            print("team_member_count : " , team_member_count)
+            TeamInfo.objects.filter(id=teamId).update(member_count = team_member_count)
         else:
             print("팀 탈퇴")
             option = "탈퇴"
             dr = TeamMember.objects.filter(Q(team=teamId) & Q(member=userId)).delete()
             print("dr : ", dr)
-            TeamInfo.objects.filter(id=teamId).update(member_count = F('member_count')-1)
+            team_member_count = TeamMember.objects.filter(team=teamId).count()
+
+            TeamInfo.objects.filter(id=teamId).update(member_count = team_member_count)
 
         return JsonResponse({
             'message': '팀' + option + '성공',
@@ -514,6 +532,7 @@ class TeamInfoCreateView(CreateView):
         print("완료 명단 입력 뷰 실행")
         ti = form.save(commit=False)
         ti.leader = self.request.user
+
         return super().form_valid(form)
 
 
