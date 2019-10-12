@@ -52,8 +52,11 @@ urlpatterns = [
     path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
 
     path('myshortcut/create_new1_input/ajax/', views.create_new1_input , name="create_new1_input"),
+    path('myshortcut/create_new1_input_between/ajax/<int:current_article_id>', views.create_new1_input_between , name="create_new1_input_between"),
 
     path('myshortcut/create_new2_textarea/ajax/', views.create_new2_textarea , name="create_new2_textareas"),
+    path('myshortcut/create_new2_textarea_between/ajax/<int:current_article_id>', views.create_new2_textarea_between , name="create_new2_textarea_between"),
+
 
     path('myshortcut/create_new4_textarea/ajax/', views.create_new4_textarea , name="create_new4_textareas"),
 
@@ -65,6 +68,9 @@ urlpatterns = [
 
     path('new/textarea', views.MyShortCutCreateView_textarea.as_view() , name="insert_myshortcut_textarea"),
     path('new/textarea_summer_note', views.MyShortCutCreateView_textarea_summer_note.as_view() , name="insert_myshortcut_textarea_summer_note"),
+
+    path('new/textarea_summer_note_through/<int:current_article_id>', views.SkilNoteCreateView_summernote_through.as_view() , name="SkilNoteCreateView_summernote_through"),
+    path('new/SkilNoteCreateView_image_through/<int:current_article_id>', views.SkilNoteCreateView_image_through.as_view() , name="SkilNoteCreateView_image_through"),
 
     path('myshortcut/delete_shortcut_ajax/<int:id>', views.delete_shortcut_ajax , name="delete_shortcut_ajax"),
     path('myshortcut/update_shortcut_ajax/<int:id>', views.update_shortcut_ajax , name="update_shortcut_ajax"),
