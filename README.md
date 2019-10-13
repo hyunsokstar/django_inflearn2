@@ -53,7 +53,7 @@ https://docs.google.com/presentation/d/1fZUcmC1BOEm_NMyAbyRkFEGejtOPjkLUkVJUF9ER
 
 <br />
 
-# skil note의 장점에 대해 (핵심 기능 소개):
+# skil note의 기능 소개:
 https://docs.google.com/presentation/d/1VjjRQUwQ4EP3PwYuz26rgbh2aFtaK1Fu3jrcG2cM_rg/edit?usp=sharing
 
 
