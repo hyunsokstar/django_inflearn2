@@ -103,7 +103,9 @@ button, input, a {
 
 <a href="" class="btn btn-outline-primary float-left btn-sm" id="shortcut_delete_button"> 삭제(ch) </a>
 <a href="" class="btn btn-outline-primary float-left btn-sm" id="modify_category_button"> 이동(ch) </a>
-<a href="" class="btn btn-outline-primary float-left btn-sm" id="move_to_skilblog_btn"> skil blog(ch) </a>
+<a href="" class="btn btn-outline-primary float-left btn-sm" id="ca_plus_1_btn" data-category={{cateogory}}> ca+1 </a>
+<a href="" class="btn btn-outline-primary float-left btn-sm" id="ca_minus_1_btn" data-category={{cateogory}}> ca-1 </a>
+<a href="" class="btn btn-outline-primary float-left btn-sm" id="move_to_skilblog_btn"> skil blog(ch) </a> &nbsp;
 <a href="{% url "wm:MyShortCutCreateView_image" %}" class="btn btn-outline-dark btn-sm float-right">image 입력</a>
 
 <!-- <a href="{% url "wm:insert_myshortcut_textarea_summer_note" %}" class="btn btn-outline-success float-right">SummerNote</a>
@@ -549,7 +551,8 @@ button, input, a {
 
 				<input type="radio" class="search" id="content+title" name='foo' checked="true">제목,내용
 				<input type="radio" class="search" id="only_title" name='foo'>제목
-				<input type="radio" class="search" id="all" name='foo'>all user
+				<input type="radio" class="search" id="content_title_alluser" name='foo'>제목, 내용(all user)
+				<input type="radio" class="search" id="title_alluser" name='foo'>제목(all user)
 				<br>
 				<hr>
 
@@ -759,10 +762,101 @@ button, input, a {
 
 {% block extra_js %}
 
+// ca_minus_1_btn
+// ca_plus_1_btn
 // shortcut_between_button_textarea
 // shortcut_between_button_input
 // shortcut_between_button
 // shortcut_between_button_image
+$('body').on('click', '#ca_minus_1_btn', function (e) {
+	const option = true;
+	// alert("option : "+ option);
+
+	const ca_num = $("#current_category").text();
+	console.log("ca_num : ", ca_num);
+
+	const afterStr = ca_num.split('a');
+	const current_ca_num = afterStr[1];
+
+	if(current_ca_num==1){
+		alert("ca1에서는 카테고리 -1을 실행할수 없습니다.");
+		return
+	}
+
+	console.log("current_ca_num : " +current_ca_num);
+
+	option1 = confirm(current_ca_num+"부터 99까지 카테고리를 -1씩 이동하시겠습니까? ")
+	option2 = confirm(current_ca_num+"부터 99까지 카테고리를 -1씩 이동하시겠습니까? really?")
+
+	if(option1 & option2){
+		// const ca_num = prompt("몇번부터 옮길까요?", "");
+
+		$.ajax({
+			type: "POST",
+			url: 'category_minus_1_for_current_user',
+			data: {
+				'current_ca_num': current_ca_num,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				// window.history.pushState("", "", '/wm/new/SkilNoteCreateView_image_through/'+current_article_id)
+				alert("result : "+ result.message);
+				window.history.pushState("", "", '/wm/myshortcut/')
+
+				location.reload(true);
+			}
+		});
+
+
+	}else{
+		alert("카테고리 +1을 취소 하셨습니다.")
+	}
+
+});
+
+$('body').on('click', '#ca_plus_1_btn', function (e) {
+	// alert("ca_plus_1_btn 클릭");
+	// window.history.pushState("", "", '/wm/myshorcut/')
+
+	// option = confirm("카테고리를 +1 하시겠습니까?")
+	const option = true;
+	// alert("option : "+ option);
+	const ca_num = $("#current_category").text();
+	console.log("ca_num : ", ca_num);
+
+	const afterStr = ca_num.split('a');
+	const current_ca_num = afterStr[1];
+
+	console.log("current_ca_num : " +current_ca_num);
+
+	option1 = confirm(current_ca_num+"부터 98까지 카테고리를 +1씩 이동하시겠습니까? ")
+	option2 = confirm(current_ca_num+"부터 98까지 카테고리를 +1씩 이동하시겠습니까? really?")
+
+	if(option1 & option2){
+		// const ca_num = prompt("몇번부터 옮길까요?", "");
+
+		$.ajax({
+			type: "POST",
+			url: 'category_plus_1_for_current_user',
+			data: {
+				'current_ca_num': current_ca_num,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				// window.history.pushState("", "", '/wm/new/SkilNoteCreateView_image_through/'+current_article_id)
+				alert("result : "+ result.message);
+				window.history.pushState("", "", '/wm/myshortcut/')
+
+				location.reload(true);
+			}
+		});
+
+
+	}else{
+		alert("카테고리 +1을 취소 하셨습니다.")
+	}
+
+});
 
 $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 	const current_article_id = this.id
@@ -882,6 +976,8 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 $(document).ready(function () {
 	var jbOffset = $('.category_subject_table').offset();
 	var todoOffset = $('.todo_list').offset();
+	window.history.pushState("", "", '/wm/myshortcut/')
+
 	$(window).scroll(function () {
 		// console.log("scroll event 실행");
 		if ($(document).scrollTop() > jbOffset.top) {
@@ -1449,7 +1545,7 @@ $('body').on('click', '.temp_memo_btn', function (e) {
 			// csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function (result) {
-			// $("#current_category_subject").text(ca_nick_update)
+			// $("#_subject").text(ca_nick_update)
 			$("#temp_shorcut_list_area").html(result)
 			$("#temp_skill_modal").modal();
 		}

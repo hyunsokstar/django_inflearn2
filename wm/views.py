@@ -17,7 +17,90 @@ from datetime import datetime , timedelta
 
 
 # 1122
-# move_to_skil_blog
+
+def category_plus_1_for_current_user(request):
+    # is this possible?
+    # for x in range(i, 98)
+    #     CategoryNick.obejcts.filter(author=request.user).update("ca"+(x+1)=F('ca'+x))
+
+    ca_num = request.POST['current_ca_num'] # 입력한 ca 번호
+    print("ca_num : ", ca_num)
+    print("ca_num type :",type(ca_num))
+
+    data = {'ca{}'.format(x+1): F('ca{}'.format(x)) for x in range(int(ca_num), 98)}
+    CategoryNick.objects.filter(
+        author=request.user
+    ).update(**data)
+
+    skil_note = MyShortCut.objects.filter(Q(author=request.user))
+
+    # ca=Category.objects.get(id=514);
+    # print("ca : ", ca.name)
+
+    ca_delete=Category.objects.get(name="ca99")
+    MyShortCut.objects.filter(Q(author=request.user) & Q(category=ca_delete)).delete()
+
+    for sn in skil_note:
+        # print("sn.category.id : ", sn.category.id)
+        if(sn.category.id >= int(ca_num) & sn.category.id != 99):
+            # ca=Category.objects.get(id=int(sn.category.id)+1)
+            print("sn.category.id : ", sn.category.id)
+            print("int(sn.category.id)+1 : ", int(sn.category.id)+1)
+            # CategoryNick.objects.get()
+            ca = Category.objects.get(id=int(sn.category.id)+1)
+            # if(ca.id != 100):
+            MyShortCut.objects.filter(id=sn.id).update(category=ca)
+
+    return JsonResponse({
+        'message': "ca"+ca_num+"부터 ca98까지 +1 성공"
+    })
+
+def category_minus_1_for_current_user(request):
+    # ca=Category.objects.filter(id=category_num)
+    ca_num = request.POST['current_ca_num'] # 입력한 ca 번호
+
+    print("ca_num check : ", ca_num)
+    print("ca_num type :",type(ca_num))
+
+    data = {'ca{}'.format(x-1): F('ca{}'.format(x)) for x in range(99,int(ca_num)-1,-1)}
+    CategoryNick.objects.filter(
+        author=request.user
+    ).update(**data)
+
+    skil_note = MyShortCut.objects.filter(Q(author=request.user))
+
+    if(int(ca_num)>1):
+        ca_delete_num = int(ca_num)-1
+
+    ca_delete=Category.objects.get(id=ca_delete_num)
+    MyShortCut.objects.filter(Q(author=request.user) & Q(category=ca_delete)).delete()
+
+    for sn in skil_note:
+        # print("sn.category.id : ", sn.category.id)
+        if(sn.category.id >= int(ca_num) & sn.category.id != 99):
+            # ca=Category.objects.get(id=int(sn.category.id)+1)
+            print("sn.category.id : ", sn.category.id)
+            print("int(sn.category.id)-1 : ", int(sn.category.id)-1)
+            ca = Category.objects.get(id=int(sn.category.id)-1)
+            # if(ca.id != 100):
+            MyShortCut.objects.filter(id=sn.id).update(category=ca)
+
+    return JsonResponse({
+        'message': "ca"+ca_num+"부터 ca98까지 -1 성공"
+    })
+
+
+#     skil_note = MyShortCut.objects.filter(category=ca, author= request.user)
+#
+# for num in range(10, 98):
+# 	ca = "ca"+str(num)
+#     MyShortCut.objects.filter(category=plus1, author= request.user)
+#
+#     for s in skil_note:
+#         ca_plus_1= s.category+1
+#         s.update(category=ca_plus_1)
+
+
 def move_to_skil_blog(request):
     title = request.POST['title'] # 어떤 유저에 대해
     shortcut_ids = request.POST.getlist('shortcut_arr[]')
@@ -548,7 +631,7 @@ def search_by_id_and_word(request):
 
 
     if(search_option == "content+title"):
-        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word) & Q(author = user)).order_by('-created')
+        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word) & Q(author = user)).order_by('-category')
         print("search , content+title")
 
         return render(request, 'wm/MyShortCut_list_for_search.html', {
@@ -557,16 +640,29 @@ def search_by_id_and_word(request):
 
     elif(search_option == "only_title"):
         search_word = request.POST['search_word']
-        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author = user) ).order_by('-created')
+        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author = user) ).order_by('-category')
         print("search , only_title")
 
         return render(request, 'wm/MyShortCut_list_for_search.html', {
 			'object_list': object_list
 		})
+    elif(search_option == "content_title_alluser"):
+        user = User.objects.get(username=search_user_id)
+        search_word = request.POST['search_word']
+        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
+
+        print("search_user_id : ", search_user_id)
+        print("search_word : ", search_word)
+        print("object_list : ", object_list)
+
+        return render(request, 'wm/MyShortCut_list_for_search.html', {
+			'object_list': object_list
+		})
+
     else:
         user = User.objects.get(username=search_user_id)
         search_word = request.POST['search_word']
-        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word)).order_by('-created')
+        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word)).order_by('-category')
 
         print("search_user_id : ", search_user_id)
         print("search_word : ", search_word)

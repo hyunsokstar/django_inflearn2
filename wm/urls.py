@@ -9,6 +9,11 @@ app_name = 'wm'
 urlpatterns = [
     # 1122
     # 체크 박스 체크한 항목들을 스킬 블로그로 이동
+
+
+    path('myshortcut/category_plus_1_for_current_user', views.category_plus_1_for_current_user , name='category_plus_1_for_current_user'),
+    path('myshortcut/category_minus_1_for_current_user', views.category_minus_1_for_current_user , name='category_minus_1_for_current_user'),
+
     path('myshortcut/move_to_skil_blog/', views.move_to_skil_blog , name='move_to_skil_blog'),
 
     path('myshortcut/copy_to_me_from_user_id/', views.copy_to_me_from_user_id , name='copy_to_me_from_user_id'),
