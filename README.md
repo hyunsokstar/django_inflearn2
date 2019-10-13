@@ -48,12 +48,12 @@ https://brunch.co.kr/@isaacyouspace/67
 4.뉴스 공유 <br />
 
 <br />
-
 # presentation
 https://docs.google.com/presentation/d/1fZUcmC1BOEm_NMyAbyRkFEGejtOPjkLUkVJUF9ERKXc/edit?usp=sharing
 
 <br />
 
-# how to use (skil note)
-https://docs.google.com/presentation/d/124ByBvBwOfJ32Gk55ccclxhsNzshYSSSrTFdKONMo_U/edit?usp=sharing
+# skil note의 장점에 대해 (핵심 기능 소개):
+https://docs.google.com/presentation/d/1VjjRQUwQ4EP3PwYuz26rgbh2aFtaK1Fu3jrcG2cM_rg/edit?usp=sharing
+
 
