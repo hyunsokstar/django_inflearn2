@@ -88,7 +88,7 @@ class delete_skil_blog_title_list(DeleteView):
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
-        return super(SuggestionDeleteView, self).delete(request, *args, **kwargs)
+        return super(delete_skil_blog_title_list, self).delete(request, *args, **kwargs)
 
 class modify_skilblog_content2_by_summernote(UpdateView):
     model = SkilBlogContent
