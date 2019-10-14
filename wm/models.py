@@ -3,6 +3,7 @@ from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 
 class RecommandationUserAboutSkillNote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -58,7 +59,7 @@ class MyShortCut(models.Model):
     title = models.CharField(max_length=120)
     content1 = models.CharField(max_length=180, blank=True)
     content2 = models.TextField(blank=True)
-    created = models.DateTimeField(auto_now_add=False , editable = False)
+    created = models.DateTimeField(auto_now_add=False ,default=timezone.now(), editable = False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
     type= models.ForeignKey(Type, on_delete=models.CASCADE)

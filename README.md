@@ -10,7 +10,7 @@ one note 정리 : https://1drv.ms/o/s!Ao_yef3asA3fkTW0VLddX_KOEdmX <br />
 <br />
 
 # 사이트를 만든 동기:
-최신 웹 개발 프레임 워크에 대한 복습 자료 저장,편집 및 공유, 학습 정보 공유 
+최신 웹 개발 프레임 워크에 대한 복습 자료 저장,편집 및 공유, 학습 정보 공유
 
 <br />
 
@@ -18,21 +18,21 @@ one note 정리 : https://1drv.ms/o/s!Ao_yef3asA3fkTW0VLddX_KOEdmX <br />
 
 1.팀 만들기 및 팀 관리 <br />
 2.todo 관리 <br />
-3.skill note <br /> 
+3.skill note <br />
 4.skil blog <br />
 5.단체 스터디 (강의 평가 및 단체 학습) <br />
 6.테크 뉴스(각종 프로그래밍 뉴스를 블로그 형식으로 입력 및 조회) <br />
 
-* 현재 nodebird id에 react를 활용한 twitter clone coding 강의가 1-37 까지 꽤 잘 정리되어 있음 
+* 현재 nodebird id에 react를 활용한 twitter clone coding 강의가 1-37 까지 꽤 잘 정리되어 있음
 
 <br />
 
-# 메모의 중요성에 대해 
+# 메모의 중요성에 대해
 https://brunch.co.kr/@isaacyouspace/67
 
 <br />
 
-# site 장점 
+# site 장점
 1.nodebird라는 id에 react로 nodebird 만들기 front 부분이 괜찮게 정리 되어 있음 <br />
 2.토이 프로젝트를 만들면서 그 과정을 쉽게 노트로 정리 및 공유 할 수 있음 <br />
 3.신뢰성 있는 코딩 정보 사이트로 만들어 가려 함 <br />
@@ -48,12 +48,10 @@ https://brunch.co.kr/@isaacyouspace/67
 4.뉴스 공유 <br />
 
 <br />
-# presentation
+# presentation <br>
 https://docs.google.com/presentation/d/1fZUcmC1BOEm_NMyAbyRkFEGejtOPjkLUkVJUF9ERKXc/edit?usp=sharing
 
 <br />
 
 # skil note의 기능:
 https://docs.google.com/presentation/d/1VjjRQUwQ4EP3PwYuz26rgbh2aFtaK1Fu3jrcG2cM_rg/edit?usp=sharing
-
-

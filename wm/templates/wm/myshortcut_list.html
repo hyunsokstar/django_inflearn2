@@ -862,23 +862,23 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 	const current_article_id = this.id
 	console.log("current_article_id : "+current_article_id);
 
-	window.history.pushState("", "", '/wm/')
+	window.history.pushState("", "", '/wm/myshortcut/')
 
 	$.ajax({
 		type: "POST",
-		url: 'new/SkilNoteCreateView_image_through/' + current_article_id,
+		url: 'new/SkilNoteCreateView_image_through/'+current_article_id,
 		data: {
 			'current_article_id': current_article_id,
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function (result) {
-			window.history.pushState("", "", '/wm/new/SkilNoteCreateView_image_through/'+current_article_id)
+			window.history.pushState("", "", '/wm/myshortcut/new/SkilNoteCreateView_image_through/'+current_article_id)
 			// alert(result)
 			$(".insert_form_area_for_image").html(result);
 			$("#insert_image_between_popup").modal()
 			$(".navbar").hide();
-			window.history.pushState("", "", '/wm/myshorcut/')
-			location.reload(true);
+			// window.history.pushState("", "", '/wm/myshorcut/')
+			// location.reload(true);
 		}
 	});
 

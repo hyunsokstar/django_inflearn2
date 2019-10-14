@@ -15,6 +15,8 @@ from skilblog.models import SkilBlogTitle, SkilBlogContent
 from django.http import HttpResponseRedirect
 from datetime import datetime , timedelta
 
+from django.utils import timezone
+
 
 # 1122
 
@@ -1249,6 +1251,7 @@ class MyShortCutCreateView_image(LoginRequiredMixin,CreateView):
         print("ty : ", ty)
         ms = form.save(commit=False)
         ms.author = self.request.user
+        ms.created=timezone.now()
         ms.type= ty
         category_id = self.request.user.profile.selected_category_id
         ca = Category.objects.get(id=category_id)
