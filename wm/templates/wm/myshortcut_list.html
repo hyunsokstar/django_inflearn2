@@ -769,6 +769,7 @@ button, input, a {
 // shortcut_between_button
 // shortcut_between_button_image
 $('body').on('click', '#ca_minus_1_btn', function (e) {
+	e.preventDefault();
 	const option = true;
 
 	const ca_num = $("#current_category").text();

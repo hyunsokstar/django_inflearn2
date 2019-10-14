@@ -28,9 +28,6 @@ def category_plus_1_for_current_user(request):
     print("ca_num : ", ca_num)
     print("ca_num type :",type(ca_num))
 
-
-
-
     data2 = {'ca{}'.format(x+1): F('ca{}'.format(x)) for x in range(int(ca_num), 99)}
 
     CategoryNick.objects.filter(
@@ -63,6 +60,7 @@ def category_plus_1_for_current_user(request):
         'message': "ca"+ca_num+"부터 ca98까지 +1 성공"
     })
 
+
 def category_minus_1_for_current_user(request):
     # ca=Category.objects.filter(id=category_num)
     ca_num = request.POST['current_ca_num'] # 입력한 ca 번호
@@ -85,7 +83,7 @@ def category_minus_1_for_current_user(request):
 
     for sn in skil_note:
         # print("sn.category.id : ", sn.category.id)
-        if(sn.category.id >= int(ca_num) and sn.category.id != 99):
+        if(sn.category.id >= int(ca_num) and sn.category.id != 1):
             # ca=Category.objects.get(id=int(sn.category.id)+1)
             print("sn.category.id : ", sn.category.id)
             print("int(sn.category.id)-1 : ", int(sn.category.id)-1)
