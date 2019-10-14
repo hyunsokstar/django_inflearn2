@@ -14,7 +14,6 @@ from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut
 from skilblog.models import SkilBlogTitle, SkilBlogContent
 from django.http import HttpResponseRedirect
 from datetime import datetime , timedelta
-
 from django.utils import timezone
 
 
@@ -29,29 +28,36 @@ def category_plus_1_for_current_user(request):
     print("ca_num : ", ca_num)
     print("ca_num type :",type(ca_num))
 
-    data = {'ca{}'.format(x+1): F('ca{}'.format(x)) for x in range(int(ca_num), 98)}
+
+
+
+    data2 = {'ca{}'.format(x+1): F('ca{}'.format(x)) for x in range(int(ca_num), 99)}
+
     CategoryNick.objects.filter(
         author=request.user
-    ).update(**data)
+    ).update(**data2)
+
+    data1 = {'ca{}'.format(ca_num): "2-98 => 3-99 로 이동 완료" }
+
+    CategoryNick.objects.filter(
+        author=request.user
+    ).update(**data1)
 
     skil_note = MyShortCut.objects.filter(Q(author=request.user))
-
-    # ca=Category.objects.get(id=514);
-    # print("ca : ", ca.name)
 
     ca_delete=Category.objects.get(name="ca99")
     MyShortCut.objects.filter(Q(author=request.user) & Q(category=ca_delete)).delete()
 
     for sn in skil_note:
-        # print("sn.category.id : ", sn.category.id)
-        if(sn.category.id >= int(ca_num) & sn.category.id != 99):
-            # ca=Category.objects.get(id=int(sn.category.id)+1)
+        if(sn.category.id >= int(ca_num) and sn.category.id != 99):
             print("sn.category.id : ", sn.category.id)
             print("int(sn.category.id)+1 : ", int(sn.category.id)+1)
             # CategoryNick.objects.get()
             ca = Category.objects.get(id=int(sn.category.id)+1)
             # if(ca.id != 100):
             MyShortCut.objects.filter(id=sn.id).update(category=ca)
+        else:
+            print("sn.category.id : ", sn.category.id)
 
     return JsonResponse({
         'message': "ca"+ca_num+"부터 ca98까지 +1 성공"
@@ -79,7 +85,7 @@ def category_minus_1_for_current_user(request):
 
     for sn in skil_note:
         # print("sn.category.id : ", sn.category.id)
-        if(sn.category.id >= int(ca_num) & sn.category.id != 99):
+        if(sn.category.id >= int(ca_num) and sn.category.id != 99):
             # ca=Category.objects.get(id=int(sn.category.id)+1)
             print("sn.category.id : ", sn.category.id)
             print("int(sn.category.id)-1 : ", int(sn.category.id)-1)

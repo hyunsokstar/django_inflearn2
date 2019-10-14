@@ -770,10 +770,12 @@ button, input, a {
 // shortcut_between_button_image
 $('body').on('click', '#ca_minus_1_btn', function (e) {
 	const option = true;
-	// alert("option : "+ option);
 
 	const ca_num = $("#current_category").text();
 	console.log("ca_num : ", ca_num);
+
+	window.history.pushState("", "", '/wm/myshortcut/')
+
 
 	const afterStr = ca_num.split('a');
 	const current_ca_num = afterStr[1];
@@ -793,7 +795,7 @@ $('body').on('click', '#ca_minus_1_btn', function (e) {
 
 		$.ajax({
 			type: "POST",
-			url: 'category_minus_1_for_current_user',
+			url: '/wm/myshortcut/category_minus_1_for_current_user',
 			data: {
 				'current_ca_num': current_ca_num,
 				csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -802,7 +804,6 @@ $('body').on('click', '#ca_minus_1_btn', function (e) {
 				// window.history.pushState("", "", '/wm/new/SkilNoteCreateView_image_through/'+current_article_id)
 				alert("result : "+ result.message);
 				window.history.pushState("", "", '/wm/myshortcut/')
-
 				location.reload(true);
 			}
 		});
@@ -815,12 +816,14 @@ $('body').on('click', '#ca_minus_1_btn', function (e) {
 });
 
 $('body').on('click', '#ca_plus_1_btn', function (e) {
-	// alert("ca_plus_1_btn 클릭");
-	// window.history.pushState("", "", '/wm/myshorcut/')
+	e.preventDefault();
 
-	// option = confirm("카테고리를 +1 하시겠습니까?")
-	const option = true;
-	// alert("option : "+ option);
+	// alert("ca_plus_1_btn 클릭");
+	window.history.pushState("", "", '/wm/myshortcut/')
+
+	option1 = confirm("카테고리를 +1 하시겠습니까?")
+	option2 = confirm("카테고리를 +1 하시겠습니까?")
+
 	const ca_num = $("#current_category").text();
 	console.log("ca_num : ", ca_num);
 
@@ -837,7 +840,7 @@ $('body').on('click', '#ca_plus_1_btn', function (e) {
 
 		$.ajax({
 			type: "POST",
-			url: 'category_plus_1_for_current_user',
+			url: '/wm/myshortcut/category_plus_1_for_current_user',
 			data: {
 				'current_ca_num': current_ca_num,
 				csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -862,23 +865,23 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 	const current_article_id = this.id
 	console.log("current_article_id : "+current_article_id);
 
-	window.history.pushState("", "", '/wm/myshortcut/')
+	window.history.pushState("", "", '/wm/')
 
 	$.ajax({
 		type: "POST",
-		url: 'new/SkilNoteCreateView_image_through/'+current_article_id,
+		url: 'new/SkilNoteCreateView_image_through/' + current_article_id,
 		data: {
 			'current_article_id': current_article_id,
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function (result) {
-			window.history.pushState("", "", '/wm/myshortcut/new/SkilNoteCreateView_image_through/'+current_article_id)
+			window.history.pushState("", "", '/wm/new/SkilNoteCreateView_image_through/'+current_article_id)
 			// alert(result)
 			$(".insert_form_area_for_image").html(result);
 			$("#insert_image_between_popup").modal()
 			$(".navbar").hide();
-			// window.history.pushState("", "", '/wm/myshorcut/')
-			// location.reload(true);
+			window.history.pushState("", "", '/wm/myshorcut/')
+			location.reload(true);
 		}
 	});
 
@@ -886,7 +889,8 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 
 $('body').on('click', '.shortcut_between_button_textarea' , function (e) {
 
-	window.history.pushState("", "", '/wm/myshortcut/')
+	e.preventDefault();
+	// window.history.pushState("", "", '/wm/myshortcut/')
 	const title = prompt("title을 입력해 주세요 ", "");
 	const current_article_id = this.id
 
@@ -905,8 +909,8 @@ $('body').on('click', '.shortcut_between_button_textarea' , function (e) {
 			},
 			success: function (result) {
 				alert(result.message);
-				window.history.pushState("", "", '/wm/myshortcut/')
-				location.reload(true);
+				// window.history.pushState("", "", '/wm/myshortcut/')
+				// location.reload(true);
 
 			}
 		});
@@ -976,7 +980,7 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 $(document).ready(function () {
 	var jbOffset = $('.category_subject_table').offset();
 	var todoOffset = $('.todo_list').offset();
-	window.history.pushState("", "", '/wm/myshortcut/')
+	// window.history.pushState("", "", '/wm/myshortcut/')
 
 	$(window).scroll(function () {
 		// console.log("scroll event 실행");
