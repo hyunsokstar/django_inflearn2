@@ -863,7 +863,7 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 $('body').on('click', '.shortcut_between_button_textarea' , function (e) {
 
 	e.preventDefault();
-	// window.history.pushState("", "", '/wm/myshortcut/')
+	window.history.pushState("", "", '/wm/myshortcut/')
 	const title = prompt("title을 입력해 주세요 ", "");
 	const current_article_id = this.id
 
@@ -882,9 +882,8 @@ $('body').on('click', '.shortcut_between_button_textarea' , function (e) {
 			},
 			success: function (result) {
 				alert(result.message);
-				// window.history.pushState("", "", '/wm/myshortcut/')
-				// location.reload(true);
-
+				window.history.pushState("", "", '/wm/myshortcut/')
+				location.reload(true);
 			}
 		});
 	} else {
