@@ -12,35 +12,27 @@ button, input, a {
 .sideicon_for_scroll{
 	position:fixed;
 	colort:blue;
-	top:300px;
+	top:220px;
 	right:8px;
 }
 
 .sideicon_for_insert{
 	position:fixed;
 	colort:blue;
-	top:140px;
-	right:8px;
-}
-
-.sidearea_for_category_btn{
-	position:fixed;
-	colort:blue;
 	top:60px;
 	right:16px;
-
 }
 
 .sideicon_for_move{
 	position:fixed;
 	colort:blue;
-	top:420px;
+	top:340px;
 	right:8px;
 }
 
 .temp_memo_btn_area {
 	position:fixed;
-	top:80px;
+	top:60px;
 	left:20px;
 }
 
@@ -101,20 +93,6 @@ button, input, a {
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
-<a href="" class="btn btn-outline-primary float-left btn-sm" id="shortcut_delete_button"> 삭제(ch) </a>
-<a href="" class="btn btn-outline-primary float-left btn-sm" id="modify_category_button"> 이동(ch) </a>
-<a href="" class="btn btn-outline-primary float-left btn-sm" id="ca_plus_1_btn" data-category={{cateogory}}> ca+1 </a>
-<a href="" class="btn btn-outline-primary float-left btn-sm" id="ca_minus_1_btn" data-category={{cateogory}}> ca-1 </a>
-<a href="" class="btn btn-outline-primary float-left btn-sm" id="move_to_skilblog_btn"> skil blog(ch) </a> &nbsp;
-<a href="{% url "wm:MyShortCutCreateView_image" %}" class="btn btn-outline-dark btn-sm float-right">image 입력</a>
-
-<!-- <a href="{% url "wm:insert_myshortcut_textarea_summer_note" %}" class="btn btn-outline-success float-right">SummerNote</a>
-    <a href="{% url "wm:insert_myshortcut_textarea" %}" class="btn btn-outline-success float-right">TextArea</a>
-    <a href="{% url "wm:insert_myshortcut_input" %}" class="btn btn-outline-success float-right">InputBox</a> -->
-<a class="btn btn-outline-dark float-right search_popup_btn btn-sm">검색</a>
-<!-- <form class="form-inline my-2 my-lg-0 float-right">
-	<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-</form> -->
 
 {% else %}
 
@@ -125,50 +103,56 @@ button, input, a {
 <!-- side button area -->
 
 <div class="sideicon_for_scroll">
-	<button type="button" name="button" class="before_btn btn btn-outline-success" id="">before</button><br>
+	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
 	<input type="text" class="go_input form" size=2 value="1">
-	<button type="button" name="button" class="go_btn btn btn-outline-success btn-sm" id="">Go</button><br>
-	<button type="button" name="button" class="next_btn btn btn-outline-success" id="">next</button>
+	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
+	<button type="button" name="button" class="next_btn btn btn-outline-dark" id="">next</button>
 </div>
 
 <div class="sideicon_for_insert">
-	<a class="new3_btn btn btn-outline-success" id=""
+	<a class="new3_btn btn btn-outline-dark" id=""
 		href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a><br>
-	<button type="button" name="button" class="new1_btn btn btn-outline-success" id="">인풋(1)</button><br>
-	<button type="button" name="button" class="new2_btn btn btn-outline-success" id="">text(1)</button><br>
-	<a class="new4_btn btn btn-outline-success" id="" href=""> text(5) </a>
+	<button type="button" name="button" class="new1_btn btn btn-outline-dark" id="">인풋(1)</button><br>
+	<button type="button" name="button" class="new2_btn btn btn-outline-dark" id="">text(1)</button><br>
+	<a class="new4_btn btn btn-outline-dark" id="" href=""> text(5) </a>
 </div>
 
 
-<div class="sidearea_for_category_btn">
-	<button type="button" class="category_btn category_name_list_button btn btn-outline-success"
-	id="{{request.user.id}}">CH</button> <br>
-	<button type="button" class="category_user_btn user_list_btn btn btn-outline-success">User</button>
-</div>
 
 <div class="sideicon_for_move">
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-success" id="">first</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-success" id="">end</button><br>
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">first</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark" id="">end</button><br>
 
 	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input">
-	<button type="button" name="button" class="next_channer_btn btn btn-outline-success btn-sm" id="">Go</button><br>
+	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
 
-	<button type="button" class="go_to_before_channer_btn btn btn-outline-success">
+	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark">
 		<img src="{% static 'icon/left_arrow.png' %}" alt="">
 	</button><br>
 
-	<button type="button" class="go_to_next_channer_btn btn btn-outline-success">
+	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark">
 		<img src="{% static 'icon/right_arrow.png' %}" alt="">
 	</button>
 	<br>
+
+
 </div>
 
 <div class="temp_memo_btn_area">
-	<button type="button" name="button" class="temp_memo_btn btn btn-outline-success" id="">Front</button> <br>
-	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-success" id="">back</button>
-</div>
+	<button type="button" class="category_btn category_name_list_button btn btn-outline-dark" id="{{request.user.id}}">CH</button> <br>
+	<button type="button" class="category_user_btn user_list_btn btn btn-outline-dark">User</button><br>
+	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
+	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
+	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
+	<a href="" class="btn btn-outline-primary " id="modify_category_button"> 이동</a> <br>
+	<a href="" class="btn btn-outline-primary " id="shortcut_delete_button"> 삭제(ch) </a> <br>
+	<a href="" class="btn btn-outline-primary " id="ca_plus_1_btn" data-category={{cateogory}}> ca+1 </a> <br>
+	<a href="" class="btn btn-outline-primary " id="ca_minus_1_btn" data-category={{cateogory}}> ca-1 </a> <br>
+	<a href="" class="btn btn-outline-primary " id="move_to_skilblog_btn"> skil blog(ch) </a> <br>
 
-<br><br>
+	<a href="{% url "wm:MyShortCutCreateView_image" %}" class="btn btn-outline-primary  ">image 입력</a> <br>
+
+</div>
 
 <table class="table table-bordered category_subject_table" width="1110" style="">
 	<tr style="background-color:#f1e9f5">
@@ -183,15 +167,6 @@ button, input, a {
 			</span>
 
 			<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제 수정</button>
-
-			<!-- <button type="button" class="go_to_next_channer_btn btn btn-outline-success float-right">
-				<img src="{% static 'icon/right_arrow.png' %}" alt="">
-			</button>
-
-			<button type="button" class="go_to_before_channer_btn btn btn-outline-success float-right">
-				<img src="{% static 'icon/left_arrow.png' %}" alt="">
-			</button><br> -->
-
 
 			{% endif %}
 		</td>
@@ -768,6 +743,7 @@ button, input, a {
 // shortcut_between_button_input
 // shortcut_between_button
 // shortcut_between_button_image
+
 $('body').on('click', '#ca_minus_1_btn', function (e) {
 	e.preventDefault();
 	const option = true;
@@ -792,7 +768,6 @@ $('body').on('click', '#ca_minus_1_btn', function (e) {
 	option2 = confirm(current_ca_num+"부터 99까지 카테고리를 -1씩 이동하시겠습니까? really?")
 
 	if(option1 & option2){
-		// const ca_num = prompt("몇번부터 옮길까요?", "");
 
 		$.ajax({
 			type: "POST",
@@ -821,9 +796,6 @@ $('body').on('click', '#ca_plus_1_btn', function (e) {
 
 	// alert("ca_plus_1_btn 클릭");
 	window.history.pushState("", "", '/wm/myshortcut/')
-
-	option1 = confirm("카테고리를 +1 하시겠습니까?")
-	option2 = confirm("카테고리를 +1 하시겠습니까?")
 
 	const ca_num = $("#current_category").text();
 	console.log("ca_num : ", ca_num);
@@ -1676,8 +1648,15 @@ $('body').on('click', '.search_popup_btn', function (e) {
 });
 
 $('body').on('click', '.update_nick_button', function (e) {
+	e.preventDefault();
+
+	const ch_title = $("#current_category_subject").text()
 	const ch_name = $(this).data("id");
-	const ca_nick_update = prompt(ch_name + "의 주제를 입력해 주세요", "");
+	const ca_nick_update = prompt(ch_name + "의 주제를 입력해 주세요", ch_title);
+
+	if(!ca_nick_update){
+		return;
+	}
 
 	if (ca_nick_update == "") {
 		return;
