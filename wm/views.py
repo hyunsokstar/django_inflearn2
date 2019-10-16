@@ -34,7 +34,7 @@ def category_plus_1_for_current_user(request):
         author=request.user
     ).update(**data2)
 
-    data1 = {'ca{}'.format(ca_num): "2-98 => 3-99 로 이동 완료" }
+    data1 = {'ca{}'.format(ca_num): "+1 실행 완료" }
 
     CategoryNick.objects.filter(
         author=request.user
@@ -68,7 +68,7 @@ def category_minus_1_for_current_user(request):
     print("ca_num check : ", ca_num)
     print("ca_num type :",type(ca_num))
 
-    data = {'ca{}'.format(x): F('ca{}'.format(x)-1) for x in range(99,int(ca_num)-1,-1)}
+    data = {'ca{}'.format(x-1): F('ca{}'.format(x)) for x in range(99,int(ca_num)-1,-1)}
     CategoryNick.objects.filter(
         author=request.user
     ).update(**data)
