@@ -52,7 +52,7 @@ def category_plus_1_for_current_user(request):
             # CategoryNick.objects.get()
             ca = Category.objects.get(id=int(sn.category.id)+1)
             # if(ca.id != 100):
-            MyShortCut.objects.filter(id=sn.id).update(category=ca)
+            MyShortCut.objects.filter(id=sn.id).update(category=ca, image = F('image'))
         else:
             print("sn.category.id : ", sn.category.id)
 
@@ -80,6 +80,7 @@ def category_minus_1_for_current_user(request):
 
     ca_delete=Category.objects.get(id=ca_delete_num)
     MyShortCut.objects.filter(Q(author=request.user) & Q(category=ca_delete)).delete()
+    # MyShortCut.obejcts.filter(Q(id=ca))
 
     for sn in skil_note:
         # print("sn.category.id : ", sn.category.id)
@@ -88,8 +89,7 @@ def category_minus_1_for_current_user(request):
             print("sn.category.id : ", sn.category.id)
             print("int(sn.category.id)-1 : ", int(sn.category.id)-1)
             ca = Category.objects.get(id=int(sn.category.id)-1)
-            # if(ca.id != 100):
-            MyShortCut.objects.filter(id=sn.id).update(category=ca)
+            MyShortCut.objects.filter(id=sn.id).update(category=ca, image = F('image'))
 
     return JsonResponse({
         'message': "ca"+ca_num+"부터 ca98까지 -1 성공"
@@ -192,6 +192,7 @@ def copy_to_me_from_user_id(request):
             content2 = p.content2,
             type_id = p.type_id,
             category = p.category,
+            image=p.image,
         )
         # print("myshortcut : " , myshortcut.id)
         for comment in comment_wm_list_for_copy:
