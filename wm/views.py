@@ -40,7 +40,7 @@ def category_plus_1_for_current_user(request):
         author=request.user
     ).update(**data1)
 
-    skil_note = MyShortCut.objects.filter(Q(author=request.user))
+    skil_note = MyShortCut.objects.filter(Q(author=request.user)).order_by("created")
 
     ca_delete=Category.objects.get(name="ca99")
     MyShortCut.objects.filter(Q(author=request.user) & Q(category=ca_delete)).delete()
@@ -52,7 +52,7 @@ def category_plus_1_for_current_user(request):
             # CategoryNick.objects.get()
             ca = Category.objects.get(id=int(sn.category.id)+1)
             # if(ca.id != 100):
-            MyShortCut.objects.filter(id=sn.id).update(category=ca, image = F('image'))
+            MyShortCut.objects.filter(id=sn.id).update(category=ca, created=F('created'))
         else:
             print("sn.category.id : ", sn.category.id)
 
@@ -193,6 +193,7 @@ def copy_to_me_from_user_id(request):
             type_id = p.type_id,
             category = p.category,
             image=p.image,
+            created = p.created,
         )
         # print("myshortcut : " , myshortcut.id)
         for comment in comment_wm_list_for_copy:
