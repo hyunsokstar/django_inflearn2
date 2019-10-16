@@ -68,7 +68,7 @@ def category_minus_1_for_current_user(request):
     print("ca_num check : ", ca_num)
     print("ca_num type :",type(ca_num))
 
-    data = {'ca{}'.format(x-1): F('ca{}'.format(x)) for x in range(99,int(ca_num),-1)}
+    data = {'ca{}'.format(x): F('ca{}'.format(x)-1) for x in range(99,int(ca_num)-1,-1)}
     CategoryNick.objects.filter(
         author=request.user
     ).update(**data)
