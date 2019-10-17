@@ -310,6 +310,11 @@ button, input, a {
 			{% endif %}
 		</td>
 	</tr>
+	<tr>
+		<td colspan="2">
+			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글</button>
+		</td>
+	</tr>
 	{% endifequal %}
 
 	{% if p.commentforshortcut_set.exists %}
@@ -975,7 +980,7 @@ $(document).ready(function () {
 	});
 });
 
-// copy_code_summernote 2244
+
 $('body').on('click', '.copy_code_summernote', function (e) {
 
 	e.preventDefault();
