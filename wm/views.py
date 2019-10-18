@@ -1306,6 +1306,7 @@ class MyShortCutCreateView_textarea_summer_note(LoginRequiredMixin,CreateView):
         ms = form.save(commit=False)
         ms.author = self.request.user
         ms.type= ty
+        ms.created = timezone.now()
 
         category_id = self.request.user.profile.selected_category_id
         ca = Category.objects.get(id=category_id)
