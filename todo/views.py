@@ -30,6 +30,66 @@ from django.utils import timezone
 
 # 1122 for todo
 
+# 할일 미완료 목록 리스트 출력
+class TodoList(LoginRequiredMixin,ListView):
+    model = Todo
+    paginate_by = 10
+
+    def get_queryset(self):
+        if self.request.user.is_anonymous:
+            return Todo.objects.all().order_by('-created')
+        else:
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).order_by('-created')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TodoList, self).get_context_data(**kwargs)
+        context['comment_form'] = CommentForm()
+        context['category_list'] = Category.objects.all()
+        context['todos_without_category'] = Todo.objects.filter(category=None).count()
+
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
+
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+
+        return context
+
+# 할 일 완료 목록
+class TodoCompleteListByMe(LoginRequiredMixin,ListView):
+    model = Todo
+    paginate_by = 10
+    
+
+    def get_queryset(self):
+        if self.request.user.is_anonymous:
+            print("익명 유저입니다")
+            return Todo.objects.all()
+        else:
+            print("user : ", self.request.user)
+            list_count = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
+            print("list_count  ", list_count)
+            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
+
+    def get_template_names(self):
+        print("todo list complete 호출")
+        return ['todo/todo_list_complete.html']
+        # 카테고리 목록
+    def get_context_data(self, *, object_list=None, **kwargs):
+        print('self.request.user : ', self.request.user)
+        context = super(type(self), self).get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        # 미완료이면서 카테고리가 없는것
+        context['todos_without_category'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 미완료
+        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
+        # 완료
+        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
+        context['comment_form'] = CommentForm()
+        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
+        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
+        return context
+
 def pass_task_to_selected_user(request):
     todo_arr = request.POST.getlist('todo_arr[]')
     selected_user = request.POST['selected_user']
@@ -805,38 +865,6 @@ def todo_help_cancle(request, id):
     print("핼프를 요청 id:",id)
     return redirect('/todo')
 
-class TodoCompleteListByMe(LoginRequiredMixin,ListView):
-    model = Todo
-
-    def get_queryset(self):
-        if self.request.user.is_anonymous:
-            print("익명 유저입니다")
-            return Todo.objects.all()
-        else:
-            print("user : ", self.request.user)
-            list_count = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
-            print("list_count  ", list_count)
-            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
-
-    def get_template_names(self):
-        print("todo list complete 호출")
-        return ['todo/todo_list_complete.html']
-        # 카테고리 목록
-    def get_context_data(self, *, object_list=None, **kwargs):
-        print('self.request.user : ', self.request.user)
-        context = super(type(self), self).get_context_data(**kwargs)
-        context['category_list'] = Category.objects.all()
-        # 미완료이면서 카테고리가 없는것
-        context['todos_without_category'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
-        # 미완료
-        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
-        # 완료
-        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
-        context['comment_form'] = CommentForm()
-        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
-        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
-        return context
-
 
 class TodoUnCompleteListByMe(LoginRequiredMixin,ListView):
     model = Todo
@@ -1021,30 +1049,6 @@ class todoDetail(DetailView):
         context['detail_id'] = self.object.pk
         context['comment_form'] = CommentForm()
         context['comment_form_text_area'] = CommentForm_TextArea()
-
-        return context
-
-class TodoList(LoginRequiredMixin,ListView):
-    model = Todo
-    paginate_by = 20
-
-    def get_queryset(self):
-        if self.request.user.is_anonymous:
-            return Todo.objects.all().order_by('-created')
-        else:
-            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).order_by('-created')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(TodoList, self).get_context_data(**kwargs)
-        context['comment_form'] = CommentForm()
-        context['category_list'] = Category.objects.all()
-        context['todos_without_category'] = Todo.objects.filter(category=None).count()
-
-        context['todo_count_uncomplete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=True)).count()
-        context['todo_count_complete'] = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False)).count()
-
-        context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
-        context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
 
         return context
 

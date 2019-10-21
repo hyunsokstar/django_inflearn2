@@ -7,6 +7,12 @@ app_name= 'todo'
 urlpatterns = [
 
 
+    # 할 일(미완료 ) 리스트 출력
+    path('', views.TodoList.as_view() , name="todo_list"),
+
+    # 할 일 (완료) 리스트 출력
+    path('todolist/complete/me/', views.TodoCompleteListByMe.as_view() , name="todo_complete_list_byme"),
+
     # todolist detail popup 출력
     path('<int:pk>/', views.todoDetail.as_view(), name='todo_detail'),
 
@@ -18,7 +24,7 @@ urlpatterns = [
     path('add_todo_by_ajax_by_teamleader/', views.add_todo_by_ajax_by_teamleader, name="add_todo_by_ajax_by_teamleader"),
 
     path('team_info_list/', views.TeamInfoListView.as_view() , name="TeamInfoListView"),
-    
+
     path('team_todo_list/<str:team_name>', views.team_todo_list , name="team_todo_list"),
     path('team_todo_list_by_check_user/<str:team_name>', views.team_todo_list_by_check_user , name="team_todo_list_by_check_user"),
 
@@ -30,7 +36,7 @@ urlpatterns = [
     path('new/',views.todo_new , name ="todo_new"),
     path('search/<str:q>/', views.TodoSearch.as_view()),
     path('card', views.TodoList_by_card.as_view() , name="todo_list_by_card"),
-    path('', views.TodoList.as_view() , name="todo_list"),
+
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),
     path('<int:pk>/new_comment/summer_note', views.new_comment_summer_note),
     path('<int:pk>/new_comment/text_area', views.new_comment_text_area),
@@ -42,7 +48,8 @@ urlpatterns = [
     path('category/<str:slug>/', views.TodoListByCategory.as_view() , name="total_ucomplete_todo_list"),
     path('todolist/admin/', views.TodoListByAdmin.as_view() , name="todo_list_by_admin"),
     path('todolist/admin/insert_popup/<str:user_name>', views.isnert_todo_popup_by_admin , name="isnert_todo_popup_by_admin"),
-    path('todolist/complete/me/', views.TodoCompleteListByMe.as_view() , name="todo_complete_list_byme"),
+
+
     path('todolist/complete/me/todo_delete_ajax/', views.todo_delete_ajax , name="todo_delete_ajax"),
     path('todolist/uncomplete/me', views.TodoUnCompleteListByMe.as_view() , name="todo_uncomplete_list_byme"),
     path('completeList/total/', views.TodoListByComplete_total.as_view() , name="todo_complete_list_total"),

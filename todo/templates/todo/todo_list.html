@@ -145,9 +145,18 @@
             </td>
         </tr>
     {% endif %}
-
-
 </table>
+
+{% if is_paginated %}
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+  {% endif %}
+  {{ page_obj.number }} 페이지
+  {% if page_obj.has_next %}
+    <a href="?page={{page_obj.next_page_number}}">다음</a>
+  {% endif %}
+{% endif %}
+
 
 <button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
     todo detail modal
@@ -196,6 +205,7 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}
 
