@@ -33,23 +33,20 @@
 <div class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="navbar" style="margin-bottom:5px;">
     <div class="container">
 
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url "todo:todo_list" %}">Todo(할일)</a>
-            </li>
-        </ul>
+    <a href="#" class="navbar-brand">mechanic coder</a>
 
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url "todo:todo_complete_list_byme" %}">Todo(완료)</a>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url "todo:TeamInfoListView" %}">Team </a>
-            </li>
-        </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false">할일 관리 <span class="caret"></span></a>
+          <div class="dropdown-menu" aria-labelledby="download">
+              <a class="dropdown-item" href="{% url "todo:todo_list" %}">Todo(할일)</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url "todo:todo_complete_list_byme" %}">Todo(완료)</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url "todo:TeamInfoListView" %}">Team </a>
+          </div>
+        </li>
+      </ul>
 
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -85,7 +82,7 @@
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="{% url "pm:manual_list" %}"> 공지 사항</a>
+                <a class="nav-link" href="{% url "pm:manual_list" %}"> free board </a>
             </li>
         </ul>
 

@@ -20,7 +20,7 @@ def delete_manual(request, pk):
 
     if request.user == manual.author:
         manual.delete()
-        messages.success(request,'메뉴얼을 삭제했습니다.')
+        messages.success(request,'게시물을 삭제했습니다.')
         return redirect('/pm/')
     else:
         messages.success(request,'당사자만 삭제 가능합니다.')

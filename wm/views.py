@@ -638,9 +638,10 @@ def search_by_id_and_word(request):
     user = User.objects.get(username=search_user_id)
 
 
+    # | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)
     if(search_option == "content+title"):
-        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word) & Q(author = user)).order_by('-category')
-        print("search , content+title")
+        object_list = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
+        print("search content + title ")
 
         return render(request, 'wm/MyShortCut_list_for_search.html', {
 			'object_list': object_list

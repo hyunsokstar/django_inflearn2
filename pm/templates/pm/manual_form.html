@@ -3,17 +3,13 @@
 
 {%block content %}
 
-<hr>
-<h2>완강 등록</h2>
-<hr>
+<h2>자유 게시판 등록</h2>
 
 <form action="" method="post" enctype='multipart/form-data'>
   {% csrf_token %}
-  <table>
     {{ form }}
-  </table>
 
-  <input type="submit">
+  <input type="submit" class="button btn-block">
 </form>
 
 {% endblock %}

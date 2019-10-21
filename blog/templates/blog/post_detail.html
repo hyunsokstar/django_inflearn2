@@ -64,7 +64,7 @@
                 <div class="media-body">
                     <!-- 버튼 영역 -->
                     {% if comment.author == request.user %}
-                        <button class="btn btn-sm btn-info float-right" onclick="location.href='/todo/edit_comment/{{ comment.pk }}/'">
+                        <button class="btn btn-sm btn-info float-right" onclick="location.href='/blog/edit_comment/{{ comment.pk }}/'">
                                 edit
                         </button>
                         <button class="btn btn-sm btn-warning float-right" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">
