@@ -40,8 +40,12 @@ class ManualCreateView(CreateView):
 
 class ManualListView(LoginRequiredMixin,ListView):
     model = Manual
-    paginate_by = 20
-    # ordering = ['-grade']
+    paginate_by = 10
+
+    def get_template_names(self):
+        if self.request.is_ajax():
+            return ['pm/_manual_list.html']
+        return ['pm/manual_list.html']
 
 class ManualDetailView(DetailView):
     model = Manual

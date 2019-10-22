@@ -3,7 +3,16 @@
 
 {%block content2 %}
 <div class="jumbotron">
-    <h2>{{title}}</h2>
+    <table class="table table-bordered">
+        <tr>
+            <td>title</td>
+            <td>{{title}}</td>
+        </tr>
+        <tr>
+            <td>writer</td>
+            <td>{{author}}</td>
+        </tr>
+    </table>
 </div>
 
 {% if messages %}
@@ -13,13 +22,13 @@
      {% endfor %}
 </div>
 {% endif %}
-<!-- <a href="/bestlec/new/" class="btn btn-danger float-right">입력 </a> -->
 
-<!-- 2244
-cjs -->
-
-<!-- <a class="new3_btn btn btn-outline-success float-right" id="" href="/wm/new/textarea_summer_note">SN</a> -->
+{% ifequal author request.user.username %}
 <a class="new3_btn btn btn-outline-success float-right" id="" href="/skilblog/new/summernote/{{skil_blog_title_id}}">SN</a>
+{% else %}
+<span class="float-right"> {{author}} 님만 입력할수 있습니다. </span>
+{% endifequal %}
+
 
 {% if sbc.exists %}
 {% for p in sbc %}
@@ -48,8 +57,15 @@ cjs -->
 		<td colspan="2">
 			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
-			<button class="btn btn-outline-danger btn-sm float-right edit_skil_blog_for_content1_btn" id="{{p.id}}">edit_complete</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글 추가</button>
+
+            {% ifequal author request.user.username %}
+                <button class="btn btn-outline-danger btn-sm float-right edit_skil_blog_for_content1_btn" id="{{p.id}}">edit_complete</button>
+                <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글 추가</button>
+            {% else %}
+            {% endifequal %}
+
+
+
 		</td>
 	</tr>
 	{% endifequal %}
@@ -79,9 +95,11 @@ cjs -->
 				class="form-control">{{p.content2 }}</textarea><br>
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2 float-right"
 				id="{{p.id}}">copy</button>
-			<button class="btn btn-outline-danger btn-sm float-right edit_skil_blog_for_content2_btn float-right"
-				id="{{p.id}}" data-user_id="{{request.user}}">edit_complete</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글 추가</button>
+
+                {% ifequal author request.user.username %}
+                    <button class="btn btn-outline-danger btn-sm float-right edit_skil_blog_for_content2_btn float-right" id="{{p.id}}" data-user_id="{{request.user}}">edit_complete</button>
+                    <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글 추가</button>
+                {% endifequal %}
 		</td>
 	</tr>
 	{% endifequal %}
@@ -113,8 +131,10 @@ cjs -->
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
 			<!-- <a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}"
 				class="btn btn-outline-danger float-right btn-sm">summernote 수정</a> -->
-            <a href={% url "skilblog:modify_skilblog_content2_by_summernote" p.pk %} class="btn btn-outline-danger float-right btn-sm">summernote 수정 22</a>
-		</td>
+                {% ifequal author request.user.username %}
+                <a href={% url "skilblog:modify_skilblog_content2_by_summernote" p.pk %} class="btn btn-outline-danger float-right btn-sm">summernote 수정</a>
+                {% endifequal %}
+    		</td>
 	</tr>
 	{% endifequal %}
 

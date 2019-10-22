@@ -207,6 +207,8 @@ class SkilBlogTitleList(LoginRequiredMixin,ListView):
 
 def SkilBlogContentList(request,id):
     print('SkilBlogTitle id : ',id)
+
+    # sbt = skil blog title
     sbt= SkilBlogTitle.objects.get(id = id)
     print("title : ", sbt.title)
     sbc = SkilBlogContent.objects.filter(Q(sbt=sbt))
@@ -216,5 +218,6 @@ def SkilBlogContentList(request,id):
         "sbc": sbc,
         "sbt":sbt,
         "title":sbt.title,
+        "author":sbt.author,
         "skil_blog_title_id":id
     })

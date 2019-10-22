@@ -933,16 +933,43 @@ def update_my_shortcut_subject(request):
         return redirect('/wm/shortcut')
 
 
-def user_list_for_memo(request):
+def favorite_user_list_for_skillnote(request):
     if request.method == 'GET':
         print("user_list_for_memo 실행")
-        user_list = User.objects.all().order_by('-profile__skill_note_reputation');
 
-        return render(request, 'wm/user_list_for_memo.html', {
-            "user_list" : user_list
+        my_favorite = []
+        ru = RecommandationUserAboutSkillNote.objects.filter(author_id=request.user)
+
+        for x in ru:
+            print("내가 추천한 user_id : ",x.user_id)
+            my_favorite.append(x.user_id)
+
+        object_list = User.objects.filter(id__in=my_favorite).order_by('-profile__skill_note_reputation');
+
+        print("object_list : ", object_list)
+
+
+        return render(request, 'wm/favorite_user_list_for_skilnote.html', {
+            "object_list" : object_list,
         })
     else:
         return HttpResponse("Request method is not a GET")
+
+
+# 1022 2244
+class user_list_for_memo_view(ListView):
+    paginate_by = 10
+
+    def get_template_names(self):
+        if self.request.is_ajax():
+            return ['wm/_user_list_for_memo.html']
+        return ['wm/user_list_for_memo.html']
+
+    def get_queryset(self):
+        print("user_list_for_memo_view 확인")
+        object_list = User.objects.all().order_by('-profile__skill_note_reputation');
+        print("result : ", object_list)
+        return object_list
 
 
 def update_shortcut_nick(request):
@@ -1018,6 +1045,8 @@ class modify_myshortcut_by_summer_note(UpdateView):
     def get_template_names(self):
         return ['wm/myshortcut_summernote_form.html']
 
+
+# 나의 shorcut id를 user list에서 클릭한 id로 교체
 def update_shorcut_id_for_user(request, id):
     user = request.user
     if request.method == "POST" and request.is_ajax():
@@ -1026,13 +1055,16 @@ def update_shorcut_id_for_user(request, id):
         option=""
         original_user = ""
 
+        print("id :", id)
+        print("user_id : ", user_id)
+
         user_exist = User.objects.filter(username = user_id)
         original_user = user_id
         print("user_exist : ", user_exist)
 
         if user_exist:
             option = "메모장 유저를 " + user_id + "로 업데이트 하였습니다."
-            todo = Profile.objects.filter(Q(user=id)).update(shortcut_user_id = user_id)
+            todo = Profile.objects.filter(Q(user=request.user)).update(shortcut_user_id = user_id)
             print("메모장 유저를 {}로 교체 ".format(user_id))
         else:
             original_user = User.objects.get(id = original_userId).username
