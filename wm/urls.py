@@ -75,7 +75,7 @@ urlpatterns = [
     path('new/textarea_summer_note', views.MyShortCutCreateView_textarea_summer_note.as_view() , name="insert_myshortcut_textarea_summer_note"),
 
     path('new/textarea_summer_note_through/<int:current_article_id>', views.SkilNoteCreateView_summernote_through.as_view() , name="SkilNoteCreateView_summernote_through"),
-    path('myshortcut/new/SkilNoteCreateView_image_through/<int:current_article_id>', views.SkilNoteCreateView_image_through.as_view() , name="SkilNoteCreateView_image_through"),
+    path('new/SkilNoteCreateView_image_through/<int:current_article_id>', views.SkilNoteCreateView_image_through.as_view() , name="SkilNoteCreateView_image_through"),
 
     path('myshortcut/delete_shortcut_ajax/<int:id>', views.delete_shortcut_ajax , name="delete_shortcut_ajax"),
     path('myshortcut/update_shortcut_ajax/<int:id>', views.update_shortcut_ajax , name="update_shortcut_ajax"),
@@ -96,7 +96,7 @@ urlpatterns = [
     # 유저 리스트 출력 for memo
     # path('userlist/byajax', views.user_list_for_memo, name = 'user_list_for_memo'),
     path('userlist/byajax', views.user_list_for_memo_view.as_view(), name = 'user_list_for_memo'),
-    path('favorite_user_list/byajax', views.favorite_user_list_for_skillnote, name = 'favorite_user_list_for_memo'),
+    path('favorite_user_list/byajax', views.favorite_user_list_for_skillnote, name = 'favorite_ user_list_for_memo'),
 
     path('myshortcut/delete/ajax/', views.delete_myshortcut_by_ajax, name = 'delete_myshortcut_by_ajax'),
     path('myshortcut/update/category/ajax', views.update_category_by_ajax, name = 'update_category_by_ajax'),

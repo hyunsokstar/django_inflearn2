@@ -61,8 +61,8 @@ button, input, a {
 			<input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id">
 			<button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button>
 			<!-- <a class="btn btn-outline-dark btn-sm user_list_btn" href="{% url 'wm:user_list_for_memo' %}">유저 목록(전체)</a> -->
-			<button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">유저 목록</button>
 			<button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
+			<button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">유저 목록</button>
 			<button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
 		</td>
 	</tr>
@@ -312,7 +312,7 @@ button, input, a {
 			{% endif %}
 		</td>
 	</tr>
-	<tr>
+	<tr style="background-color:#f0f1f5;">
 		<td colspan="2">
 			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글</button>
 		</td>
@@ -372,7 +372,7 @@ button, input, a {
 {% endfor %}
 {% else %}
 
-<table class="table table-bordered">
+<table class="table table-bordered" id="empty_state">
 	<tr>
 		<td colspan="4" background-color="skyblue">
 			<h4>there is no article</h4>
@@ -860,8 +860,8 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 			$(".insert_form_area_for_image").html(result);
 			$("#insert_image_between_popup").modal()
 			$(".navbar").hide();
-			window.history.pushState("", "", '/wm/myshorcut/')
-			location.reload(true);
+			// window.history.pushState("", "", '/wm/myshorcut/')
+			// location.reload(true);
 		}
 	});
 
@@ -1919,6 +1919,7 @@ $(".new4_btn").click(function () {
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
+				$('#empty_state').remove()
 				alert(result.message);
 
 				// underscore를 이용해 row 추가 하기
@@ -1961,6 +1962,7 @@ $(".new1_btn").click(function () {
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
+				$('#empty_state').remove()
 				console.log("result : ", result);
 				alert("insert success")
 				window.history.pushState("", "", '/wm/myshortcut/')
@@ -2008,8 +2010,8 @@ $(".new2_btn").click(function () {
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
+				$('#empty_state').remove()
 				alert(result.message);
-
 				// underscore를 이용해 row 추가 하기
 				var raw_template = $('.myshortcut_row_textarea').html();
 				var tpl = _.template(raw_template);

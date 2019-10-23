@@ -24,7 +24,7 @@
         </tr>
         {% if object_list.exists %}
         {% for u in object_list %}
-        <tr>
+        <tr id="skill_note_tr_{{u.id}}">
             <td>{{u.id}}</td>
             <td id=user_name_{{u.id}}>{{u.username}}</td>
             {% if u.username == request.user.username %}
@@ -49,8 +49,8 @@
                     <img src="{% static 'icon/plus.png' %}" alt="">
                 </button>
             </td>
-            <td id="skill_note_point_{{u.id}}">
-                {{ u.recommandationuseraboutskillnote_set.count }}
+            <td>
+                <input id="" type="text" size="2" name="" value="{{ u.recommandationuseraboutskillnote_set.count }}">
             </td>
         </tr>
         {% endfor %}
@@ -105,14 +105,15 @@ $(".plus_btn_for_favorite_user").click(function(){
         success: function(result) {
             // 0924 plus_btn_for_user
             if(result.option == "plus") {
-                alert("추천 +1 ")
+                // alert("추천 +1 ")
+                // point = $("#skill_note_point_"+user_pk).val();
                 window.history.pushState("", "", '/wm/myshortcut/')
                 location.reload(true);
-
             }else {
                 alert("추천 -1 ")
-                window.history.pushState("", "", '/wm/myshortcut/')
-                location.reload(true);
+                $("#skill_note_tr_"+user_pk).remove();
+                // window.history.pushState("", "", '/wm/myshortcut/')
+                // location.reload(true);
 
             }
         }

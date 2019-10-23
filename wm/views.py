@@ -204,6 +204,7 @@ def copy_to_me_from_user_id(request):
                 wm = MyShortCut.objects.filter(id = comment.id)
                 wm_comment = CommentForShortCut.objects.create(
                     author = request.user,
+                    title=comment.title,
                     shortcut = myshortcut,
                     content = comment.content,
                     created_at = comment.created_at,
@@ -901,11 +902,12 @@ def create_new2_textarea_between(request,current_article_id):
 def update_category_by_ajax(request):
     shortcut_ids = request.POST.getlist('shortcut_arr[]')
     category = request.POST['category']
-
     # datetime.now()
-    if shortcut_ids:
-        MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).update(category=category, created = datetime.now())
-        print('카테고리 수정 success')
+    # if shortcut_ids:
+    #     MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).update(category=category, created = datetime.now())
+    #     print('카테고리 수정 success')
+    for i, sn in enumerate(shortcut_ids):
+        MyShortCut.objects.filter(id=sn, author=request.user).update(category=category, created = datetime.now()+timedelta(seconds=i))
 
     return redirect('/wm/myshortcut')
 

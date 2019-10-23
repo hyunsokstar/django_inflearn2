@@ -24,14 +24,17 @@
 						{{p.title}}
 						<a href="#wm_detail_{{p.id}}" class="badge badge-dark" data-toggle="collapse">상세 보기</a>
 						{% ifequal p.type.type_name "input" %}
+						<br />
 						<input type="text" id="wm_detail_{{p.id}}" class="collapse " value="{{p.content1}}" size="100%" />
 						{% endifequal %}
 
 						{% ifequal p.type.type_name "textarea" %}
+						<br />
 						<textarea id="wm_detail_{{p.id}}" class="collapse" cols="100" rows="10">{{p.content2}}</textarea>
 						{% endifequal %}
 
 						{% ifequal p.type.type_name "summer_note" %}
+						<br />
 						<div id="wm_detail_{{p.id}}" class="collapse" width="100%">{{p.content2 | safe}}</div>
 						{% endifequal %}
 
