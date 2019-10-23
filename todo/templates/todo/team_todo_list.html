@@ -360,6 +360,8 @@ $(document).ready(function(){
     var id;
 
     $("#todo_list a[class='title_for_list']").click(function(e){
+
+        alert("hi")
         e.preventDefault();
         id = $(this).attr('id');
         window.history.pushState("", "", '/todo/'+id)

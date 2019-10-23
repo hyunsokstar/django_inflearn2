@@ -422,7 +422,7 @@ def delete_temp_skill_note_for_backendarea(request,id):
         return redirect('/todo')
 
 def insert_temp_skill_note_using_input_for_backend(request):
-    print("create_new1_input 실행")
+    print("create_new1_input 22 실행")
     ty = Type.objects.get(type_name="input")
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
@@ -479,7 +479,7 @@ def temp_skill_list_for_backend(request):
 	})
 
 def insert_temp_skill_note_for_input(request):
-    print("create_new1_input 실행")
+    print("create_new1_input 실행 11")
     ty = Type.objects.get(type_name="input")
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
@@ -773,7 +773,7 @@ def create_new4_textarea(request):
 
 # myshortcut_row, shorcut_id, shorcut_content
 def create_new1_input(request):
-    print("create_new1_input 실행")
+    print("create_new1_input 실행 original")
     ty = Type.objects.get(type_name="input")
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
@@ -788,6 +788,33 @@ def create_new1_input(request):
         created = datetime.now()
     )
     print("wm : ", wm)
+    return JsonResponse({
+        'message': '인풋 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content':wm.content1,
+    })
+
+def create_new1_input_first(request):
+    print("create_new1_input 실행 2222")
+    ty = Type.objects.get(type_name="input")
+    category_id = request.user.profile.selected_category_id
+
+    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
+    print("current_first.id : ", current_first.title);
+
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    wm = MyShortCut.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        content1 = "",
+        created = current_first.created-timedelta(seconds=10)
+    )
+
     return JsonResponse({
         'message': '인풋 박스 추가 성공',
         'shortcut_id':wm.id,
@@ -834,6 +861,34 @@ def create_new1_input_between(request,current_article_id):
         'shortcut_id':wm.id,
         'shortcut_title':wm.title,
         'shortcut_content':wm.content1,
+    })
+
+
+# 2244
+def create_new2_textarea_first(request):
+    print("create_new2_textarea_first")
+    ty = Type.objects.get(type_name="textarea")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
+    print("current_first.id : ", current_first.title);
+
+    wm = MyShortCut.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        created = current_first.created-timedelta(seconds=10),
+        content2 = ""
+    )
+    print("wm : ", wm)
+    return JsonResponse({
+        'message': 'textarea 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content2':wm.content2,
     })
 
 def create_new2_textarea(request):
@@ -958,7 +1013,6 @@ def favorite_user_list_for_skillnote(request):
         return HttpResponse("Request method is not a GET")
 
 
-# 1022 2244
 class user_list_for_memo_view(ListView):
     paginate_by = 10
 

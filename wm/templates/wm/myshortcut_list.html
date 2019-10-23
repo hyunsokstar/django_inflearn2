@@ -146,6 +146,7 @@ button, input, a {
 	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
 	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
+	<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
 	<a href="" class="btn btn-outline-primary " id="modify_category_button"> 이동</a> <br>
 	<a href="" class="btn btn-outline-primary " id="shortcut_delete_button"> 삭제(ch) </a> <br>
 	<a href="" class="btn btn-outline-primary " id="ca_plus_1_btn" data-category={{cateogory}}> ca+1 </a> <br>
@@ -739,17 +740,94 @@ button, input, a {
 
 
 <!-- js area -->
-
 <script type="text/javascript">
 
 {% block extra_js %}
 
-// ca_minus_1_btn
-// ca_plus_1_btn
-// shortcut_between_button_textarea
-// shortcut_between_button_input
-// shortcut_between_button
-// shortcut_between_button_image
+
+$('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
+
+	window.history.pushState("", "", '/wm/myshortcut/')
+	const option = prompt("1.input, 2.textArea","");
+	const title = prompt("title을 입력해 주세요 ", "");
+
+	if (!option) {
+		alert("option을 입력해 주세요 ");
+		return;
+	};
+	if (!title) {
+		alert("title 입력해 주세요 ");
+		return;
+	};
+
+
+	if(option == "1"){
+		$.ajax({
+			type: "POST",
+			url: 'create_new1_input/ajax/first',
+			data: {
+				title: title,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				$('#empty_state').remove()
+				alert("result : ", result.message);
+				window.history.pushState("", "", '/wm/myshortcut/')
+
+				var table_row = $('.table_row').length;
+
+				var raw_template = $('.myshortcut_row').html();
+				var tpl = _.template(raw_template);
+
+				var rendered = tpl({
+					table_row_id: table_row + 1,
+					shortcut_id: result.shortcut_id,
+					shortcut_title: result.shortcut_title,
+					shortcut_content: result.shortcut_content,
+				});
+				$(rendered).prepend($('.myshort_list_area'));
+				$("html, body").animate({ scrollTop: $(document).height() }, -100);
+			}
+		});
+	}else if(option =="2"){
+		$.ajax({
+			type: "POST",
+			url: 'create_new2_textarea_first/ajax/',
+			data: {
+				title: title,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				$('#empty_state').remove()
+				alert(result.message);
+				// underscore를 이용해 row 추가 하기
+				var raw_template = $('.myshortcut_row_textarea').html();
+				var tpl = _.template(raw_template);
+				var table_row = $('.table_row').length;
+
+				// alert("result.shorcut_id : "+ result.shortcut_id)
+				// alert("shorcut_title : "+ result.shorcut_title)
+				// alert("shortcut_content2 : "+ result.shortcut_content2)
+
+				var rendered = tpl({
+					table_row_id: table_row + 1,
+					shortcut_id: result.shortcut_id,
+					shortcut_title: result.shortcut_title,
+					shortcut_content2: result.shortcut_content2,
+				});
+				$(rendered).appendTo($('.myshort_list_area'));
+				// location.reload(true);
+				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+				// window.history.pushState("", "", '/wm/myshortcut/')
+			}
+		});
+	}else{
+		alert("1번이나 2번을 선택해주세요");
+		return;
+	}
+
+
+});
 
 $('body').on('click', '#ca_minus_1_btn', function (e) {
 	e.preventDefault();
