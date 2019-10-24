@@ -166,7 +166,6 @@ def plus_recommand_for_skillnote_user(request):
 
 
 
-
 def copy_to_me_from_user_id(request):
 
     author = request.POST['author']
@@ -212,6 +211,8 @@ def copy_to_me_from_user_id(request):
 
     list_for_copy2 = CategoryNick.objects.filter(Q(author=user_id))
     print("list_for_copy2 : " , list_for_copy2);
+
+    CategoryNick.objects.filter(Q(author=request.user)).delete()
 
     for p in list_for_copy2:
         CN = CategoryNick.objects.create(
@@ -622,6 +623,7 @@ def copyForCategorySubjectToMyCategory(request):
 			content1 = p.content1,
 			content2 = p.content2,
 			type_id = p.type_id,
+            created=p.created,
 			category = category,
 		)
 	return JsonResponse({
@@ -962,7 +964,7 @@ def update_category_by_ajax(request):
     #     MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).update(category=category, created = datetime.now())
     #     print('카테고리 수정 success')
     for i, sn in enumerate(shortcut_ids):
-        MyShortCut.objects.filter(id=sn, author=request.user).update(category=category, created = datetime.now()+timedelta(seconds=i))
+        MyShortCut.objects.filter(id=sn, author=request.user).update(category=category, created = datetime.now()+timedelta(seconds=i),image=F('image'))
 
     return redirect('/wm/myshortcut')
 

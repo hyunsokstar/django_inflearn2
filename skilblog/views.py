@@ -203,7 +203,7 @@ class SkilBlogTitleList(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         # return SkilBlogTitle.objects.filter(author=self.request.user).order_by('created')
-        return SkilBlogTitle.objects.all().order_by('created')
+        return SkilBlogTitle.objects.all().order_by('-created')
 
 def SkilBlogContentList(request,id):
     print('SkilBlogTitle id : ',id)
@@ -211,7 +211,7 @@ def SkilBlogContentList(request,id):
     # sbt = skil blog title
     sbt= SkilBlogTitle.objects.get(id = id)
     print("title : ", sbt.title)
-    sbc = SkilBlogContent.objects.filter(Q(sbt=sbt))
+    sbc = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('-created')
     print("sbc : ", sbc)
 
     return render(request, 'skilblog/SkilBlogContentList.html', {

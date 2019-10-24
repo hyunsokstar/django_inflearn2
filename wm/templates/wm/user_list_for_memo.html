@@ -187,7 +187,6 @@ $(".plus_btn_for_user").click(function(){
 
 
 })
-
 $(".copy_to_me_from_user_id_btn").click(function(e){
     e.preventDefault();
     const author = this.id
@@ -209,7 +208,7 @@ $(".copy_to_me_from_user_id_btn").click(function(e){
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(result) {
-                alert("result.message : " + result.message)
+                alert("result.message (user_list_for_memo) : " + result.message)
             }
         });
     } else {
