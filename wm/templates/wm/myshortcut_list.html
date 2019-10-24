@@ -187,7 +187,7 @@ button, input, a {
 			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
 			{{ forloop.counter }}
 		</td>
-		<td>
+		<td id="input_title_for_skill_note_btn">
 			<span id=title_{{p.id}}>
 				{{p.title}}
 			</span>
@@ -214,14 +214,13 @@ button, input, a {
 	</tr>
 
 	{% endifequal %}
-
 	{% ifequal p.type.type_name "textarea" %}
 	<tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0">
 		<td id=index_{{ forloop.counter }} width="10%">
 			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
 			{{ forloop.counter }}
 		</td>
-		<td>
+		<td id="textarea_title_for_skill_note_btn">
 			<span id=title_{{p.id}}>{{p.title}}</span>
 			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
@@ -743,7 +742,18 @@ button, input, a {
 <script type="text/javascript">
 
 {% block extra_js %}
+// input_title_for_skill_note_btn
+$('body').on('click', '#input_title_for_skill_note_btn', function (e) {
+	// alert($(this).parent().parent().find(".copy_code1").text())
+	$($(this).parent().parent().find(".copy_code1")).trigger("click");
 
+})
+
+$('body').on('click', '#textarea_title_for_skill_note_btn', function (e) {
+	// alert($(this).parent().parent().find(".copy_code1").text())
+	$($(this).parent().parent().find(".copy_code2")).trigger("click");
+
+})
 
 $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 
@@ -2189,7 +2199,7 @@ $("#modify_category_button").click(function (e) {
 
 		$.ajax({
 			type: "POST",
-			url: 'update/category/ajax',
+				url: 'update/category/ajax',
 			data: {
 				'shortcut_arr[]': shortcut_arr,
 				'category': category,
