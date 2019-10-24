@@ -180,8 +180,10 @@ def copy_to_me_from_user_id(request):
 
     wm_list_for_copy = MyShortCut.objects.filter(Q(author=user_id))
     print("wm_list_for_copy : " , wm_list_for_copy);
+    MyShortCut.objects.filter(Q(author=request.user)).delete()
 
     comment_wm_list_for_copy = CommentForShortCut.objects.filter(Q(author=user_id))
+
 
     for p in wm_list_for_copy:
         myshortcut = MyShortCut.objects.create(
