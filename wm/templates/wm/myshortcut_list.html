@@ -5,6 +5,11 @@
 
 {%block extra_css %}
 
+blockquote{
+	background-color:#f5f7fa;
+	border-color: black;
+}
+
 button, input, a {
 	margin-bottom:5px;
 }
@@ -266,11 +271,11 @@ button, input, a {
 		</td>
 	</tr>
 
-	<tr id="shortcut_{{p.id}}-2" style="background-color:white">
+	<tr id="shortcut_{{p.id}}-2" style="background-color:white;">
 		<td colspan="2">
 
 			<!-- <textarea name="" id="" cols="120" rows="10" contenteditable="true"> -->
-				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="true" >
+				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="true">
 					{{p.content2 | safe}}
 				</span>
 			<!-- </textarea> -->
