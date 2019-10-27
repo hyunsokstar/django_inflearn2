@@ -15,6 +15,7 @@ from skilblog.models import SkilBlogTitle, SkilBlogContent
 from django.http import HttpResponseRedirect
 from datetime import datetime , timedelta
 from django.utils import timezone
+from django.urls import reverse_lazy
 
 
 # 1122
@@ -875,6 +876,7 @@ def create_new2_textarea_first(request):
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
     title = request.POST['title']
+    filename = request.POST['filename']
 
     current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
     print("current_first.id : ", current_first.title);
@@ -882,6 +884,7 @@ def create_new2_textarea_first(request):
     wm = MyShortCut.objects.create(
         author = request.user,
         title=title,
+        filename=filename,
         type= ty,
         category = ca,
         created = current_first.created-timedelta(seconds=10),
@@ -901,10 +904,12 @@ def create_new2_textarea(request):
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
     title = request.POST['title']
+    filename = request.POST['filename']
 
     wm = MyShortCut.objects.create(
         author = request.user,
         title=title,
+        filename=filename,
         type= ty,
         category = ca,
         created = datetime.now(),
@@ -916,6 +921,7 @@ def create_new2_textarea(request):
         'shortcut_id':wm.id,
         'shortcut_title':wm.title,
         'shortcut_content2':wm.content2,
+        'filename':wm.filename,
     })
 
 def create_new2_textarea_between(request,current_article_id):
@@ -1097,10 +1103,10 @@ class modify_myshortcut_by_summer_note(UpdateView):
     model = MyShortCut
     form_class = MyShortCutForm_summer_note
 
-    def form_valid(self, form):
-        form = form.save(commit=False)
-        form.save()
-        return HttpResponseRedirect(reverse('wm:my_shortcut_list'))
+    # def form_valid(self, form):
+    #     form = form.save(commit=False)
+    #     form.save()
+    #     return super().form_valid(form)
 
     def get_template_names(self):
         return ['wm/myshortcut_summernote_form.html']
@@ -1233,6 +1239,20 @@ def update_shortcut_ajax(request,id):
         return JsonResponse({
             'message': 'shortcut 업데이트 성공',
             'title':title
+        })
+    else:
+        return redirect('/todo')
+
+def update_skil_note_file_name(request,id):
+    user = request.user
+    file_name = request.POST['file_name']
+
+    if request.method == "POST" and request.is_ajax():
+        sn = MyShortCut.objects.filter(Q(id=id)).update(filename=file_name)
+        print('filename update 성공 id : ' , sn);
+        return JsonResponse({
+            'message': 'file_name 업데이트 성공',
+            'file_name':file_name
         })
     else:
         return redirect('/todo')
@@ -1407,8 +1427,10 @@ class MyShortCutCreateView_textarea_summer_note(LoginRequiredMixin,CreateView):
 
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('wm:my_shortcut_list')
+    # def get_success_url(self):
+    #     return self.post.get_absolute_url()+'#skil-note-id-{}'.format(self.obejcts.pk)
+
+
 
 class SkilNoteCreateView_summernote_through(LoginRequiredMixin,CreateView):
     model = MyShortCut
@@ -1452,5 +1474,5 @@ class SkilNoteCreateView_summernote_through(LoginRequiredMixin,CreateView):
 
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('wm:my_shortcut_list')
+    # def get_success_url(self):
+    #     return reverse('wm:my_shortcut_list')

@@ -225,8 +225,9 @@ button, input, a {
 			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
 			{{ forloop.counter }}
 		</td>
+
 		<td id="textarea_title_for_skill_note_btn">
-			<span id=title_{{p.id}}>{{p.title}}</span>
+			<span id=title_{{p.id}}>{{p.title}} </span>
 			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
 			<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
@@ -234,7 +235,16 @@ button, input, a {
 			{% endif %}
 		</td>
 	</tr>
-	<tr id="shortcut_{{p.id}}-2" style="background-color:white">
+	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0">
+		<td>file</td>
+		<td ondblclick="modify_for_file_name({{p.id}})">
+			<span>
+				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
+			</span>
+			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
+		</td>
+	</tr>
+	<tr id="shortcut_{{p.id}}-3" style="background-color:white">
 		<td colspan="2">
 			<button class="btn btn-outline-primary btn-sm show_total_textInput_button" id={{p.id}}>24row</button>
 			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id={{p.id}}>8row</button>
@@ -270,12 +280,21 @@ button, input, a {
 			{% endif %}
 		</td>
 	</tr>
+	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0">
+		<td>file</td>
+		<td>
+			<span>
+				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size="60">
+			</span>
+			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
+		</td>
+	</tr>
 
-	<tr id="shortcut_{{p.id}}-2" style="background-color:white;">
+	<tr id="shortcut_{{p.id}}-3" style="background-color:white;">
 		<td colspan="2">
 
 			<!-- <textarea name="" id="" cols="120" rows="10" contenteditable="true"> -->
-				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="true">
+				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="true" ondblclick="copy_for_summer_note_content({{p.id}})">
 					{{p.content2 | safe}}
 				</span>
 			<!-- </textarea> -->
@@ -725,6 +744,15 @@ button, input, a {
             <button class="badge badge-pill badge-primary short_update_button float-right" id="<%=shortcut_id%>"">제목 수정</button>
         </td>
     </tr>
+	<tr style="background-color:#f1f9f0">
+		<td>file</td>
+		<td>
+			<span id="file_<%=shortcut_id%>">
+				<%=filename %>
+			</span>
+			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id="<%=shortcut_id%>"">파일 수정</button>
+		</td>
+	</tr>
     <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f0f1f5">
         <td colspan="2">
             <button class="btn btn-outline-primary btn-sm show_total_textInput_button" id=<%=shortcut_id%>>40row</button>
@@ -747,7 +775,83 @@ button, input, a {
 <script type="text/javascript">
 
 {% block extra_js %}
-// input_title_for_skill_note_btn
+
+function modify_for_file_name(id){
+	// var id = $(this).attr("id");
+	const file_name = $("#file_"+id).val()
+	// alert("before_title : "+ before_title);
+
+	// const file_name = prompt("file_name을 입력해 주세요 ", before_file);
+
+	if (!file_name) {
+		alert("file name을 입력해 주세요");
+		return;
+	};
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/update_skil_note_file_name/' + id,
+		data: {
+			file_name: file_name,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#file_"+id).val(result.file_name)
+			alert(result.message);
+		}
+	});
+}
+
+$('body').on('click', '.skil_note_file_name_update_btn', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+	const before_file = $("#file_"+id).val().trim()
+	// alert("before_title : "+ before_title);
+
+	const file_name = prompt("file_name을 입력해 주세요 ", before_file);
+
+	if (!file_name) {
+		alert("file name을 입력해 주세요");
+		return;
+	};
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/update_skil_note_file_name/' + id,
+		data: {
+			file_name: file_name,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#file_"+id).val(result.file_name)
+			alert(result.message);
+		}
+	});
+});
+
+
+function copy_for_summer_note_content(id){
+	// alert("더블 클릭"+id);
+	alert("copy is completed")
+
+	var range = document.createRange();
+	range.selectNode(document.getElementById("select-textarea-"+id));
+	window.getSelection().removeAllRanges(); // clear current selection
+	window.getSelection().addRange(range); // to select text
+	document.execCommand("copy");
+	window.getSelection().removeAllRanges();// to deselect
+
+}
+
+function copy_for_file_name(id){
+	var copyText = document.getElementById("file_"+id);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+    document.execCommand("copy");
+	// alert("copy is completed")
+}
+
+
 $('body').on('click', '#input_title_for_skill_note_btn', function (e) {
 	// alert($(this).parent().parent().find(".copy_code1").text())
 	$($(this).parent().parent().find(".copy_code1")).trigger("click");
@@ -2089,6 +2193,7 @@ $(".new2_btn").click(function () {
 	// alert("new2 버튼 클릭")
 	window.history.pushState("", "", '/wm/myshortcut/')
 	const title = prompt("title을 입력해 주세요 ", "");
+	const filename = prompt("file 이름을 입력해 주세요");
 
 	if (!title) {
 		return;
@@ -2100,6 +2205,7 @@ $(".new2_btn").click(function () {
 			url: 'create_new2_textarea/ajax/',
 			data: {
 				title: title,
+				filename:filename,
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
@@ -2110,20 +2216,15 @@ $(".new2_btn").click(function () {
 				var tpl = _.template(raw_template);
 				var table_row = $('.table_row').length;
 
-				// alert("result.shorcut_id : "+ result.shortcut_id)
-				// alert("shorcut_title : "+ result.shorcut_title)
-				// alert("shortcut_content2 : "+ result.shortcut_content2)
-
 				var rendered = tpl({
 					table_row_id: table_row + 1,
 					shortcut_id: result.shortcut_id,
 					shortcut_title: result.shortcut_title,
 					shortcut_content2: result.shortcut_content2,
+					filename:result.filename,
 				});
 				$(rendered).appendTo($('.myshort_list_area'));
-				// location.reload(true);
 				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
-				// window.history.pushState("", "", '/wm/myshortcut/')
 			}
 		});
 	} else {
@@ -2498,7 +2599,8 @@ $('body').on('click', '.short_delete_button', function (e) {
 		success: function (result) {
 			$("#shortcut_" + id).remove();
 			$("#shortcut_" + id + "-2").remove();
-			alert('comment 삭제 complete ');
+			$("#shortcut_" + id + "-3").remove();
+			alert('삭제 성공');
 		}
 	});
 });

@@ -20,9 +20,10 @@ class MyShortCutForm_summer_note(forms.ModelForm):
 
     class Meta:
         model = MyShortCut
-        fields = ['title', 'content2']
+        fields = ['title','filename','content2']
 
         widgets = {
-            'title': forms.TextInput(attrs={'size': 80}),
+            'title': forms.TextInput(attrs={'size': 120}),
+            'filename': forms.TextInput(attrs={'size': 100}),
             'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '480px', 'line-height': 1.2, 'font-size':12, 'tabSize': 4, "backcolor":"white", 'color':"white", 'backColor' :'white'  }}),
         }

@@ -57,6 +57,7 @@ class TempMyShortCutForBackEnd(models.Model):
 
 class MyShortCut(models.Model):
     title = models.CharField(max_length=120)
+    filename= models.CharField(max_length=50, blank=True)
     content1 = models.CharField(max_length=180, blank=True)
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=False)
@@ -67,7 +68,8 @@ class MyShortCut(models.Model):
 
 
     def get_absolute_url(self,*args,**kwargs):
-            return reverse('wm:my_shortcut_list')
+            return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(self.pk)
+
     def __str__(self):
         return self.title
 

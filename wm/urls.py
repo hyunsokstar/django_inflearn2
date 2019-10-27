@@ -82,6 +82,7 @@ urlpatterns = [
 
     path('myshortcut/delete_shortcut_ajax/<int:id>', views.delete_shortcut_ajax , name="delete_shortcut_ajax"),
     path('myshortcut/update_shortcut_ajax/<int:id>', views.update_shortcut_ajax , name="update_shortcut_ajax"),
+    path('myshortcut/update_skil_note_file_name/<int:id>', views.update_skil_note_file_name , name="update_skil_note_file_name"),
 
 
     path('myshortcut/category/<str:slug>/', views.MyShortcutListByCategory.as_view()),
