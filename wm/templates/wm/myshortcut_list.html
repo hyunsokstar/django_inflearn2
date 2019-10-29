@@ -205,7 +205,7 @@ button, input, a {
 		</td>
 	</tr>
 
-	<tr id="shortcut_{{p.id}}-2" style="background-color:white">
+	<tr id="shortcut_{{p.id}}-2" style="background-color:#fcfaeb">
 		<td colspan="2">
 			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
@@ -244,7 +244,7 @@ button, input, a {
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 		</td>
 	</tr>
-	<tr id="shortcut_{{p.id}}-3" style="background-color:white">
+	<tr id="shortcut_{{p.id}}-3" style="background-color:#fcfaeb">
 		<td colspan="2">
 			<button class="btn btn-outline-primary btn-sm show_total_textInput_button" id={{p.id}}>24row</button>
 			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id={{p.id}}>8row</button>
@@ -271,7 +271,7 @@ button, input, a {
 			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
 			{{ forloop.counter }}
 		</td>
-		<td width="90%">
+		<td width="90%" ondblclick="copy_for_summer_note_content({{p.id}})">
 			<span id=title_{{p.id}}>{{p.title}}</span>
 			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
@@ -283,14 +283,14 @@ button, input, a {
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0">
 		<td>file</td>
 		<td>
-			<span>
-				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size="60">
+			<span ondblclick = "modify_for_file_name({{p.id}})">
+				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 		</td>
 	</tr>
 
-	<tr id="shortcut_{{p.id}}-3" style="background-color:white;">
+	<tr id="shortcut_{{p.id}}-3" style="background-color:#fcfaeb;">
 		<td colspan="2">
 
 			<!-- <textarea name="" id="" cols="120" rows="10" contenteditable="true"> -->
@@ -852,13 +852,14 @@ function copy_for_file_name(id){
 }
 
 
-$('body').on('click', '#input_title_for_skill_note_btn', function (e) {
+$('body').on('dblclick', '#input_title_for_skill_note_btn', function (e) {
 	// alert($(this).parent().parent().find(".copy_code1").text())
+	// alert("더블 클릭");
 	$($(this).parent().parent().find(".copy_code1")).trigger("click");
 
 })
 
-$('body').on('click', '#textarea_title_for_skill_note_btn', function (e) {
+$('body').on('dblclick', '#textarea_title_for_skill_note_btn', function (e) {
 	// alert($(this).parent().parent().find(".copy_code1").text())
 	$($(this).parent().parent().find(".copy_code2")).trigger("click");
 
@@ -880,7 +881,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 	};
 
 
-	if(option == "1"){
+	if(option == 1){
 		$.ajax({
 			type: "POST",
 			url: 'create_new1_input/ajax/first',
@@ -908,12 +909,14 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				$("html, body").animate({ scrollTop: $(document).height() }, -100);
 			}
 		});
-	}else if(option =="2"){
+	}else if(option == 2){
+		alert("text_area를 선택");
 		$.ajax({
 			type: "POST",
 			url: 'create_new2_textarea_first/ajax/',
 			data: {
 				title: title,
+				file_name:"",
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
