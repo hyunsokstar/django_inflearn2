@@ -63,6 +63,10 @@ urlpatterns = [
 
     path('myshortcut/create_new2_textarea/ajax/', views.create_new2_textarea , name="create_new2_textareas"),
     path('myshortcut/create_new2_textarea_first/ajax/', views.create_new2_textarea_first , name="create_new2_textarea_first"),
+    path('myshortcut/create_summernote_first/ajax/', views.create_summernote_first , name="create_summernote_first"),
+
+
+
     path('myshortcut/create_new2_textarea_between/ajax/<int:current_article_id>', views.create_new2_textarea_between , name="create_new2_textarea_between"),
 
 

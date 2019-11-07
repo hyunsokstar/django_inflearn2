@@ -865,10 +865,11 @@ $('body').on('dblclick', '#textarea_title_for_skill_note_btn', function (e) {
 
 })
 
+
 $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 
 	window.history.pushState("", "", '/wm/myshortcut/')
-	const option = prompt("1.input, 2.textArea","");
+	const option = prompt("1.input, 2.textArea 3.summer_note ","");
 	const title = prompt("title을 입력해 주세요 ", "");
 
 	if (!option) {
@@ -943,11 +944,25 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				// window.history.pushState("", "", '/wm/myshortcut/')
 			}
 		});
+	} else if(option == 3){
+		alert("summer_note 를 선택");
+		$.ajax({
+			type: "POST",
+			url: 'create_summernote_first/ajax/',
+			data: {
+				title: title,
+				file_name:"",
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				alert("result.message : "+ result.message) // 2244
+			}
+		});
+
 	}else{
 		alert("1번이나 2번을 선택해주세요");
 		return;
 	}
-
 
 });
 

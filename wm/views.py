@@ -876,7 +876,7 @@ def create_new2_textarea_first(request):
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
     title = request.POST['title']
-    filename = request.POST['filename']
+    file_name = request.POST['file_name']
 
     current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
     print("current_first.id : ", current_first.title);
@@ -884,7 +884,7 @@ def create_new2_textarea_first(request):
     wm = MyShortCut.objects.create(
         author = request.user,
         title=title,
-        filename=filename,
+        filename=file_name,
         type= ty,
         category = ca,
         created = current_first.created-timedelta(seconds=10),
@@ -893,6 +893,37 @@ def create_new2_textarea_first(request):
     print("wm : ", wm)
     return JsonResponse({
         'message': 'textarea 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content2':wm.content2,
+    })
+
+
+# summer note 첫번째에 추가 하기
+def create_summernote_first(request):
+    print("create_summer_note")
+    ty = Type.objects.get(type_name="summer_note")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+    file_name = request.POST['file_name']
+
+    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
+    print("current_first.id : ", current_first.title);
+
+    wm = MyShortCut.objects.create(
+        author = request.user,
+        title=title,
+        filename=file_name,
+        type= ty,
+        category = ca,
+        created = current_first.created-timedelta(seconds=10),
+        content2 = ""
+    )
+
+    print("wm : ", wm)
+    return JsonResponse({
+        'message': 'summer note 박스 추가 성공',
         'shortcut_id':wm.id,
         'shortcut_title':wm.title,
         'shortcut_content2':wm.content2,
