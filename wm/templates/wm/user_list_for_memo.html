@@ -21,7 +21,7 @@
             <td>change</td>
             <td>복사</td>
             <td>추천</td>
-            <td>평점</td>
+            <td>평점 22</td>
         </tr>
         {% if object_list.exists %}
         {% for u in object_list %}
@@ -43,7 +43,12 @@
                 <a href="" class="btn btn-outline-dark move_to_user_btn btn-sm" id={{u.id}}>Id 선택</a>
             </td>
             <td>
-                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>copy_to_me</a>
+                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>
+                    copy_to_me
+                    <span class="" id="loading_for_copy" role="status" aria-hidden="true"></span>
+                </a>
+
+
             </td>
             <td>
                 <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-user_pk="{{u.pk}}" data-user_id="{{request.user}}">
@@ -200,6 +205,8 @@ $(".copy_to_me_from_user_id_btn").click(function(e){
     window.history.pushState("", "", '/wm/myshortcut/')
 
     if (selection == "y" || selection == "Y") {
+        $("#loading_for_copy").addClass("spinner-border spinner-border-sm");
+
         $.ajax({
             type: "POST",
             url: 'copy_to_me_from_user_id/',
@@ -208,6 +215,7 @@ $(".copy_to_me_from_user_id_btn").click(function(e){
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(result) {
+                $("#loading_for_copy").removeClass("spinner-border spinner-border-sm");
                 alert("result.message (user_list_for_memo) : " + result.message)
             }
         });

@@ -21,7 +21,12 @@
                 <a href="" class="btn btn-outline-dark move_to_user_btn btn-sm" id={{u.id}}>Id 선택</a>
             </td>
             <td>
-                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>copy_to_me</a>
+
+                <button class="btn btn-primary" type="button" disabled>
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>copy_to_me 22</a>
+                </button>
+
             </td>
             <td>
                 <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-user_pk="{{u.pk}}" data-user_id="{{request.user}}">

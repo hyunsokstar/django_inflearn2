@@ -194,6 +194,7 @@ def copy_to_me_from_user_id(request):
             content2 = p.content2,
             type_id = p.type_id,
             category = p.category,
+            filename = p.filename,
             image=p.image,
             created = p.created,
         )
