@@ -43,9 +43,9 @@
                 <a href="" class="btn btn-outline-dark move_to_user_btn btn-sm" id={{u.id}}>Id 선택</a>
             </td>
             <td>
-                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>
+                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" data-id={{u.id}} id={{u.username}}>
                     copy_to_me
-                    <span class="" id="loading_for_copy" role="status" aria-hidden="true"></span>
+                    <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
                 </a>
 
 
@@ -196,6 +196,7 @@ $(".copy_to_me_from_user_id_btn").click(function(e){
     e.preventDefault();
     const author = this.id
     // alert("this.id : " + this.id);
+    const row_id = $(this).data("id");
 
     if (!author) {
 		return;
@@ -205,7 +206,7 @@ $(".copy_to_me_from_user_id_btn").click(function(e){
     window.history.pushState("", "", '/wm/myshortcut/')
 
     if (selection == "y" || selection == "Y") {
-        $("#loading_for_copy").addClass("spinner-border spinner-border-sm");
+        $("#loading_for_copy_"+row_id).addClass("spinner-border spinner-border-sm");
 
         $.ajax({
             type: "POST",
@@ -215,7 +216,7 @@ $(".copy_to_me_from_user_id_btn").click(function(e){
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(result) {
-                $("#loading_for_copy").removeClass("spinner-border spinner-border-sm");
+                $("#loading_for_copy_"+row_id).removeClass("spinner-border spinner-border-sm");
                 alert("result.message (user_list_for_memo) : " + result.message)
             }
         });

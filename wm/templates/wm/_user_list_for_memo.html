@@ -22,10 +22,10 @@
             </td>
             <td>
 
-                <button class="btn btn-primary" type="button" disabled>
-                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>copy_to_me 22</a>
-                </button>
+                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" data-id={{u.id}} id={{u.username}}>
+                    copy_to_me
+                    <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
+                </a>
 
             </td>
             <td>
