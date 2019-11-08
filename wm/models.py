@@ -66,7 +66,6 @@ class MyShortCut(models.Model):
     type= models.ForeignKey(Type, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='wm/%y%m%d', blank=True)
 
-
     def get_absolute_url(self,*args,**kwargs):
             return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(self.pk)
 
