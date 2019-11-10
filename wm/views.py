@@ -19,7 +19,6 @@ from django.urls import reverse_lazy
 
 
 # 1122
-
 def category_plus_1_for_current_user(request):
     # is this possible?
     # for x in range(i, 98)
