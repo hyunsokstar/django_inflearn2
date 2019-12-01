@@ -28,36 +28,36 @@ def category_plus_1_for_current_user(request):
     print("ca_num : ", ca_num)
     print("ca_num type :",type(ca_num))
 
-    data2 = {'ca{}'.format(x+1): F('ca{}'.format(x)) for x in range(int(ca_num), 99)}
+    # data2 = {'ca{}'.format(x+1): F('ca{}'.format(x)) for x in range(int(ca_num), 99)}
+    data2 = {'ca{}'.format(x+1): F('ca{}'.format(x)) for x in range(int(ca_num), 120)}
 
     CategoryNick.objects.filter(
         author=request.user
     ).update(**data2)
 
-    data1 = {'ca{}'.format(ca_num): "+1 실행 완료" }
+    # data1 = {'ca{}'.format(ca_num): "+1 실행 완료" }
 
-    CategoryNick.objects.filter(
-        author=request.user
-    ).update(**data1)
+    # CategoryNick.objects.filter(
+    #     author=request.user
+    # ).update(**data1)
 
     skil_note = MyShortCut.objects.filter(Q(author=request.user)).order_by("created")
 
-    ca_delete=Category.objects.get(name="ca99")
+    ca_delete=Category.objects.get(name="ca120")
     MyShortCut.objects.filter(Q(author=request.user) & Q(category=ca_delete)).delete()
 
     for sn in skil_note:
-        if(sn.category.id >= int(ca_num) and sn.category.id != 99):
+        # if(sn.category.id >= int(ca_num) and sn.category.id != 99):
+        if(sn.category.id >= int(ca_num) and sn.category.id != 120):
             print("sn.category.id : ", sn.category.id)
             print("int(sn.category.id)+1 : ", int(sn.category.id)+1)
-            # CategoryNick.objects.get()
             ca = Category.objects.get(id=int(sn.category.id)+1)
-            # if(ca.id != 100):
             MyShortCut.objects.filter(id=sn.id).update(category=ca, created=F('created'))
         else:
             print("sn.category.id : ", sn.category.id)
 
     return JsonResponse({
-        'message': "ca"+ca_num+"부터 ca98까지 +1 성공"
+        'message': "ca"+ca_num+"부터 ca120까지 +1 성공"
     })
 
 
@@ -68,7 +68,7 @@ def category_minus_1_for_current_user(request):
     print("ca_num check : ", ca_num)
     print("ca_num type :",type(ca_num))
 
-    data = {'ca{}'.format(x-1): F('ca{}'.format(x)) for x in range(99,int(ca_num)-1,-1)}
+    data = {'ca{}'.format(x-1): F('ca{}'.format(x)) for x in range(120,int(ca_num)-1,-1)}
     CategoryNick.objects.filter(
         author=request.user
     ).update(**data)
@@ -92,7 +92,7 @@ def category_minus_1_for_current_user(request):
             MyShortCut.objects.filter(id=sn.id).update(category=ca, image = F('image'))
 
     return JsonResponse({
-        'message': "ca"+ca_num+"부터 ca98까지 -1 성공"
+        'message': "ca"+ca_num+"부터 ca120까지 -1 성공"
     })
 
 

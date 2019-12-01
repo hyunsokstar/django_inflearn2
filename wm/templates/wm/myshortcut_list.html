@@ -986,8 +986,8 @@ $('body').on('click', '#ca_minus_1_btn', function (e) {
 
 	console.log("current_ca_num : " +current_ca_num);
 
-	option1 = confirm(current_ca_num+"부터 99까지 카테고리를 -1씩 이동하시겠습니까? ")
-	option2 = confirm(current_ca_num+"부터 99까지 카테고리를 -1씩 이동하시겠습니까? really?")
+	option1 = confirm(current_ca_num+"부터 120까지 카테고리를 -1씩 이동하시겠습니까? ")
+	option2 = confirm(current_ca_num+"부터 120까지 카테고리를 -1씩 이동하시겠습니까? really?")
 
 	if(option1 & option2){
 
@@ -1027,8 +1027,8 @@ $('body').on('click', '#ca_plus_1_btn', function (e) {
 
 	console.log("current_ca_num : " +current_ca_num);
 
-	option1 = confirm(current_ca_num+"부터 98까지 카테고리를 +1씩 이동하시겠습니까? ")
-	option2 = confirm(current_ca_num+"부터 98까지 카테고리를 +1씩 이동하시겠습니까? really?")
+	option1 = confirm(current_ca_num+"부터 120까지 카테고리를 +1씩 이동하시겠습니까? ")
+	option2 = confirm(current_ca_num+"부터 120까지 카테고리를 +1씩 이동하시겠습니까? really?")
 
 	if(option1 & option2){
 		// const ca_num = prompt("몇번부터 옮길까요?", "");
@@ -2091,8 +2091,8 @@ $(".go_to_next_channer_btn").click(function () {
 	const category_id = parseInt($(".ca-btn-selected").attr('id')) + 1
 	// alert("category_id : "+ category_id)
 
-	if (category_id > 99) {
-		category_id = 99
+	if (category_id > 120) {
+		category_id = 120
 	}
 
 	// var href = $('.cssbuttongo').attr('href')
@@ -2309,7 +2309,7 @@ $("#modify_category_button").click(function (e) {
 	});
 
 	// alert('이동할 shortcut : '+ shortcut_arr)
-	var category = prompt("where do you go? (1~99)", "");
+	var category = prompt("where do you go? (1~120)", "");
 	if (category.match("^[1-9][0-9]?$")) {
 
 		if (category == null || category == "") {
@@ -2335,7 +2335,7 @@ $("#modify_category_button").click(function (e) {
 			}
 		});
 	} else {
-		alert("이동할 카테고리는 1~99 중에 선택해주세요")
+		alert("이동할 카테고리는 1~120 중에 선택해주세요")
 	}
 
 })
