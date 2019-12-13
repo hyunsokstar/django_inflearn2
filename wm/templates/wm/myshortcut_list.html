@@ -292,9 +292,8 @@ button, input, a {
 
 	<tr id="shortcut_{{p.id}}-3" style="background-color:#fcfaeb;">
 		<td colspan="2">
-
-			<!-- <textarea name="" id="" cols="120" rows="10" contenteditable="true"> -->
-				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="true" ondblclick="copy_for_summer_note_content({{p.id}})">
+				<!-- copy_for_summer_note_content({{p.id}}) -->
+				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="false" ondblclick="">
 					{{p.content2 | safe}}
 				</span>
 			<!-- </textarea> -->
