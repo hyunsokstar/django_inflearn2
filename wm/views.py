@@ -672,6 +672,16 @@ def search_by_id_and_word(request):
         print("search_word : ", search_word)
         print("object_list : ", object_list)
 
+    elif(search_option == "file_history"):
+        print("file_history 검색 실행")
+        user = User.objects.get(username=search_user_id)
+        search_word = request.POST['search_word']
+        object_list = MyShortCut.objects.filter(Q(filename__icontains=search_word) & Q(author = user)).order_by('-category')
+        print("search_user_id : ", search_user_id)
+        print("search_word : ", search_word)
+        print("object_list : ", object_list)
+        # print("file_history 검색 실행 : " , object_list)
+
         return render(request, 'wm/MyShortCut_list_for_search.html', {
 			'object_list': object_list
 		})

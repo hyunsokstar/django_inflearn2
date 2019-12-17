@@ -239,7 +239,8 @@ button, input, a {
 		<td>file</td>
 		<td ondblclick="modify_for_file_name({{p.id}})">
 			<span>
-				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
+				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
+				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 		</td>
@@ -285,6 +286,7 @@ button, input, a {
 		<td>
 			<span ondblclick = "modify_for_file_name({{p.id}})">
 				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
+				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 		</td>
@@ -776,11 +778,7 @@ button, input, a {
 {% block extra_js %}
 
 function modify_for_file_name(id){
-	// var id = $(this).attr("id");
 	const file_name = $("#file_"+id).val()
-	// alert("before_title : "+ before_title);
-
-	// const file_name = prompt("file_name을 입력해 주세요 ", before_file);
 
 	if (!file_name) {
 		alert("file name을 입력해 주세요");
@@ -800,6 +798,34 @@ function modify_for_file_name(id){
 		}
 	});
 }
+
+// file_history_button
+$('body').on('click', '.file_history_button', function (e) {
+	const file_name = $(this).prev('input').val();
+	const search_option = "file_history"
+	// alert("file_name 22: "+ file_name);
+
+	window.history.pushState("", "", '/wm/myshortcut/')
+	$.ajax({
+		type: "POST",
+		url: 'search_by_id_and_word/',
+		data: {
+			'search_word': file_name,
+			'search_option': search_option,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+		success: function (result) {
+			// alert("result: ", result)
+			$("#wm_list_area_for_popup").html("")
+			$("#wm_list_area_for_popup").append(result)
+			window.history.pushState("", "", '/wm/myshortcut/')
+		}
+	});
+
+	$("#search_skill_modal").modal();
+
+
+});
 
 $('body').on('click', '.skil_note_file_name_update_btn', function (e) {
 	e.preventDefault();
