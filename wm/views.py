@@ -908,6 +908,7 @@ def create_new2_textarea_first(request):
         'shortcut_id':wm.id,
         'shortcut_title':wm.title,
         'shortcut_content2':wm.content2,
+        # 'author':wm.author.username,
     })
 
 
@@ -948,6 +949,9 @@ def create_new2_textarea(request):
     ca = Category.objects.get(id=category_id)
     title = request.POST['title']
     filename = request.POST['filename']
+    author = request.user.username
+
+    print("author : ", author)
 
     wm = MyShortCut.objects.create(
         author = request.user,
@@ -965,6 +969,7 @@ def create_new2_textarea(request):
         'shortcut_title':wm.title,
         'shortcut_content2':wm.content2,
         'filename':wm.filename,
+        'author':author
     })
 
 def create_new2_textarea_between(request,current_article_id):

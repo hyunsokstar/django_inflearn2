@@ -728,12 +728,14 @@ button, input, a {
 
 </script>
 
+
+<!-- 수정 필요 2244 -->
 <script class="myshortcut_row_textarea" type="text/x-template">
 
 <table class="table table-bordered table_row" id="todo_list" width="100%">
 
     <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0">
-        <td id=index_{{ forloop.counter }}>
+        <td id=index_{{ forloop.counter }} width="10%">
             <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check">
             <%=table_row_id %>
         </td>
@@ -745,11 +747,12 @@ button, input, a {
             <button class="badge badge-pill badge-primary short_update_button float-right" id="<%=shortcut_id%>"">제목 수정</button>
         </td>
     </tr>
-	<tr style="background-color:#f1f9f0">
+	<tr style="background-color:#f1f9f0" id="shortcut_<%=shortcut_id%>-3">
 		<td>file</td>
 		<td>
 			<span id="file_<%=shortcut_id%>">
-				<%=filename %>
+
+				<input type="text" value="<%=filename %>" class="file_name" id="file_<%=shortcut_id%>" size=60 onclick="copy_for_file_name({{p.id}})">
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id="<%=shortcut_id%>"">파일 수정</button>
 		</td>
@@ -762,7 +765,7 @@ button, input, a {
 
             <textarea class="form-control" id="select-textarea-<%=shortcut_id%>" cols="120" rows="10" ><%=shortcut_content2%></textarea><br>
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="<%=shortcut_id%>">copy</button>
-            <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="<%=shortcut_id%>" >edit_complete</button>
+            <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="<%=shortcut_id%>" data-user_id="<%=author%>">edit_complete</button>
             <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="<%=shortcut_id%>"" >댓글</button>
         </td>
     </tr>
@@ -957,12 +960,15 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				// alert("shorcut_title : "+ result.shorcut_title)
 				// alert("shortcut_content2 : "+ result.shortcut_content2)
 
+				console.log("result : ", result);
+
 				var rendered = tpl({
 					table_row_id: table_row + 1,
 					shortcut_id: result.shortcut_id,
 					shortcut_title: result.shortcut_title,
 					shortcut_content2: result.shortcut_content2,
 				});
+				console.log("result.author : " , result.author);
 				$(rendered).appendTo($('.myshort_list_area'));
 				// location.reload(true);
 				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
@@ -1445,6 +1451,7 @@ $('body').on('click', '.delete_temp_skill_note_for_backendarea_btn', function (e
 		success: function (result) {
 			$("#shortcut_" + id).remove();
 			$("#shortcut_" + id + "-2").remove();
+			// $("#shortcut_" + id + "-3").remove();
 			alert('comment 삭제 complete ');
 		}
 	});
@@ -2265,6 +2272,7 @@ $(".new2_btn").click(function () {
 					shortcut_title: result.shortcut_title,
 					shortcut_content2: result.shortcut_content2,
 					filename:result.filename,
+					author:result.author,
 				});
 				$(rendered).appendTo($('.myshort_list_area'));
 				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
@@ -2642,6 +2650,7 @@ $('body').on('click', '.short_delete_button', function (e) {
 		success: function (result) {
 			$("#shortcut_" + id).remove();
 			$("#shortcut_" + id + "-2").remove();
+			$("#shortcut_" + id + "-3").remove();
 			$("#shortcut_" + id + "-3").remove();
 			alert('삭제 성공');
 		}
