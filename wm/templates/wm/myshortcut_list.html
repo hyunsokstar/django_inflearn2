@@ -319,7 +319,7 @@ button, input, a {
 			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
 			{{ forloop.counter }}
 		</td>
-		<td>
+		<td id="shortcut_{{p.id}}-3">
 			제목 :
 			<span id=title_{{p.id}}>{{p.title}}</span>
 			{% if p.author == request.user %}
@@ -2650,7 +2650,6 @@ $('body').on('click', '.short_delete_button', function (e) {
 		success: function (result) {
 			$("#shortcut_" + id).remove();
 			$("#shortcut_" + id + "-2").remove();
-			$("#shortcut_" + id + "-3").remove();
 			$("#shortcut_" + id + "-3").remove();
 			alert('삭제 성공');
 		}
