@@ -2329,22 +2329,17 @@ $(".next_btn").click(function () {
 })
 
 $("#modify_category_button").click(function (e) {
-
 	e.preventDefault();
 	var shortcut_arr = [];
 	const text = ""
-
 	$('.shortcut_check').each(function () {
 		if (jQuery(this).is(":checked")) {
 			var id = this.id;
 			shortcut_arr.push(id);
 		}
 	});
-
-	// alert('이동할 shortcut : '+ shortcut_arr)
 	var category = prompt("where do you go? (1~120)", "");
-	if (category.match("^[1-9][0-9]?$")) {
-
+	if (parseInt(category) < 121) {
 		if (category == null || category == "") {
 			txt = "User cancelled the prompt.";
 		} else {
@@ -2558,24 +2553,6 @@ $('.update_shortcut_user_id').click(function (e) {
 	});
 })
 
-// $('body').on('click', '.shortcut_edit_button1', function (e) {
-// 	e.preventDefault();
-// 	var id = $(this).attr("id");
-// 	const content1 = $("#select-input-" + id).val();
-//
-// 	$.ajax({
-// 		type: "POST",
-// 		url: '/wm/myshortcut/update_shortcut1_ajax/' + id,
-// 		data: {
-// 			id: id,
-// 			content1: content1,
-// 			csrfmiddlewaretoken: '{{ csrf_token }}'
-// 		},
-// 		success: function (result) {
-// 			alert("modify is completted")
-// 		}
-// 	});
-// });
 
 $('body').on('click', '.shortcut_edit_button2', function (e) {
 	e.preventDefault();
