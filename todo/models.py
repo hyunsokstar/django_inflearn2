@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 
 class TeamInfo(models.Model):
-    leader = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    leader = models.ForeignKey(User, on_delete=models.CASCADE)
     team_name = models.CharField(max_length=50, unique=True)
     team_description = models.TextField(blank=True)
     member_count = models.IntegerField(default=1)
