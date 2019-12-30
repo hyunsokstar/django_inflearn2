@@ -4,6 +4,6 @@ from . import views
 
 app_name= 'remote_control'
 urlpatterns = [
-    path('', include('todo.urls')),
+    path('', include('wm.urls')),
 
 ]

@@ -31,7 +31,7 @@ class TempMyShortCut(models.Model):
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True , editable = False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE)
     type= models.ForeignKey(Type, on_delete=models.CASCADE)
 
     def get_absolute_url(self,*args,**kwargs):
@@ -46,7 +46,7 @@ class TempMyShortCutForBackEnd(models.Model):
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True , editable = False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE)
     type= models.ForeignKey(Type, on_delete=models.CASCADE)
 
     def get_absolute_url(self,*args,**kwargs):
@@ -62,7 +62,7 @@ class MyShortCut(models.Model):
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE)
     type= models.ForeignKey(Type, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='wm/%y%m%d', blank=True)
 

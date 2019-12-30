@@ -3,14 +3,6 @@ from django.core.exceptions import ValidationError
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from .models import MyShortCut
 
-# class Category(models.Model):
-#     name = models.CharField(max_length=25, unique=True)
-#     description = models.TextField(blank=True)
-#     slug = models.SlugField(unique=True, allow_unicode=True)
-#     author = models.ForeignKey(User, on_delete=True)
-
-# class MyShortCut(models.Model):
-#     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
 
 
 # category 모델이 foreignkey인데

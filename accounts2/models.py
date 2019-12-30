@@ -13,7 +13,7 @@ class Profile(models.Model):
     reputation = models.IntegerField(default=0)
     shortcut_user_id = models.CharField(default="me", max_length=40)
     selected_category_id = models.IntegerField(default=1, blank=True)
-    team = models.ForeignKey(TeamInfo, on_delete=True, null=True, blank=True)
+    team = models.ForeignKey(TeamInfo, on_delete=models.CASCADE, null=True, blank=True)
     position = models.CharField(max_length=50,default="member")
     subject_of_memo = models.CharField(max_length=60)
     skill_note_reputation = models.IntegerField(default=0) # skill note 점수
