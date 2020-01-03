@@ -193,9 +193,10 @@ button, input, a {
 			{{ forloop.counter }}
 		</td>
 		<td id="input_title_for_skill_note_btn">
-			<span id=title_{{p.id}}>
+			<div id=title_{{p.id}}>
 				{{p.title}}
-			</span>
+			</div>
+			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
 			{% if p.author == request.user %}
 				<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
 				<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
@@ -228,6 +229,7 @@ button, input, a {
 
 		<td id="textarea_title_for_skill_note_btn">
 			<span id=title_{{p.id}}>{{p.title}} </span>
+			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
 			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
 			<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
@@ -272,8 +274,9 @@ button, input, a {
 			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
 			{{ forloop.counter }}
 		</td>
-		<td width="90%" ondblclick="copy_for_summer_note_content({{p.id}})">
-			<span id=title_{{p.id}}>{{p.title}}</span>
+		<td width="90%" ondblclick="copy_for_summer_note_content({{p.id}})" >
+			<span id=title_{{p.id}}>{{p.title}} <span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span></span>
+
 			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
 			<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
@@ -294,7 +297,6 @@ button, input, a {
 
 	<tr id="shortcut_{{p.id}}-3" style="background-color:#fcfaeb;">
 		<td colspan="2">
-				<!-- copy_for_summer_note_content({{p.id}}) -->
 				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="false" ondblclick="">
 					{{p.content2 | safe}}
 				</span>
@@ -729,7 +731,6 @@ button, input, a {
 </script>
 
 
-<!-- 수정 필요 2244 -->
 <script class="myshortcut_row_textarea" type="text/x-template">
 
 <table class="table table-bordered table_row" id="todo_list" width="100%">
@@ -779,6 +780,35 @@ button, input, a {
 <script type="text/javascript">
 
 {% block extra_js %}
+
+(function($) {
+    $.fn.flash_message = function(options) {
+
+      options = $.extend({
+        text: 'Done',
+        time: 1000,
+        how: 'before',
+        class_name: ''
+      }, options);
+
+      return $(this).each(function() {
+        if( $(this).parent().find('.flash_message').get(0) )
+          return;
+
+        var message = $('<span />', {
+          'class': 'flash_message ' + options.class_name,
+          text: options.text
+        }).hide().fadeIn('fast');
+
+        $(this)[options.how](message);
+
+        message.delay(options.time).fadeOut('normal', function() {
+          $(this).remove();
+        });
+
+      });
+    };
+})(jQuery);
 
 function modify_for_file_name(id){
 	const file_name = $("#file_"+id).val()
@@ -860,7 +890,7 @@ $('body').on('click', '.skil_note_file_name_update_btn', function (e) {
 
 function copy_for_summer_note_content(id){
 	// alert("더블 클릭"+id);
-	alert("copy is completed")
+	// alert("copy is completed")
 
 	var range = document.createRange();
 	range.selectNode(document.getElementById("select-textarea-"+id));
@@ -868,6 +898,11 @@ function copy_for_summer_note_content(id){
 	window.getSelection().addRange(range); // to select text
 	document.execCommand("copy");
 	window.getSelection().removeAllRanges();// to deselect
+
+	$("#title-area-"+id).flash_message({
+        text: 'copy!!',
+        how: 'append'
+    });
 
 }
 
@@ -890,6 +925,7 @@ $('body').on('dblclick', '#input_title_for_skill_note_btn', function (e) {
 $('body').on('dblclick', '#textarea_title_for_skill_note_btn', function (e) {
 	// alert($(this).parent().parent().find(".copy_code1").text())
 	$($(this).parent().parent().find(".copy_code2")).trigger("click");
+
 
 })
 
@@ -986,7 +1022,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
-				alert("result.message : "+ result.message) // 2244
+				alert("result.message : "+ result.message)
 			}
 		});
 
@@ -2602,15 +2638,25 @@ $('body').on('click', '.copy_code1', function (e) {
 	var id = this.id
 
 	document.execCommand('copy', false, $(this).parent().find('#select-input-' + id).select());
-	alert("copy is completed")
+	$("#title-area-"+id).flash_message({
+		text: 'copy!!',
+		how: 'append'
+	});
+
 });
 
+
+// 2244
 $('body').on('click', '.copy_code2', function (e) {
 	e.preventDefault();
 	var id = this.id
 	// alert(id)
 	document.execCommand('copy', false, $(this).parent().find('#select-textarea-' + id).select());
-	alert("copy is completed")
+	// alert("copy is completed")
+	$("#title-area-"+id).flash_message({
+		text: 'copy!!',
+		how: 'append'
+	});
 });
 
 // show_delete_temp_memo_btn
