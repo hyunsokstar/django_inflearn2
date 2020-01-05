@@ -193,9 +193,9 @@ button, input, a {
 			{{ forloop.counter }}
 		</td>
 		<td id="input_title_for_skill_note_btn">
-			<div id=title_{{p.id}}>
+			<span id=title_{{p.id}}>
 				{{p.title}}
-			</div>
+			</span>
 			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
 			{% if p.author == request.user %}
 				<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
@@ -209,7 +209,7 @@ button, input, a {
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#fcfaeb">
 		<td colspan="2">
 			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
-			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
+			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}" data-num = {{ forloop.counter }}>copy</button>
 			<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}">edit_complete</button>
 			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
 			<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
@@ -241,8 +241,11 @@ button, input, a {
 		<td>file</td>
 		<td ondblclick="modify_for_file_name({{p.id}})">
 			<span>
+
 				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
 				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
+				<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
+
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 		</td>
@@ -275,7 +278,8 @@ button, input, a {
 			{{ forloop.counter }}
 		</td>
 		<td width="90%" ondblclick="copy_for_summer_note_content({{p.id}})" >
-			<span id=title_{{p.id}}>{{p.title}} <span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span></span>
+			<span id=title_{{p.id}}>{{p.title}}</span>
+			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
 
 			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
@@ -781,6 +785,18 @@ button, input, a {
 
 {% block extra_js %}
 
+$(function() {
+    $('body').keydown(function(e) {
+       if(e.ctrlKey && e.which == 78 ){
+			alert('ctrㅣ + n');
+       }
+    });
+});
+
+
+
+출처: https://androphil.tistory.com/476 [소림사의 홍반장!]
+
 (function($) {
     $.fn.flash_message = function(options) {
 
@@ -831,6 +847,14 @@ function modify_for_file_name(id){
 		}
 	});
 }
+
+// open_new_tabb
+$('body').on('click', '.open_new_tabb', function (e) {
+	const id = $(this).data('id');
+	var url = $("#file_"+id).val()
+	var win = window.open(url, '_blank');
+	win.focus();
+});
 
 // file_history_button
 $('body').on('click', '.file_history_button', function (e) {
@@ -2632,6 +2656,8 @@ $('body').on('click', '.copy_comment', function (e) {
 	alert("copy is completed")
 });
 
+
+// 2244
 $('body').on('click', '.copy_code1', function (e) {
 
 	e.preventDefault();
@@ -2642,6 +2668,9 @@ $('body').on('click', '.copy_code1', function (e) {
 		text: 'copy!!',
 		how: 'append'
 	});
+
+	const current_num = $(this).data("num");
+	$('.go_input').val(current_num);
 
 });
 
