@@ -9,6 +9,8 @@ urlpatterns = [
     # 1122
     # 체크 박스 체크한 항목들을 스킬 블로그로 이동
 
+    path('manual', views.manualPage, name="manual"),
+
     path('', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
 
     path('myshortcut/category_plus_1_for_current_user', views.category_plus_1_for_current_user , name='category_plus_1_for_current_user'),

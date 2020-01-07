@@ -1,0 +1,49 @@
+{% extends "todo/layout.html" %}
+{%block title %} 메뉴얼 {% endblock %}
+
+{%block content4 %}
+<br>
+<br>
+<br>
+<h2>메뉴얼 페이지</h2>
+
+<pre>
+
+    이 웹사이트의 핵심 기능은 skil note 입니다. 학습한 내용을 순서대로 정리 및 공유할수 있도록 다양한 기능을 제공합니다.
+    세부 사항은 다음과 같습니다.
+
+    1.입력 기능
+    인풋, textarea, summer note , image 등 다양한 형식으로 입력 가능
+
+    2.편집
+    ca + 1 : 현 카테고리 부터 +1
+    ca -1 :  현 카테고리 부터 -1
+
+    3.검색 기능
+    제목으로 검색, 내용으로 검색, 파일 history 검색
+
+    4.복사 기능
+    제목 두번 클릭 : 내용 복사
+    파일 이름 한번 클릭 : 파일 복사
+    파일 이름 두번 클릭 : 파일 이름 저장
+
+    5.미니 노트
+    왼쪽에 front, back 버튼이 미니 노트
+
+    6.단축키
+    ctrl + 오른쪽 방향키 : ca+1
+    ctrl + 왼쪽 방향키 : ca-1
+
+</pre>
+
+
+
+
+{% endblock %}
+
+
+<script type="text/javascript">
+{% block extra_js %}
+
+{% endblock %}
+</script>
