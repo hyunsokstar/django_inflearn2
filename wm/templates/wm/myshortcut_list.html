@@ -233,6 +233,7 @@ button, input, a {
 			{{ forloop.counter }}
 		</td>
 
+		<!-- 2244 -->
 		<td id="textarea_title_for_skill_note_btn">
 			<span id=title_{{p.id}}>{{p.title}} </span>
 			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
@@ -247,11 +248,9 @@ button, input, a {
 		<td>file</td>
 		<td ondblclick="modify_for_file_name({{p.id}})">
 			<span>
-
 				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
 				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
 				<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
-
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 		</td>
@@ -340,7 +339,7 @@ button, input, a {
 			{% endif %}
 		</td>
 	</tr>
-	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f1f5;">
+	<tr id="shortcut_{{p.id}}-2" style="background-color:#fcfaeb;">
 		<td colspan="2">
 			{% if p.image %}
 				<img class="card-img-top" src={{ p.image.url }} alt="Card image cap">
@@ -349,7 +348,7 @@ button, input, a {
 			{% endif %}
 		</td>
 	</tr>
-	<tr style="background-color:#f0f1f5;" td id="shortcut_{{p.id}}-3">
+	<tr style="background-color:#fcfaeb;" td id="shortcut_{{p.id}}-3">
 		<td colspan="2">
 			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글</button>
 		</td>
@@ -357,7 +356,7 @@ button, input, a {
 	{% endifequal %}
 
 	{% if p.commentforshortcut_set.exists %}
-	<tr style="background-color:#f0f1f5">
+	<tr style="background-color:#fcfaeb">
 		<td colspan="2">
 			<!-- 댓글 영역 -->
 			<a class="btn btn-outline-dark btn-block btn-sm comment_area_button" data-toggle="collapse"
@@ -661,7 +660,7 @@ button, input, a {
                 <%=table_row_id %>
         </td>
         <td >
-            <span id="title_<%=shortcut_id %>">
+            <span id="title_<%=shortcut_id %>" id="input_title_for_skill_note_btn">
                 <%=shortcut_title%>
             </span>
             <button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="<%=shortcut_id%>">삭제</button>
@@ -670,7 +669,7 @@ button, input, a {
         </td>
     </tr>
 
-    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f0f1f5;" >
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#fcfaeb;" >
         <td colspan="2">
             <input type="text" name="" value="<%=shortcut_content%>" size="40" id="select-input-<%=shortcut_id%>" class="form-control">
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="<%=shortcut_id%>">copy</button>
@@ -682,22 +681,23 @@ button, input, a {
 
 <script class="temp_skill_note_row_for_textarea" type="text/x-template">
 
+
 <table class="table table-bordered table_row" id="todo_list" width="100%">
 
     <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0">
-        <td id=index_{{ forloop.counter }}>
+        <td id=index_{{ forloop.counter }} width="10%">
             <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check">
             <%=table_row_id %>
         </td>
         <td>
             <span id="title_<%=shortcut_id%>">
-                <%=shortcut_title%>
+				<%=shortcut_title%>
             </span>
-            <button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="<%=shortcut_id%>">삭제</button>
+            <button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="<%=shortcut_id%>">삭제 11</button>
             <button class="badge badge-pill badge-primary update_temp_skil_title_btn float-right" id="<%=shortcut_id%>"">제목 수정</button>
         </td>
     </tr>
-    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f0f1f5">
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#fcfaeb">
         <td colspan="2">
             <button class="btn btn-outline-primary btn-sm show_total_textInput_button" id=<%=shortcut_id%>>40row</button>
 			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id=<%=shortcut_id%>>8row</button>
@@ -715,13 +715,14 @@ button, input, a {
 
 <table class="table table-bordered table_row" id="todo_list" width="100%">
     <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0" >
-        <td class="counter_row">
+        <td class="counter_row" width="10%">
             <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check" >
                 <%=table_row_id %>
         </td>
-        <td >
+        <td id="textarea_title_for_skill_note_btn">
             <span id="title_<%=shortcut_id %>">
                 <%=shortcut_title%>
+
             </span>
             <button class="badge badge-pill badge-primary short_delete_button float-right" id="<%=shortcut_id%>">삭제</button>
             <button class="badge badge-pill badge-primary short_update_button float-right" id="<%=shortcut_id %>">제목 수정</button>
@@ -729,7 +730,7 @@ button, input, a {
         </td>
     </tr>
 
-    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f0f1f5;" >
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#fcfaeb;" >
         <td colspan="2">
             <input type="text" name="" value="<%=shortcut_content%>" size="40" id="select-input-<%=shortcut_id%>" class="form-control">
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="<%=shortcut_id%>">copy</button>
@@ -747,13 +748,15 @@ button, input, a {
 
     <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0">
         <td id=index_{{ forloop.counter }} width="10%">
-            <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check">
+            <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check" id="file_<%=shortcut_id%>">
             <%=table_row_id %>
         </td>
-        <td>
+        <td id="textarea_title_for_skill_note_btn">
             <span id="title_<%=shortcut_id%>">
                 <%=shortcut_title%>
             </span>
+			<span id="title-area-<%=shortcut_id%>" style="color: red;">&nbsp;&nbsp;<span>
+
             <button class="badge badge-pill badge-primary short_delete_button float-right" id="<%=shortcut_id%>">삭제</button>
             <button class="badge badge-pill badge-primary short_update_button float-right" id="<%=shortcut_id%>"">제목 수정</button>
         </td>
@@ -761,14 +764,13 @@ button, input, a {
 	<tr style="background-color:#f1f9f0" id="shortcut_<%=shortcut_id%>-3">
 		<td>file</td>
 		<td>
-			<span id="file_<%=shortcut_id%>">
-
-				<input type="text" value="<%=filename %>" class="file_name" id="file_<%=shortcut_id%>" size=60 onclick="copy_for_file_name({{p.id}})">
+			<span id="file_<%=shortcut_id%>" ondblclick = "modify_for_file_name(<%=shortcut_id%>)">
+				<input type="text" value="<%=filename %>" class="file_name" id="file_<%=shortcut_id%>" size=60>
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id="<%=shortcut_id%>"">파일 수정</button>
 		</td>
 	</tr>
-    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f0f1f5">
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#fcfaeb">
         <td colspan="2">
             <button class="btn btn-outline-primary btn-sm show_total_textInput_button" id=<%=shortcut_id%>>40row</button>
 			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id=<%=shortcut_id%>>8row</button>
@@ -2673,7 +2675,6 @@ $('body').on('click', '.copy_comment', function (e) {
 });
 
 
-// 2244
 $('body').on('click', '.copy_code1', function (e) {
 
 	e.preventDefault();
@@ -2691,7 +2692,6 @@ $('body').on('click', '.copy_code1', function (e) {
 });
 
 
-// 2244
 $('body').on('click', '.copy_code2', function (e) {
 	e.preventDefault();
 	var id = this.id
