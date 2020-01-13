@@ -893,10 +893,10 @@ def create_new2_textarea_first(request):
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
     title = request.POST['title']
-    file_name = request.POST['file_name']
-
-    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
-    print("current_first.id : ", current_first.title);
+    file_name_before = request.POST['file_name']
+    file_name = file_name_before.replace("\\","/")
+    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first()
+    print("current_first.id : ", current_first.title)
 
     wm = MyShortCut.objects.create(
         author = request.user,
@@ -924,7 +924,9 @@ def create_summernote_first(request):
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
     title = request.POST['title']
-    file_name = request.POST['file_name']
+    # file_name = request.POST['file_name']
+    file_name_before = request.POST['file_name']
+    file_name = file_name_before.replace("\\","/")
 
     current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
     print("current_first.id : ", current_first.title);
@@ -953,7 +955,9 @@ def create_new2_textarea(request):
     category_id = request.user.profile.selected_category_id
     ca = Category.objects.get(id=category_id)
     title = request.POST['title']
-    filename = request.POST['filename']
+    # filename = request.POST['filename']
+    file_name_before = request.POST['file_name']
+    file_name = file_name_before.replace("\\","/")
     author = request.user.username
 
     print("author : ", author)
@@ -961,7 +965,7 @@ def create_new2_textarea(request):
     wm = MyShortCut.objects.create(
         author = request.user,
         title=title,
-        filename=filename,
+        filename=file_name,
         type= ty,
         category = ca,
         created = datetime.now(),
@@ -1298,7 +1302,9 @@ def update_shortcut_ajax(request,id):
 
 def update_skil_note_file_name(request,id):
     user = request.user
-    file_name = request.POST['file_name']
+    # file_name = request.POST['file_name']
+    file_name_before = request.POST['file_name']
+    file_name = file_name_before.replace("\\","/")
 
     if request.method == "POST" and request.is_ajax():
         sn = MyShortCut.objects.filter(Q(id=id)).update(filename=file_name)
