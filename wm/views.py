@@ -977,7 +977,7 @@ def create_new2_textarea(request):
         'shortcut_id':wm.id,
         'shortcut_title':wm.title,
         'shortcut_content2':wm.content2,
-        'filename':wm.filename,
+        'file_name':wm.filename,
         'author':author
     })
 

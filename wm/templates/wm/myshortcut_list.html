@@ -765,7 +765,7 @@ button, input, a {
 		<td>file</td>
 		<td>
 			<span id="file_<%=shortcut_id%>" ondblclick = "modify_for_file_name(<%=shortcut_id%>)">
-				<input type="text" value="<%=filename %>" class="file_name" id="file_<%=shortcut_id%>" size=60>
+				<input type="text" value="<%=file_name %>" class="file_name" id="file_<%=shortcut_id%>" size=60>
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id="<%=shortcut_id%>"">파일 수정</button>
 		</td>
@@ -2333,7 +2333,7 @@ $(".new2_btn").click(function () {
 			url: 'create_new2_textarea/ajax/',
 			data: {
 				title: title,
-				filename:filename,
+				file_name:filename,
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
@@ -2349,7 +2349,7 @@ $(".new2_btn").click(function () {
 					shortcut_id: result.shortcut_id,
 					shortcut_title: result.shortcut_title,
 					shortcut_content2: result.shortcut_content2,
-					filename:result.filename,
+					file_name:result.filename,
 					author:result.author,
 				});
 				$(rendered).appendTo($('.myshort_list_area'));
