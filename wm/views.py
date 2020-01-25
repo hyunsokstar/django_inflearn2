@@ -1477,6 +1477,10 @@ class MyShortCutCreateView_textarea_summer_note(LoginRequiredMixin,CreateView):
 
         ms = form.save(commit=False)
         ms.author = self.request.user
+
+        # file_name = file_name_before.replace("\\","/")
+        # ms.filename =
+
         ms.type= ty
         ms.created = timezone.now()
 

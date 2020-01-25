@@ -117,8 +117,9 @@ button, input, a {
 </div>
 
 <div class="sideicon_for_insert">
-	<a class="new3_btn btn btn-outline-dark" id=""
-		href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a><br>
+	<!-- <a class="new3_btn btn btn-outline-dark" id=""
+		href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a><br> -->
+	<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
 	<button type="button" name="button" class="new1_btn btn btn-outline-dark" id="">인풋(1)</button><br>
 	<button type="button" name="button" class="new2_btn btn btn-outline-dark" id="">text(1)</button><br>
 	<a class="new4_btn btn btn-outline-dark" id="" href=""> text(5) </a>
@@ -356,7 +357,7 @@ button, input, a {
 	{% endifequal %}
 
 	{% if p.commentforshortcut_set.exists %}
-	<tr style="background-color:#fcfaeb">
+	<tr style="background-color:#E5F5F9">
 		<td colspan="2">
 			<!-- 댓글 영역 -->
 			<a class="btn btn-outline-dark btn-block btn-sm comment_area_button" data-toggle="collapse"
@@ -804,6 +805,24 @@ $(function() {
       // alert('ctrㅣ + n');
 	  $(".go_to_next_channer_btn").trigger("click");
     }
+
+	if (e.altKey && e.which === 49) {
+      // alert('alt | + 1');
+	  $(".new3_btn").trigger("click");
+
+    }
+
+	if (e.altKey && e.which === 50) {
+	  // alert('ctrㅣ + 1');
+	  $(".new1_btn").trigger("click");
+	}
+
+	if (e.altKey && e.which === 51) {
+	  // alert('ctrㅣ + 1');
+	  $(".new2_btn").trigger("click");
+	}
+
+
   })
 });
 
