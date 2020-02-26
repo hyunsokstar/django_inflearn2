@@ -57,7 +57,7 @@ class TempMyShortCutForBackEnd(models.Model):
 
 class MyShortCut(models.Model):
     title = models.CharField(max_length=120)
-    filename= models.CharField(max_length=50, blank=True)
+    filename= models.CharField(max_length=120, blank=True)
     content1 = models.CharField(max_length=180, blank=True)
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=False)

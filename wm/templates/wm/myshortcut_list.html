@@ -164,8 +164,7 @@ button, input, a {
 		 <span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
 	 </a> <br>
 	<a href="" class="btn btn-outline-primary " id="move_to_skilblog_btn"> skil blog(ch) </a> <br>
-
-	<a href="{% url "wm:MyShortCutCreateView_image" %}" class="btn btn-outline-primary  ">image 입력</a> <br>
+	<button type="button" class="btn btn-outline-primary insert_image" onclick="window.location.href='{% url 'wm:MyShortCutCreateView_image' %}'">image 입력</button>
 
 </div>
 
@@ -234,7 +233,6 @@ button, input, a {
 			{{ forloop.counter }}
 		</td>
 
-		<!-- 2244 -->
 		<td id="textarea_title_for_skill_note_btn">
 			<span id=title_{{p.id}}>{{p.title}} </span>
 			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
@@ -820,6 +818,11 @@ $(function() {
 	if (e.altKey && e.which === 51) {
 	  // alert('ctrㅣ + 1');
 	  $(".new2_btn").trigger("click");
+	}
+
+	if (e.altKey && e.which === 52) {
+	  // alert('ctrㅣ + 1');
+	  $(".insert_image").trigger("click");
 	}
 
 
