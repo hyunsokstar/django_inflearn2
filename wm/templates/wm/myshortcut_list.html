@@ -247,7 +247,7 @@ button, input, a {
 		<td>file</td>
 		<td ondblclick="modify_for_file_name({{p.id}})">
 			<span>
-				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
+				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
 				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
 				<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
 			</span>
@@ -296,7 +296,7 @@ button, input, a {
 		<td>file</td>
 		<td>
 			<span ondblclick = "modify_for_file_name({{p.id}})">
-				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
+				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
 				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
@@ -764,7 +764,7 @@ button, input, a {
 		<td>file</td>
 		<td>
 			<span id="file_<%=shortcut_id%>" ondblclick = "modify_for_file_name(<%=shortcut_id%>)">
-				<input type="text" value="<%=file_name %>" class="file_name" id="file_<%=shortcut_id%>" size=60>
+				<input type="text" value="<%=file_name %>" class="file_name" id="file_<%=shortcut_id%>" size=100>
 			</span>
 			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id="<%=shortcut_id%>"">파일 수정</button>
 		</td>
