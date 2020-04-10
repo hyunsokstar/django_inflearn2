@@ -196,8 +196,11 @@ empty
 			<span id="current_category_subject">
 				{{category_nick}}
 			</span>
+			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+				<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제 수정</button>
+			{% else %}
 
-			<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제 수정</button>
+			{% endifequal %}
 
 			{% endif %}
 		</td>
@@ -231,14 +234,20 @@ empty
 
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#fcfaeb">
 		<td colspan="2">
+
 			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
-			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}" data-num = {{ forloop.counter }}>copy</button>
-			<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}">edit_complete</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
-			<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
+			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}" data-num = {{ forloop.counter }}>copy</button>
+				<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}">edit_complete</button>
+				<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
+				<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
+				<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
+				<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
+				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
+			{% else %}
+
+			{% endifequal %}
+
 		</td>
 	</tr>
 
@@ -289,11 +298,18 @@ empty
 				id="{{p.id}}">copy</button>
 			<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2 float-right"
 				id="{{p.id}}" data-user_id="{{request.user}}">edit_complete</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
-			<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
+
+
+				{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+					<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
+					<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
+					<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
+					<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
+					<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
+				{% else %}
+
+				{% endifequal %}
+
 		</td>
 	</tr>
 	{% endifequal %}
@@ -340,14 +356,21 @@ empty
 			<!-- </textarea> -->
 
 			<br>
-			<!-- <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
-			<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
-			<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button> -->
-			<!-- <button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button> -->
-			<!-- <a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" -->
-				<!-- class="btn btn-outline-danger float-right btn-sm">summernote update</a> -->
+
+			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+
+				<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
+				<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
+				<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
+				<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
+				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
+				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
+				<a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+			{% else %}
+
+			{% endifequal %}
+
+
 		</td>
 	</tr>
 	{% endifequal %}
@@ -378,7 +401,12 @@ empty
 	</tr>
 	<tr style="background-color:#fcfaeb;" td id="shortcut_{{p.id}}-3">
 		<td colspan="2">
-			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글</button>
+			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+				<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글</button>
+			{% else %}
+
+			{% endifequal %}
+
 		</td>
 	</tr>
 	{% endifequal %}
