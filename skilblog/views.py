@@ -198,11 +198,10 @@ def sbc_modify(request,id):
 
 class SkilBlogTitleList(LoginRequiredMixin,ListView):
     model = SkilBlogTitle
-    paginate_by = 20
+    paginate_by = 10
     user = 0
 
     def get_queryset(self):
-        # return SkilBlogTitle.objects.filter(author=self.request.user).order_by('created')
         return SkilBlogTitle.objects.all().order_by('-created')
 
 def SkilBlogContentList(request,id):

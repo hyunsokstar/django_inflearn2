@@ -59,7 +59,7 @@ class TodoList(LoginRequiredMixin,ListView):
 class TodoCompleteListByMe(LoginRequiredMixin,ListView):
     model = Todo
     paginate_by = 10
-    
+
 
     def get_queryset(self):
         if self.request.user.is_anonymous:

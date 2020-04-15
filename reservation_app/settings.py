@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'remote_control',
     'pd',
     'skilblog',
+    'bootstrap4',
+
     # 'datetimepicker',
 ]
 

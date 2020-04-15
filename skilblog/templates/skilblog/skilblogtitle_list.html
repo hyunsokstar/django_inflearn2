@@ -1,5 +1,6 @@
-{% extends "layout.html" %}
-{%block title %}skil blog title list{% endblock %}
+{% extends 'layout.html' %}
+
+{%block title %}SkilBlog{% endblock %}
 {% load static %}
 
 
@@ -65,6 +66,8 @@
     {% endif %}
 </table>
 
+
+{{ page_obj }}
 
 {%endblock%}
 
