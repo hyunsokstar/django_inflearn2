@@ -145,8 +145,8 @@ $(document).ready(function(){
         const id = this.id
         const user_id = $(this).data("user_id")
 
-        alert("id : " + id)
-        alert("user_id : " +user_id)
+        // alert("id : " + id)
+        // alert("user_id : " +user_id)
 
         window.history.pushState("", "", '/wm/')
 
@@ -163,7 +163,6 @@ $(document).ready(function(){
                 alert("result.message :     shorcut page로 이동")
                 window.history.pushState("", "", '/wm/myshortcut/')
                 $(location). attr('href', 'http://127.0.0.1:8000/wm/myshortcut/');
-
             }
         });
     })
