@@ -23,26 +23,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'markdownx',
     'crispy_forms',
-    'blog',
-    'todo',
-    'wm',
-    'bestlec',
-    'accounts2',
-    'management',
+    'easy_thumbnails',
+    'remote_control',
+    'bootstrap4',
+    'imagekit',
     'django_summernote',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'challenge',
-    'pm',
-    'imagekit',
-    'easy_thumbnails',
-    'remote_control',
-    'pd',
-    'skilblog',
-    'bootstrap4',
+    'todo',
+    'wm', 
+    'bestlec', # 강의 추천
+    'accounts2', # 계정 관리
+    'management', # 제안 사항
+    'challenge', # 챌린지
+    'pm', #personal memo
+    'pd', #persional desk
+    'skilblog', # 스킬 블로그
+    'blog', # tech note
 
     # 'datetimepicker',
 ]

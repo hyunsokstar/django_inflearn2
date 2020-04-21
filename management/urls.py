@@ -11,7 +11,6 @@ urlpatterns = [
     path('suggestion/new/',views.suggestion_new , name ="suggestion_new"),
     path('suggestion/<int:pk>/delete', views_cbv.SuggestionDeleteView.as_view(), name='suggestion_delete'),
     path('suggestion/<int:pk>/update', views_cbv.SuggestionUpdateView.as_view(), name='suggestion_update'),
-
     path('<int:id>/recommand_suggestion/', views.recommand_suggestion, name="recommand_suggestion"),
 
 ]

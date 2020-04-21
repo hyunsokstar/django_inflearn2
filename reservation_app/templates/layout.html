@@ -32,13 +32,15 @@
 
 <div class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="navbar" style="margin-bottom:5px;">
     <div class="container">
-
-    <a href="{% url "wm:manual" %}" class="navbar-brand">
-        <h6>
-                Mechanic Coder
-        </h6>
-    </a>
-
+        
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="">
+                    home
+                </a>
+            </li>
+        </ul>
+        
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false">할일 관리 <span class="caret"></span></a>
@@ -89,16 +91,16 @@
                 <a class="nav-link" href="{% url "blog:post_list" %}"> tech news </a>
             </li>
         </ul>
-
+        
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{% url "pm:manual_list" %}"> free board </a>
             </li>
         </ul>
-
+        
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="{% url "pd:private_task_list" %}"> 개인 메모 </a>
+                <a class="nav-link" href=""> Q&A </a>
             </li>
         </ul>
 
@@ -107,14 +109,24 @@
                 <a class="nav-link" href="{% url "management:suggestion_list" %}">건의 사항</a>
             </li>
         </ul>
+        
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "bestlec:best20_list" %}">강의 추천</a>
+            </li>
+        </ul>
+        
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "pd:private_task_list" %}"> 개인 메모 </a>
+            </li>
+        </ul>
 
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{% url "wm:manual" %}">메뉴얼</a>
             </li>
-        </ul>
-
-        &nbsp;&nbsp;
+        </ul>        &nbsp;&nbsp;
 
         <ul class="nav navbar-nav ml-auto">
             {% if user.is_authenticated %}
