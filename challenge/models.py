@@ -31,6 +31,9 @@ class LecInfo(models.Model):
 	
 	def __str__(self):
 		return self.lec_name
+	
+	def student_count2(self):
+		return self.studentrecord_set.count()
     
 class RecommandLecInfo(models.Model):
     lecinfo = models.ForeignKey(LecInfo, on_delete=models.CASCADE)

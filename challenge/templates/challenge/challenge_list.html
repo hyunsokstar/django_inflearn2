@@ -14,26 +14,42 @@
 <br>
 
 {% if object_list.exists %}
-	<div class="row">
-	    {% for p in object_list %}
-	        <div class="d-flex flex-wrap">
-	            <div class="col-md-10"> <!-- sm,md,lg -->
-	                <div class="card">
-	                    <div class="card-body">
-	                        <span class="card-title">{{p.title}}</span>
-	                        <a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary">go</a>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    {% endfor %}
+<!--	<div class="row">-->
+<!--	    {% for p in object_list %}-->
+<!--	        <div class="d-flex flex-wrap">-->
+<!--	            <div class="col-md-10"> &lt;!&ndash; sm,md,lg &ndash;&gt;-->
+<!--	                <div class="card">-->
+<!--	                    <div class="card-body">-->
+<!--	                        <span class="card-title">{{p.title}}</span>-->
+<!--	                        <a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary">go</a>-->
+<!--	                    </div>-->
+<!--	                </div>-->
+<!--	            </div>-->
+<!--	        </div>-->
+<!--	    {% endfor %}-->
+<!--	</div>-->
+
+<div class="row">
+	{% for p in object_list %}
+	<div class="card mt-4 ml-4" style="width: 18rem;">
+<!--		<img class="card-img-top" src="..." alt="Card image cap">-->
+		<div class="card-body">
+			<h5 class="card-title">
+				{{p.title}}
+				<a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary float-right">go</a>
+			</h5>
+		</div>
 	</div>
+	{% endfor %}
+</div>
+
+
 {% else %}
-    <tr>
-        <td colspan="">
-            <h4>no subject!</h4>
-        </td>
-    </tr>
+<tr>
+	<td colspan="">
+		<h4>no subject!</h4>
+	</td>
+</tr>
 {% endif %}
 
 {% endblock %}
@@ -42,6 +58,7 @@
 {% block extra_js %}
 
 {% endblock %}
+
 
 
 

@@ -641,7 +641,7 @@ def copyForCategorySubjectToMyCategory(request):
 	})
 
 def search_by_id_and_word(request):
-    search_user_id = request.user
+    search_user_id = request.user.profile.shortcut_user_id
     search_word = request.POST['search_word']
     search_option = request.POST['search_option']
     print("search_user_id : ", search_user_id)

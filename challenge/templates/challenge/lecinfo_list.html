@@ -2,7 +2,7 @@
 
 {%block title %}{{challenge_title}} 에 대한 Challenge List{% endblock %}
 
-{%block content4 %}
+{%block content2 %}
 
 <br><br><br><br>
 
@@ -16,8 +16,11 @@
 	<div class="col-sm-12">
 		<div class="card">
 			<div class="card-body">
-				<p class="card-text">{{p.lec_name}}</p>
-				<a href="{% url 'challenge:lec_record_list' p.id %}" class="btn btn-primary">입장</a>
+				<p class="card-text">
+					<h4>{{p.lec_name}}</h4><br>
+					<h6>{{p.student_count2}} 명 참여</h6>
+				</p>
+				<a href="{% url 'challenge:lec_record_list' p.id %}" class="btn btn-primary float-right">입장</a>
 			</div>
 		</div>
 	</div>
