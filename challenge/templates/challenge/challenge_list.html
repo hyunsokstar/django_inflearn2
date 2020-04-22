@@ -3,6 +3,10 @@
 
 {%block title %} 챌린지 {% endblock %}
 
+{%block extra_css %}
+<link rel="{% static 'challange/challange.css' %}" type="text/css" href="theme.css">
+{% endblock %}
+
 {%block content4 %}
 <br>
 <br>
@@ -10,26 +14,26 @@
 <br>
 
 {% if object_list.exists %}
-	{% for p in object_list %}
 	<div class="row">
-		<div class="col-sm-12">
-			<div class="card">
-				<div class="card-body">
-					<h5 class="card-title">{{p.title}}</h5>
-					<p class="card-text">{{p.description}}</p>
-					<a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary">go</a>
-				</div>
-			</div>
-		</div>
+	    {% for p in object_list %}
+	        <div class="d-flex flex-wrap">
+	            <div class="col-md-10"> <!-- sm,md,lg -->
+	                <div class="card">
+	                    <div class="card-body">
+	                        <span class="card-title">{{p.title}}</span>
+	                        <a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary">go</a>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    {% endfor %}
 	</div>
-	<br><br>
-	{% endfor %}
 {% else %}
-<tr>
-	<td colspan="6">
-		<h4>아직 챌린지 과목이 없습니다.</h4>
-	</td>
-</tr>
+    <tr>
+        <td colspan="">
+            <h4>no subject!</h4>
+        </td>
+    </tr>
 {% endif %}
 
 {% endblock %}
@@ -38,6 +42,10 @@
 {% block extra_js %}
 
 {% endblock %}
+
+
+
+
 
 
 </script>

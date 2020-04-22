@@ -152,14 +152,15 @@ button, input, a {
 
 
 
+<div class="temp_memo_btn_area">
+	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
+
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
-<div class="temp_memo_btn_area">
 	<button type="button" class="category_btn category_name_list_button btn btn-outline-dark" id="{{request.user.id}}">CH</button> <br>
 	<button type="button" class="category_user_btn user_list_btn btn btn-outline-dark">User</button><br>
 	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
-	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
 	<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
 	<a href="" class="btn btn-outline-primary " id="modify_category_button"> 이동</a> <br>
 	<a href="" class="btn btn-outline-primary " id="shortcut_delete_button"> 삭제(ch) </a> <br>
@@ -174,12 +175,12 @@ button, input, a {
 	<a href="" class="btn btn-outline-primary " id="move_to_skilblog_btn"> skil blog(ch) </a> <br>
 	<button type="button" class="btn btn-outline-primary insert_image" onclick="window.location.href='{% url 'wm:MyShortCutCreateView_image' %}'">image 입력</button>
 
-</div>
 
 {% else %}
 empty
 
 {% endifequal %}
+</div>
 
 
 <table class="table table-bordered category_subject_table" width="1110" style="">
