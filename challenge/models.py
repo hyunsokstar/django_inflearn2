@@ -16,6 +16,9 @@ class challenge_subject(models.Model):
 	leader = models.CharField(max_length=120)
 	created= models.DateTimeField(auto_now_add=True)
 
+	def lecinfo_count2(self):
+		return self.lecinfo_set.count()
+
 	def __str__(self):
 		return self.title
 
@@ -28,13 +31,13 @@ class LecInfo(models.Model):
 	git_url = models.CharField(max_length=120)
 	rec_reputation = models.IntegerField(default=0)
 	student_count = models.IntegerField(default=0)
-	
+
 	def __str__(self):
 		return self.lec_name
-	
+
 	def student_count2(self):
 		return self.studentrecord_set.count()
-    
+
 class RecommandLecInfo(models.Model):
     lecinfo = models.ForeignKey(LecInfo, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

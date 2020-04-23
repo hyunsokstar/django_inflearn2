@@ -4,6 +4,14 @@ from django.contrib.auth.forms import UserCreationForm
 from . forms import SignupForm
 from django.contrib.auth import login as auth_login
 
+from django.contrib.auth.views import (
+    LoginView, logout_then_login,
+    PasswordChangeView as AuthPasswordChangeView,
+)
+
+def logout(request):
+    messages.success(request, '로그아웃되었습니다.')
+    return logout_then_login(request)
 
 def signup(request):
     print('회원 가입 뷰 실행 22')

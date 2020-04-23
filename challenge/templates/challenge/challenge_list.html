@@ -35,8 +35,19 @@
 <!--		<img class="card-img-top" src="..." alt="Card image cap">-->
 		<div class="card-body">
 			<h5 class="card-title">
-				{{p.title}}
-				<a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary float-right">go</a>
+
+				<div class="container">
+				  <div class="row p-2">
+				    <div class="col p-2">
+						{{p.title}}<br>
+						{{p.lecinfo_count2}} 개
+				    </div>
+				    <div class="col p-2">
+						<a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary float-right">go</a>
+				    </div>
+				  </div>
+				</div>
+
 			</h5>
 		</div>
 	</div>
