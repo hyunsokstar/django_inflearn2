@@ -65,7 +65,6 @@ button, input, a {
 			<!-- <h4>Skil Note by {{request.user.profile.shortcut_user_id}}</h4> -->
 			<input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id" size="40">
 			<button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button>
-			<!-- <a class="btn btn-outline-dark btn-sm user_list_btn" href="{% url 'wm:user_list_for_memo' %}">유저 목록(전체)</a> -->
 			<button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
 			<button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">유저 목록</button>
 			<button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
@@ -2019,7 +2018,6 @@ $('body').on('click', '.skill_search_button', function (e) {
 	window.history.pushState("", "", '/wm/myshortcut/')
 
 	const search_word = $(".skill_input_box").val();
-	// alert("search_word : " + search_word);
 	console.log("search_word : " + search_word);
 
 	$("input:radio.search").each(function () {

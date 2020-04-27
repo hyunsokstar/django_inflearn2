@@ -677,6 +677,10 @@ def search_by_id_and_word(request):
         print("search_word : ", search_word)
         print("object_list : ", object_list)
 
+        return render(request, 'wm/MyShortCut_list_for_search.html', {
+			'object_list': object_list
+		})
+
     elif(search_option == "file_history"):
         print("file_history 검색 실행")
         user = User.objects.get(username=search_user_id)
@@ -1082,17 +1086,29 @@ def favorite_user_list_for_skillnote(request):
 
 class user_list_for_memo_view(ListView):
     paginate_by = 10
+    # if 'q' in request.GET:
+    #     query = request.GET.get('q')
+    #     print("query : ", query)
+    #     # 1122
 
     def get_template_names(self):
         if self.request.is_ajax():
+            print("user list ajax 요청 확인")
             return ['wm/_user_list_for_memo.html']
         return ['wm/user_list_for_memo.html']
 
     def get_queryset(self):
-        print("user_list_for_memo_view 확인")
-        object_list = User.objects.all().order_by('-profile__skill_note_reputation');
-        print("result : ", object_list)
-        return object_list
+        print("실행 확인 겟 쿼리셋")
+        query = self.request.GET.get('q')
+        print("query : ", query)
+
+        if query != None:
+            object_list = User.objects.all().filter(Q(username__contains=query))
+            return object_list
+        else:
+            object_list = User.objects.all().order_by('-profile__skill_note_reputation');
+            print("result : ", object_list)
+            return object_list
 
 
 def update_shortcut_nick(request):

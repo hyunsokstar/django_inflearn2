@@ -7,11 +7,37 @@
 
 {% endblock %}
 
-{%block content2%}
+{%block content4%}
 
 <br><br>
 
-    <input type="button" class="btn btn-outline-dark btn-block btn-sm" onclick="location.href='/wm/myshortcut/'" value="skil note로 이동"/> <br>
+    <input type="button" class="btn btn-outline-dark btn-block btn-sm" onclick="location.href='/wm/myshortcut/'" value="skil note로 이동"/> <br><br>
+
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+        </div>
+        <div class="col">
+
+            <form class="" action="" method="get">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="serach word" aria-label="유저 검색" aria-describedby="basic-addon2" id="search_word_for_user"  name="q">
+                  <div class="input-group-append">
+                      <!-- search_btn_for_user_list -->
+                    <button class="btn btn-outline-secondary" type="submit">검색</button>
+                  </div>
+                </div>
+            </form>
+
+        </div>
+      </div>
+    </div>
+
+
 
     <table class="table table-bordered" id="todo_list">
         <tr>
@@ -21,7 +47,7 @@
             <td>change</td>
             <td>복사</td>
             <td>추천</td>
-            <td>평점 22</td>
+            <td>평점 </td>
         </tr>
         {% if object_list.exists %}
         {% for u in object_list %}
@@ -104,8 +130,9 @@ $(() => {
             is_loaded = true;
             $.get(next_page_url).
                 done(function(html) {
-                    console.log("html(next) : ", html)
+                    // console.log("html(next) : ", html)
                     $("#post_list").append(html);
+                    console.log("next_page_url : " , next_page_url);
                     next_page = current_page +1
                     console.log("현재 페이지 번호 : ", current_page);
                 }).
@@ -118,6 +145,15 @@ $(() => {
             }
     });
 });
+
+
+$(".search_btn_for_user_list").click(function(){
+    // alert("search button 클릭");
+    const search_word_for_user = $("#search_word_for_user").val()
+    alert("search_word_for_user : " + search_word_for_user)
+    // 1122
+});
+
 
 function refresh_user_list_popup(){
 
