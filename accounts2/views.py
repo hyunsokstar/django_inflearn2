@@ -3,11 +3,38 @@ from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from . forms import SignupForm
 from django.contrib.auth import login as auth_login
+from django.views.generic import ListView
 
 from django.contrib.auth.views import (
     LoginView, logout_then_login,
     PasswordChangeView as AuthPasswordChangeView,
 )
+
+
+class member_list_view(ListView):
+    paginate_by = 20
+
+    def get_template_names(self):
+        if self.request.is_ajax():
+            print("user list ajax 요청 확인")
+            return ['wm/_user_list_for_memo.html']
+        return ['wm/user_list_for_memo.html']
+
+    def get_queryset(self):
+        print("실행 확인 겟 쿼리셋")
+        query = self.request.GET.get('q')
+        print("query : ", query)
+
+        if query != None:
+            object_list = User.objects.all().filter(Q(username__contains=query))
+            return object_list
+        else:
+            object_list = User.objects.all().order_by('-profile__skill_note_reputation');
+            print("result : ", object_list)
+            return object_list
+
+member_list = member_list_view.as_view()
+
 
 def logout(request):
     messages.success(request, '로그아웃되었습니다.')
