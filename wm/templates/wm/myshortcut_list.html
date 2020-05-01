@@ -161,7 +161,11 @@ button, input, a {
 	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
 	<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
+
+	
 	<a href="" class="btn btn-outline-primary " id="modify_category_button"> 이동</a> <br>
+
+
 	<a href="" class="btn btn-outline-primary " id="shortcut_delete_button"> 삭제(ch) </a> <br>
 	<a href="" class="btn btn-outline-primary " id="ca_plus_1_btn" data-category={{cateogory}}>
 		 ca+1
@@ -848,6 +852,13 @@ button, input, a {
 
 $(function() {
   $('body').keyup(function(e) {
+
+	  if (e.ctrlKey && e.which === 48) {
+		  // alert('ctrㅣ + n');
+		  $(".update_nick_button").trigger("click");
+
+	  }
+
 	  if (e.ctrlKey && e.which === 37) {
 		  // alert('ctrㅣ + n');
 		  $(".go_to_before_channer_btn").trigger("click");
