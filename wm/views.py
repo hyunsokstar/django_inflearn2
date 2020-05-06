@@ -39,12 +39,14 @@ class MyShortcutListByUser(ListView):
     def get_queryset(self):
         user = self.kwargs['user']
         user = User.objects.get(username=user)
+        category_id = self.kwargs['category_id']
+
         print("user : ", user)
 
         if self.request.user.is_anonymous:
             return MyShortCut.objects.filter(author=user).order_by('created')
         else:
-            selected_category_id = user.profile.selected_category_id
+            selected_category_id = category_id
             return MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
