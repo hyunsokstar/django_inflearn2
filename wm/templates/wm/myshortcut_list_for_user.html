@@ -1,4 +1,5 @@
-{% extends "layout.html" %}
+
+% extends "layout.html" %}
 {% load staticfiles %}
 
 {%block title %}Skill Note{% endblock %}
@@ -107,7 +108,7 @@ button, input, a {
 {% endifequal %}
 
 
-<div class="sideicon_for_scroll">
+<!-- <div class="sideicon_for_scroll">
 	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
 	<input type="text" class="go_input form" size=2 value="1">
 	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
@@ -129,7 +130,7 @@ button, input, a {
 		<img src="{% static 'icon/right_arrow.png' %}" alt="">
 	</button>
 	<br>
-</div>
+</div> -->
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 

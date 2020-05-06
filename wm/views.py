@@ -29,7 +29,10 @@ from django.urls import reverse_lazy
 class MyShortcutListByUser(ListView):
     model = MyShortCut
     paginate_by = 20
-    user = 0
+    # template_name = "wm/my_shortcut_list_for_user.html"
+
+    # def get_template_names(self):
+    #     return ['wm/my_shortcut_list_for_user.html']
 
     def get_queryset(self):
         user = self.kwargs['user']
