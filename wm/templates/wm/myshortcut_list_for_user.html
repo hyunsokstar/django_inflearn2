@@ -272,7 +272,7 @@ button, input, a {
 	</tr>
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0">
 		<td>file</td>
-		<td ondblclick="modify_for_file_name({{p.id}},{{p.author}},{{p.username}})">
+		<td ondblclick="modify_for_file_name({{p.id}})">
 			<span>
 				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
 				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
@@ -320,7 +320,7 @@ button, input, a {
 			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
 			{{ forloop.counter }}
 		</td>
-		<td width="90%" ondblclick="modify_for_file_name({{p.id}},{{p.author}},{{request.username}})" >
+		<td width="90%" ondblclick="copy_for_summer_note_content({{p.id}})" >
 			<span id=title_{{p.id}}>{{p.title}}</span>
 			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
 
@@ -928,12 +928,12 @@ $(function() {
 
 
 // 2244
-function modify_for_file_name(id,author,username){
+function modify_for_file_name(id){
 	const file_name = $("#file_"+id).val()
 	username="{{request.user}}"
-	alert("파일 수정 실행");
-	console.log("id : ", id);
-	console.log("author : ", author);
+	// alert("파일 수정 실행");
+	// console.log("id : ", id);
+	// console.log("author : ", author);
 	console.log("username : ", username);
 
 
