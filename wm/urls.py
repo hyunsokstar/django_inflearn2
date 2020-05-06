@@ -8,10 +8,12 @@ app_name = 'wm'
 urlpatterns = [
     # 1122
     # 체크 박스 체크한 항목들을 스킬 블로그로 이동
-
     path('manual', views.manualPage, name="manual"),
-
     path('', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+    path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+    path('myshortcut/update_skil_note_file_name/<int:id>', views.update_skil_note_file_name , name="update_skil_note_file_name"),
+    path('myshortcut/<str:user>/<int:category_id>', views.MyShortcutListByUser.as_view(), name="my_shortcut_list_by_user"),
+
 
     path('myshortcut/category_plus_1_for_current_user', views.category_plus_1_for_current_user , name='category_plus_1_for_current_user'),
     path('myshortcut/category_minus_1_for_current_user', views.category_minus_1_for_current_user , name='category_minus_1_for_current_user'),
@@ -56,7 +58,6 @@ urlpatterns = [
     path('delete_shortcut_comment_ajax/<int:shortcut_comment_id>' , views.delete_comment_for_my_shortcut, name="delete_comment_for_my_shortcut"),
 
     path('myshortcut/update/shortcut_subject/' , views.update_my_shortcut_subject, name="update_my_shortcut_subject"),
-    path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
 
     path('myshortcut/create_new1_input/ajax/first', views.create_new1_input_first , name="create_new1_input_first"),
     path('myshortcut/create_new1_input/ajax/', views.create_new1_input , name="create_new1_input"),
@@ -88,7 +89,6 @@ urlpatterns = [
 
     path('myshortcut/delete_shortcut_ajax/<int:id>', views.delete_shortcut_ajax , name="delete_shortcut_ajax"),
     path('myshortcut/update_shortcut_ajax/<int:id>', views.update_shortcut_ajax , name="update_shortcut_ajax"),
-    path('myshortcut/update_skil_note_file_name/<int:id>', views.update_skil_note_file_name , name="update_skil_note_file_name"),
 
 
     path('myshortcut/category/<str:slug>/', views.MyShortcutListByCategory.as_view()),

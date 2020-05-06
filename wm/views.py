@@ -20,6 +20,53 @@ from django.urls import reverse_lazy
 
 # 1122
 
+    # def get_queryset(self):
+    #     slug = self.kwargs['slug']
+    #     category = Category.objects.get(slug=slug)
+    #     pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
+    #     print('category id update 성공')
+
+class MyShortcutListByUser(ListView):
+    model = MyShortCut
+    paginate_by = 20
+    user = 0
+
+    def get_queryset(self):
+        user = self.kwargs['user']
+        user = User.objects.get(username=user)
+        print("user : ", user)
+
+        if self.request.user.is_anonymous:
+            return MyShortCut.objects.filter(author=user).order_by('created')
+        else:
+            selected_category_id = user.profile.selected_category_id
+            return MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+            user = self.kwargs['user']
+            category_id = self.kwargs['category_id']
+            user = User.objects.get(username=user)
+
+            print("category_id : ", category_id)
+
+            cn = CategoryNick.objects.get_or_create(
+                author=user,
+            )
+
+            context = super(MyShortcutListByUser, self).get_context_data(**kwargs)
+            context['category_list'] = Category.objects.all()
+
+            # category = Category.objects.get(id=user.profile.selected_category_id)
+            category = Category.objects.get(id=category_id)
+            context['category'] = category
+            context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=user)
+
+            context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=user).count()
+
+            return context
+
+
+
 def manualPage(request):
     return render(request, 'wm/manual.html', {
 	})
@@ -1171,6 +1218,9 @@ def CategoryNickListByUserId(request, user_name):
         })
     else:
         return HttpResponse("Request method is not a GET")
+
+
+
 
 class modify_myshortcut_by_summer_note(UpdateView):
     model = MyShortCut
