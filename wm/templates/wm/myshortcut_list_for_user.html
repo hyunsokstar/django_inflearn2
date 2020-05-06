@@ -1,5 +1,4 @@
-
-% extends "layout.html" %}
+{% extends "layout.html" %}
 {% load staticfiles %}
 
 {%block title %}Skill Note{% endblock %}
@@ -60,10 +59,10 @@ button, input, a {
 <br>
 <hr>
 
+<!--
 <table class="table table-bordered">
 	<tr>
 		<td width="20%">
-			<!-- <h4>Skil Note by {{request.user.profile.shortcut_user_id}}</h4> -->
 			<input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id" size="40">
 			<button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button>
 			<button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
@@ -86,7 +85,9 @@ button, input, a {
 
 		</td>
 	</tr>
-</table>
+</table> -->
+
+
 <!-- </div> -->
 
 {% if messages %}
@@ -102,7 +103,6 @@ button, input, a {
 
 
 {% else %}
-
 
 <span class="float-right"> {{request.user.profile.shortcut_user_id}} 님의 skill note 입니다. </span>
 {% endifequal %}
@@ -153,7 +153,7 @@ button, input, a {
 
 
 <div class="temp_memo_btn_area">
-	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
+	<!-- <a class="btn btn-outline-info search_popup_btn ">검색</a> <br> -->
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
