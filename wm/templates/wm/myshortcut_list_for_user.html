@@ -98,6 +98,13 @@ button, input, a {
 </div>
 {% endif %}
 
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="검색어를 입력 하세요" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button">Button</button>
+  </div>
+</div>
+
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
