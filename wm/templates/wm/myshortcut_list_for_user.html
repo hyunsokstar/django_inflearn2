@@ -2566,6 +2566,8 @@ $('#shortcut_delete_button').click(function (e) {
 	e.preventDefault();
 	var shortcut_arr = [];
 
+	alert("버튼 클릭 확인")
+
 	$('.shortcut_check').each(function () {
 		if (jQuery(this).is(":checked")) {
 			var id = this.id;
@@ -2823,6 +2825,8 @@ $('body').on('click', '.copy_code2', function (e) {
 $('body').on('click', '.short_delete_button', function (e) {
 	e.preventDefault();
 	var id = $(this).attr("id");
+
+	// alert("삭제 버튼 클릭")
 
 	$.ajax({
 		type: "POST",

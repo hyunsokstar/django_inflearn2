@@ -12,7 +12,6 @@ urlpatterns = [
     path('', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
     path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
     path('myshortcut/update_skil_note_file_name/<int:id>', views.update_skil_note_file_name , name="update_skil_note_file_name"),
-    path('myshortcut/<str:user>/<int:category_id>', views.MyShortcutListByUser.as_view(), name="my_shortcut_list_by_user"),
 
 
     path('myshortcut/category_plus_1_for_current_user', views.category_plus_1_for_current_user , name='category_plus_1_for_current_user'),
@@ -111,5 +110,6 @@ urlpatterns = [
     path('myshortcut/delete/ajax/', views.delete_myshortcut_by_ajax, name = 'delete_myshortcut_by_ajax'),
     path('myshortcut/update/category/ajax', views.update_category_by_ajax, name = 'update_category_by_ajax'),
 
+    path('myshortcut/<str:user>/<int:category_id>', views.MyShortcutListByUser.as_view(), name="my_shortcut_list_by_user"),
 
 ]

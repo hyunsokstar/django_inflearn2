@@ -895,6 +895,28 @@ $(function() {
 });
 
 
+// show_delete_temp_memo_btn
+$('body').on('click', '.short_delete_button', function (e) {
+	// alert("삭제 버튼 클릭 확인");
+
+	e.preventDefault();
+	var id = $(this).attr("id");
+
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/delete_shortcut_ajax/' + id,
+		data: {
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#shortcut_" + id).remove();
+			$("#shortcut_" + id + "-2").remove();
+			$("#shortcut_" + id + "-3").remove();
+			alert('삭제 성공');
+		}
+	});
+});
+
 
 (function($) {
     $.fn.flash_message = function(options) {
@@ -2811,25 +2833,6 @@ $('body').on('click', '.copy_code2', function (e) {
 	});
 });
 
-// show_delete_temp_memo_btn
-$('body').on('click', '.short_delete_button', function (e) {
-	e.preventDefault();
-	var id = $(this).attr("id");
-
-	$.ajax({
-		type: "POST",
-		url: '/wm/myshortcut/delete_shortcut_ajax/' + id,
-		data: {
-			csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
-		success: function (result) {
-			$("#shortcut_" + id).remove();
-			$("#shortcut_" + id + "-2").remove();
-			$("#shortcut_" + id + "-3").remove();
-			alert('삭제 성공');
-		}
-	});
-});
 
 // 제목 수정 버튼
 $('body').on('click', '.short_update_button', function (e) {
