@@ -98,12 +98,12 @@ button, input, a {
 </div>
 {% endif %}
 
-<div class="input-group mb-3">
+<!-- <div class="input-group mb-3">
   <input type="text" class="form-control" placeholder="검색어를 입력 하세요" aria-label="Recipient's username" aria-describedby="basic-addon2">
   <div class="input-group-append">
     <button class="btn btn-outline-secondary" type="button">Button</button>
   </div>
-</div>
+</div> -->
 
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
@@ -115,7 +115,7 @@ button, input, a {
 {% endifequal %}
 
 
-<!-- <div class="sideicon_for_scroll">
+<div class="sideicon_for_scroll">
 	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
 	<input type="text" class="go_input form" size=2 value="1">
 	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
@@ -126,7 +126,7 @@ button, input, a {
 	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">first</button><br>
 	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark" id="">end</button><br>
 
-	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input">
+	<!-- <input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input">
 	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
 
 	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark">
@@ -135,11 +135,13 @@ button, input, a {
 
 	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark">
 		<img src="{% static 'icon/right_arrow.png' %}" alt="">
-	</button>
+	</button> -->
 	<br>
-</div> -->
+</div>
 
-{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+
+{% ifequal request.user page_user %}
+
 
 <!-- side button area -->
 
@@ -162,8 +164,7 @@ button, input, a {
 <div class="temp_memo_btn_area">
 	<!-- <a class="btn btn-outline-info search_popup_btn ">검색</a> <br> -->
 
-{% ifequal request.user.profile.shortcut_user_id request.user.username %}
-
+{% ifequal request.user page_user %}
 	<button type="button" class="category_btn category_name_list_button btn btn-outline-dark" id="{{request.user.id}}">CH</button> <br>
 	<button type="button" class="category_user_btn user_list_btn btn btn-outline-dark">User</button><br>
 	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>

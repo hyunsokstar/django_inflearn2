@@ -36,9 +36,12 @@ class MyShortcutListByUser(ListView):
     # def get_template_names(self):
     #     return ['wm/my_shortcut_list_for_user.html']
 
+
     def get_queryset(self):
         user = self.kwargs['user']
         user = User.objects.get(username=user)
+
+
         category_id = self.kwargs['category_id']
 
         print("user : ", user)
@@ -46,7 +49,7 @@ class MyShortcutListByUser(ListView):
         if self.request.user.is_anonymous:
             # return MyShortCut.objects.filter(author=user).order_by('created')
             selected_category_id = category_id
-            return MyShortCut.objects.filter(Q(author=user, category = category_id)).order_by('created')            
+            return MyShortCut.objects.filter(Q(author=user, category = category_id)).order_by('created')
         else:
             selected_category_id = category_id
             return MyShortCut.objects.filter(Q(author=user, category = category_id)).order_by('created')
@@ -71,6 +74,7 @@ class MyShortcutListByUser(ListView):
             context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=user)
 
             context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=user).count()
+            context['page_user'] = user
 
             return context
 
