@@ -126,7 +126,8 @@ button, input, a {
 	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">first</button><br>
 	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark" id="">end</button><br>
 
-	<!-- <input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input">
+
+	<input type="text" name="" size=2  value="{{category_num}}" id="ch_input">
 	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
 
 	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark">
@@ -135,7 +136,8 @@ button, input, a {
 
 	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark">
 		<img src="{% static 'icon/right_arrow.png' %}" alt="">
-	</button> -->
+	</button>
+
 	<br>
 </div>
 
@@ -162,7 +164,7 @@ button, input, a {
 
 
 <div class="temp_memo_btn_area">
-	<!-- <a class="btn btn-outline-info search_popup_btn ">검색</a> <br> -->
+	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
 
 {% ifequal request.user page_user %}
 	<button type="button" class="category_btn category_name_list_button btn btn-outline-dark" id="{{request.user.id}}">CH</button> <br>
@@ -1474,9 +1476,9 @@ $('body').on('click', '#move_to_skilblog_btn', function (e) {
 $('body').on('click', '.next_channer_btn', function (e) {
 
 	const number = $("#ch_input").val();
-	ch_name = "ca"+number;
+	// ch_name = "ca"+number;
 	// $(".go_btn").trigger("click");
-	window.location.href = "/wm/myshortcut/category/"+ch_name;
+	window.location.href = "/wm/myshortcut/{{page_user}}/"+number;
 });
 
 $('body').on('click', '.edit_complete_skill_note_for_backend_btn', function (e) {
@@ -2055,6 +2057,8 @@ function enter_for_search_skil_note(){
 	}
 }
 
+
+// 1122
 $('body').on('click', '.skill_search_button', function (e) {
 	e.preventDefault();
 	window.history.pushState("", "", '/wm/myshortcut/')
@@ -2076,6 +2080,7 @@ $('body').on('click', '.skill_search_button', function (e) {
 		data: {
 			'search_word': search_word,
 			'search_option': search_option,
+			'page_user': "{{page_user}}",
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 		success: function (result) {
@@ -2301,30 +2306,25 @@ $(document).ready(function () {
 
 $(".go_to_before_channer_btn").click(function () {
 	// alert("클릭22");
-	const category_id = parseInt($(".ca-btn-selected").attr('id')) - 1
-	// alert("category_id : "+ category_id)
-
-	if (category_id < 1) {
-		category_id = 1
+	let number = parseInt($("#ch_input").val()) - 1;
+	if (number > 120) {
+		number = 120
 	}
-	// var href = $('.cssbuttongo').attr('href')
-	nect_ch_url = $("#ca_" + category_id).attr('href')
-	window.location.href = nect_ch_url;
+	window.location.href = "/wm/myshortcut/{{page_user}}/"+number;
 })
 
 $(".go_to_next_channer_btn").click(function () {
-	// alert("클릭22");
-	const category_id = parseInt($(".ca-btn-selected").attr('id')) + 1
-	// alert("category_id : "+ category_id)
 
-	if (category_id > 120) {
-		category_id = 120
+	let number =parseInt( $("#ch_input").val()) + 1;
+	if (number > 120) {
+		number = 120
 	}
+	window.location.href = "/wm/myshortcut/{{page_user}}/"+number;
 
-	// var href = $('.cssbuttongo').attr('href')
-	next_ch_url = $("#ca_" + category_id).attr('href')
-	console.log("next_ch_url : " + next_ch_url);
-	window.location.href = next_ch_url;
+	// // var href = $('.cssbuttongo').attr('href')
+	// next_ch_url = $("#ca_" + category_id).attr('href')
+	// console.log("next_ch_url : " + next_ch_url);
+	// window.location.href = next_ch_url;
 })
 
 $(".go_start_line_btn").click(function () {

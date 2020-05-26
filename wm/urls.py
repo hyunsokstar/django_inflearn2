@@ -23,7 +23,9 @@ urlpatterns = [
     path('myshortcut/plus_recommand_for_skillnote_user/', views.plus_recommand_for_skillnote_user , name='plus_recommand_for_skillnote_user'),
 
     path('myshortcut/edit_complete_skill_note_for_front_end/<int:id>', views.edit_complete_skill_note_for_front_end , name='edit_complete_skill_note_for_front_end'),
+
     path('myshortcut/edit_complete_skill_note_for_backend/<int:id>', views.edit_complete_skill_note_for_backend , name='edit_complete_skill_note_for_backend'),
+
 
     path('myshortcut/edit_temp_skill_note_using_textarea_for_backend/<int:id>', views.edit_temp_skill_note_using_textarea_for_backend , name='edit_temp_skill_note_using_textarea_for_backend'),
 

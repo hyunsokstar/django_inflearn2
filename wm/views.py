@@ -71,6 +71,7 @@ class MyShortcutListByUser(ListView):
             # category = Category.objects.get(id=user.profile.selected_category_id)
             category = Category.objects.get(id=category_id)
             context['category'] = category
+            context['category_num'] = category_id
             context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=user)
 
             context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=user).count()
@@ -700,15 +701,28 @@ def copyForCategorySubjectToMyCategory(request):
 		'message': author+'의 '+ original_category +'를 나의 ' +destination_category +'로 복사 했습니다',
 	})
 
-def search_by_id_and_word(request):
-    search_user_id = request.user.profile.shortcut_user_id
-    search_word = request.POST['search_word']
-    search_option = request.POST['search_option']
-    print("search_user_id : ", search_user_id)
-    print("search_word : ", search_word)
-    print("search_option : ", search_option)
 
-    user = User.objects.get(username=search_user_id)
+
+def search_by_id_and_word(request):
+    user = request.user
+    print("request.user.is_authenticated : ", request.user.is_authenticated)
+
+    if(request.user.is_authenticated):
+        search_user_id = request.user.profile.shortcut_user_id
+        search_word = request.POST['search_word']
+        search_option = request.POST['search_option']
+        print("search_user_id : ", search_user_id)
+        print("search_word : ", search_word)
+        print("search_option : ", search_option)
+        user = User.objects.get(username=search_user_id)
+
+    else:
+        page_user = request.POST['page_user']
+        search_word = request.POST['search_word']
+        search_option = request.POST['search_option']
+        print("search_word : ", search_word)
+        print("search_option : ", search_option)
+        user = User.objects.get(username=page_user)
 
 
     # | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)
@@ -1149,7 +1163,6 @@ class user_list_for_memo_view(ListView):
     # if 'q' in request.GET:
     #     query = request.GET.get('q')
     #     print("query : ", query)
-    #     # 1122
 
     def get_template_names(self):
         if self.request.is_ajax():
