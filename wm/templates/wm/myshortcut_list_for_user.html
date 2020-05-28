@@ -106,12 +106,12 @@ button, input, a {
 </div> -->
 
 
-{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+{% ifequal page_user request.user.username %}
 
 
 {% else %}
 
-<span class="float-right"> {{request.user.profile.shortcut_user_id}} 님의 skill note 입니다. </span>
+<span class="float-right"> {{page_user}} 님의 skill note 입니다. </span>
 {% endifequal %}
 
 
@@ -207,7 +207,7 @@ button, input, a {
 			<span id="current_category_subject">
 				{{category_nick}}
 			</span>
-			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+			{% ifequal page_user request.user.username %}
 				<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제 수정</button>
 			{% else %}
 
@@ -289,7 +289,7 @@ button, input, a {
 				<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
 			</span>
 
-			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+			{% ifequal page_user request.user.username %}
 				<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 			{% else %}
 			{% endifequal %}
@@ -350,7 +350,7 @@ button, input, a {
 			</span>
 
 
-			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+			{% ifequal page_user request.user.username %}
 				<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 			{% else %}
 			{% endifequal %}
@@ -367,7 +367,7 @@ button, input, a {
 
 			<br>
 
-			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+			{% ifequal page_user request.user.username %}
 
 				<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
