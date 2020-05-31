@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'todo',
-    'wm', 
+    'wm',
     'bestlec', # 강의 추천
     'accounts2', # 계정 관리
     'management', # 제안 사항
@@ -43,11 +43,14 @@ INSTALLED_APPS = [
     'pd', #persional desk
     'skilblog', # 스킬 블로그
     'blog', # tech note
+    'debug_toolbar',
+
 
     # 'datetimepicker',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -162,3 +165,10 @@ DJANGO_NOTIFICATIONS_CONFIG = {
 # BOOTSTRAP4 = {
 #     'include_jquery': True,
 # }
+
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
