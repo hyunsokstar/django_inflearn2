@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import MyShortCut, Type, Category,CategoryNick,CommentForShortCut, TempMyShortCut, TempMyShortCutForBackEnd
+from . models import MyShortCut, Type, Category,CategoryNick,CommentForShortCut, TempMyShortCut, TempMyShortCutForBackEnd, CommentForPage
 
 # Register your models here.
 
@@ -31,3 +31,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(CommentForShortCut)
 class CommentForShortCutAdmin(admin.ModelAdmin):
     list_display = ['title','content','author','created_at']
+
+@admin.register(CommentForPage)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['category_id','user_name','author', 'content', 'created_at' ]

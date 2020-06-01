@@ -8,6 +8,9 @@ app_name = 'wm'
 urlpatterns = [
     # 1122
     # 체크 박스 체크한 항목들을 스킬 블로그로 이동
+
+    path('new_comment_for_skilpage/<str:user_name>/<int:category_id>/' , views.new_comment_for_skilpage, name="new_comment_for_skilpage"),
+
     path('manual', views.manualPage, name="manual"),
     path('', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
     path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),

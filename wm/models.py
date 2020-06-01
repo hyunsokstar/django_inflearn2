@@ -78,10 +78,21 @@ class CommentForShortCut(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    # text_type = models.CharField(max_length=20, blank=True, default="summer_note")
 
     def __str__(self):
         return self.title
+
+class CommentForPage(models.Model):
+    author= models.CharField(max_length=40)
+    content = models.TextField()
+    user_name = models.CharField(max_length=40, blank=True)
+    category_id = models.CharField(max_length=10, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+        
+
 
 class CategoryNick(models.Model):
     ca_subtitle = models.CharField(max_length=50, default="my category info")

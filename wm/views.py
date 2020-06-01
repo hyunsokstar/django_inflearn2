@@ -10,21 +10,32 @@ from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_image
 from accounts2.models import Profile
-from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote
+from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote, CommentForPage
 from skilblog.models import SkilBlogTitle, SkilBlogContent
 from django.http import HttpResponseRedirect
 from datetime import datetime , timedelta
 from django.utils import timezone
 from django.urls import reverse_lazy
+from . forms import CommentForm
+
 
 
 # 1122
 
-    # def get_queryset(self):
-    #     slug = self.kwargs['slug']
-    #     category = Category.objects.get(slug=slug)
-    #     pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
-    #     print('category id update 성공')
+def new_comment_for_skilpage(request, pk):
+    user_name = request.GET.get('user_name')
+    category_id = request.GET.get('category_id')
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = user_name
+            comment.category_id = category_id
+            comment.save()
+            return redirect('/wm/myshortcut/'+user_name+"/"+category_id)
+    else:
+        return redirect('/wm/myshortcut/'+user_name+"/"+category_id)
 
 class MyShortcutListByUser(ListView):
     model = MyShortCut
@@ -76,6 +87,9 @@ class MyShortcutListByUser(ListView):
 
             context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=user).count()
             context['page_user'] = user
+            context['comment_list_for_page'] = CommentForPage.objects.filter(user_name=user, category_id = category_id)
+            context['comment_form'] = CommentForm()
+            # 2244
 
             return context
 

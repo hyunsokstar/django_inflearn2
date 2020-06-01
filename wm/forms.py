@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
-from .models import MyShortCut
+from .models import MyShortCut, CommentForPage
 from django.db.models import F
 
 # category 모델이 foreignkey인데
@@ -27,3 +27,9 @@ class MyShortCutForm_summer_note(forms.ModelForm):
             'filename': forms.TextInput(attrs={'size': 100}),
             'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '480px', 'line-height': 1.2, 'font-size':12, 'tabSize': 4, "backcolor":"white", 'color':"white", 'backColor' :'white'  }}),
         }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = CommentForPage
+        fields = ('author','content',)
