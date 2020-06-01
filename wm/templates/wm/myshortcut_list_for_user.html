@@ -485,23 +485,19 @@ button, input, a {
 </table>
 {% endif %}
 
-<h4>댓글 영역</h4>
-
 <!-- <button type="button" class="btn btn-outline-dark float-right">
 	댓글
 </button> -->
 
-	page_user : {{page_user}}
-	category_id : {{category_num}}
 	<div class="card my-4">
 		<h5 class="card-header">Leave a Comment:</h5>
 		<div class="card-body">
-			<form method="post" action={% url "wm:new_comment_for_skilpage" user_name=page_user category_id=category_num %}>{% csrf_token %}
-
+			<form method="post" action={% url "wm:new_comment_for_skilpage" user_name=page_user category_id=category_num %}>
+				{% csrf_token %}
 				<div class="form-group">
 					{{ comment_form | crispy }}
 				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="submit" class="btn btn-primary float-right">Submit</button>
 			</form>
 		</div>
 	</div>
@@ -511,14 +507,18 @@ button, input, a {
 	{% if comment_list_for_page.exists %}
 		{% for comment in comment_list_for_page %}
 		<table class="table" id="empty_state">
-			<tr>
+			<tr id="comment_for_skilpage_{{comment.id}}">
 				<td width="20%">
 					{{comment.author}}
 				</td>
 
 				<td>
 					{{comment.content}}
+
+
+					<span class="glyphicon glyphicon-remove float-right delete_comment_for_skilpage" data-id={{comment.id}}>x</span>
 				</td>
+				<!-- 2244 -->
 
 			</tr>
 		{% endfor %}
@@ -980,21 +980,31 @@ $(function() {
 })(jQuery);
 
 
+
 // 2244
+$('body').on('click', '.delete_comment_for_skilpage', function (e) {
+	const id = $(this).data('id');
+	// alert("id : "+ id);
+	$.ajax({
+		type: "POST",
+		url: '/wm/myshortcut/delete_comment_for_skilpage/' + id,
+		data: {
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#comment_for_skilpage_" + id).remove();
+			alert(result.message);
+		}
+	});
+
+});
+
+
+
 function modify_for_file_name(id){
 	const file_name = $("#file_"+id).val()
 	username="{{request.user}}"
-	// alert("파일 수정 실행");
-	// console.log("id : ", id);
-	// console.log("author : ", author);
 	console.log("username : ", username);
-
-
-	// if(username != 'undefined'){
-	// 	console.log("author : ", author);
-	// 	console.log("username : ", username);
-	// 	alert("작성자만 수정 가능");
-	// }
 
 	if(username){
 
@@ -1029,6 +1039,8 @@ $('body').on('click', '.open_new_tabb', function (e) {
 	var win = window.open(url, '_blank');
 	win.focus();
 });
+
+
 
 // file_history_button
 $('body').on('click', '.file_history_button', function (e) {

@@ -22,15 +22,28 @@ from . forms import CommentForm
 
 # 1122
 
-def new_comment_for_skilpage(request, pk):
-    user_name = request.GET.get('user_name')
-    category_id = request.GET.get('category_id')
+# delete_comment_for_skilpage
+def delete_comment_for_skilpage(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        comment = CommentForPage.objects.filter(Q(id=id)).delete()
+        print('TempMyShortCutForBackEnd delete 성공 id : ' , id);
+        return JsonResponse({
+            'message': 'comment 삭제 성공',
+        })
+    else:
+        return redirect('/todo')
+
+def new_comment_for_skilpage(request, user_name, category_id):
+    # user_name = request.GET.get('user_name')
+    # category_id = request.GET.get('category_id')
+    print("user_name : ", user_name)
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
-            comment.author = user_name
+            comment.user_name = user_name
             comment.category_id = category_id
             comment.save()
             return redirect('/wm/myshortcut/'+user_name+"/"+category_id)
