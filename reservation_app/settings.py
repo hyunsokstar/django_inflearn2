@@ -155,7 +155,7 @@ MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = '/todo/'
+LOGIN_REDIRECT_URL = '/accounts/login/?next={{requeset.path}}'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DJANGO_NOTIFICATIONS_CONFIG = {

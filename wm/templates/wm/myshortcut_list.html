@@ -271,7 +271,7 @@ button, input, a {
 	</tr>
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0">
 		<td>file</td>
-		<td ondblclick="modify_for_file_name({{p.id}})">
+		<td ondblclick="copy_for_file_name2({{p.id}})">
 			<span>
 				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
 				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
@@ -333,7 +333,7 @@ button, input, a {
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0">
 		<td>file</td>
 		<td>
-			<span ondblclick = "modify_for_file_name({{p.id}})">
+			<span ondblclick = "copy_for_file_name2({{p.id}})">
 				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
 				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
 			</span>
@@ -1080,6 +1080,23 @@ function copy_for_file_name(id){
 	// alert("copy is completed")
 }
 
+
+function copy_for_file_name2(id){
+	var copyText = document.getElementById("file_"+id);
+    // get the original text value
+    const org = copyText.value;
+    const match = org.match(/\/([^/]+?\.\w+)\s*$/);
+    if(match) {
+      // if found file name, replace with it temporarily
+      copyText.value = match[1];
+    }
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+    document.execCommand("copy");
+    // restore the text value
+    copyText.value = org;
+    alert("copy is completed")
+}
 
 $('body').on('dblclick', '#input_title_for_skill_note_btn', function (e) {
 	// alert($(this).parent().parent().find(".copy_code1").text())
