@@ -11,7 +11,7 @@ SECRET_KEY = 'qki)d54cmpt_v7b5m07qh$d#o3j6#pm3gi=po&)b2a59$e859x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['167.179.89.223', '127.0.0.1', 'terecal-hyun.co.kr','www.terecal-hyun.co.kr']
+ALLOWED_HOSTS = ['167.179.89.223', '127.0.0.1', 'terecal-hyun.co.kr','www.terecal-hyun.co.kr','127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -43,14 +43,12 @@ INSTALLED_APPS = [
     'pd', #persional desk
     'skilblog', # 스킬 블로그
     'blog', # tech note
-    'debug_toolbar',
-
-
+    # 'debug_toolbar',
     # 'datetimepicker',
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -151,6 +149,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'_media')
+
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
