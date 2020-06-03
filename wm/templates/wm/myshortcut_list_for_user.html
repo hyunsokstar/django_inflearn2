@@ -51,6 +51,12 @@ button, input, a {
 	background-color:green
 }
 
+
+.smart_phone_img {
+	max-width: 100% !important;
+    height: auto !important;
+}
+
 {% endblock %}
 
 
@@ -221,7 +227,7 @@ button, input, a {
 
 {% if object_list.exists %}
 {% for p in object_list %}
-<table class="table table-bordered table_row" id="todo_list">
+<table class="table table-bordered table_row" id="todo_list" style="">
 
 	{% ifequal p.type.type_name "input" %}
 
@@ -1132,7 +1138,7 @@ function copy_for_file_name2(id){
     const match = org.match(/\/([^/]+?\.\w+)\s*$/);
     if(match) {
       // if found file name, replace with it temporarily
-      copyText.value = match[1];
+      copyText.value = match[match.length-1];
     }
     copyText.select();
     copyText.setSelectionRange(0, 99999); /*For mobile devices*/
@@ -1475,7 +1481,38 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 $(document).ready(function () {
 	var jbOffset = $('.category_subject_table').offset();
 	var todoOffset = $('.todo_list').offset();
-	// window.history.pushState("", "", '/wm/myshortcut/')
+
+
+	// $("img").addClass("smart_phone_img img-fluid")
+	//
+	//
+	// let width_size = window.innerWidth;
+	//
+	//
+	//
+	// window.addEventListener(
+	//   "resize",
+	//   function() {
+	//     if (width_size <= 400) {
+	// 		console.log("400 이하");
+	// 		$("img").css("width", "50%")
+	//
+	//       width_size = window.innerWidth;
+	//     } else if (width_size >= 400 && width_size <= 500) {
+	// 		console.log("400 이하");
+	//
+	// 		$("img").css("width", "50%")
+	// 		width_size = window.innerWidth;
+	//     } else{
+	// 		$("img").css("width", "50%")
+	// 		width_size = window.innerWidth;
+	// 	}
+	//   },
+	//   true
+	// );
+
+
+
 
 	$(window).scroll(function () {
 		// console.log("scroll event 실행");
