@@ -1135,23 +1135,36 @@ function copy_for_file_name(id){
     copyText.setSelectionRange(0, 99999); /*For mobile devices*/
     document.execCommand("copy");
 	// alert("copy is completed")
+
+	$(".result_for_file_name_copy_"+id).flash_message({
+        text: 'copy ! : ' + copyText.value,
+        how: 'append'
+    });
 }
 
 function copy_for_file_name2(id){
 	var copyText = document.getElementById("file_"+id);
     // get the original text value
     const org = copyText.value;
-    const match = org.match(/\/([^/]+?\.\w+)\s*$/);
+    // const match = org.match(/\/([^/]+?\.\w+)\s*$/);
+	var match = org.substr(org.lastIndexOf('/') + 1);
+	console.log(match);
+
     if(match) {
       // if found file name, replace with it temporarily
-      copyText.value = match[match.length-1];
+      copyText.value = match
     }
     copyText.select();
     copyText.setSelectionRange(0, 99999); /*For mobile devices*/
     document.execCommand("copy");
     // restore the text value
     copyText.value = org;
-    alert("copy is completed")
+    // alert("filename : "+ match[1])
+
+	$(".result_for_file_name_copy_"+id).flash_message({
+        text: 'copy ! : ' + match,
+        how: 'append'
+    });
 }
 
 
