@@ -632,17 +632,20 @@ img.Image { max-width: 100%; display: block; }
 			</div>
 			<div class="modal-body">
 
-				<form class="form-inline my-2 my-lg-0 float-right">
-					<input class="form-control skill_input_box" type="text" placeholder="Search" onkeyup="enter_for_search_skil_note()">
-					<button class="btn btn-secondary skill_search_button" type="button">Search</button>
-				</form>
+				<div class="input-group">
+				  <input type="text" class="form-control skill_input_box"placeholder="Search" onkeyup="enter_for_search_skil_note()" aria-describedby="button-addon4">
+				  <div class="input-group-append" id="button-addon4">
+					  <button class="btn btn-secondary skill_search_button" type="button">Search</button>
+				  </div>
+				</div>
 
-				<input type="radio" class="search" id="content+title" name='foo' checked="true">제목,내용
-				<input type="radio" class="search" id="only_title" name='foo'>제목
+
+				<input type="radio" class="search" id="content+title" name='foo' checked="true">제목,내용(me)
+				<input type="radio" class="search" id="only_title" name='foo'>제목(me)
+				&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" class="search" id="content_title_alluser" name='foo'>제목, 내용(all user)
 				<input type="radio" class="search" id="title_alluser" name='foo'>제목(all user)
 				<br>
-				<hr>
 
 				<div id="wm_list_area_for_popup"></div>
 
@@ -2110,8 +2113,7 @@ function search_note(e){
 
 function enter_for_search_skil_note(){
 	if (window.event.keyCode == 13) {
-		alert("enter")
-		$(this).trigger(".skill_search_button");
+		$(".skill_search_button").click()
 	}
 }
 

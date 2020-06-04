@@ -97,9 +97,7 @@
 		<td>
 			{% if category.author == request.user %}
 			<a class="btn btn-outline-primary  btn-sm cn-btn" data-id={{category.id}} data-field="ca7">수정</a>
-			<!-- {% endif %}
-			<a class="btn btn-outline-primary btn-sm copyforNickSubjectBtn" data-author="{{category.author}}" data-category=ca7
-				href="">복사</a> -->
+			{% endif %}
 			<a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca7/">이동</a>
 		</td>
     </tr>
@@ -1757,7 +1755,7 @@
                 href="">복사</a> -->
             <a class="btn btn-outline-primary btn-sm" href="/wm/myshortcut/category/ca120/">이동</a>
         </td>
-    </tr>                                                                
+    </tr>
 
 </table>
 

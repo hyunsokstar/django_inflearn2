@@ -18,7 +18,7 @@ button, input, a {
 .sideicon_for_scroll{
 	position:fixed;
 	colort:blue;
-	top:220px;
+	top:120px;
 	right:8px;
 }
 
@@ -32,7 +32,7 @@ button, input, a {
 .sideicon_for_move{
 	position:fixed;
 	colort:blue;
-	top:340px;
+	top:270px;
 	right:8px;
 }
 
@@ -123,6 +123,7 @@ button, input, a {
 
 
 <div class="sideicon_for_scroll">
+	<button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button><br>
 	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
 	<input type="text" class="go_input form" size=2 value="1">
 	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
@@ -351,16 +352,13 @@ button, input, a {
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0">
 		<td>file</td>
 		<td>
-			<span ondblclick = "copy_for_file_name2({{p.id}})">
-				<input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
-				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
-			</span>
-
-
-			{% ifequal page_user request.user.username %}
-				<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
-			{% else %}
-			{% endifequal %}
+			<div class="input-group">
+			  <input type="text" class="form-control" id="file_{{p.id}}" value="{{p.filename}}" aria-describedby="button-addon4">
+			  <div class="input-group-append" id="button-addon4">
+				<button class="btn btn-outline-secondary" type="button" onclick="copy_for_file_name({{p.id}})">total</button>
+				<button class="btn btn-outline-secondary" type="button" onclick="copy_for_file_name2({{p.id}})">file</button>
+			  </div>
+			</div>
 
 		</td>
 	</tr>
@@ -680,17 +678,25 @@ button, input, a {
 			</div>
 			<div class="modal-body">
 
-				<form class="form-inline my-2 my-lg-0 float-right">
+				<!-- <form class="form-inline my-2 my-lg-0 float-right">
 					<input class="form-control skill_input_box" type="text" placeholder="Search" onkeyup="enter_for_search_skil_note()">
 					<button class="btn btn-secondary skill_search_button" type="button">Search</button>
-				</form>
+				</form> -->
+
+				<div class="input-group">
+				  <input type="text" class="form-control skill_input_box"placeholder="Search" onkeyup="enter_for_search_skil_note()" aria-describedby="button-addon4">
+				  <div class="input-group-append" id="button-addon4">
+					  <button class="btn btn-secondary skill_search_button" type="button">Search</button>
+				  </div>
+				</div>
+
 
 				<input type="radio" class="search" id="content+title" name='foo' checked="true">제목,내용(me)
 				<input type="radio" class="search" id="only_title" name='foo'>제목(me)
-				<br />
+				&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" class="search" id="content_title_alluser" name='foo'>제목, 내용(all user)
 				<input type="radio" class="search" id="title_alluser" name='foo'>제목(all user)
-				<br>
+				<br><br>
 
 				<div id="wm_list_area_for_popup"></div>
 
@@ -2162,8 +2168,7 @@ function search_note(e){
 
 function enter_for_search_skil_note(){
 	if (window.event.keyCode == 13) {
-		alert("enter")
-		$(this).trigger(".skill_search_button");
+		$(".skill_search_button").click()
 	}
 }
 
@@ -2793,7 +2798,7 @@ $(".user_list_btn").click(function () {
 })
 
 $('.category_name_list_button').click(function (e) {
-	const user_name = $("#shortcut_user_id").val();
+	const user_name = "{{page_user}}"
 	const url = '/wm/myshorcut/nicklist/' + user_name
 	const ch = $("#current_category").text()
 

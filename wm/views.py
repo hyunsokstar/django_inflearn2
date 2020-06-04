@@ -17,8 +17,7 @@ from datetime import datetime , timedelta
 from django.utils import timezone
 from django.urls import reverse_lazy
 from . forms import CommentForm
-
-
+from django.utils.datastructures import MultiValueDictKeyError
 
 # 1122
 
@@ -724,10 +723,15 @@ def copyForCategorySubjectToMyCategory(request):
 	})
 
 
-
 def search_by_id_and_word(request):
     user = request.user
+    try:
+        page_user = request.POST['page_user']
+    except MultiValueDictKeyError:
+        page_user = False
+
     print("request.user.is_authenticated : ", request.user.is_authenticated)
+    print("page_user : ", page_user)
 
     if(request.user.is_authenticated):
         search_user_id = request.user.profile.shortcut_user_id
@@ -736,10 +740,13 @@ def search_by_id_and_word(request):
         print("search_user_id : ", search_user_id)
         print("search_word : ", search_word)
         print("search_option : ", search_option)
-        user = User.objects.get(username=search_user_id)
+
+        if(page_user):
+            user = User.objects.get(username=page_user)
+        else:
+            user = User.objects.get(username=search_user_id)
 
     else:
-        page_user = request.POST['page_user']
         search_word = request.POST['search_word']
         search_option = request.POST['search_option']
         print("search_word : ", search_word)
