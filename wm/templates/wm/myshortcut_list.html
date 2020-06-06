@@ -276,7 +276,7 @@ img.Image { max-width: 100%; display: block; }
 			<span>
 				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
 
-				<button class="badge badge-pill badge-dark file_history_button" name="button">history</button>
+				<button class="badge badge-pill badge-dark file_history_button" data-id={{p.id}} name="button">history</button>
 				<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
 			</span>
 
@@ -355,7 +355,7 @@ img.Image { max-width: 100%; display: block; }
 
 			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 			<button class="badge badge-pill badge-info skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
-			<button class="badge badge-pill badge-info file_history_button float-right" name="button">history</button>
+			<button class="badge badge-pill badge-info file_history_button float-right" data-id={{p.id}} name="button">history</button>
 			{% else %}
 			{% endifequal %}
 
@@ -1016,9 +1016,10 @@ $('body').on('click', '.open_new_tabb', function (e) {
 	win.focus();
 });
 
-// file_history_button
+// file_history_button 2244
 $('body').on('click', '.file_history_button', function (e) {
-	const file_name = $(this).prev('input').val();
+	const id = $(this).data("id");
+	const file_name = $("#file_"+id).val();
 	const search_option = "file_history"
 	// alert("file_name 22: "+ file_name);
 
