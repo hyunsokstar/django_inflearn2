@@ -12,6 +12,7 @@ from .forms import LecInfoForm
 
 
 # 1122
+# 대주제는 챌린지 목록 소주제는 강의 목록
 def lecinfo_list_for_challenge(request, challenge_title):
 	print ("challenge subject 과목 관련 리스트를 출력 합니다.")
 	challenge_id = challenge_subject.objects.get (title=challenge_title)
