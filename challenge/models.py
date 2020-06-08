@@ -26,10 +26,10 @@ class challenge_subject(models.Model):
 class LecInfo(models.Model):
 	challenge = models.ForeignKey(challenge_subject, on_delete=models.CASCADE)
 	lec_name = models.CharField(max_length=40)
-	teacher = models.CharField(max_length=40)
+	manager = models.CharField(max_length=40)
 	lec_url = models.CharField(max_length=120)
 	git_url = models.CharField(max_length=120)
-	rec_reputation = models.IntegerField(default=0)
+	lec_reputation = models.IntegerField(default=0)
 	student_count = models.IntegerField(default=0)
 
 	def __str__(self):

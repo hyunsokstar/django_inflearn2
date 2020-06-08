@@ -7,23 +7,29 @@
 <br><br><br><br>
 
 <h2>공동 study</h2>
-{% if user.is_superuser %}
- <a href="{% url "challenge:lec_info_update" LecInfo.id LecInfo.id %}" class="btn btn-outline-info float-right">수정</a>
-{% endif %}
-<br><br>
 
+<!-- {{request.user}} {{LecInfo.manager}} -->
+{%if request.user.username == LecInfo.manager  %}
+<a class="btn btn-outline-dark float-right" href="{% url "challenge:lecinfo_list_for_challenge" LecInfo.challenge.title %}">목록</a>
+    <a class="btn btn-outline-dark float-right" href="{% url "challenge:LecInfoDeleteView" LecInfo.id %}">삭제</a>
+    <a href="{% url "challenge:lec_info_update" LecInfo.id LecInfo.id %}" class="btn btn-outline-dark float-right">수정</a>
+
+{% else %}
+{% endif %}
+
+<br><br>
 
 <table class="table table-bordered">
   <tr>
-      <td>강의명</td>
+      <td>소모임명</td>
       <td colspan="3">
           <input type="text" name="" value="{{LecInfo.lec_name}}" class="form-control"><br>
       </td>
   </tr>
   <tr>
-      <td>강사</td>
+      <td>담당자</td>
       <td>
-          <input type="text" name="" value="{{LecInfo.teacher}}" class="form-control">
+          <input type="text" name="" value="{{LecInfo.manager}}" class="form-control">
       </td>
       <td>site</td>
       <td>

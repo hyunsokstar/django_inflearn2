@@ -4,11 +4,14 @@
 
 {%block content2 %}
 
-<br><br><br><br>
+<br><br>
 
 <h4>{{challenge_title}} 에 대한 Challenge List</h4>
+<button class="new3_btn btn btn-outline-dark float-right ml-1" onclick="window.location.href = '{% url 'challenge:challenge_subject_list' %}';">목록으로 이동</button>
+<button class="new3_btn btn btn-outline-dark float-right ml-1" onclick="window.location.href = '{% url 'challenge:CreatelecInfo' challenge_title %}';">소모임 추가</button>
 
-<br><br>
+
+<br><br><br><br>
 
 {% if lecinfo_list.exists %}
 {% for p in lecinfo_list %}
@@ -18,9 +21,12 @@
 			<div class="card-body">
 				<p class="card-text">
 					<h4>{{p.lec_name}}</h4><br>
-					<h6>{{p.student_count2}} 명 참여</h6>
+
+					<span> {{p.manager}} 팀장 &nbsp;&nbsp;  {{p.student_count2}} 명 참여 &nbsp;&nbsp;</span>
+					<!-- <h6>{{p.student_count2}} 명 참여</h6> -->
+					<!-- <h6>{{p.lec_reputation}} 평점</h6> -->
+					<a href="{% url 'challenge:lec_record_list' p.id %}" class="btn btn-primary float-right">입장</a>
 				</p>
-				<a href="{% url 'challenge:lec_record_list' p.id %}" class="btn btn-primary float-right">입장</a>
 			</div>
 		</div>
 	</div>

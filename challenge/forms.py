@@ -8,4 +8,4 @@ from .models import LecInfo
 class LecInfoForm(forms.ModelForm):
     class Meta:
         model = LecInfo
-        fields = ['lec_name','teacher', 'lec_url','git_url']
+        fields = ['lec_name', 'lec_url', 'git_url']

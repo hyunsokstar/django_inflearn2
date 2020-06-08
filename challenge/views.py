@@ -13,15 +13,32 @@ from .forms import LecInfoForm
 
 # 1122
 # 대주제는 챌린지 목록 소주제는 강의 목록
+# LecInfoDeleteView
+class LecInfoDeleteView(DeleteView):
+	model = LecInfo
+	success_message = "challenge is removed"
+
+	def get_success_url(self):
+		challenge_title = self.object.challenge.title
+		print("challenge_title : ", challenge_title)
+		return reverse('challenge:lecinfo_list_for_challenge', kwargs={'challenge_title':challenge_title})
+
+	def delete(self, request, *args, **kwargs):
+		messages.success(self.request, self.success_message)
+		return super(LecInfoDeleteView, self).delete(request, *args, **kwargs)
+
+
+
 def lecinfo_list_for_challenge(request, challenge_title):
 	print ("challenge subject 과목 관련 리스트를 출력 합니다.")
-	challenge_id = challenge_subject.objects.get (title=challenge_title)
-	lecinfo_list = LecInfo.objects.filter (challenge=challenge_id)
+	challenge = challenge_subject.objects.get (title=challenge_title)
+	lecinfo_list = LecInfo.objects.filter (challenge=challenge)
 	print ('lecinfo_list : ', lecinfo_list)
 
 	return render (request, 'challenge/lecinfo_list.html', {
 		"lecinfo_list": lecinfo_list,
-		"challenge_title": challenge_title
+		"challenge_title": challenge_title,
+		"challenge_id":challenge.id
 	})
 
 
@@ -63,20 +80,29 @@ def recommand_lecture(request, id):
 
 class CreatelecInfo (CreateView):
 	model = LecInfo
-	fields = ['lec_name', 'teacher', 'lec_url',
-	          'git_url', 'start_time', 'deadline']
+	form_class = LecInfoForm
 	success_message = "강의 정보 기록을 입력하였습니다."
+	challenge_title = ""
+
+	def get_template_names(self):
+		return ['challenge/lecinfo_form.html']
 
 	def form_valid(self, form):
-		print ("CreateRecordView 실행")
+		print ("CreateLecInfo 실행")
 		fn = form.save (commit=False)
-		fn.author = self.request.user
-
+		fn.challenge = challenge_subject.objects.get(title=self.kwargs["challenge_title"])
+		self.challenge_title = fn.challenge.title
+		fn.manager = self.request.user
 		return super ().form_valid (form)
 
+	def get_context_data(self, **kwargs):
+		ctx = super(CreatelecInfo, self).get_context_data(**kwargs)
+		ctx['challenge_subject'] = self.kwargs["challenge_title"]
+		return ctx
+
 	def get_success_url(self):
-		classnum = self.kwargs['classification']
-		return reverse ('challenge:lecinfo_list')
+		print("self.challenge_title : ", self.challenge_title)
+		return reverse ('challenge:lecinfo_list_for_challenge', kwargs={'challenge_title':self.challenge_title})
 
 
 class RecordUpdateView (UpdateView):
@@ -92,7 +118,7 @@ class RecordUpdateView (UpdateView):
 
 class LecInfoUpdateView (UpdateView):
 	model = LecInfo
-	fields = ['lec_name', 'teacher', 'lec_url', 'git_url']
+	fields = ['lec_name', 'manager', 'lec_url', 'git_url']
 
 	def get_success_url(self):
 		classnum = self.kwargs['classification']
@@ -138,6 +164,11 @@ class LecRecordListView (LoginRequiredMixin, ListView):
 class LecInfoListView (LoginRequiredMixin, ListView):
 	model = LecInfo
 	paginate_by = 20
+
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		classnum = self.kwargs['challenge_title']
+		return context
 
 
 class CreateRecordView_11 (CreateView):
