@@ -89,7 +89,7 @@
                 </td>
                 <td>
                     {{p.author}}
-                    <a href="#" class="badge badge-dark movetoshortcut" id={{request.user.id}} data-user_id={{p.author}} >shorcut</a>
+                    <a href="#" class="badge badge-dark movetoshortcut" id={{request.user.id}} data-user_id={{p.author}} >skilnote</a>
 
                 </td>
                 <td>
@@ -166,9 +166,9 @@ $(document).ready(function(){
             success: function(result) {
                 // alert('update for user shortcut id is success ');
                 console.log("result : ", result);
-                alert("result.message :     shorcut page로 이동")
-                window.history.pushState("", "", '/wm/myshortcut/')
-                $(location). attr('href', 'http://127.0.0.1:8000/wm/myshortcut/');
+                // alert("result.message :     shorcut page로 이동")
+                var url = "http://terecal-hyun.co.kr/wm/myshortcut/"+user_id+"/1"
+                document.location.href = url
             }
         });
     })

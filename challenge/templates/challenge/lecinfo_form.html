@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
@@ -18,7 +19,7 @@
 	  <div class="row">
 	  {% for field in form  %}
 		<div class="col-sm-12">
-		  <b>{{ field.label_tag }}</b> - {{ field }}
+		  {{ field | as_crispy_field}}
 		</div>
 	  {% endfor %}
 	  </div>
