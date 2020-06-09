@@ -1271,7 +1271,28 @@ def CategoryNickListByUserId(request, user_name):
         print("cn_my : ", cn_my)
 
         return render(request, 'wm/categorynick_list.html', {
-            "category" : cn_my
+            "category" : cn_my,
+        })
+    else:
+        return HttpResponse("Request method is not a GET")
+
+
+def CategoryNickListByUserId_for_user(request, user_name):
+    if request.method == 'GET':
+        print("user_name : ", user_name)
+        user = User.objects.get(username=user_name)
+
+        cn = CategoryNick.objects.get_or_create(
+            author=user,
+        )
+        print("cn : ", cn)
+
+        cn_my = CategoryNick.objects.get(author=user.id)
+        print("cn_my : ", cn_my)
+
+        return render(request, 'wm/categorynick_list_for_user.html', {
+            "category" : cn_my,
+            "page_user": user_name
         })
     else:
         return HttpResponse("Request method is not a GET")

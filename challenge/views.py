@@ -45,7 +45,7 @@ def lecinfo_list_for_challenge(request, challenge_title):
 # 할일 미완료 목록 리스트 출력
 class ChallengeSubjectList (LoginRequiredMixin, ListView):
 	model = challenge_subject
-	paginate_by = 10
+	paginate_by = 18
 	template_name = 'challenge/challenge_list.html'
 
 

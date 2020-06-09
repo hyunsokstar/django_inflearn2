@@ -108,6 +108,7 @@ urlpatterns = [
 
     # user_id로 shortcut nick list 출력
     path('myshorcut/nicklist/<str:user_name>/', views.CategoryNickListByUserId , name='category_nick_list'),
+    path('myshorcut/nicklist_for_user/<str:user_name>/', views.CategoryNickListByUserId_for_user , name='CategoryNickListByUserId_for_user'),
 
     # 유저 리스트 출력 for memo
     # path('userlist/byajax', views.user_list_for_memo, name = 'user_list_for_memo'),

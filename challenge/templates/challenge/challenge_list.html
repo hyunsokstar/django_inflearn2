@@ -1,7 +1,7 @@
 {% extends "challenge/layout.html" %}
 {% load static %}
 
-{%block title %} 챌린지 {% endblock %}
+{%block title %} Challenge Subject {% endblock %}
 
 {%block extra_css %}
 <link rel="{% static 'challange/challange.css' %}" type="text/css" href="theme.css">
@@ -11,40 +11,26 @@
 <br>
 <br>
 <br>
-<br>
 
 <h2>Challenge Subject</h2>
+<br>
 
 {% if object_list.exists %}
-<!--	<div class="row">-->
-<!--	    {% for p in object_list %}-->
-<!--	        <div class="d-flex flex-wrap">-->
-<!--	            <div class="col-md-10"> &lt;!&ndash; sm,md,lg &ndash;&gt;-->
-<!--	                <div class="card">-->
-<!--	                    <div class="card-body">-->
-<!--	                        <span class="card-title">{{p.title}}</span>-->
-<!--	                        <a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary">go</a>-->
-<!--	                    </div>-->
-<!--	                </div>-->
-<!--	            </div>-->
-<!--	        </div>-->
-<!--	    {% endfor %}-->
-<!--	</div>-->
 
 <div class="row">
 	{% for p in object_list %}
-	<div class="card mt-4 ml-4" style="width: 18rem;">
+	<div class="card mt-2 ml-2" style="width: 20rem;">
 <!--		<img class="card-img-top" src="..." alt="Card image cap">-->
 		<div class="card-body">
 			<h5 class="card-title">
 
 				<div class="container">
-				  <div class="row p-2">
-				    <div class="col p-2">
+				  <div class="row p-1">
+				    <div class="col p-1">
 						{{p.title}}<br>
 						{{p.lecinfo_count2}} 개
 				    </div>
-				    <div class="col p-2">
+				    <div class="col p-1">
 						<a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary float-right">go</a>
 				    </div>
 				  </div>
