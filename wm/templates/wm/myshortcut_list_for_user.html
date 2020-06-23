@@ -159,9 +159,9 @@ button, input, a {
 	<!-- <a class="new3_btn btn btn-outline-dark" id=""
 		href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a><br> -->
 	<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
-	<button type="button" name="button" class="new1_btn btn btn-outline-dark" id="">인풋(1)</button><br>
-	<button type="button" name="button" class="new2_btn btn btn-outline-dark" id="">text(1)</button><br>
-	<a class="new4_btn btn btn-outline-dark" id="" href=""> text(5) </a>
+	<!-- <button type="button" name="button" class="new1_btn btn btn-outline-dark" id="">인풋(1)</button><br> -->
+	<!-- <button type="button" name="button" class="new2_btn btn btn-outline-dark" id="">text(1)</button><br> -->
+	<!-- <a class="new4_btn btn btn-outline-dark" id="" href=""> text(5) </a> -->
 </div>
 
 
@@ -170,15 +170,15 @@ button, input, a {
 {% endifequal %}
 
 
-
 <div class="temp_memo_btn_area">
 	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
+	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
+	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">Back</button><br>
+
+	<button type="button" class="btn btn-outline-dark" >방명록</button> <br>
+	<button type="button" class="btn btn-outline-dark">slack</button><br>
 
 {% ifequal request.user page_user %}
-	<button type="button" class="category_btn category_name_list_button btn btn-outline-dark" id="{{request.user.id}}">CH</button> <br>
-	<button type="button" class="category_user_btn user_list_btn btn btn-outline-dark">User</button><br>
-	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
-	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
 	<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
 
 
@@ -255,7 +255,7 @@ button, input, a {
 		<td colspan="2">
 
 			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
-			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+			{% ifequal request.user page_user %}
 				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}" data-num = {{ forloop.counter }}>copy</button>
 				<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}">edit_complete</button>
 				<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
@@ -313,7 +313,7 @@ button, input, a {
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2 float-right"
 				id="{{p.id}}">copy</button>
 
-				{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+				{% ifequal request.user page_user %}
 					<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2 float-right"
 					id="{{p.id}}" data-user_id="{{request.user}}">edit_complete</button>
 					<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
@@ -583,8 +583,13 @@ button, input, a {
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-				js
-				<button class="btn btn-outline-danger btn-sm float-right float-right edit_complete_skill_note_for_backend_btn"  id="">edit_complete</button>
+
+				{% ifequal request.user page_user %}
+					<button class="btn btn-outline-danger btn-sm float-right float-right edit_complete_skill_note_for_backend_btn"  id="">edit_complete</button>
+				{% else %}
+
+				{% endifequal %}
+
 				<textarea name="" id="textarea_for_popup" class="form-control" rows="34"></textarea>
 			</div>
 			<div class="modal-footer">
@@ -604,7 +609,13 @@ button, input, a {
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-				<button class="btn btn-outline-danger btn-sm float-right float-right edit_complete_skill_note_for_front_end_btn"  id="">edit_complete</button>
+
+				{% ifequal request.user page_user %}
+					<button class="btn btn-outline-danger btn-sm float-right float-right edit_complete_skill_note_for_front_end_btn"  id="">edit_complete</button>
+				{% else %}
+
+				{% endifequal %}
+
 				<textarea name="" id="textarea_for_popup" class="form-control" rows="34"></textarea>
 			</div>
 			<div class="modal-footer">
@@ -625,8 +636,12 @@ button, input, a {
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
 	  </div>
 	  <div class="modal-body" id="">
-		  <button type="button" name="button" class=" btn btn-outline-success float-right insert_temp_skill_note_using_textarea_for_backend_btn" id="">text(1)</button>
-		  <button type="button" name="button" class="btn btn-outline-success float-right insert_temp_skill_note_using_input_for_backend_btn" id="">인풋(1)</button>
+		  {% ifequal request.user page_user %}
+			  <button type="button" name="button" class=" btn btn-outline-success float-right insert_temp_skill_note_using_textarea_for_backend_btn" id="">text(1)</button>
+			  <button type="button" name="button" class="btn btn-outline-success float-right insert_temp_skill_note_using_input_for_backend_btn" id="">인풋(1)</button>
+		  {% else %}
+
+		  {% endifequal %}
 
 		  <div id="temp_shorcut_list_for_backend_area"></div>
 
@@ -649,8 +664,12 @@ button, input, a {
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
 	  </div>
 	  <div class="modal-body" id="">
-		  <button type="button" name="button" class="insert_temp_skill_note_for_textarea_btn btn btn-outline-success float-right" id="">text(1)</button>
-		  <button type="button" name="button" class="insert_temp_skill_note_for_input_btn btn btn-outline-success float-right" id="">인풋(1)</button>
+
+		  {% ifequal request.user page_user %}
+			  <button type="button" name="button" class="insert_temp_skill_note_for_textarea_btn btn btn-outline-success float-right" id="">text(1)</button>
+			  <button type="button" name="button" class="insert_temp_skill_note_for_input_btn btn btn-outline-success float-right" id="">인풋(1)</button>
+		  {% else %}
+		  {% endifequal %}
 
 		  <div id="temp_shorcut_list_area"></div>
 
@@ -720,7 +739,7 @@ button, input, a {
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-				{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+				{% ifequal request.user page_user %}
 					<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2_for_popup float-right"
 					id="">edit_complete</button>
 				{% endifequal %}
@@ -756,7 +775,7 @@ button, input, a {
 	</div>
 </div>
 
-<!-- user list modal -->
+<!-- 유저목록 모달 6666 -->
 <div class="modal fade" id="user_list_modal" role="dialog">
 	<div class="modal-dialog modal-xl">
 
@@ -799,7 +818,11 @@ button, input, a {
         <td colspan="2">
             <input type="text" name="" value="<%=shortcut_content%>" size="40" id="select-input-<%=shortcut_id%>" class="form-control">
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="<%=shortcut_id%>">copy</button>
-            <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_input_btn" id="<%=shortcut_id%>" >edit_complete</button>
+
+			{% ifequal request.user page_user %}
+			<button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_input_btn" id="<%=shortcut_id%>" >edit_complete</button>
+			{% endifequal %}
+
         </tr>
 </table>
 
@@ -831,7 +854,10 @@ button, input, a {
 
             <textarea class="form-control" id="select-textarea-<%=shortcut_id%>" cols="120" rows="10" ><%=shortcut_content2%></textarea><br>
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="<%=shortcut_id%>">copy</button>
-            <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_textarea_btn" id="<%=shortcut_id%>" >edit_complete</button>
+			{% ifequal request.user.username page_user %}
+				<button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_textarea_btn" id="<%=shortcut_id%>" >edit_complete</button>
+			{% else %}
+			{% endifequal %}
         </td>
     </tr>
 
@@ -860,7 +886,12 @@ button, input, a {
         <td colspan="2">
             <input type="text" name="" value="<%=shortcut_content%>" size="40" id="select-input-<%=shortcut_id%>" class="form-control">
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="<%=shortcut_id%>">copy</button>
-            <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="<%=shortcut_id%>" >edit_complete</button>
+
+
+			{% ifequal request.user page_user %}
+			<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="<%=shortcut_id%>" >edit_complete</button>
+			{% endifequal %}
+
             <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="<%=shortcut_id %>" >댓글</button>
         </tr>
 </table>
@@ -904,7 +935,11 @@ button, input, a {
 
             <textarea class="form-control" id="select-textarea-<%=shortcut_id%>" cols="120" rows="10" ><%=shortcut_content2%></textarea><br>
             <button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="<%=shortcut_id%>">copy</button>
-            <button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="<%=shortcut_id%>" data-user_id="<%=author%>">edit_complete</button>
+
+			{% ifequal request.user page_user %}
+			<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2" id="<%=shortcut_id%>" data-user_id="<%=author%>">edit_complete</button>
+			{% endifequal %}
+
             <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="<%=shortcut_id%>"" >댓글</button>
         </td>
     </tr>
@@ -994,7 +1029,50 @@ $(function() {
     };
 })(jQuery);
 
+$('body').on('click', '.temp_memo_for_backend_btn', function (e) {
+	console.log("클릭 확인");
+	$("#temp_skill_for_backend_modal").modal();
 
+	const url = ""
+	window.history.pushState("", "", '/wm/myshortcut/')
+
+	$.ajax({
+		type: "GET",
+		url: 'temp_skill_list_for_backend/{{page_user}}',
+		data: {
+			// 'page_user': "{{page_user}}",
+		},
+		success: function (result) {
+			$("#temp_shorcut_list_for_backend_area").html(result)
+
+			$("#temp_skill_for_backend_modal").modal();
+		}
+	});
+
+});
+
+// mino note for frontend modal 출력
+$('body').on('click', '.temp_memo_btn', function (e) {
+	// $("#temp_skill_modal").modal();
+	console.log("클릭 확인 front");
+
+	const url = ""
+	window.history.pushState("", "", '/wm/myshortcut/')
+
+	$.ajax({
+		type: "GET",
+		url: 'temp_skill_list/{{page_user}}',
+		data: {
+			// 'page_user': "{{page_user}}",
+		},
+		success: function (result) {
+			// $("#_subject").text(ca_nick_update)
+			$("#temp_shorcut_list_area").html(result)
+			$("#temp_skill_modal").modal();
+		}
+	});
+
+});
 
 // 2244
 $('body').on('click', '.delete_comment_for_skilpage', function (e) {
@@ -1864,7 +1942,7 @@ $(".insert_temp_skill_note_using_textarea_for_backend_btn").click(function () {
 					shortcut_title: result.shortcut_title,
 					shortcut_content2: result.shortcut_content2,
 				});
-				$(rendered).appendTo($('#temp_shorcut_list_area'));
+				$(rendered).appendTo($('#temp_shorcut_list_for_backend_area'));
 			}
 		});
 	} else {
@@ -1873,25 +1951,7 @@ $(".insert_temp_skill_note_using_textarea_for_backend_btn").click(function () {
 	}
 })
 
-$('body').on('click', '.temp_memo_for_backend_btn', function (e) {
-	$("#temp_skill_for_backend_modal").modal();
 
-	const url = ""
-	window.history.pushState("", "", '/wm/myshortcut/')
-
-	$.ajax({
-		type: "GET",
-		url: 'temp_skill_list_for_backend/',
-		data: {
-		},
-		success: function (result) {
-			$("#temp_shorcut_list_for_backend_area").html(result)
-
-			$("#temp_skill_for_backend_modal").modal();
-		}
-	});
-
-});
 
 // create_new1_input
 // insert_temp_skill_note_for_input
@@ -2089,27 +2149,7 @@ $('body').on('click', '.update_temp_skil_title_btn', function (e) {
 	});
 });
 
-$('body').on('click', '.temp_memo_btn', function (e) {
-	// $("#temp_skill_modal").modal();
-	const url = ""
-	window.history.pushState("", "", '/wm/myshortcut/')
 
-	$.ajax({
-		type: "GET",
-		url: 'temp_skill_list/',
-		data: {
-			// 'field': ch_name,
-			// 'ca_nick_update': ca_nick_update,
-			// csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
-		success: function (result) {
-			// $("#_subject").text(ca_nick_update)
-			$("#temp_shorcut_list_area").html(result)
-			$("#temp_skill_modal").modal();
-		}
-	});
-
-});
 
 	$('body').on('click', '.shortcut_edit_button2_for_popup', function (e) {
 		e.preventDefault();
@@ -2812,7 +2852,7 @@ $(".user_list_btn").click(function () {
 		})
 })
 
-$('.category_name_list_button').click(function (e) {
+$('.category_name_list_button').click(function(e) {
 	const user_name = "{{page_user}}"
 	const url = '/wm/myshorcut/nicklist_for_user/' + user_name
 	const ch = $("#current_category").text()
@@ -2845,7 +2885,7 @@ $('.category_name_list_button').click(function (e) {
 		.always(() => {
 			console.log('always');
 		})
-})
+});
 
 $('.update_shortcut_user_id').click(function (e) {
 	e.preventDefault();

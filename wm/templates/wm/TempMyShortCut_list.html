@@ -1,6 +1,6 @@
 
 {% load staticfiles %}
-<!-- 2244 임시 메모 front -->
+<!-- mini note for frontend -->
 
 {% if object_list.exists %}
     {% for p in object_list %}
@@ -28,7 +28,21 @@
     		<td colspan="2">
     			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
     			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
-    			<button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_input_btn" id="{{p.id}}">edit_complete</button>
+
+
+                {% ifequal request.user page_user %}
+                    <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_input_btn" id="{{p.id}}">edit_complete</button>
+                {% else %}
+                {% endifequal %}
+
+
+
+                {% ifequal request.user page_user %}
+                    <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_input_btn" id="{{p.id}}">edit_complete</button>
+    			{% else %}
+                123456
+    			{% endifequal %}
+
     		</td>
     	</tr>
     	{% endifequal %}
@@ -58,9 +72,13 @@
     				class="form-control">{{p.content2 }}</textarea><br>
     			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2 float-right"
     				id="{{p.id}}">copy</button>
-    			<button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_textarea_btn float-right" id="{{p.id}}">
-                    edit_complete
-                </button>
+                {% ifequal request.user page_user %}
+                    <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_textarea_btn float-right" id="{{p.id}}">
+                        edit_complete
+                    </button>
+                {% else %}
+                {% endifequal %}
+
     		</td>
     	</tr>
     	{% endifequal %}
@@ -113,7 +131,11 @@
     			<textarea id="select-textarea-{{p.id}}" cols="120" rows="10"
     				class="form-control">{{p.content2 }}</textarea><br>
     			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
-    			<button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_textarea_btn" id="{{p.id}}">edit_complete</button>
+                {% ifequal request.user page_user %}
+                <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_textarea_btn" id="{{p.id}}">edit_complete</button>
+    			{% else %}
+    			{% endifequal %}
+
     		</td>
     	</tr>
     	{% endifequal %}

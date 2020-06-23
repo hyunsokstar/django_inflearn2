@@ -98,7 +98,6 @@ class MyShortcutListByUser(ListView):
             context['page_user'] = user
             context['comment_list_for_page'] = CommentForPage.objects.filter(user_name=user, category_id = category_id)
             context['comment_form'] = CommentForm()
-            # 2244
 
             return context
 
@@ -563,15 +562,66 @@ def insert_temp_skill_note_using_textarea_for_backend(request):
     })
 
 
-def temp_skill_list_for_backend(request):
-	print("temp_skill_list 실행")
-	user = request.user
+# 2244
 
-	object_list = TempMyShortCutForBackEnd.objects.filter(author=user)
+def temp_skill_list_for_backend1(request):
+    print("***** BackEnd mini note 실행 확인 *******")
+    user = request.user
 
-	return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
-		'object_list': object_list
-	})
+    if (user==None):
+        user = request.user
+
+    object_list = TempMyShortCutForBackEnd.objects.filter(author=user)
+
+    return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
+        'object_list': object_list,
+        'page_user': user
+    })
+
+def temp_skill_list1(request):
+    print("***** FrontEnd mini note 실행 확인 *******")
+    user = request.user
+
+    if (user==None):
+        user = request.user
+
+    print("user : ", user)
+    object_list = TempMyShortCut.objects.filter(author=user)
+
+    return render(request, 'wm/TempMyShortCut_list.html', {
+        'object_list': object_list,
+        'page_user': user
+    })
+
+def temp_skill_list_for_backend2(request,page_user):
+    print("***** BackEnd mini note 실행 확인 *******")
+    user = User.objects.get(username=page_user)
+
+    if (user==None):
+        user = request.user
+
+    object_list = TempMyShortCutForBackEnd.objects.filter(author=user)
+
+    return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
+        'object_list': object_list,
+        'page_user': user
+    })
+
+def temp_skill_list2(request,page_user):
+    print("***** FrontEnd mini note 실행 확인 *******")
+    user = User.objects.get(username=page_user)
+
+    if (user==None):
+        user = request.user
+
+    print("user : ", user)
+    object_list = TempMyShortCut.objects.filter(author=user)
+
+    return render(request, 'wm/TempMyShortCut_list.html', {
+        'object_list': object_list,
+        'page_user': user
+    })
+
 
 def insert_temp_skill_note_for_input(request):
     print("create_new1_input 실행 11")
@@ -682,15 +732,7 @@ def update_temp_skil_title(request,id):
     else:
         return redirect('/todo')
 
-def temp_skill_list(request):
-	print("temp_skill_list 실행")
-	user = request.user
 
-	object_list = TempMyShortCut.objects.filter(author=user)
-
-	return render(request, 'wm/TempMyShortCut_list.html', {
-		'object_list': object_list
-	})
 
 def copyForCategorySubjectToMyCategory(request):
 	author = request.POST['author']
@@ -953,7 +995,7 @@ def create_new1_input_first(request):
         'shortcut_content':wm.content1,
     })
 
-# 2244
+
 def create_new1_input_between(request,current_article_id):
 
     current_article_id = current_article_id
@@ -995,7 +1037,6 @@ def create_new1_input_between(request,current_article_id):
     })
 
 
-# 2244
 def create_new2_textarea_first(request):
     print("create_new2_textarea_first")
     ty = Type.objects.get(type_name="textarea")
@@ -1184,6 +1225,28 @@ def favorite_user_list_for_skillnote(request):
 
         return render(request, 'wm/favorite_user_list_for_skilnote.html', {
             "object_list" : object_list,
+        })
+    else:
+        return HttpResponse("Request method is not a GET")
+
+def guest_book_list(request):
+    if request.method == 'GET':
+        print("geust_book_list 실행")
+
+        # my_favorite = []
+        # ru = RecommandationUserAboutSkillNote.objects.filter(author_id=request.user)
+        #
+        # for x in ru:
+        #     print("내가 추천한 user_id : ",x.user_id)
+        #     my_favorite.append(x.user_id)
+        #
+        # object_list = User.objects.filter(id__in=my_favorite).order_by('-profile__skill_note_reputation');
+        #
+        # print("object_list : ", object_list)
+
+
+        return render(request, 'wm/guest_book_list.html', {
+            # "object_list" : object_list,
         })
     else:
         return HttpResponse("Request method is not a GET")

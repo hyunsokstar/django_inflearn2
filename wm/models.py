@@ -5,6 +5,12 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 
+class GuestBook(models.Model):
+    owner_for_guest_book = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.CharField(max_length=120)
+    created_at = models.DateTimeField(auto_now_add=True , editable = False)
+
 class RecommandationUserAboutSkillNote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     author_id = models.CharField(max_length=40)

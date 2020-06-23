@@ -9,6 +9,17 @@ urlpatterns = [
     # 1122
     # 체크 박스 체크한 항목들을 스킬 블로그로 이동
 
+
+
+    path('myshortcut/temp_skill_list_for_backend/<page_user>', views.temp_skill_list_for_backend2 , name="temp_skill_list_for_backend"),
+    path('myshortcut/temp_skill_list/<page_user>', views.temp_skill_list2 , name="temp_skill_list"), # mininote for frontend
+
+    path('myshortcut/temp_skill_list_for_backend', views.temp_skill_list_for_backend1 , name="temp_skill_list_for_backend"),
+    path('myshortcut/temp_skill_list', views.temp_skill_list1 , name="temp_skill_list"), # mininote for frontend
+
+    path('myshortcut/temp_skill_list_for_backend/', views.temp_skill_list_for_backend1 , name="temp_skill_list_for_backend"),
+    path('myshortcut/temp_skill_list/', views.temp_skill_list1 , name="temp_skill_list"), # mininote for frontend
+
     path('myshortcut/delete_comment_for_skilpage/<int:id>', views.delete_comment_for_skilpage , name="delete_comment_for_skilpage"),
 
     path('new_comment_for_skilpage/<str:user_name>/<str:category_id>/' , views.new_comment_for_skilpage, name="new_comment_for_skilpage"),
@@ -40,8 +51,6 @@ urlpatterns = [
     path('myshortcut/delete_temp_skill_note_for_backendarea/<int:id>', views.delete_temp_skill_note_for_backendarea , name="delete_temp_skill_note_for_backendarea"),
     path('myshortcut/insert_temp_skill_note_using_input_for_backend/', views.insert_temp_skill_note_using_input_for_backend , name="insert_temp_skill_note_using_input_for_backend"),
     path('myshortcut/insert_temp_skill_note_using_textarea_for_backend/', views.insert_temp_skill_note_using_textarea_for_backend , name="insert_temp_skill_note_using_textarea_for_backend"),
-    path('myshortcut/temp_skill_list_for_backend/', views.temp_skill_list_for_backend , name="temp_skill_list_for_backend"),
-
 
     path('myshortcut/insert_temp_skill_note_for_input/', views.insert_temp_skill_note_for_input , name="insert_temp_skill_note_for_input"),
     path('myshortcut/edit_temp_skill_note_for_input/<int:id>', views.edit_temp_skill_note_for_input , name='edit_temp_skill_note_for_input'),
@@ -55,7 +64,6 @@ urlpatterns = [
     path('myshortcut/delete_temp_memo_by_ajax/<int:id>', views.delete_temp_memo_by_ajax , name="delete_temp_memo_by_ajax"),
 
 
-    path('myshortcut/temp_skill_list/', views.temp_skill_list , name="temp_skill_list"),
     path('myshortcut/search_by_id_and_word/' , views.search_by_id_and_word, name="search_by_id_and_word"),
     path('myshortcut/copyForCategorySubjectToMyCategory/' , views.copyForCategorySubjectToMyCategory, name="copyForCategorySubjectToMyCategory"),
 
@@ -106,6 +114,7 @@ urlpatterns = [
 
     path('myshortcut/modify_myshortcut_by_summer_note/<int:pk>/', views.modify_myshortcut_by_summer_note.as_view() , name='modify_myshortcut_by_summer_note'),
 
+
     # user_id로 shortcut nick list 출력
     path('myshorcut/nicklist/<str:user_name>/', views.CategoryNickListByUserId , name='category_nick_list'),
     path('myshorcut/nicklist_for_user/<str:user_name>/', views.CategoryNickListByUserId_for_user , name='CategoryNickListByUserId_for_user'),
@@ -114,6 +123,9 @@ urlpatterns = [
     # path('userlist/byajax', views.user_list_for_memo, name = 'user_list_for_memo'),
     path('userlist/byajax', views.user_list_for_memo_view.as_view(), name = 'user_list_for_memo'),
     path('favorite_user_list/byajax', views.favorite_user_list_for_skillnote, name = 'favorite_ user_list_for_memo'),
+    path('myshortcut/guest_book_list', views.guest_book_list, name ="guest_book_list"),
+
+
 
     path('myshortcut/delete/ajax/', views.delete_myshortcut_by_ajax, name = 'delete_myshortcut_by_ajax'),
     path('myshortcut/update/category/ajax', views.update_category_by_ajax, name = 'update_category_by_ajax'),

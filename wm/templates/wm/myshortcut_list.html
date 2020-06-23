@@ -68,8 +68,8 @@ img.Image { max-width: 100%; display: block; }
 			<!-- <h4>Skil Note by {{request.user.profile.shortcut_user_id}}</h4> -->
 			<input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id" size="40">
 			<button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button>
-			<button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
 			<button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">유저 목록</button>
+			<button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
 			<button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
 		</td>
 	</tr>
@@ -159,10 +159,11 @@ img.Image { max-width: 100%; display: block; }
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
-	<button type="button" class="category_btn category_name_list_button btn btn-outline-dark" id="{{request.user.id}}">CH</button> <br>
-	<button type="button" class="category_user_btn user_list_btn btn btn-outline-dark">User</button><br>
 	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
+
+	<button type="button" class="btn btn-outline-dark guest_book_btn">방명록</button> <br>
+	<button type="button" class="btn btn-outline-dark">slack</button><br>
 	<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
 
 
@@ -178,7 +179,7 @@ img.Image { max-width: 100%; display: block; }
 		 ca-1
 		 <span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
 	 </a> <br>
-	<a href="" class="btn btn-outline-primary " id="move_to_skilblog_btn"> skil blog(ch) </a> <br>
+	<a href="" class="btn btn-outline-primary " id="move_to_skilblog_btn"> skil column(ch) </a> <br>
 	<button type="button" class="btn btn-outline-primary insert_image" onclick="window.location.href='{% url 'wm:MyShortCutCreateView_image' %}'">image 입력</button>
 
 
@@ -593,6 +594,8 @@ img.Image { max-width: 100%; display: block; }
   </div>
 </div>
 
+
+<!-- mininote for frontend modal -->
 <div class="modal fade" id="temp_skill_modal" role="dialog">
   <div class="modal-dialog modal-xl">
 
@@ -706,7 +709,7 @@ img.Image { max-width: 100%; display: block; }
 </div>
 
 <!-- user list modal -->
-<div class="modal fade" id="user_list_modal" role="dialog">
+<!-- <div class="modal fade" id="user_list_modal" role="dialog">
 	<div class="modal-dialog modal-xl">
 
 		<!-- Modal content-->
@@ -716,6 +719,25 @@ img.Image { max-width: 100%; display: block; }
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body" id="user_table_area">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div> -->
+
+<div class="modal fade" id="guest_book_list_modal" role="dialog">
+	<div class="modal-dialog modal-xl">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">방명록</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body" id="guest_list_table_area">
+				<!-- 내용 출력 부분 -->
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -908,8 +930,32 @@ $(function() {
 	  $(".insert_image").trigger("click");
 	}
 
-
   })
+});
+// 1111
+// guest_book_btn
+$('body').on('click', '.guest_book_btn', function (e) {
+	// alert('방명록 클릭')
+
+	const url = "guest_book_list"
+	window.history.pushState("", "", '/wm/myshortcut/')
+
+	$.get(url)
+		.done((result) => {
+			$("#guest_list_table_area").html(result)
+			$("#guest_book_list_modal").modal();
+
+			window.history.pushState("", "", '/wm/myshortcut')
+			$(".navbar").hide();
+
+		})
+		.fail(() => {
+			console.log("fail");
+		})
+		.always(() => {
+			console.log('always');
+	})
+
 });
 
 
@@ -1046,7 +1092,7 @@ $('body').on('click', '.file_history_button', function (e) {
 });
 
 $('body').on('click', '.skil_note_file_name_update_btn', function (e) {
-	e.preventDefault();
+	// e.preventDefault();
 	var id = $(this).attr("id");
 	const before_file = $("#file_"+id).val().trim()
 	// alert("before_title : "+ before_title);
@@ -2886,7 +2932,7 @@ $('body').on('click', '.copy_code2', function (e) {
 
 // 제목 수정 버튼
 $('body').on('click', '.short_update_button', function (e) {
-	e.preventDefault();
+	// e.preventDefault();
 
 	var id = $(this).attr("id");
 	const before_title = $("#title_"+id).text().trim()
