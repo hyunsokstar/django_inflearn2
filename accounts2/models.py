@@ -15,5 +15,12 @@ class Profile(models.Model):
     selected_category_id = models.IntegerField(default=1, blank=True)
     team = models.ForeignKey(TeamInfo, on_delete=models.CASCADE, null=True, blank=True)
     position = models.CharField(max_length=50,default="member")
-    subject_of_memo = models.CharField(max_length=60)
-    skill_note_reputation = models.IntegerField(default=0) # skill note 점수
+    subject_of_memo = models.CharField(max_length=60) # 스킬 노트의 주제
+    skill_note_reputation = models.IntegerField(default=0) # skill note 유저 리스트 점수 추가할때 계산됨
+    email = models.CharField(max_length=20 , blank=True)
+    public = models.CharField(max_length=5 , default="yes")
+    github= models.CharField(max_length=20 , default="www.github.com")
+    site2 = models.CharField(max_length=20 , blank=True)
+    site1 = models.CharField(max_length=20 , blank=True)
+    site3 = models.CharField(max_length=20 , blank=True)
+    site4 = models.CharField(max_length=20 , blank=True)

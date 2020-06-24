@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{%block title %}my profile{% endblock %}
+
+{%block content%}
+
+
+<span class="mt-2">my profile</span>
+
+<table class="table table-bordered">
+    <tr>
+        <td width="20%">user_name</td>
+        <td>{{request.user}}</td>
+    </tr>
+    <tr>
+        <td>email</td>
+        <td>
+            <div class="input-group mb-1">
+              <input type="text" class="form-control" value="{{request.user.profile.email}}" id="profile_email" aria-describedby="basic-addon2" ></input>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">수정</button>
+              </div>
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+        <td> public </td>
+        <td>
+            <div class="input-group mb-1">
+              <input type="text" class="form-control" value="{{request.user.profile.public}}" aria-describedby="basic-addon2" id="profile_public"></input>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">수정</button>
+              </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td> github </td>
+        <td>
+              <input type="text" class="form-control" value="{{request.user.profile.github}}" aria-describedby="basic-addon2" id="profile_github"></input>
+            </div>
+        </td>
+
+    </tr>
+
+    <tr>
+        <td>site1</td>
+        <td>
+            <input type="text" class="form-control" value="{{request.user.profile.site1}}" aria-describedby="basic-addon2" id="profile_site1"></input>
+        </td>
+    </tr>
+
+    <tr>
+        <td>site2</td>
+        <td>
+            <input type="text" class="form-control" value="{{request.user.profile.site2}}" aria-describedby="basic-addon2" id="profile_site2"></input>
+
+        </td>
+    </tr>
+
+    <tr>
+        <td>site3</td>
+        <td>
+            <input type="text" class="form-control" value="{{request.user.profile.site3}}" aria-describedby="basic-addon2" id="profile_site3"></input>
+         </td>
+    </tr>
+
+    <tr>
+        <td>site4</td>
+        <td>
+            <input type="text" class="form-control" value="{{request.user.profile.site4}}" aria-describedby="basic-addon2" id="profile_site4"></input>
+        </td>
+    </tr>
+
+    <tr>
+        <td>reputation</td>
+        <td> {{ user.recommandationuseraboutskillnote_set.count }} 점</td>
+    </tr>
+
+</table>
+
+<button type="button" class="btn btn-outline-dark btn-block" id="update_complete_button_for_profile" data-id="{{request.user.profile.id}}">Profile Update</button>
+
+
+{% endblock %}
+
+
+<script type="text/javascript">
+
+// js area
+{% block extra_js %}
+
+$('body').on('click', '#update_complete_button_for_profile', function (e) {
+	e.preventDefault();
+    alert("update button click")
+
+    var profile_email = $("#profile_email").val();
+    var profile_github = $("#profile_github").val();
+    var profile_public = $("#profile_public").val();
+    var profile_site1 = $("#profile_site1").val();
+    var profile_site2 = $("#profile_site2").val();
+    var profile_site3 = $("#profile_site3").val();
+    var profile_site4 = $("#profile_site4").val();
+    var profile_id = $(this).data("id");
+    var current_login_user = "{{request.user}}"
+
+
+	$.ajax({
+		type: "POST",
+		url: 'accounts2/update_for_profile/' + profile_id,
+		data: {
+			profile_iprofile_emaild: profile_email,
+			profile_github: profile_github,
+			profile_public: profile_public,
+			profile_site1: profile_site1,
+			profile_site2: profile_site2,
+			profile_site3: profile_site3,
+			profile_site4: profile_site4,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert(result.message)
+		}
+	});
+
+
+
+});
+
+{% endblock %}
+
+</script>

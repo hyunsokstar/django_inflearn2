@@ -162,7 +162,7 @@ img.Image { max-width: 100%; display: block; }
 	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
 
-	<button type="button" class="btn btn-outline-dark guest_book_btn">방명록</button> <br>
+	<button type="button" class="btn btn-outline-dark guest_book_list_btn">방명록</button> <br>
 	<button type="button" class="btn btn-outline-dark">slack</button><br>
 	<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
 
@@ -709,7 +709,9 @@ img.Image { max-width: 100%; display: block; }
 </div>
 
 <!-- user list modal -->
-<!-- <div class="modal fade" id="user_list_modal" role="dialog">
+
+<div class="modal fade" id="user_list_modal" role="dialo
+g">
 	<div class="modal-dialog modal-xl">
 
 		<!-- Modal content-->
@@ -726,7 +728,9 @@ img.Image { max-width: 100%; display: block; }
 		</div>
 
 	</div>
-</div> -->
+</div>
+
+
 
 <div class="modal fade" id="guest_book_list_modal" role="dialog">
 	<div class="modal-dialog modal-xl">
@@ -776,6 +780,8 @@ img.Image { max-width: 100%; display: block; }
 
 </script>
 
+
+<!-- mini note for backend modal insert textarea -->
 <script class="temp_skill_note_row_for_textarea" type="text/x-template">
 
 
@@ -788,13 +794,13 @@ img.Image { max-width: 100%; display: block; }
         </td>
         <td>
             <span id="title_<%=shortcut_id%>">
-				<%=shortcut_title%>
+				<%=shortcut_title%> (new)
             </span>
-            <button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="<%=shortcut_id%>">삭제 11</button>
+            <button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="<%=shortcut_id%>">삭제 22</button>
             <button class="badge badge-pill badge-primary update_temp_skil_title_btn float-right" id="<%=shortcut_id%>"">제목 수정</button>
         </td>
     </tr>
-    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#fcfaeb">
+    <tr id="shortcut_<%=shortcut_id%>-2" style="background-color:#f0f1f5">
         <td colspan="2">
             <button class="btn btn-outline-primary btn-sm show_total_textInput_button" id=<%=shortcut_id%>>40row</button>
 			<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id=<%=shortcut_id%>>8row</button>
@@ -933,11 +939,11 @@ $(function() {
   })
 });
 // 1111
-// guest_book_btn
-$('body').on('click', '.guest_book_btn', function (e) {
+// guest_book_list_btn
+$('body').on('click', '.guest_book_list_btn', function (e) {
 	// alert('방명록 클릭')
 
-	const url = "guest_book_list"
+	const url = "guest_book_list/{{request.user}}"
 	window.history.pushState("", "", '/wm/myshortcut/')
 
 	$.get(url)
@@ -1841,7 +1847,7 @@ $(".insert_temp_skill_note_using_textarea_for_backend_btn").click(function () {
 					shortcut_title: result.shortcut_title,
 					shortcut_content2: result.shortcut_content2,
 				});
-				$(rendered).appendTo($('#temp_shorcut_list_area'));
+				$(rendered).appendTo($('#temp_shorcut_list_for_backend_area'));
 			}
 		});
 	} else {
@@ -2886,8 +2892,6 @@ $('body').on('click', '.shortcut_edit_button2', function (e) {
 	}else{
 		alert("노트 주인인 " + note_author + "님만 수정 할수 있습니다.")
 	}
-
-
 });
 
 $('body').on('click', '.copy_comment', function (e) {

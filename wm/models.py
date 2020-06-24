@@ -5,8 +5,12 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 
+class LikeGuestBook(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # 누구에 대한 좋아요인가?
+    author_id = models.CharField(max_length=40) # 누가 좋아요를 눌렀나?
+
 class GuestBook(models.Model):
-    owner_for_guest_book = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_for_guest_book = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.CharField(max_length=120)
     created_at = models.DateTimeField(auto_now_add=True , editable = False)

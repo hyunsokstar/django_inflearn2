@@ -175,7 +175,7 @@ button, input, a {
 	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">Back</button><br>
 
-	<button type="button" class="btn btn-outline-dark" >방명록</button> <br>
+	<button type="button" class="btn btn-outline-dark guest_book_list_btn">방명록</button> <br>
 	<button type="button" class="btn btn-outline-dark">slack</button><br>
 
 {% ifequal request.user page_user %}
@@ -536,6 +536,26 @@ button, input, a {
 <span class="myshort_list_area"></span>
 
 <!-- modal area -->
+
+<div class="modal fade" id="guest_book_list_modal" role="dialog">
+	<div class="modal-dialog modal-xl">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">방명록</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body" id="guest_list_table_area">
+				<!-- 내용 출력 부분 -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
 <div class="modal fade" id="insert_image_between_popup" role="dialog">
 	<div class="modal-dialog modal-xl">
 		<!-- Modal content-->
@@ -828,6 +848,7 @@ button, input, a {
 
 </script>
 
+<!-- mini note for backend modal -->
 <script class="temp_skill_note_row_for_textarea" type="text/x-template">
 
 
@@ -840,7 +861,7 @@ button, input, a {
         </td>
         <td>
             <span id="title_<%=shortcut_id%>">
-				<%=shortcut_title%>
+				<%=shortcut_title%> (new)
             </span>
             <button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="<%=shortcut_id%>">삭제 11</button>
             <button class="badge badge-pill badge-primary update_temp_skil_title_btn float-right" id="<%=shortcut_id%>"">제목 수정</button>
@@ -1028,6 +1049,31 @@ $(function() {
       });
     };
 })(jQuery);
+
+// guest_book_list_btn
+$('body').on('click', '.guest_book_list_btn', function (e) {
+	// alert('방명록 클릭')
+
+	const url = "guest_book_list/{{page_user}}"
+	window.history.pushState("", "", '/wm/myshortcut/')
+
+	$.get(url)
+		.done((result) => {
+			$("#guest_list_table_area").html(result)
+			$("#guest_book_list_modal").modal();
+
+			window.history.pushState("", "", '/wm/myshortcut')
+			$(".navbar").hide();
+
+		})
+		.fail(() => {
+			console.log("fail");
+		})
+		.always(() => {
+			console.log('always');
+	})
+
+});
 
 $('body').on('click', '.temp_memo_for_backend_btn', function (e) {
 	console.log("클릭 확인");

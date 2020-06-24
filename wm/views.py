@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_image
 from accounts2.models import Profile
-from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote, CommentForPage
+from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote, CommentForPage, GuestBook
 from skilblog.models import SkilBlogTitle, SkilBlogContent
 from django.http import HttpResponseRedirect
 from datetime import datetime , timedelta
@@ -22,6 +22,82 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 
 # 1122
+
+def guest_book_list(request,guest_book_owner):
+    if request.method == 'GET':
+        print("geust_book_list 실행")
+        owner = User.objects.get(username=guest_book_owner)
+
+        object_list = GuestBook.objects.filter(owner_for_guest_book=owner).order_by('created_at');
+        print("object_list : ", object_list)
+
+
+        return render(request, 'wm/guest_book_list.html', {
+            "object_list" : object_list,
+        })
+    else:
+        return HttpResponse("Request method is not a GET")
+
+def insert_temp_skill_note_for_textarea(request):
+    print("insert_temp_skill_note_for_textarea 실행")
+    ty = Type.objects.get(type_name="textarea")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    wm = TempMyShortCut.objects.create(
+        author = request.user,
+        title=title,
+        type= ty,
+        category = ca,
+        content2 = ""
+    )
+
+    print("wm : ", wm)
+
+    return JsonResponse({
+        'message': 'textarea 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content2':wm.content2,
+    })
+
+def delete_guest_book_list(request,id):
+    user = request.user
+
+    if request.method == "POST" and request.is_ajax():
+        gb = GuestBook.objects.filter(Q(id=id)).delete()
+        print('GuestBook delete 성공 id : ' , id);
+        return JsonResponse({
+            'message': 'comment 삭제 성공 ',
+        })
+    else:
+        return redirect('/wm/myshorcut/')
+
+def insert_for_guest_book(request):
+    print("insert_for_guest_book 실행")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    user = request.POST['page_user']
+    text = request.POST['text']
+
+    guest_book = GuestBook.objects.create(
+        owner_for_guest_book = request.user,
+        author = request.user,
+        content = text,
+    )
+
+    print("guest_book : ", guest_book)
+
+    return JsonResponse({
+        'message' : 'guest_book row 추가 성공',
+        'guest_book_id' : guest_book.id,
+        'guest_book_author' : guest_book.author.username,
+        'guest_book_content' : guest_book.content,
+        'guest_book_created_at' : guest_book.created_at,
+    })
+
+
 
 # delete_comment_for_skilpage
 def delete_comment_for_skilpage(request,id):
@@ -537,6 +613,7 @@ def insert_temp_skill_note_using_input_for_backend(request):
         'shortcut_content':wm.content1,
     })
 
+
 def insert_temp_skill_note_using_textarea_for_backend(request):
     print("insert_temp_skill_note_for_textarea 실행")
     ty = Type.objects.get(type_name="textarea")
@@ -562,7 +639,6 @@ def insert_temp_skill_note_using_textarea_for_backend(request):
     })
 
 
-# 2244
 
 def temp_skill_list_for_backend1(request):
     print("***** BackEnd mini note 실행 확인 *******")
@@ -681,29 +757,7 @@ def update_temp_skill_note_for_textarea(request,id):
     else:
         return redirect('/todo')
 
-def insert_temp_skill_note_for_textarea(request):
-    print("insert_temp_skill_note_for_textarea 실행")
-    ty = Type.objects.get(type_name="textarea")
-    category_id = request.user.profile.selected_category_id
-    ca = Category.objects.get(id=category_id)
-    title = request.POST['title']
 
-    wm = TempMyShortCut.objects.create(
-        author = request.user,
-        title=title,
-        type= ty,
-        category = ca,
-        content2 = ""
-    )
-
-    print("wm : ", wm)
-
-    return JsonResponse({
-        'message': 'textarea 박스 추가 성공',
-        'shortcut_id':wm.id,
-        'shortcut_title':wm.title,
-        'shortcut_content2':wm.content2,
-    })
 
 
 def delete_temp_memo_by_ajax(request,id):
@@ -1229,27 +1283,8 @@ def favorite_user_list_for_skillnote(request):
     else:
         return HttpResponse("Request method is not a GET")
 
-def guest_book_list(request):
-    if request.method == 'GET':
-        print("geust_book_list 실행")
-
-        # my_favorite = []
-        # ru = RecommandationUserAboutSkillNote.objects.filter(author_id=request.user)
-        #
-        # for x in ru:
-        #     print("내가 추천한 user_id : ",x.user_id)
-        #     my_favorite.append(x.user_id)
-        #
-        # object_list = User.objects.filter(id__in=my_favorite).order_by('-profile__skill_note_reputation');
-        #
-        # print("object_list : ", object_list)
 
 
-        return render(request, 'wm/guest_book_list.html', {
-            # "object_list" : object_list,
-        })
-    else:
-        return HttpResponse("Request method is not a GET")
 
 
 class user_list_for_memo_view(ListView):
@@ -1270,7 +1305,7 @@ class user_list_for_memo_view(ListView):
         print("query : ", query)
 
         if query != None:
-            object_list = User.objects.all().filter(Q(username__contains=query))
+            object_list = User.objects.all().filter(Q(username__contains=query)).order_by('-profile__skill_note_reputation');
             return object_list
         else:
             object_list = User.objects.all().order_by('-profile__skill_note_reputation');

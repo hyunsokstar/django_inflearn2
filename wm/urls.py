@@ -8,8 +8,12 @@ app_name = 'wm'
 urlpatterns = [
     # 1122
     # 체크 박스 체크한 항목들을 스킬 블로그로 이동
+    path('myshortcut/insert_temp_skill_note_for_textarea/', views.insert_temp_skill_note_for_textarea , name="insert_temp_skill_note_for_textarea"), # mini note insert front
+    path('myshortcut/insert_for_guest_book/', views.insert_for_guest_book , name="insert_for_guest_book"), # geust book insert
+    path('myshortcut/guest_book_list/<str:guest_book_owner>', views.guest_book_list, name ="guest_book_list"), # guest_book_list
+    path('myshortcut/delete_guest_book_list/<int:id>', views.delete_guest_book_list , name="delete_guest_book_list"),
 
-
+    path('myshortcut/delete_comment_for_skilpage/<int:id>', views.delete_comment_for_skilpage , name="delete_comment_for_skilpage"),
 
     path('myshortcut/temp_skill_list_for_backend/<page_user>', views.temp_skill_list_for_backend2 , name="temp_skill_list_for_backend"),
     path('myshortcut/temp_skill_list/<page_user>', views.temp_skill_list2 , name="temp_skill_list"), # mininote for frontend
@@ -20,7 +24,7 @@ urlpatterns = [
     path('myshortcut/temp_skill_list_for_backend/', views.temp_skill_list_for_backend1 , name="temp_skill_list_for_backend"),
     path('myshortcut/temp_skill_list/', views.temp_skill_list1 , name="temp_skill_list"), # mininote for frontend
 
-    path('myshortcut/delete_comment_for_skilpage/<int:id>', views.delete_comment_for_skilpage , name="delete_comment_for_skilpage"),
+
 
     path('new_comment_for_skilpage/<str:user_name>/<str:category_id>/' , views.new_comment_for_skilpage, name="new_comment_for_skilpage"),
 
@@ -56,9 +60,6 @@ urlpatterns = [
     path('myshortcut/edit_temp_skill_note_for_input/<int:id>', views.edit_temp_skill_note_for_input , name='edit_temp_skill_note_for_input'),
 
     path('myshortcut/update_temp_skill_note_for_textarea/<int:id>', views.update_temp_skill_note_for_textarea , name='update_temp_skill_note_for_textarea'),
-
-
-    path('myshortcut/insert_temp_skill_note_for_textarea/', views.insert_temp_skill_note_for_textarea , name="insert_temp_skill_note_for_textarea"),
 
     path('myshortcut/update_temp_skil_title/<int:id>', views.update_temp_skil_title , name="update_temp_skil_title"),
     path('myshortcut/delete_temp_memo_by_ajax/<int:id>', views.delete_temp_memo_by_ajax , name="delete_temp_memo_by_ajax"),
@@ -123,7 +124,6 @@ urlpatterns = [
     # path('userlist/byajax', views.user_list_for_memo, name = 'user_list_for_memo'),
     path('userlist/byajax', views.user_list_for_memo_view.as_view(), name = 'user_list_for_memo'),
     path('favorite_user_list/byajax', views.favorite_user_list_for_skillnote, name = 'favorite_ user_list_for_memo'),
-    path('myshortcut/guest_book_list', views.guest_book_list, name ="guest_book_list"),
 
 
 
