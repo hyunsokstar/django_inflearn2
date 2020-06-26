@@ -61,14 +61,14 @@ def like_skil_blog_title(request, id):
     like_count = LikeForSkilBlogTitle.objects.filter(Q(author=request.user) & Q(sbt=sbt)).count()
     print("내가 강의 추천한 개수 : ", like_count)
 
-    if like_count < 1:
+    if like_count == 0:
         sbt = LikeForSkilBlogTitle.objects.create(author=request.user, sbt = sbt)
         SkilBlogTitle.objects.filter(Q(id=id)).update(reputation = F('reputation') + 1)
-        print('좋아요 추가')
+        print('추천 + 1')
     else:
         LikeForSkilBlogTitle.objects.filter(Q(author=request.user) & Q(sbt=sbt)).delete()
         SkilBlogTitle.objects.filter(Q(id=id)).update(reputation = F('reputation') + -1)
-        print('추천을 삭제')
+        print('추천 - 1')
     return HttpResponseRedirect(reverse_lazy('skilblog:SkilBlogTitleList'))
 
 class modify_skil_blog_title_list(UpdateView):

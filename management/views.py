@@ -15,7 +15,7 @@ def recommand_suggestion(request, id):
     print("recommand_count : ", recommand_count)
     sl =  get_object_or_404(Suggestion, pk=id)
 
-    if recommand_count < 1:
+    if (recommand_count == 0):
         rc = RecommandSuggestion.objects.create(author=request.user, suggestion = sl)
         print('추천을 추가')
     else:

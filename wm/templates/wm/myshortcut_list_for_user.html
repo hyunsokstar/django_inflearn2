@@ -62,40 +62,8 @@ button, input, a {
 
 {%block content4 %}
 
-<!-- <div class="jumbotron"> -->
 <br>
 <hr>
-
-<!--
-<table class="table table-bordered">
-	<tr>
-		<td width="20%">
-			<input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id" size="40">
-			<button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button>
-			<button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
-			<button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">유저 목록</button>
-			<button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
-		</td>
-	</tr>
-
-	<tr>
-		<td width="80%">
-			{% for category in category_list %}
-			{% ifequal category.id request.user.profile.selected_category_id %}
-			<a style="background-color:yellow" class="btn btn-outline-info btn-sm ca-btn-selected"
-				href="{{category.get_absolute_url}}" id={{category.id}}>{{ category.name }} </a>
-			{% else %}
-			<a class="btn btn-outline-info btn-sm ca-btn-{{category.id}} ca-btn" id=ca_{{category.id}}
-				href="{{category.get_absolute_url}}">{{ category.name }} </a>
-			{% endifequal %}
-			{% endfor %}
-
-		</td>
-	</tr>
-</table> -->
-
-
-<!-- </div> -->
 
 {% if messages %}
 <div class="alert alert-success">
@@ -105,12 +73,6 @@ button, input, a {
 </div>
 {% endif %}
 
-<!-- <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="검색어를 입력 하세요" aria-label="Recipient's username" aria-describedby="basic-addon2">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-  </div>
-</div> -->
 
 
 {% ifequal page_user request.user.username %}
@@ -118,7 +80,21 @@ button, input, a {
 
 {% else %}
 
-<span class="float-right"> {{page_user}} 님의 skill note 입니다. </span>
+<span class="float-right">
+
+
+	<table class="mb-1" border="1" >
+		<tr>
+			<td>author</td>
+			<td>{{page_user}}</td>
+		</tr>
+		<tr>
+			<td>star</td>
+			<td>{{star_count_for_user}}</td>
+		</tr>
+	</table>
+
+</span>
 {% endifequal %}
 
 

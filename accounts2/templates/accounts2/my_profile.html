@@ -11,7 +11,16 @@
 <table class="table table-bordered">
     <tr>
         <td width="20%">user_name</td>
-        <td>{{request.user}}</td>
+        <td>
+
+            <div class="input-group mb-1">
+              <input type="text" class="form-control" value="{{request.user}}" id="profile_user" aria-describedby="basic-addon2" ></input>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">중복 검사</button>
+              </div>
+            </div>
+
+        </td>
     </tr>
     <tr>
         <td>email</td>
@@ -77,15 +86,53 @@
 
     <tr>
         <td>reputation</td>
-        <td> {{ user.recommandationuseraboutskillnote_set.count }} 점</td>
+        <td> {{ request.user.recommandationuseraboutskillnote_set.count }} 점</td>
     </tr>
 
 </table>
 
 <button type="button" class="btn btn-outline-dark btn-block" id="update_complete_button_for_profile" data-id="{{request.user.profile.id}}">Profile Update</button>
+<button type="button" class="btn btn-outline-primary btn-block" id="delete_login_user_btn" data-id="{{request.user.profile}}">회원 탈퇴</button>
 
 
 {% endblock %}
+
+{% block sidearea %}
+나를 추천한 사람들:
+<table class="table table-bordered">
+
+    {% for liker in request.user.recommandationuseraboutskillnote_set.all %}
+    <tr>
+        <td>
+            <a href="/accounts/user_profile_information_view/{{liker.author_id}}">
+                {{ liker.author_id }}
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+
+
+</table>
+
+내가 추천한 사람들:
+<table class="table table-bordered">
+
+    {% for my_favorite in my_favorite_user_list %}
+    <tr>
+        <td>
+            <a href="/accounts/user_profile_information_view/{{my_favorite.username}}">
+                    {{ my_favorite.username }}
+            </a
+        </td>
+    </tr>
+{% endfor %}
+
+
+</table>
+
+{% endblock %}
+
+
 
 
 <script type="text/javascript">
@@ -93,10 +140,38 @@
 // js area
 {% block extra_js %}
 
+$('body').on('click', '#delete_login_user_btn', function (e) {
+	e.preventDefault();
+    var userId = $(this).data("id");
+
+    var delete_id = prompt("본인 id를 입력하세요", "");
+    var option = prompt("진짜 탈퇴하실건가요? (yes or no)", "");
+    var userId = "{{request.user.username}}"
+
+    if(delete_id ==  userId & option == "yes"){
+        $.ajax({
+            type: "POST",
+            url: '/accounts/delete_login_user/',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                userId:userId
+            },
+            success: function (result) {
+                alert(result.message);
+                window.location.href = "/accounts/login/"
+                // http://localhost:80/accounts/login/
+            }
+        });
+    }else{
+        alert("탈퇴를 취소합니다. 입력한 id가 부정확할수 있습니다.")
+    }
+});
+
 $('body').on('click', '#update_complete_button_for_profile', function (e) {
 	e.preventDefault();
-    alert("update button click")
+    // alert("update button click")
 
+    var profile_user = $("#profile_user").val();
     var profile_email = $("#profile_email").val();
     var profile_github = $("#profile_github").val();
     var profile_public = $("#profile_public").val();
@@ -105,26 +180,37 @@ $('body').on('click', '#update_complete_button_for_profile', function (e) {
     var profile_site3 = $("#profile_site3").val();
     var profile_site4 = $("#profile_site4").val();
     var profile_id = $(this).data("id");
-    var current_login_user = "{{request.user}}"
 
+    console.log("profile_id : ", profile_id);
 
-	$.ajax({
-		type: "POST",
-		url: 'accounts2/update_for_profile/' + profile_id,
-		data: {
-			profile_iprofile_emaild: profile_email,
-			profile_github: profile_github,
-			profile_public: profile_public,
-			profile_site1: profile_site1,
-			profile_site2: profile_site2,
-			profile_site3: profile_site3,
-			profile_site4: profile_site4,
-			csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
-		success: function (result) {
-			alert(result.message)
-		}
-	});
+    if(profile_public == "yes" || profile_public=="no"){
+        var current_login_user = "{{request.user}}"
+    	$.ajax({
+    		type: "POST",
+    		url: '/accounts/update_for_profile/' + profile_id,
+    		data: {
+
+                profile_id : profile_id,
+                profile_user : profile_user,
+    			profile_email: profile_email,
+    			profile_github: profile_github,
+    			profile_public: profile_public,
+    			profile_site1: profile_site1,
+    			profile_site2: profile_site2,
+    			profile_site3: profile_site3,
+    			profile_site4: profile_site4,
+    			csrfmiddlewaretoken: '{{ csrf_token }}'
+    		},
+    		success: function (result) {
+    			alert(result.message)
+    		}
+    	});
+
+    }else{
+
+        alert("profile_public은 yes or no 이어야 합니다");
+    }
+
 
 
 

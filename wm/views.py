@@ -31,7 +31,6 @@ def guest_book_list(request,guest_book_owner):
         object_list = GuestBook.objects.filter(owner_for_guest_book=owner).order_by('created_at');
         print("object_list : ", object_list)
 
-
         return render(request, 'wm/guest_book_list.html', {
             "object_list" : object_list,
         })
@@ -173,6 +172,7 @@ class MyShortcutListByUser(ListView):
             context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=user).count()
             context['page_user'] = user
             context['comment_list_for_page'] = CommentForPage.objects.filter(user_name=user, category_id = category_id)
+            context['star_count_for_user'] = RecommandationUserAboutSkillNote.objects.filter(user=user.id).count
             context['comment_form'] = CommentForm()
 
             return context
@@ -307,7 +307,7 @@ def plus_recommand_for_skillnote_user(request):
     recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).count()
     print("recommand_count : ", recommand_count)
 
-    if recommand_count < 1:
+    if (recommand_count ==  0):
         rc = RecommandationUserAboutSkillNote.objects.create(user=user ,author_id=user_id)
         print('추천을 추가')
         recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user)).count()
@@ -1308,7 +1308,7 @@ class user_list_for_memo_view(ListView):
             object_list = User.objects.all().filter(Q(username__contains=query)).order_by('-profile__skill_note_reputation');
             return object_list
         else:
-            object_list = User.objects.all().order_by('-profile__skill_note_reputation');
+            object_list = User.objects.all().filter(profile__public="yes").order_by('-profile__skill_note_reputation');
             print("result : ", object_list)
             return object_list
 

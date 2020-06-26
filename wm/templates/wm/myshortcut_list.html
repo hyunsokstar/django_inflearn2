@@ -57,20 +57,36 @@ img.Image { max-width: 100%; display: block; }
 
 
 {%block content4 %}
-
-<!-- <div class="jumbotron"> -->
 <br>
 <hr>
 
 <table class="table table-bordered">
 	<tr>
-		<td width="20%">
-			<!-- <h4>Skil Note by {{request.user.profile.shortcut_user_id}}</h4> -->
-			<input type="text" name="" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id" size="40">
-			<button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button>
-			<button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">유저 목록</button>
-			<button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
-			<button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
+		<td width="">
+			<br>
+			<div class="container">
+			  <div class="row">
+			    <div class="col">
+				  	<div class="input-group mb-1">
+	  					<input type="text" class="form-control" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id" aria-describedby="basic-addon2">
+		  				<div class="input-group-append">
+		    				<button class="btn btn-outline-secondary" id="change_user_id_to_me" type="button">my</button>
+							<button class="btn btn-outline-secondary update_shortcut_user_id" id="{{request.user.id}}" type="button">go</button>
+		  				</div>
+					</div>
+			    </div>
+			    <div class="col">
+				  <!-- <button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button> -->
+				  <button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
+				  <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">USER</button>
+				  <button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
+				  <button type="button" class="btn btn-outline-dark btn-sm " > 접속자 현황 (1122)</button>
+			    </div>
+				<div class="col">
+					star : {{ request.user.recommandationuseraboutskillnote_set.count }} 점
+			  	</div>
+			  </div>
+			</div>
 		</td>
 	</tr>
 
@@ -89,7 +105,6 @@ img.Image { max-width: 100%; display: block; }
 		</td>
 	</tr>
 </table>
-<!-- </div> -->
 
 {% if messages %}
 <div class="alert alert-success">
@@ -136,11 +151,7 @@ img.Image { max-width: 100%; display: block; }
 
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
-<!-- side button area -->
-
 <div class="sideicon_for_insert">
-	<!-- <a class="new3_btn btn btn-outline-dark" id=""
-		href="{% url 'wm:insert_myshortcut_textarea_summer_note' %}">SN</a><br> -->
 	<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
 	<button type="button" name="button" class="new1_btn btn btn-outline-dark" id="">인풋(1)</button><br>
 	<button type="button" name="button" class="new2_btn btn btn-outline-dark" id="">text(1)</button><br>
@@ -228,8 +239,6 @@ img.Image { max-width: 100%; display: block; }
 			{% if p.author == request.user %}
 				<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
 				<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
-			<!-- <img src="{% static 'icon/trashcan.png' %}" alt="" > -->
-
 			{% endif %}
 		</td>
 	</tr>
@@ -329,7 +338,6 @@ img.Image { max-width: 100%; display: block; }
 			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
 			<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
-			<!-- <img src="{% static 'icon/trashcan.png' %}" alt=""> -->
 			{% endif %}
 		</td>
 	</tr>
@@ -337,9 +345,6 @@ img.Image { max-width: 100%; display: block; }
 		<td>file</td>
 		<td>
 			<span ondblclick = "modify_for_file_name({{p.id}})">
-				<!-- <input type="text" value="{{p.filename}}" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})"> -->
-
-
 				<div class="input-group">
 				  <input type="text" class="form-control" id="file_{{p.id}}" value="{{p.filename}}" aria-describedby="button-addon4">
 				  <div class="input-group-append" id="button-addon4">
@@ -368,8 +373,6 @@ img.Image { max-width: 100%; display: block; }
 				<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="false" style="max-width:100%;">
 					{{p.content2 | safe}}
 				</span>
-			<!-- </textarea> -->
-
 			<br>
 
 			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
@@ -620,12 +623,8 @@ img.Image { max-width: 100%; display: block; }
   </div>
 </div>
 
-<!-- <div class="modal fade categoynick_modal" id="CategoryModal" role="dialog"> -->
-
 <div class="modal fade" id="search_skill_modal" role="dialog" width="90%">
 	<div class="modal-dialog modal-xl">
-
-		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="popup_title">
@@ -642,19 +641,15 @@ img.Image { max-width: 100%; display: block; }
 				  </div>
 				</div>
 
-
 				<input type="radio" class="search" id="content+title" name='foo' checked="true">제목,내용(me)
 				<input type="radio" class="search" id="only_title" name='foo'>제목(me)
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" class="search" id="content_title_alluser" name='foo'>제목, 내용(all user)
 				<input type="radio" class="search" id="title_alluser" name='foo'>제목(all user)
 				<br>
-
 				<div id="wm_list_area_for_popup"></div>
-
 			</div>
 			<div class="modal-footer">
-
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -664,7 +659,6 @@ img.Image { max-width: 100%; display: block; }
 
 <div class="modal fade" id="text_modal" role="dialog">
 	<div class="modal-dialog modal-xl">
-
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
@@ -673,18 +667,14 @@ img.Image { max-width: 100%; display: block; }
 			</div>
 			<div class="modal-body">
 				{% ifequal request.user.profile.shortcut_user_id request.user.username %}
-					<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2_for_popup float-right"
-					id="">edit_complete</button>
+					<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2_for_popup float-right" id="">edit_complete</button>
 				{% endifequal %}
-
-
 				<textarea name="" id="textarea_for_popup_original" class="form-control" rows="24"></textarea>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
-
 	</div>
 </div>
 
@@ -709,9 +699,7 @@ img.Image { max-width: 100%; display: block; }
 </div>
 
 <!-- user list modal -->
-
-<div class="modal fade" id="user_list_modal" role="dialo
-g">
+<div class="modal fade" id="user_list_modal" role="dialog">
 	<div class="modal-dialog modal-xl">
 
 		<!-- Modal content-->
@@ -848,7 +836,6 @@ g">
 <script class="myshortcut_row_textarea" type="text/x-template">
 
 <table class="table table-bordered table_row" id="todo_list" width="100%">
-
     <tr id="shortcut_<%=shortcut_id%>" style="background-color:#f1f9f0">
         <td id=index_{{ forloop.counter }} width="10%">
             <input type="checkbox" id="<%=shortcut_id%>" class="shortcut_check" id="file_<%=shortcut_id%>">
@@ -885,7 +872,6 @@ g">
             <button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="<%=shortcut_id%>"" >댓글</button>
         </td>
     </tr>
-
 </script>
 
 {% endblock %}
@@ -898,51 +884,41 @@ g">
 
 $(function() {
   $('body').keyup(function(e) {
-
 	  if (e.ctrlKey && e.which === 48) {
-		  // alert('ctrㅣ + n');
 		  $(".update_nick_button").trigger("click");
-
 	  }
 
 	  if (e.ctrlKey && e.which === 37) {
-		  // alert('ctrㅣ + n');
 		  $(".go_to_before_channer_btn").trigger("click");
-
 	  }
     if (e.ctrlKey && e.which === 39) {
-      // alert('ctrㅣ + n');
 	  $(".go_to_next_channer_btn").trigger("click");
     }
-
 	if (e.altKey && e.which === 49) {
-      // alert('alt | + 1');
 	  $(".new3_btn").trigger("click");
-
     }
-
 	if (e.altKey && e.which === 50) {
-	  // alert('ctrㅣ + 1');
 	  $(".new1_btn").trigger("click");
 	}
-
 	if (e.altKey && e.which === 51) {
-	  // alert('ctrㅣ + 1');
 	  $(".new2_btn").trigger("click");
 	}
-
 	if (e.altKey && e.which === 52) {
-	  // alert('ctrㅣ + 1');
 	  $(".insert_image").trigger("click");
 	}
-
   })
 });
-// 1111
-// guest_book_list_btn
-$('body').on('click', '.guest_book_list_btn', function (e) {
-	// alert('방명록 클릭')
 
+// 2244
+$('body').on('click', '#change_user_id_to_me', function (e) {
+	// alert("내 아이디로 변경");
+	const userId = "{{request.user}}";
+	$("#shortcut_user_id").val(userId);
+	$(".update_shortcut_user_id").trigger("click");
+});
+
+
+$('body').on('click', '.guest_book_list_btn', function (e) {
 	const url = "guest_book_list/{{request.user}}"
 	window.history.pushState("", "", '/wm/myshortcut/')
 
@@ -965,10 +941,7 @@ $('body').on('click', '.guest_book_list_btn', function (e) {
 });
 
 
-// show_delete_temp_memo_btn
 $('body').on('click', '.short_delete_button', function (e) {
-	// alert("삭제 버튼 클릭 확인");
-
 	e.preventDefault();
 	var id = $(this).attr("id");
 
@@ -990,7 +963,6 @@ $('body').on('click', '.short_delete_button', function (e) {
 
 (function($) {
     $.fn.flash_message = function(options) {
-
       options = $.extend({
         text: 'Done',
         time: 1000,
@@ -1012,35 +984,22 @@ $('body').on('click', '.short_delete_button', function (e) {
         message.delay(options.time).fadeOut('normal', function() {
           $(this).remove();
         });
-
       });
     };
 })(jQuery);
 
 
-// 2244
 function modify_for_file_name(id){
 	const file_name = $("#file_"+id).val()
 	username="{{request.user}}"
 	// alert("파일 수정 실행");
-	// console.log("id : ", id);
-	// console.log("author : ", author);
 	console.log("username : ", username);
 
-
-	// if(username != 'undefined'){
-	// 	console.log("author : ", author);
-	// 	console.log("username : ", username);
-	// 	alert("작성자만 수정 가능");
-	// }
-
 	if(username){
-
 		if (!file_name) {
 			alert("file name을 입력해 주세요");
 			return;
 		};
-
 		$.ajax({
 			type: "POST",
 			url: '/wm/myshortcut/update_skil_note_file_name/' + id,
@@ -1053,11 +1012,9 @@ function modify_for_file_name(id){
 				alert(result.message);
 			}
 		});
-
 	} else {
 		alert("작성자만 수정 할 수 있습니다.");
 	}
-
 }
 
 // open_new_tabb
@@ -1073,7 +1030,6 @@ $('body').on('click', '.file_history_button', function (e) {
 	const id = $(this).data("id");
 	const file_name = $("#file_"+id).val();
 	const search_option = "file_history"
-	// alert("file_name 22: "+ file_name);
 
 	window.history.pushState("", "", '/wm/myshortcut/')
 	$.ajax({
@@ -1098,10 +1054,8 @@ $('body').on('click', '.file_history_button', function (e) {
 });
 
 $('body').on('click', '.skil_note_file_name_update_btn', function (e) {
-	// e.preventDefault();
 	var id = $(this).attr("id");
 	const before_file = $("#file_"+id).val().trim()
-	// alert("before_title : "+ before_title);
 
 	const file_name = prompt("file_name을 입력해 주세요 ", before_file);
 
@@ -1126,8 +1080,6 @@ $('body').on('click', '.skil_note_file_name_update_btn', function (e) {
 
 
 function copy_for_summer_note_content(id){
-	// alert("더블 클릭"+id);
-	// alert("copy is completed")
 
 	var range = document.createRange();
 	range.selectNode(document.getElementById("select-textarea-"+id));
@@ -1148,7 +1100,6 @@ function copy_for_file_name(id){
     copyText.select();
     copyText.setSelectionRange(0, 99999); /*For mobile devices*/
     document.execCommand("copy");
-	// alert("copy is completed")
 
 	$(".result_for_file_name_copy_"+id).flash_message({
         text: 'copy ! : ' + copyText.value,
@@ -1160,18 +1111,15 @@ function copy_for_file_name(id){
 
 function copy_for_file_name2(id){
 	var copyText = document.getElementById("file_"+id);
-    // get the original text value
     const org = copyText.value;
-    // const match = org.match(/\/([^/]+?\.\w+)\s*$/);
 	var match = org.substr(org.lastIndexOf('/') + 1);
 	console.log(match);
 
     if(match) {
-      // if found file name, replace with it temporarily
       copyText.value = match
     }
     copyText.select();
-    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+    copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
     // restore the text value
     copyText.value = org;
@@ -1185,17 +1133,12 @@ function copy_for_file_name2(id){
 }
 
 $('body').on('dblclick', '#input_title_for_skill_note_btn', function (e) {
-	// alert($(this).parent().parent().find(".copy_code1").text())
-	// alert("더블 클릭");
 	$($(this).parent().parent().find(".copy_code1")).trigger("click");
 
 })
 
 $('body').on('dblclick', '#textarea_title_for_skill_note_btn', function (e) {
-	// alert($(this).parent().parent().find(".copy_code1").text())
 	$($(this).parent().parent().find(".copy_code2")).trigger("click");
-
-
 })
 
 
@@ -1260,11 +1203,6 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				var raw_template = $('.myshortcut_row_textarea').html();
 				var tpl = _.template(raw_template);
 				var table_row = $('.table_row').length;
-
-				// alert("result.shorcut_id : "+ result.shortcut_id)
-				// alert("shorcut_title : "+ result.shorcut_title)
-				// alert("shortcut_content2 : "+ result.shortcut_content2)
-
 				console.log("result : ", result);
 
 				var rendered = tpl({
@@ -1680,20 +1618,10 @@ $('body').on('click', '.show_text_popup_button_for_frontend_skill_btn', function
 
 $('body').on('click', '.edit_temp_skill_note_using_textarea_for_backend_btn', function (e) {
 	e.preventDefault();
-	// alert("실행 확인")
 	var id = $(this).attr("id");
-	// alert("id : " + id)
 	var content2 = $("#select-textarea-" + id).val();
-	// alert("content2_update : " , content2)
-
-	// var content2 = content2_update
-	// alert("content2 : "+ content2)
-
-	// edit_temp_skill_note_for_textarea_btn
 	$.ajax({
 		type: "POST",
-		// update_temp_skill_note_for_textarea
-		// update_shortcut2_ajax
 		url: '/wm/myshortcut/edit_temp_skill_note_using_textarea_for_backend/' + id,
 		data: {
 			id: id,
@@ -1762,7 +1690,6 @@ $('body').on('click', '.delete_temp_skill_note_for_backendarea_btn', function (e
 		success: function (result) {
 			$("#shortcut_" + id).remove();
 			$("#shortcut_" + id + "-2").remove();
-			// $("#shortcut_" + id + "-3").remove();
 			alert('comment 삭제 complete ');
 		}
 	});
@@ -1805,8 +1732,6 @@ $(".insert_temp_skill_note_using_input_for_backend_btn").click(function () {
 					shortcut_content: result.shortcut_content,
 				});
 				$(rendered).appendTo($('#temp_shorcut_list_for_backend_area'));
-				// I want to scropp to bottom how to make it?
-				// $("html, body").animate({ scrollTop: $(document).height() }, 1000);
 			}
 		});
 	} else {
@@ -1817,7 +1742,6 @@ $(".insert_temp_skill_note_using_input_for_backend_btn").click(function () {
 })
 
 $(".insert_temp_skill_note_using_textarea_for_backend_btn").click(function () {
-	// alert("new2 버튼 클릭")
 	window.history.pushState("", "", '/wm/myshortcut/')
 	const title = prompt("title을 입력해 주세요 ", "");
 
@@ -1876,10 +1800,7 @@ $('body').on('click', '.temp_memo_for_backend_btn', function (e) {
 
 });
 
-// create_new1_input
-// insert_temp_skill_note_for_input
 $(".insert_temp_skill_note_for_input_btn").click(function () {
-	// alert("new1 버튼 클릭")
 	window.history.pushState("", "", '/wm/myshortcut/')
 	const title = prompt("title을 입력해 주세요 ", "");
 
@@ -1967,16 +1888,8 @@ $('body').on('click', '.edit_temp_skill_note_for_textarea_btn', function (e) {
 	var id = $(this).attr("id");
 	// alert("id : " + id)
 	var content2 = $("#select-textarea-" + id).val();
-	// alert("content2_update : " , content2)
-
-	// var content2 = content2_update
-	// alert("content2 : "+ content2)
-
-	// edit_temp_skill_note_for_textarea_btn
 	$.ajax({
 		type: "POST",
-		// update_temp_skill_note_for_textarea
-		// update_shortcut2_ajax
 		url: '/wm/myshortcut/update_temp_skill_note_for_textarea/' + id,
 		data: {
 			id: id,
@@ -2127,22 +2040,17 @@ function change_user_for_search(obj){
 function search_note(e){
 
 	alert("search_note 클릭")
-
 	e.preventDefault();
-
 	window.history.pushState("", "", '/wm/myshortcut/')
 
 	const search_word = $(".skill_input_box").val();
 	let search_user_id = ""
-	// alert("search_word : " + search_word);
 	console.log("search_word : " + search_word);
 
 	$("input:radio.search").each(function () {
 		if (jQuery(this).is(":checked")) {
 			search_user_id = this.id;
-			// alert("searhch_id : "+ search_user_id)
 		} else {
-			// alert("체크 하세요")
 		}
 	});
 
@@ -2156,8 +2064,6 @@ function search_note(e){
 			},
 		success: function (result) {
 			window.history.pushState("", "", '/wm/myshortcut/')
-			// alert("성공");
-			// alert("result: "+ result)
 			$("#wm_list_area_for_popup").html("")
 			$("#wm_list_area_for_popup").append(result)
 		}
@@ -2237,7 +2143,6 @@ $('body').on('click', '.update_nick_button', function (e) {
 	}
 	console.log("user를 수정 합니다");
 
-	// 서버로 ch_id를 보내서 wm의 CategoryNick모델의 author=request.user인 row의 필드를 업데이트
 	window.history.pushState("", "", '/wm/myshortcut/')
 
 	$.ajax({
@@ -2459,7 +2364,6 @@ $(".go_end_line_btn").click(function () {
 })
 
 $(".new4_btn").click(function () {
-	// alert("new2 버튼 클릭")
 	window.history.pushState("", "", '/wm/myshortcut/')
 	const title = prompt("textbox 5개를 만드시겠습니까? (x,y)", "");
 
@@ -2477,23 +2381,11 @@ $(".new4_btn").click(function () {
 			success: function (result) {
 				$('#empty_state').remove()
 				alert(result.message);
-
-				// underscore를 이용해 row 추가 하기
-				// var raw_template = $('.myshortcut_row_textarea').html();
-				// var tpl = _.template(raw_template);
-				//
-				// var rendered = tpl({
-				//     shortcut_id : result.shortcut_id,
-				//     shortcut_title : result.shortcut_title,
-				//     shortcut_content2 : result.shortcut_content2,
-				// });
-				// $(rendered).appendTo($('.myshort_list_area'));
 				window.history.pushState("", "", '/wm/myshortcut/')
 				location.reload(true);
 			}
 		});
 	} else {
-		// alert("title : ", title)
 		alert("취소 하였습니다")
 	}
 
@@ -2501,7 +2393,6 @@ $(".new4_btn").click(function () {
 
 
 $(".new1_btn").click(function () {
-	// alert("new1 버튼 클릭")
 	window.history.pushState("", "", '/wm/myshortcut/')
 	const title = prompt("title을 입력해 주세요 ", "");
 
@@ -2524,7 +2415,6 @@ $(".new1_btn").click(function () {
 				window.history.pushState("", "", '/wm/myshortcut/')
 
 				var table_row = $('.table_row').length;
-				// alert("table_row : "+ table_row)
 
 				var raw_template = $('.myshortcut_row').html();
 				var tpl = _.template(raw_template);
@@ -2536,7 +2426,6 @@ $(".new1_btn").click(function () {
 					shortcut_content: result.shortcut_content,
 				});
 				$(rendered).appendTo($('.myshort_list_area'));
-				// I want to scropp to bottom how to make it?
 				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
 			}
 		});
@@ -2549,7 +2438,6 @@ $(".new1_btn").click(function () {
 })
 
 $(".new2_btn").click(function () {
-	// alert("new2 버튼 클릭")
 	window.history.pushState("", "", '/wm/myshortcut/')
 	const title = prompt("title을 입력해 주세요 ", "");
 	const filename = prompt("file 이름을 입력해 주세요");
@@ -2741,13 +2629,6 @@ $(".go_btn").click(function () {
 
 })
 
-// $(".go_btn").click(function (e) {
-// 	// Prevent a page reload when a link is pressed
-// 	e.preventDefault();
-// 	// Call the scroll function
-// 	goToByScroll($(this).attr("id"));
-// });
-
 
 $(".favorite_user_list_btn").click(function () {
 	// alert("favorite user list 클릭");
@@ -2780,8 +2661,6 @@ $(".user_list_btn").click(function () {
 
 	$.get(url)
 		.done((result) => {
-			// alert("유저 리스트")
-			//
 			$("#user_table_area").html(result)
 			$("#user_list_modal").modal();
 
@@ -2801,8 +2680,6 @@ $('.category_name_list_button').click(function (e) {
 	const url = '/wm/myshorcut/nicklist/' + user_name
 	const ch = $("#current_category").text()
 
-	// alert("ch : "+ch)
-
 	$.get(url)
 		.done((result) => {
 			// console.log("result : ", result);
@@ -2811,16 +2688,6 @@ $('.category_name_list_button').click(function (e) {
 			$("#CategoryModal").modal();
 
 			$("#" + ch).css("background-color", "skyblue");
-
-			// document.getElementById('CategoryModal').scrollTo({
-			// 	top: $("#" + ch).offset().top,
-			// 	left: 0,
-			// 	behavior: 'smooth'
-			// });
-
-			// $('html, .categoynick_modal').animate({
-			// 	'scrollTop': $("#"+ch).offset().top
-			// });
 
 		})
 		.fail(() => {
@@ -2835,9 +2702,6 @@ $('.update_shortcut_user_id').click(function (e) {
 	e.preventDefault();
 	const id = this.id
 	const user_id = $("#shortcut_user_id").val()
-
-	// alert("유저 수정 클릭 2")
-	// alert("user_id : "+ user_id)
 
 	window.history.pushState("", "", '/wm/')
 

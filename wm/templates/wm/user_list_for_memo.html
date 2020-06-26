@@ -50,6 +50,8 @@
         </tr>
         {% if object_list.exists %}
         {% for u in object_list %}
+
+        
         <tr>
             <td>{{u.id}}</td>
             <td id=user_name_{{u.id}}>{{u.username}}</td>
