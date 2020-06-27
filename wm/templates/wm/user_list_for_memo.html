@@ -197,7 +197,7 @@ $(".plus_btn_for_user").click(function(){
         },
         success: function(result) {
             alert(result.message)
-            // $("#skill_note_point_"+author_id).text(result.recommand_count)
+            $("#skill_note_point_"+author_id).text(result.recommand_count)
             window.location.href = '/wm/userlist/byajax'
         }
     });
