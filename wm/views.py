@@ -297,8 +297,8 @@ def move_to_skil_blog(request):
     })
 
 def plus_recommand_for_skillnote_user(request):
-    author_id = request.POST['author_id'] # 누구를 추천
-    my_id = request.POST['my_id'] # 추천을 내가
+    author_id = request.POST.get('author_id', False)
+    my_id = request.POST.get('my_id', False)
 
     author =  get_object_or_404(User, pk=author_id)
     me =  get_object_or_404(User, pk=my_id)

@@ -29,7 +29,7 @@
 
             </td>
             <td>
-                <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-user_pk="{{u.pk}}" data-user_id="{{request.user}}">
+                <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-author_id="{{u.id}}" data-my_id="{{request.user.id}}">
                     <img src="{% static 'icon/plus.png' %}" alt="">
                 </button>
             </td>
@@ -57,13 +57,10 @@
 
 $(".plus_btn_for_user").click(function(){
     // alert('plus button 클릭');
-    // 어떤 유저에 대해 추천
-    const user_pk = $(this).data("user_pk");
-    // 누가 추천
-    const user_id = $(this).data("user_id");
-
-    console.log("user_pk : " , user_pk);
-    console.log("user_id : " , user_id);
+    const author_id = $(this).data("author_id"); // 누구를 추천
+    const my_id = $(this).data("my_id");     // 누가 추천
+    console.log("author_id : " , author_id);
+    console.log("my_id : " , my_id);
 
     window.history.pushState("", "", '/wm/myshortcut/')
 
@@ -71,38 +68,15 @@ $(".plus_btn_for_user").click(function(){
         type: "POST",
         url: 'plus_recommand_for_skillnote_user/',
         data: {
-            "user_pk":user_pk,
-            "user_id":user_id,
+            "author_id":author_id,
+            "my_id":my_id,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         },
         success: function(result) {
-            // 0924 plus_btn_for_user
-            if(result.option == "plus") {
-                alert("추천 +1 ")
-                // const point = $("#skill_note_point_"+user_pk).text().trim();
-                // $("#skill_note_point_"+user_pk).text(result.recommand_count).trim();
-                // refresh_user_list_popup()
-                window.location.href = '/wm/userlist/byajax'
-
-                // alert("result.recommand_count : "+ result.recommand_count);
-                // alert("point : "+ point);
-                // $(this).parent().find("#skill_note_point").text(result.recommand_count)
-            }else {
-                alert("추천 -1 ")
-                // const val = $(this).parent().find("#skill_note_point").text();
-                // $("#skill_note_point_"+user_pk).text(result.recommand_count).trim();
-                // refresh_user_list_popup()
-                // location.reload(true);
-                window.location.href = '/wm/userlist/byajax'
-
-                // alert("val : "+ val);
-                // alert("result.recommand_count : "+ result.recommand_count);
-                // $(this).parent().find("#skill_note_point").text(result.recommand_count)
-            }
+            alert(result.message)
+            window.location.href = '/wm/userlist/byajax'
         }
     });
-
-
 })
 
 $(".copy_to_me_from_user_id_btn").click(function(e){
