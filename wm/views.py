@@ -331,6 +331,7 @@ def plus_recommand_for_skillnote_user(request):
         return JsonResponse({
             'message': "추천 -1 ",
             "option":"minus",
+            "recommand_count":recommand_count
         })
 
 
