@@ -44,7 +44,7 @@ def user_profile_information_view(request,user):
     print("profile_user_id : ", profile_user_id)
 
     user_favorite = [] # 유저가 좋아하는 사람 목록 담을 배열
-    user_favorite_list = RecommandationUserAboutSkillNote.objects.filter(author_id=profile_user.username) # 유저가 좋아하는 사람 목록 검색
+    user_favorite_list = RecommandationUserAboutSkillNote.objects.filter(author_id=profile_user) # 유저가 좋아하는 사람 목록 검색
 
     print("user_favorite_list : ", user_favorite_list)
 
