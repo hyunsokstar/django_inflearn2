@@ -297,21 +297,23 @@ def move_to_skil_blog(request):
     })
 
 def plus_recommand_for_skillnote_user(request):
-    user_pk = request.POST['user_pk'] # 어떤 유저에 대해
-    user_id = request.POST['user_id'] # 추천을 누가
+    author_id = request.POST['author_id'] # 누구를 추천
+    my_id = request.POST['my_id'] # 추천을 내가
 
-    user =  get_object_or_404(User, pk=user_pk)
-    print("user : " , user)
-    print("user_id : ", user_id)
+    author =  get_object_or_404(User, pk=author_id)
+    me =  get_object_or_404(User, pk=my_id)
+    print("추천 받는 사람 : " , author)
+    print("추천 하는 사람 : ", me)
 
-    recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).count()
+    recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=author) & Q(author_id=me)).count() # 내가 추천한거 있는지 확인
     print("recommand_count : ", recommand_count)
 
     if (recommand_count ==  0):
-        rc = RecommandationUserAboutSkillNote.objects.create(user=user ,author_id=user_id)
-        print('추천을 추가')
-        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user)).count()
-        profile = Profile.objects.filter(Q(user=user)).update(skill_note_reputation = recommand_count)
+        rc = RecommandationUserAboutSkillNote.objects.create(user=author , author_id=me) # 나의 추천 추가
+        print('추천 ++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=author)).count() # 추천 받은 사람 점수 확인
+
+        profile = Profile.objects.filter(Q(user=author_id)).update(skill_note_reputation = recommand_count) # 추천 대상자 프로필 점수 반영
 
         return JsonResponse({
             'message': "추천 +1",
@@ -320,14 +322,15 @@ def plus_recommand_for_skillnote_user(request):
         })
 
     else:
-        RecommandationUserAboutSkillNote.objects.filter(Q(user=user) & Q(author_id=user_id)).delete()
-        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=user)).count()
-        profile = Profile.objects.filter(Q(user=user)).update(skill_note_reputation = recommand_count)
+        RecommandationUserAboutSkillNote.objects.filter(Q(user=author) & Q(author_id=me)).delete() # 내가 추천한거 삭제
+
+        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=author)).count() # 추천 받은 사람 점수 확인
+        print('추천 ---------------------------------------------------')
+        profile = Profile.objects.filter(Q(user=author_id)).update(skill_note_reputation = recommand_count)
 
         return JsonResponse({
             'message': "추천 -1 ",
             "option":"minus",
-            "recommand_count":recommand_count
         })
 
 
@@ -1308,6 +1311,7 @@ class user_list_for_memo_view(ListView):
             object_list = User.objects.all().filter(Q(username__contains=query)).order_by('-profile__skill_note_reputation');
             return object_list
         else:
+            print("user list 출력 확인 ===========================================================")
             object_list = User.objects.all().filter(profile__public="yes").order_by('-profile__skill_note_reputation');
             print("result : ", object_list)
             return object_list

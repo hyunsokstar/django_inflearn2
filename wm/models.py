@@ -17,7 +17,7 @@ class GuestBook(models.Model):
 
 class RecommandationUserAboutSkillNote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    author_id = models.CharField(max_length=40)
+    author_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
 
 class Category(models.Model):
     name = models.CharField(max_length=25, unique=True)

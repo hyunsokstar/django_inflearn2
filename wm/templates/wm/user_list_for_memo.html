@@ -43,15 +43,15 @@
             <td>id</td>
             <td>username</td>
             <td>skill note subject</td>
-            <td>change</td>
             <td>복사</td>
+            <td>skilnote</td>
             <td>추천</td>
             <td>평점 </td>
         </tr>
         {% if object_list.exists %}
         {% for u in object_list %}
 
-        
+
         <tr>
             <td>{{u.id}}</td>
             <td id=user_name_{{u.id}}>{{u.username}}</td>
@@ -67,18 +67,16 @@
             {% endif %}
 
             <td>
-                <a href="" class="btn btn-outline-dark move_to_user_btn btn-sm" id={{u.id}}>Id 선택</a>
-            </td>
-            <td>
                 <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" data-id={{u.id}} id={{u.username}}>
                     copy_to_me
                     <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
                 </a>
-
-
             </td>
             <td>
-                <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-user_pk="{{u.pk}}" data-user_id="{{request.user}}">
+                <a href="" class="btn btn-outline-dark move_to_user_btn btn-sm" id={{u.id}}>페이지 방문</a>
+            </td>
+            <td>
+                <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-author_id="{{u.id}}" data-my_id="{{request.user.id}}">
                     <img src="{% static 'icon/plus.png' %}" alt="">
                 </button>
             </td>
@@ -182,13 +180,10 @@ function refresh_user_list_popup(){
 
 $(".plus_btn_for_user").click(function(){
     // alert('plus button 클릭');
-    // 어떤 유저에 대해 추천
-    const user_pk = $(this).data("user_pk");
-    // 누가 추천
-    const user_id = $(this).data("user_id");
-
-    console.log("user_pk : " , user_pk);
-    console.log("user_id : " , user_id);
+    const author_id = $(this).data("author_id"); // 누구를 추천
+    const my_id = $(this).data("my_id");     // 누가 추천
+    console.log("author_id : " , author_id);
+    console.log("my_id : " , my_id);
 
     window.history.pushState("", "", '/wm/myshortcut/')
 
@@ -196,34 +191,13 @@ $(".plus_btn_for_user").click(function(){
         type: "POST",
         url: 'plus_recommand_for_skillnote_user/',
         data: {
-            "user_pk":user_pk,
-            "user_id":user_id,
+            "author_id":author_id,
+            "my_id":my_id,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         },
         success: function(result) {
-            // 0924 plus_btn_for_user
-            if(result.option == "plus") {
-                alert("추천 +1 ")
-                // const point = $("#skill_note_point_"+user_pk).text().trim();
-                // $("#skill_note_point_"+user_pk).text(result.recommand_count).trim();
-                // refresh_user_list_popup()
-                window.location.href = '/wm/userlist/byajax'
-
-                // alert("result.recommand_count : "+ result.recommand_count);
-                // alert("point : "+ point);
-                // $(this).parent().find("#skill_note_point").text(result.recommand_count)
-            }else {
-                alert("추천 -1 ")
-                // const val = $(this).parent().find("#skill_note_point").text();
-                // $("#skill_note_point_"+user_pk).text(result.recommand_count).trim();
-                // refresh_user_list_popup()
-                // location.reload(true);
-                window.location.href = '/wm/userlist/byajax'
-
-                // alert("val : "+ val);
-                // alert("result.recommand_count : "+ result.recommand_count);
-                // $(this).parent().find("#skill_note_point").text(result.recommand_count)
-            }
+            alert(result.message)
+            window.location.href = '/wm/userlist/byajax'
         }
     });
 
@@ -299,38 +273,77 @@ $(".update_memo_subject_btn").click(function(e){
     //     $(".update_shortcut_user_id").trigger("click");
     // })
 
+    // $(".move_to_user_btn").click(function(e){
+    //     e.preventDefault();
+    //     // alert("유저 메모장으로 이동")
+    //     const id = this.id
+    //     // alert("id : "+ id)
+    //     const user_id = $(this).parent().parent().find("#user_name_"+id).text()
+    //
+    //     // alert("id : "+ id);
+    //     // alert("user_id : "+ user_id);
+    //
+    //         window.history.pushState("", "", '/wm/')
+    //
+    //         $.ajax({
+    //           type: "POST",
+    //           url: 'update/shortcut_id_ajax/'+id,
+    //           data: {
+    //               'user_id':user_id,
+    //               csrfmiddlewaretoken: '{{ csrf_token }}'
+    //           },
+    //             success: function(result) {
+    //                 alert("result.message : " + result.message)
+    //                 const original_id = result.original_id
+    //                 if(original_id !=""){
+    //                     // $("#shortcut_user_id").val(original_id)
+    //                 }
+    //                 // alert(original_id)
+    //                 // alert("id 교체 실행")
+    //                 window.history.pushState("", "", '/wm/myshortcut/')
+    //                 location.href = "/wm/myshortcut/"
+    //             }
+    //         });
+    // })
+
+
     $(".move_to_user_btn").click(function(e){
         e.preventDefault();
-        // alert("유저 메모장으로 이동")
         const id = this.id
         // alert("id : "+ id)
         const user_id = $(this).parent().parent().find("#user_name_"+id).text()
+        alert(user_id + "의 skil note로 이동")
+
+
+        location.href = "/wm/myshortcut/"+user_id+"/1";
+
 
         // alert("id : "+ id);
         // alert("user_id : "+ user_id);
 
-            window.history.pushState("", "", '/wm/')
-
-            $.ajax({
-              type: "POST",
-              url: 'update/shortcut_id_ajax/'+id,
-              data: {
-                  'user_id':user_id,
-                  csrfmiddlewaretoken: '{{ csrf_token }}'
-              },
-                success: function(result) {
-                    alert("result.message : " + result.message)
-                    const original_id = result.original_id
-                    if(original_id !=""){
-                        // $("#shortcut_user_id").val(original_id)
-                    }
-                    // alert(original_id)
-                    // alert("id 교체 실행")
-                    window.history.pushState("", "", '/wm/myshortcut/')
-                    location.href = "/wm/myshortcut/"
-                }
-            });
+            // window.history.pushState("", "", '/wm/')
+            //
+            // $.ajax({
+            //   type: "POST",
+            //   url: 'update/shortcut_id_ajax/'+id,
+            //   data: {
+            //       'user_id':user_id,
+            //       csrfmiddlewaretoken: '{{ csrf_token }}'
+            //   },
+            //     success: function(result) {
+            //         alert("result.message : " + result.message)
+            //         const original_id = result.original_id
+            //         if(original_id !=""){
+            //             // $("#shortcut_user_id").val(original_id)
+            //         }
+            //         // alert(original_id)
+            //         // alert("id 교체 실행")
+            //         window.history.pushState("", "", '/wm/myshortcut/')
+            //         location.href = "/wm/myshortcut/"
+            //     }
+            // });
     })
+
 
 {% endblock %}
 
