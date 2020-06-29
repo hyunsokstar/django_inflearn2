@@ -38,7 +38,8 @@ def lecinfo_list_for_challenge(request, challenge_title):
 	return render (request, 'challenge/lecinfo_list.html', {
 		"lecinfo_list": lecinfo_list,
 		"challenge_title": challenge_title,
-		"challenge_id":challenge.id
+		"challenge_id":challenge.id,
+		"challenge_image":challenge.image
 	})
 
 

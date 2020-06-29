@@ -6,7 +6,29 @@
 
 <br><br>
 
-<h4>{{challenge_title}} 에 대한 Challenge List</h4>
+<div class="jumbotron">
+	<div class="container">
+		<div class="row p-0">
+			<div class="col p-0">
+				<h4 class="display-4">{{challenge_title}}</h4>
+			</div>
+			<div class="col">
+
+			</div>
+			<div class="col">
+
+			</div>
+			<div class="col p-0">
+				{% if challenge_image %}
+				<img class="" src="{{ challenge_image.url }}" alt="Card image cap" width="100%">
+				{% endif %}
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
 <button class="new3_btn btn btn-outline-dark float-right ml-1" onclick="window.location.href = '{% url 'challenge:challenge_subject_list' %}';">목록으로 이동</button>
 <button class="new3_btn btn btn-outline-dark float-right ml-1" onclick="window.location.href = '{% url 'challenge:CreatelecInfo' challenge_title %}';">소모임 추가</button>
 

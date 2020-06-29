@@ -20,33 +20,34 @@
 <div class="row">
 	{% for p in object_list %}
 	<div class="card mt-2 ml-2" style="width: 20rem;">
-<!--		<img class="card-img-top" src="..." alt="Card image cap">-->
+		<!--		<img class="card-img-top" src="..." alt="Card image cap">-->
 		<div class="card-body">
 			<h5 class="card-title">
-
+				
 				<div class="container">
-				  <div class="row p-1">
-
-					  <div class="col p-1">
-						  <!-- <img src="{% static 'icon/askdjango_icon.jpg' %}" width="100%" alt=""> -->
-						  {% if p.image %}
-						  <img class="card-img-top" src={{ p.image.url }} alt="Card image cap" width="100%">
-						  {% endif %}
-
-					  </div>
-
-				    <div class="col p-1">
-						<div class="mb-2">{{p.title}}</div>
-						<div class="">
-							모임 : {{p.lecinfo_count2}} 개
+					<div class="row p-1">
+						
+						<div class="col p-1">
+							<!-- <img src="{% static 'icon/askdjango_icon.jpg' %}" width="100%" alt=""> -->
+							{% if p.image %}
+							<img class="card-img-top" src={{ p.image.url }} alt="Card image cap" width="100%">
+							{% endif %}
+						
 						</div>
-				    </div>
-				    <div class="col p-1">
-						<a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}" class="btn btn-primary btn-block float-right">go</a>
-				    </div>
-				  </div>
+						
+						<div class="col p-1">
+							<div class="mb-2">{{p.title}}</div>
+							<div class="">
+								모임 : {{p.lecinfo_count2}} 개
+							</div>
+						</div>
+						<div class="col p-1">
+							<a href="{% url 'challenge:lecinfo_list_for_challenge' p.title %}"
+							   class="btn btn-primary btn-block float-right">go</a>
+						</div>
+					</div>
 				</div>
-
+			
 			</h5>
 		</div>
 	</div>
@@ -68,6 +69,7 @@
 {% block extra_js %}
 
 {% endblock %}
+
 
 
 
