@@ -54,7 +54,11 @@
 
         <tr>
             <td>{{u.id}}</td>
-            <td id=user_name_{{u.id}}>{{u.username}}</td>
+            <td id=user_name_{{u.id}}>
+                <a href="/accounts/user_profile_information_view/{{u.username}}">
+                    {{u.username}}
+                </a
+            </td>
             {% if u.username == request.user.username %}
             <td style="background-color:#DFF3FA">
                 <input type="text" class="shortcut_subject_input_{{u.id}} form-control" value="{{u.profile.subject_of_memo}}"><br>
@@ -178,10 +182,12 @@ function refresh_user_list_popup(){
 
 }
 
-$(".plus_btn_for_user").click(function(){
+
+$('body').on('click', '.plus_btn_for_user', function (e) {
+    
     // alert('plus button 클릭');
-    const author_id = $(this).data("author_id"); // 누구를 추천
     const my_id = $(this).data("my_id");     // 누가 추천
+    const author_id = $(this).data("author_id"); // 누구를 추천
     console.log("author_id : " , author_id);
     console.log("my_id : " , my_id);
 
@@ -191,8 +197,8 @@ $(".plus_btn_for_user").click(function(){
         type: "POST",
         url: 'plus_recommand_for_skillnote_user/',
         data: {
-            "author_id":author_id,
             "my_id":my_id,
+            "author_id":author_id,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         },
         success: function(result) {
@@ -201,7 +207,12 @@ $(".plus_btn_for_user").click(function(){
             window.location.href = '/wm/userlist/byajax'
         }
     });
-})
+});
+
+
+// $(".plus_btn_for_user").click(function(){
+//
+// })
 
 $(".copy_to_me_from_user_id_btn").click(function(e){
     e.preventDefault();

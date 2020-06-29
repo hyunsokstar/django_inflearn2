@@ -7,7 +7,11 @@ app_name = 'wm'
 
 urlpatterns = [
     # 1122
-    # 체크 박스 체크한 항목들을 스킬 블로그로 이동
+
+    path('', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+    path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+    path('myshortcut2/', views.MyShortCutListView2.as_view() , name="my_shortcut_list2"),
+
     path('myshortcut/insert_temp_skill_note_for_textarea/', views.insert_temp_skill_note_for_textarea , name="insert_temp_skill_note_for_textarea"), # mini note insert front
     path('myshortcut/insert_for_guest_book/', views.insert_for_guest_book , name="insert_for_guest_book"), # geust book insert
     path('myshortcut/guest_book_list/<str:guest_book_owner>', views.guest_book_list, name ="guest_book_list"), # guest_book_list
@@ -29,8 +33,7 @@ urlpatterns = [
     path('new_comment_for_skilpage/<str:user_name>/<str:category_id>/' , views.new_comment_for_skilpage, name="new_comment_for_skilpage"),
 
     path('manual', views.manualPage, name="manual"),
-    path('', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
-    path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+
     path('myshortcut/update_skil_note_file_name/<int:id>', views.update_skil_note_file_name , name="update_skil_note_file_name"),
 
 
@@ -98,6 +101,7 @@ urlpatterns = [
 
     path('new/textarea', views.MyShortCutCreateView_textarea.as_view() , name="insert_myshortcut_textarea"),
     path('new/textarea_summer_note', views.MyShortCutCreateView_textarea_summer_note.as_view() , name="insert_myshortcut_textarea_summer_note"),
+    path('myshortcut/createSkilNoteForInsertMode/', views.createSkilNoteForInsertMode.as_view() , name="createSkilNoteForInsertMode"),
 
     path('new/textarea_summer_note_through/<int:current_article_id>', views.SkilNoteCreateView_summernote_through.as_view() , name="SkilNoteCreateView_summernote_through"),
     path('new/SkilNoteCreateView_image_through/<int:current_article_id>', views.SkilNoteCreateView_image_through.as_view() , name="SkilNoteCreateView_image_through"),
@@ -107,6 +111,7 @@ urlpatterns = [
 
 
     path('myshortcut/category/<str:slug>/', views.MyShortcutListByCategory.as_view()),
+    path('myshortcut2/category/<str:slug>/', views.MyShortcutListByCategory2.as_view()),
     path('myshortcut/update_shortcut1_ajax/<int:id>', views.update_shortcut1_ajax , name='update_shortcut1_ajax'),
 
     path('myshortcut/update_shortcut2_ajax/<int:id>', views.update_shortcut2_ajax , name='update_shortcut2_ajax'),
@@ -114,6 +119,7 @@ urlpatterns = [
     path('update/shortcut_id_ajax/<int:id>', views.update_shorcut_id_for_user , name="update_shorcut_id_for_user"),
 
     path('myshortcut/modify_myshortcut_by_summer_note/<int:pk>/', views.modify_myshortcut_by_summer_note.as_view() , name='modify_myshortcut_by_summer_note'),
+    path('myshortcut/modify_myshortcut_by_summer_note2/<int:pk>/', views.modify_myshortcut_by_summer_note2.as_view() , name='modify_myshortcut_by_summer_note2'),
 
 
     # user_id로 shortcut nick list 출력

@@ -9,90 +9,102 @@
 <span class="mt-2">my profile</span>
 
 <table class="table table-bordered">
-    <tr>
-        <td width="20%">user_name</td>
-        <td>
+	<tr>
+		<td width="20%">user_name</td>
+		<td>
 
-            <div class="input-group mb-1">
-              <input type="text" class="form-control" value="{{request.user}}" id="profile_user" aria-describedby="basic-addon2" ></input>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">중복 검사</button>
-              </div>
-            </div>
+			<div class="input-group mb-1">
+				<input type="text" class="form-control" value="{{request.user}}" id="profile_user"
+				       aria-describedby="basic-addon2"></input>
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button">중복 검사</button>
+				</div>
+			</div>
 
-        </td>
-    </tr>
-    <tr>
-        <td>email</td>
-        <td>
-            <div class="input-group mb-1">
-              <input type="text" class="form-control" value="{{request.user.profile.email}}" id="profile_email" aria-describedby="basic-addon2" ></input>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">수정</button>
-              </div>
-            </div>
+		</td>
+	</tr>
+	<tr>
+		<td>email</td>
+		<td>
+			<div class="input-group mb-1">
+				<input type="text" class="form-control" value="{{request.user.profile.email}}" id="profile_email"
+				       aria-describedby="basic-addon2"></input>
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button">수정</button>
+				</div>
+			</div>
 
-        </td>
-    </tr>
-    <tr>
-        <td> public </td>
-        <td>
-            <div class="input-group mb-1">
-              <input type="text" class="form-control" value="{{request.user.profile.public}}" aria-describedby="basic-addon2" id="profile_public"></input>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">수정</button>
-              </div>
-            </div>
-        </td>
-    </tr>
+		</td>
+	</tr>
+	<tr>
+		<td> public</td>
+		<td>
+			<div class="input-group mb-1">
+				<input type="text" class="form-control" value="{{request.user.profile.public}}"
+				       aria-describedby="basic-addon2" id="profile_public"></input>
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button">수정</button>
+				</div>
+			</div>
+		</td>
+	</tr>
 
-    <tr>
-        <td> github </td>
-        <td>
-              <input type="text" class="form-control" value="{{request.user.profile.github}}" aria-describedby="basic-addon2" id="profile_github"></input>
-            </div>
-        </td>
+	<tr>
+		<td> github</td>
+		<td>
+			<input type="text" class="form-control" value="{{request.user.profile.github}}"
+			       aria-describedby="basic-addon2" id="profile_github"></input>
+			</div>
+		</td>
 
-    </tr>
+	</tr>
 
-    <tr>
-        <td>site1</td>
-        <td>
-            <input type="text" class="form-control" value="{{request.user.profile.site1}}" aria-describedby="basic-addon2" id="profile_site1"></input>
-        </td>
-    </tr>
+	<tr>
+		<td>site1</td>
+		<td>
+			<input type="text" class="form-control" value="{{request.user.profile.site1}}"
+			       aria-describedby="basic-addon2" id="profile_site1"></input>
+		</td>
+	</tr>
 
-    <tr>
-        <td>site2</td>
-        <td>
-            <input type="text" class="form-control" value="{{request.user.profile.site2}}" aria-describedby="basic-addon2" id="profile_site2"></input>
+	<tr>
+		<td>site2</td>
+		<td>
+			<input type="text" class="form-control" value="{{request.user.profile.site2}}"
+			       aria-describedby="basic-addon2" id="profile_site2"></input>
 
-        </td>
-    </tr>
+		</td>
+	</tr>
 
-    <tr>
-        <td>site3</td>
-        <td>
-            <input type="text" class="form-control" value="{{request.user.profile.site3}}" aria-describedby="basic-addon2" id="profile_site3"></input>
-         </td>
-    </tr>
+	<tr>
+		<td>site3</td>
+		<td>
+			<input type="text" class="form-control" value="{{request.user.profile.site3}}"
+			       aria-describedby="basic-addon2" id="profile_site3"></input>
+		</td>
+	</tr>
 
-    <tr>
-        <td>site4</td>
-        <td>
-            <input type="text" class="form-control" value="{{request.user.profile.site4}}" aria-describedby="basic-addon2" id="profile_site4"></input>
-        </td>
-    </tr>
+	<tr>
+		<td>site4</td>
+		<td>
+			<input type="text" class="form-control" value="{{request.user.profile.site4}}"
+			       aria-describedby="basic-addon2" id="profile_site4"></input>
+		</td>
+	</tr>
 
-    <tr>
-        <td>reputation</td>
-        <td> {{ request.user.recommandationuseraboutskillnote_set.count }} 점</td>
-    </tr>
+	<tr>
+		<td>reputation</td>
+		<td> {{ request.user.recommandationuseraboutskillnote_set.count }} 점</td>
+	</tr>
 
 </table>
 
-<button type="button" class="btn btn-outline-dark btn-block" id="update_complete_button_for_profile" data-id="{{request.user.profile.id}}">Profile Update</button>
-<button type="button" class="btn btn-outline-primary btn-block" id="delete_login_user_btn" data-id="{{request.user.profile}}">회원 탈퇴</button>
+<button type="button" class="btn btn-outline-dark btn-block" id="update_complete_button_for_profile"
+        data-id="{{request.user.profile.id}}">Profile Update
+</button>
+<button type="button" class="btn btn-outline-primary btn-block" id="delete_login_user_btn"
+        data-id="{{request.user.profile}}">회원 탈퇴
+</button>
 
 
 {% endblock %}
@@ -101,15 +113,21 @@
 나를 추천한 사람들:
 <table class="table table-bordered">
 
-    {% for liker in request.user.recommandationuseraboutskillnote_set.all %}
-    <tr>
-        <td>
-            <a href="/accounts/user_profile_information_view/{{liker.author_id}}">
-                {{ liker.author_id }}
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
+	{% for liker in request.user.recommandationuseraboutskillnote_set.all %}
+	<tr id="lier_for_me_{{liker.id}}">
+		<td>
+			<a href="/accounts/user_profile_information_view/{{liker.author_id}}">
+				{{ liker.author_id }}
+			</a>
+
+			<a>
+				<img class="delete_for_liker_user_for_me float-right" src="{% static 'icon/x_mark.png' %}"
+				     data-target_user_id="{{request.user.id}}" data-author_id ="{{liker.author_id.id}}"  data-row_id="{{liker.id}}">
+			</a>
+
+		</td>
+	</tr>
+	{% endfor %}
 
 
 </table>
@@ -117,15 +135,19 @@
 내가 추천한 사람들:
 <table class="table table-bordered">
 
-    {% for my_favorite in my_favorite_user_list %}
-    <tr>
-        <td>
-            <a href="/accounts/user_profile_information_view/{{my_favorite.username}}">
-                    {{ my_favorite.username }}
-            </a
-        </td>
-    </tr>
-{% endfor %}
+	{% for my_favorite_user in my_favorite_user_list %}
+	<tr id="myFavorite_{{my_favorite.id}}">
+		<td>
+			<a href="/accounts/user_profile_information_view/{{my_favorite.username}}">
+				{{ my_favorite_user.username }}
+			</a>
+			<a>
+				<img class="delete_for_my_favorite_user float-right" src="{% static 'icon/x_mark.png' %}"
+				     data-target_user="{{my_favorite_user}}" data-row_id="{{my_favorite_user.id}}">
+			</a>
+		</td>
+	</tr>
+	{% endfor %}
 
 
 </table>
@@ -133,12 +155,75 @@
 {% endblock %}
 
 
-
-
 <script type="text/javascript">
 
 // js area
 {% block extra_js %}
+
+$('body').on('click', '.delete_for_liker_user_for_me', function (e) {
+	e.preventDefault();
+    // alert("클릭 확인")
+    const rowId = $(this).data("row_id");
+    const target_user_id = $(this).data("target_user_id");
+    const author_id = $(this).data("author_id");
+    // alert(rowId)
+    // alert(target_user);
+    var con_test = confirm(target_user_id + "에 대한 좋아요를 취소 하시겠습니까?");
+
+    if(con_test == true){
+
+        $.ajax({
+            type: "POST",
+            url: '/accounts/delete_for_liker_user_for_me',
+            data: {
+                target_user_id:target_user_id,
+                author_id:author_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function (result) {
+                $("#lier_for_me_"+rowId).remove();
+				alert(result.message);
+            }
+        });
+
+    }
+    else if(con_test == false){
+        alert("취소를 선택")
+        return
+    }
+});
+
+$('body').on('click', '.delete_for_my_favorite_user', function (e) {
+	e.preventDefault();
+    // alert("클릭 확인")
+    const rowId = $(this).data("row_id");
+    const target_user = $(this).data("target_user");
+    // alert(rowId)
+    // alert(target_user);
+    var con_test = confirm(target_user + "에 대한 좋아요를 취소 하시겠습니까?");
+
+    if(con_test == true){
+
+        $.ajax({
+            type: "POST",
+            url: '/accounts/delete_for_my_favorite_user',
+            data: {
+                target_user:target_user,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function (result) {
+                alert(result.message);
+                $("#myFavorite_"+rowId).remove();
+            }
+        });
+
+    }
+    else if(con_test == false){
+        alert("취소를 선택")
+        return
+    }
+});
+
 
 $('body').on('click', '#delete_login_user_btn', function (e) {
 	e.preventDefault();
@@ -217,5 +302,6 @@ $('body').on('click', '#update_complete_button_for_profile', function (e) {
 });
 
 {% endblock %}
+
 
 </script>

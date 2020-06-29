@@ -5,7 +5,12 @@
     {% for u in object_list %}
         <tr>
             <td>{{u.id}}</td>
-            <td id=user_name_{{u.id}}>{{u.username}}</td>
+            <td id=user_name_{{u.id}}>
+
+                <a href="/accounts/user_profile_information_view/{{u.username}}">
+                    {{u.username}}
+                </a
+            </td>
             {% if u.username == request.user.username %}
             <td style="background-color:#DFF3FA">
                 <input type="text" class="shortcut_subject_input_{{u.id}} form-control" value="{{u.profile.subject_of_memo}}"><br>
@@ -74,7 +79,8 @@
 //         },
 //         success: function(result) {
 //             alert(result.message)
-//             // window.location.href = '/wm/userlist/byajax'
+//             $("#skill_note_point_"+author_id).text(result.recommand_count)
+//             window.location.href = '/wm/userlist/byajax'
 //         }
 //     });
 // })

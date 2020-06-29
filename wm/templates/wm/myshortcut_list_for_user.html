@@ -75,18 +75,12 @@ button, input, a {
 
 
 
-{% ifequal page_user request.user.username %}
-
-
-{% else %}
-
 <span class="float-right">
-
 
 	<table class="mb-1" border="1" >
 		<tr>
 			<td>author</td>
-			<td>{{page_user}}</td>
+			<td><a href="/accounts/user_profile_information_view/{{page_user}}">{{ page_user }}</a></td>
 		</tr>
 		<tr>
 			<td>star</td>
@@ -95,7 +89,6 @@ button, input, a {
 	</table>
 
 </span>
-{% endifequal %}
 
 
 <div class="sideicon_for_scroll">

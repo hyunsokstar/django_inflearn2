@@ -8,7 +8,7 @@ from django.db.models import F
 from django.db.models import Q
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
-from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_image
+from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_image, MyShortCutForm_summer_note2
 from accounts2.models import Profile
 from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote, CommentForPage, GuestBook
 from skilblog.models import SkilBlogTitle, SkilBlogContent
@@ -22,6 +22,104 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 
 # 1122
+class MyShortCutListView2(LoginRequiredMixin,ListView):
+    model = MyShortCut
+    user = 0
+
+    def get_queryset(self):
+        user = self.request.user.profile.shortcut_user_id
+        # print("user : ", user)
+        print("self.request.user : ", self.request.user)
+        print("MyShortCutListView2 +++++++++++++++++++++++")
+
+        if user == "me":
+            user = self.request.user
+        else:
+            user = User.objects.get(username=user)
+
+        if self.request.user.is_anonymous:
+            return MyShortCut.objects.filter(author=self.request.user).order_by('created')
+        else:
+            selected_category_id = self.request.user.profile.selected_category_id
+            return MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
+
+
+
+    def get_template_names(self):
+        if self.request.is_ajax():
+            print("user list ajax 요청 확인")
+            return ['wm/myshortcut_list2.html']
+        return ['wm/myshortcut_list2.html']
+
+        print("user : ", user)
+
+        if self.request.user.is_anonymous:
+            return MyShortCut.objects.filter(author=self.request.user).order_by('created')
+        else:
+            selected_category_id = self.request.user.profile.selected_category_id
+            return MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+
+            cn = CategoryNick.objects.get_or_create(
+                author=self.request.user,
+            )
+
+            context = super(MyShortCutListView2, self).get_context_data(**kwargs)
+            context['category_list'] = Category.objects.all()
+
+            category = Category.objects.get(id=self.request.user.profile.selected_category_id)
+            context['category'] = category
+            context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=self.request.user)
+            context['MyShortCutForm_summer_note2'] = MyShortCutForm_summer_note2
+            context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
+            context['cagegoryId'] = self.request.user.profile.selected_category_id
+
+            return context
+
+class MyShortcutListByCategory2(ListView):
+
+    def get_template_names(self):
+        if self.request.is_ajax():
+            print("user list ajax 요청 확인")
+            return ['wm/myshortcut_list2.html']
+        return ['wm/myshortcut_list2.html']
+
+
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        category = Category.objects.get(slug=slug)
+        pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
+        print('category id update 성공')
+
+
+        user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
+
+        print('user : ' , user)
+
+        return MyShortCut.objects.filter(category=category, author=user).order_by('created')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
+
+        context = super(type(self), self).get_context_data(**kwargs)
+        context['posts_without_category'] = MyShortCut.objects.filter(category=None,author=user).count()
+        context['category_list'] = Category.objects.all()
+        context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
+        context['cagegoryId'] = self.request.user.profile.selected_category_id
+        context['MyShortCutForm_summer_note2'] = MyShortCutForm_summer_note2
+
+
+        slug = self.kwargs['slug']
+        if slug == '_none':
+            context['category'] = '미분류'
+        else:
+            category = Category.objects.get(slug=slug)
+            context['category'] = category
+            context['category_nick'] = CategoryNick.objects.values_list(slug, flat=True).get(author=user)
+
+        return context
+
 
 def guest_book_list(request,guest_book_owner):
     if request.method == 'GET':
@@ -295,6 +393,8 @@ def move_to_skil_blog(request):
     return JsonResponse({
         'message': "체크한 항목들을 스킬 블로그로 옮겼습니다."+title,
     })
+
+
 
 def plus_recommand_for_skillnote_user(request):
     author_id = request.POST.get('author_id', False)
@@ -1415,6 +1515,22 @@ class modify_myshortcut_by_summer_note(UpdateView):
     def get_template_names(self):
         return ['wm/myshortcut_summernote_form.html']
 
+class modify_myshortcut_by_summer_note2(UpdateView):
+    model = MyShortCut
+    form_class = MyShortCutForm_summer_note
+
+    # def form_valid(self, form):
+    #     form = form.save(commit=False)
+    #     form.save()
+    #     return super().form_valid(form)
+
+    def get_template_names(self):
+        return ['wm/myshortcut_summernote_form.html']
+
+
+    def get_success_url(self):
+        return reverse('wm:my_shortcut_list2')
+
 
 # 나의 shorcut id를 user list에서 클릭한 id로 교체
 def update_shorcut_id_for_user(request, id):
@@ -1599,7 +1715,6 @@ class MyShortCutListView(LoginRequiredMixin,ListView):
             context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=self.request.user)
 
             context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
-            # context['comments_list'] = CommentForShorCut.objects.all()
 
             return context
 
@@ -1736,8 +1851,40 @@ class MyShortCutCreateView_textarea_summer_note(LoginRequiredMixin,CreateView):
 
         return super().form_valid(form)
 
-    # def get_success_url(self):
-    #     return self.post.get_absolute_url()+'#skil-note-id-{}'.format(self.obejcts.pk)
+    def get_success_url(self):
+        category_id = self.request.user.profile.selected_category_id
+        return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(category_id)
+
+class createSkilNoteForInsertMode(LoginRequiredMixin,CreateView):
+    model = MyShortCut
+    form_class = MyShortCutForm_summer_note
+
+    def get_template_names(self):
+        return ['wm/myshortcut_summernote_form.html']
+
+    def form_valid(self, form):
+        print("완료 명단 입력 뷰 실행4")
+
+        ty = Type.objects.get(type_name="summer_note")
+
+        ms = form.save(commit=False)
+        ms.author = self.request.user
+
+        # file_name = file_name_before.replace("\\","/")
+        # ms.filename =
+
+        ms.type= ty
+        ms.created = timezone.now()
+
+        category_id = self.request.user.profile.selected_category_id
+        ca = Category.objects.get(id=category_id)
+        ms.category = ca
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        category_id = self.request.user.profile.selected_category_id
+        return reverse('wm:my_shortcut_list2')+'#shortcut_{}'.format(category_id)
 
 
 

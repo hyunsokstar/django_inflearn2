@@ -17,7 +17,7 @@ button, input, a {
 .sideicon_for_scroll{
 	position:fixed;
 	colort:blue;
-	top:220px;
+	top:260px;
 	right:8px;
 }
 
@@ -31,7 +31,7 @@ button, input, a {
 .sideicon_for_move{
 	position:fixed;
 	colort:blue;
-	top:340px;
+	top:380px;
 	right:8px;
 }
 
@@ -152,6 +152,7 @@ img.Image { max-width: 100%; display: block; }
 {% ifequal request.user.profile.shortcut_user_id request.user.username %}
 
 <div class="sideicon_for_insert">
+	<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:my_shortcut_list2' %}';">입력 모드</button><br>
 	<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
 	<button type="button" name="button" class="new1_btn btn btn-outline-dark" id="">인풋(1)</button><br>
 	<button type="button" name="button" class="new2_btn btn btn-outline-dark" id="">text(1)</button><br>
@@ -383,7 +384,7 @@ img.Image { max-width: 100%; display: block; }
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
 				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
-				<a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+				<a href="{% url "wm:modify_myshortcut_by_summer_note2" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
 			{% else %}
 
 			{% endifequal %}

@@ -17,7 +17,6 @@ class MyShortCutForm_image(forms.ModelForm):
         fields = ['title','image']
 
 class MyShortCutForm_summer_note(forms.ModelForm):
-
     class Meta:
         model = MyShortCut
         fields = ['title','filename','content2']
@@ -26,6 +25,18 @@ class MyShortCutForm_summer_note(forms.ModelForm):
             'title': forms.TextInput(attrs={'size': 120}),
             'filename': forms.TextInput(attrs={'size': 100}),
             'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '480px', 'line-height': 1.2, 'font-size':12, 'tabSize': 4, "backcolor":"white", 'color':"white", 'backColor' :'white'  }}),
+        }
+
+class MyShortCutForm_summer_note2(forms.ModelForm):
+
+    class Meta:
+        model = MyShortCut
+        fields = ['title','filename','content2']
+
+        widgets = {
+            'title': forms.TextInput(attrs={'size': 78}),
+            'filename': forms.TextInput(attrs={'size': 78}),
+            'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '500px', 'line-height': 1.2, 'font-size':12, 'tabSize': 4, "backcolor":"white", 'color':"white", 'backColor' :'white'  }}),
         }
 
 

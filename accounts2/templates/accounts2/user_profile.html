@@ -5,8 +5,62 @@
 
 {%block content%}
 
+<br>
 
-<span class="mt-2">user profile</span>
+<div class="container mt-1">
+  <div class="row">
+    <div class="col-sm">
+      <span>
+          <h2>
+              {{profile_user}}'s User Profile
+          </h2>
+      </span>
+
+
+    </div>
+    <div class="col-sm">
+
+      {%if like_check == "Like" %}
+          <table class="float-right" border="1px">
+              <tr>
+                  <td>star</td>
+                  <td id="start_count">{{ profile_user.recommandationuseraboutskillnote_set.count }}</td>
+              </tr>
+              <tr>
+                  <td>like</td>
+                  <td>
+                      <button type="button" class=" btn btn-outline-dark float-right" id="like_or_unlike_btn">
+                          <img src="{% static 'icon/like2.png' %}" alt="">
+                      </button>
+                  </td>
+              </tr>
+          </table>
+          <br><br>
+      {% else %}
+      <table class="float-right" border="1px">
+          <tr>
+              <td>star</td>
+              <td>{{ profile_user.recommandationuseraboutskillnote_set.count }}</td>
+          </tr>
+          <tr>
+              <td>like</td>
+              <td>
+                  <button type="button" class=" btn btn-outline-dark float-right" id="like_or_unlike_btn">
+                      <img src="{% static 'icon/unlike.png' %}" alt="">
+                  </button>
+              </td>
+          </tr>
+      </table>
+      <br><br>
+      {%endif%}
+
+
+    </div>
+  </div>
+</div>
+
+
+<br>
 
 <table class="table table-bordered">
     <tr>
@@ -31,7 +85,7 @@
             <div class="input-group mb-1">
               <input type="text" class="form-control" value="{{profile_user.profile.public}}" aria-describedby="basic-addon2" id="profile_public"></input>
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">수정</button>
+                <button class="btn btn-outline-secondary" type="button" id="modify_public_for_user">수정</button>
               </div>
             </div>
         </td>
@@ -74,11 +128,6 @@
         </td>
     </tr>
 
-    <tr>
-        <td>reputation</td>
-        <td> {{ profile_user.recommandationuseraboutskillnote_set.count }} 점</td>
-    </tr>
-
 </table>
 
 <!-- <button type="button" class="btn btn-outline-dark btn-block" id="update_complete_button_for_profile" data-id="{{profile_user.profile.id}}">Profile Update</button> -->
@@ -87,7 +136,9 @@
 {% endblock %}
 
 {% block sidearea %}
-나를 추천한 사람들:
+
+<b class="mt-2">{{profile_user}} 님을 추천한 사람들:</b>
+
 <table class="table table-bordered">
 
     {% for liker in profile_user.recommandationuseraboutskillnote_set.all %}
@@ -105,7 +156,7 @@
 
 </table>
 
-내가 추천한 사람들:
+<b>{{profile_user}} 님이 추천한 사람들:</b>
 <table class="table table-bordered">
 
     {% for my_favorite in my_favorite_user_list %}
@@ -129,9 +180,75 @@
 
 
 <script type="text/javascript">
-
 // js area
 {% block extra_js %}
+
+$('body').on('click', '#like_or_unlike_btn', function (e) {
+    const target_user = "{{profile_user}}";
+    // 좋아요를 누른 사람 나
+    const liker = "{{request.user}}"
+    console.log("modify_public_for_user 실행");
+
+    $.ajax({
+        type: "POST",
+        url: '/accounts/like_or_unlike',
+        data: {
+            target_user : target_user,
+            liker: liker,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+        success: function (result) {
+        	window.location.href = "/accounts/user_profile_information_view/"+target_user;
+
+            $("#start_count").text(result.recommand_count)
+            alert(result.message)
+        },
+        error:{
+            function(err){
+                console.log("err : ", err.statusText);
+            }
+        }
+    });
+
+});
+
+
+// $('body').on('click', '#like_or_unlike_btn', function (e) {
+//     e.preventDefault()
+//     // 어떤 아이디에 대해 취소
+//     const target_user = "{{profile_user}}";
+//     // 좋아요를 누른 사람 나
+//     const liker = "{{request.user}}"
+//
+//     if(!liker) {
+//         alert("로그인 하셔야 합니다.");
+//         return
+//     }
+//
+//     console.log("좋아요 버튼 클릭 22 ");
+//
+//
+// 	$.ajax({
+// 		type: "POST",
+// 		url: '/accounts/like_or_unlike',
+// 		data: {
+//             target_user : target_user,
+// 			liker: liker,
+// 			csrfmiddlewaretoken: '{{ csrf_token }}',
+// 		},
+// 		success: function (result) {
+//             $("#start_count").text(result.recommand_count)
+// 			alert(result.message)
+// 		},
+//         error:{
+//             function(err){
+//                 console.log("err : ", err.statusText);
+//             }
+//         }
+// 	});
+//
+//
+// })
 
 $('body').on('click', '#update_complete_button_for_profile', function (e) {
 	e.preventDefault();
@@ -174,8 +291,6 @@ $('body').on('click', '#update_complete_button_for_profile', function (e) {
 
         alert("profile_public은 yes or no 이어야 합니다");
     }
-
-
 
 
 });

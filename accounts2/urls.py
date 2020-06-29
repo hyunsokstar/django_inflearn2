@@ -7,7 +7,10 @@ from django.views.generic import ListView, DetailView,CreateView,UpdateView,Dele
 app_name = 'accounts2'
 
 urlpatterns = [
-    # path('', include('blog.urls')),
+    path('like_or_unlike', views.like_or_unlike, name="like_or_unlike"),
+    path('delete_for_my_favorite_user', views.delete_for_my_favorite_user, name="delete_for_my_favorite_user"),
+    path('delete_for_liker_user_for_me', views.delete_for_liker_user_for_me, name="delete_for_liker_user_for_me"),
+
     path('signup/', views.signup, name='signup'),
     path('member_list/', views.member_list, name='member_list'),
     path('my_profile_information_view/', views.my_profile_information_view.as_view(), name = 'my_profile_information_view'),
@@ -18,6 +21,5 @@ urlpatterns = [
     path('delete_login_user/', views.delete_login_user, name="delete_login_user"),
 
 
-    # path('login/', auth_views.LoginView, name = 'login',  kwargs= {'template_name' : 'accounts2/login_form.html'}),
 
 ]

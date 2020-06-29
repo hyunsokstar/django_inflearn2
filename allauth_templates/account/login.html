@@ -8,9 +8,9 @@
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
-{% block content4 %}
+{% block content6 %}
 
-<br><br><br><br>
+<br><br>
 
 {% if socialaccount_providers %}
 <p>{% blocktrans with site.name as site_name %}Please sign in with one
@@ -28,12 +28,13 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 {% include "socialaccount/snippets/login_extra.html" %}
 
 {% else %}
-<p>{% blocktrans %}
-    <br>
-    메카닉 코더에 오신것을 환영합니다. 아직 회원 가입을 안하신분들은 회원 가입을 해주세요 ~!
-<a class="primaryAction btn btn-outline-success float-right" href="{{ signup_url }}">회원 가입</a> {% endblocktrans %}</p>
-<hr>
-<img src="{% static 'icon/tank2.jpg' %}" width="100%" height="50%" alt="">
+{% blocktrans %}
+<br>
+<a class="primaryAction btn btn-outline-primary float-right btn-block" href="{{ signup_url }}">회원 가입</a> {% endblocktrans %}
+
+<br><br>
+
+<img src="{% static 'icon/sn11.jpg' %}" width="100%" height="50%" alt="">
 
 
 {% endif %}

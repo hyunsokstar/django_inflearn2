@@ -53,6 +53,12 @@
             </li>
         </ul>
 
+        <!-- <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "wm:my_shortcut_list2" %}">Skil Note2</a>
+            </li>
+        </ul> -->
+
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{% url "skilblog:SkilBlogTitleList" %}">Skil Column</a>
@@ -176,6 +182,25 @@
 </div>
 
 
+
+    <div class="row m-4">
+        <div class="col-md-11">
+            {% block content5 %} {% endblock %}
+        </div>
+        <!-- <div class="col-md-5">
+            {% block sidearea5 %} {% endblock %}
+        </div> -->
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Blog Entries Column -->
+            <div class="col-md-6">
+                <!-- Blog Post -->
+                {% block content6 %}{% endblock %}
+            </div>
+        </div>
+    </div>
 
 <!-- 모달 -->
 {% load socialaccount %}

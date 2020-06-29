@@ -1,4 +1,3 @@
-from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from . forms import SignupForm
@@ -11,11 +10,94 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.views import (
     LoginView, logout_then_login,
     PasswordChangeView as AuthPasswordChangeView,
 )
+
+def delete_for_liker_user_for_me(request):
+    if request.method == "POST" and request.is_ajax():
+
+        target_user_id = request.POST['target_user_id']
+        author_id = request.POST['author_id']
+        print("target_user_id : ", target_user_id)
+        print("author_id : ", author_id)
+        author_name = User.objects.get(id=author_id).username
+        target_name = User.objects.get(id=target_user_id).username
+
+
+        result1 = RecommandationUserAboutSkillNote.objects.filter(Q(user=target_user_id) & Q(author_id=author_id)).delete()
+        print(author_name , "의 ",target_name,"에 대한 좋아요 삭제 Success!! ")
+
+        message = '{}님의 {}에 대한 좋아요 삭제'.format(author_name, request.user.username )
+
+        return JsonResponse({
+            'message': message,
+        })
+    else:
+        return redirect('/wm/myshorcut/')
+
+def delete_for_my_favorite_user(request):
+    if request.method == "POST" and request.is_ajax():
+
+        target_user = request.POST['target_user']
+        targetUser_id = User.objects.get(username=target_user).id
+        print("targetUser_id : ", targetUser_id)
+        result1 = RecommandationUserAboutSkillNote.objects.filter(Q(user=targetUser_id) & Q(author_id=request.user)).delete()
+        print(request.user , "의",target_user,"에 대한 좋아요 삭제 Success!! ")
+
+        message = '{}님의 {}에 대한 좋아요 삭제'.format(request.user, target_user )
+
+        return JsonResponse({
+            'message': message,
+        })
+    else:
+        return redirect('/wm/myshorcut/')
+
+
+def like_or_unlike(request):
+    target_user = request.POST.get('target_user', False)
+    my_id = request.POST.get('liker', False)
+
+    print("target_user ", target_user)
+    print("my_id ", my_id)
+
+    target_user =  get_object_or_404(User, username=target_user)
+    me =  get_object_or_404(User, username=my_id)
+    print("추천 받는 사람 : " , target_user)
+    print("추천 하는 사람 : ", me)
+
+    recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=target_user) & Q(author_id=me)).count() # 내가 추천한거 있는지 확인
+    print("recommand_count : ", recommand_count)
+
+    if (recommand_count ==  0):
+        rc = RecommandationUserAboutSkillNote.objects.create(user=target_user , author_id=me) # 나의 추천 추가
+        print('추천 ++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=target_user)).count() # 추천 받은 사람 점수 확인
+
+        profile = Profile.objects.filter(Q(user=target_user)).update(skill_note_reputation = recommand_count) # 추천 대상자 프로필 점수 반영
+
+        return JsonResponse({
+            'message': "추천 +1",
+            "option":"plus",
+            "recommand_count":recommand_count
+        })
+
+    else:
+        RecommandationUserAboutSkillNote.objects.filter(Q(user=target_user) & Q(author_id=me)).delete() # 내가 추천한거 삭제
+
+        recommand_count = RecommandationUserAboutSkillNote.objects.filter(Q(user=target_user)).count() # 추천 받은 사람 점수 확인
+        print('추천 ---------------------------------------------------')
+        profile = Profile.objects.filter(Q(user=target_user)).update(skill_note_reputation = recommand_count)
+
+        return JsonResponse({
+            'message': "추천 -1 ",
+            "option":"minus",
+            "recommand_count":recommand_count
+        })
+
 
 
 def delete_login_user(request):
@@ -45,9 +127,15 @@ def user_profile_information_view(request,user):
 
     user_favorite = [] # 유저가 좋아하는 사람 목록 담을 배열
     user_favorite_list = RecommandationUserAboutSkillNote.objects.filter(author_id=profile_user) # 유저가 좋아하는 사람 목록 검색
-
     print("user_favorite_list : ", user_favorite_list)
 
+    like_check = RecommandationUserAboutSkillNote.objects.filter(author_id=request.user, user = profile_user).count() # 내가 유저 페이지 유저 좋아요 눌렀는지 확인
+    print("like_check : ", like_check)
+
+    if(like_check == 0 ):
+        like_check = "noLike"
+    else:
+        like_check = "Like"
 
     for x in user_favorite_list:
         print("내가 추천한 user_id : ",x.user_id)
@@ -59,6 +147,7 @@ def user_profile_information_view(request,user):
     return render(request, 'accounts2/user_profile.html', {
         "profile_user" : profile_user,
         "my_favorite_user_list" : my_favorite_user_list,
+        "like_check": like_check,
     })
 
 
