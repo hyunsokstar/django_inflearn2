@@ -54,7 +54,7 @@
 
         <tr>
             <td>{{u.id}}</td>
-            <td id=user_name_{{u.id}}>
+            <td id=user_name_{{u.id}} >
                 <a href="/accounts/user_profile_information_view/{{u.username}}">
                     {{u.username}}
                 </a
@@ -184,7 +184,7 @@ function refresh_user_list_popup(){
 
 
 $('body').on('click', '.plus_btn_for_user', function (e) {
-    
+
     // alert('plus button 클릭');
     const my_id = $(this).data("my_id");     // 누가 추천
     const author_id = $(this).data("author_id"); // 누구를 추천
