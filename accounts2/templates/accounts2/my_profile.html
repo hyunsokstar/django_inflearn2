@@ -116,7 +116,7 @@
 	{% for liker in request.user.recommandationuseraboutskillnote_set.all %}
 	<tr id="lier_for_me_{{liker.id}}">
 		<td>
-			<a href="/accounts/user_profile_information_view/{{liker.author_id}}">
+			<a href="/accounts/user_profile_information_view/{{liker.author_id.username}}">
 				{{ liker.author_id }}
 			</a>
 
@@ -136,9 +136,9 @@
 <table class="table table-bordered">
 
 	{% for my_favorite_user in my_favorite_user_list %}
-	<tr id="myFavorite_{{my_favorite.id}}">
+	<tr id="myFavorite_{{my_favorite_user.id}}">
 		<td>
-			<a href="/accounts/user_profile_information_view/{{my_favorite.username}}">
+			<a href="/accounts/user_profile_information_view/{{my_favorite_user.username}}">
 				{{ my_favorite_user.username }}
 			</a>
 			<a>

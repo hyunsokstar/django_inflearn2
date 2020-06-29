@@ -13,8 +13,10 @@ from datetime import timedelta
 class challenge_subject(models.Model):
 	title = models.CharField(max_length=40)
 	description = models.CharField(max_length=40)
-	leader = models.CharField(max_length=120)
+	leader = models.CharField(max_length=20)
+	home = models.CharField(max_length=40)
 	created= models.DateTimeField(auto_now_add=True)
+	image = models.ImageField(upload_to='wm/%y%m%d', blank=True)
 
 	def lecinfo_count2(self):
 		return self.lecinfo_set.count()

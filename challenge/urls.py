@@ -7,11 +7,12 @@ app_name = 'challenge'
 
 urlpatterns = [
 
+    path('', views.ChallengeSubjectList.as_view() , name="challenge_subject_list"),
+    
     path('lecinfo/<int:pk>/delete', views.LecInfoDeleteView.as_view(), name='LecInfoDeleteView'),
 
     path ('<int:classification>', views.LecRecordListView.as_view (), name="lec_record_list"),
 
-    path('', views.ChallengeSubjectList.as_view() , name="challenge_subject_list"),
     path('challenge_list/', views.challenge_list , name="challenge_list"),
 
     # path('<int:classification>', views.LecRecordListView.as_view() , name="lec_record_list"),

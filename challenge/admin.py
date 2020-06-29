@@ -5,7 +5,7 @@ from . models import StudentRecord, LecInfo, RecommandLecInfo, challenge_subject
 
 @admin.register(challenge_subject)
 class ChallengeSubjectAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title','description','leader']
+    list_display = ['id','image', 'title','description','leader']
 
 @admin.register(RecommandLecInfo)
 class RecommandLecInfoAdmin(admin.ModelAdmin):
