@@ -23,18 +23,18 @@
 		<!--		<img class="card-img-top" src="..." alt="Card image cap">-->
 		<div class="card-body">
 			<h5 class="card-title">
-				
+
 				<div class="container">
 					<div class="row p-1">
-						
+
 						<div class="col p-1">
 							<!-- <img src="{% static 'icon/askdjango_icon.jpg' %}" width="100%" alt=""> -->
 							{% if p.image %}
-							<img class="card-img-top" src={{ p.image.url }} alt="Card image cap" width="100%">
+								<img class="card-img-top" src={{ p.image.url }} alt="Card image cap" width="100%" height="80px">
 							{% endif %}
-						
+
 						</div>
-						
+
 						<div class="col p-1">
 							<div class="mb-2">{{p.title}}</div>
 							<div class="">
@@ -47,7 +47,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 			</h5>
 		</div>
 	</div>
