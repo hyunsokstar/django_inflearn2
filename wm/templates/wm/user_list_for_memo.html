@@ -69,7 +69,6 @@
                 <input type="text" class="shortcut_subject_input_{{u.id}} form-control" value="{{u.profile.subject_of_memo}}">
             </td>
             {% endif %}
-
             <td>
                 <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" data-id={{u.id}} id={{u.username}}>
                     copy_to_me
@@ -264,15 +263,14 @@ $(".update_memo_subject_btn").click(function(e){
     });
 
 })
-
-    $(".move_to_user_btn").click(function(e){
-        e.preventDefault();
-        const id = this.id
-        // alert("id : "+ id)
-        const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
-        alert(user_id + "의 skil note로 이동")
-        location.href = "/wm/myshortcut/"+user_id+"/1";
-    })
+$(".move_to_user_btn").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
+    alert(user_id + "의 skil note로 이동")
+    location.href = "/wm/myshortcut/"+user_id+"/1";
+})
 
 {% endblock %}
 

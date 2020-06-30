@@ -21,17 +21,14 @@
                 <input type="text" class="shortcut_subject_input_{{u.id}} form-control" value="{{u.profile.subject_of_memo}}">
             </td>
             {% endif %}
-
             <td>
-                <a href="" class="btn btn-outline-dark move_to_user_btn btn-sm" id={{u.id}}>Id 선택</a>
-            </td>
-            <td>
-
                 <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" data-id={{u.id}} id={{u.username}}>
                     copy_to_me
                     <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
                 </a>
-
+            </td>
+            <td>
+                <a href="" class="btn btn-outline-dark move_to_user_btn btn-sm" id={{u.id}}>페이지 방문</a>
             </td>
             <td>
                 <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-author_id="{{u.id}}" data-my_id="{{request.user.id}}">
@@ -148,6 +145,15 @@ $(".update_memo_subject_btn").click(function(e){
     //             }
     //         });
     // })
+
+    $(".move_to_user_btn").click(function(e){
+        e.preventDefault();
+        const id = this.id
+        // alert("id : "+ id)
+        const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
+        // alert(user_id + "의 skil note로 이동")
+        location.href = "/wm/myshortcut/"+user_id+"/1";
+    })
 
 
 {% endblock %}
