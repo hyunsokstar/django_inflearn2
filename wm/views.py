@@ -1886,6 +1886,51 @@ class createSkilNoteForInsertMode(LoginRequiredMixin,CreateView):
         category_id = self.request.user.profile.selected_category_id
         return reverse('wm:my_shortcut_list2')+'#shortcut_{}'.format(category_id)
 
+class SkilNoteCreateView_summernote_through2(LoginRequiredMixin,CreateView):
+    model = MyShortCut
+    form_class = MyShortCutForm_summer_note
+
+    def get_success_url(self):
+        category_id = self.request.user.profile.selected_category_id
+        return reverse('wm:my_shortcut_list2')+'#shortcut_{}'.format(self.object.id)
+
+    def get_template_names(self):
+        return ['wm/myshortcut_summernote_form.html']
+
+    def form_valid(self, form):
+        print("through 입력 확인 2222")
+
+        # current_category_id = self.request.user.profile.selected_category_id
+        current_article_id = self.kwargs['current_article_id']
+        current_article = MyShortCut.objects.get(id=current_article_id)
+        print("current_article_time : " , current_article.created)
+
+        smae_category_for_current_article=MyShortCut.objects.filter(author= current_article.author, category = current_article.category).order_by("created")
+
+        same_category_id_array = []
+
+        for i,p in enumerate(smae_category_for_current_article):
+            # print('i',i)
+            if (p.created <= current_article.created):
+                MyShortCut.objects.filter(id=p.id).update(created = F('created')+timedelta(seconds=0))
+            else:
+                MyShortCut.objects.filter(id=p.id).update(created = F('created')+timedelta(seconds=i+1))
+
+
+        print("same_category_id_array : ",same_category_id_array)
+
+        ty = Type.objects.get(type_name="summer_note")
+
+        ms = form.save(commit=False)
+        ms.author = self.request.user
+        ms.created=current_article.created+timedelta(seconds=1.5)
+        ms.type= ty
+
+        category_id = self.request.user.profile.selected_category_id
+        ca = Category.objects.get(id=category_id)
+        ms.category = ca
+
+        return super().form_valid(form)
 
 
 class SkilNoteCreateView_summernote_through(LoginRequiredMixin,CreateView):

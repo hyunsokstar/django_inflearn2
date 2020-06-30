@@ -384,7 +384,7 @@ img.Image { max-width: 100%; display: block; }
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
 				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
-				<a href="{% url "wm:modify_myshortcut_by_summer_note2" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+				<a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
 			{% else %}
 
 			{% endifequal %}
@@ -1441,7 +1441,9 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function (result) {
+			// window.history.pushState("", "", '/wm/new/textarea_summer_note_through/'+current_article_id)
 			window.history.pushState("", "", '/wm/new/textarea_summer_note_through/'+current_article_id)
+			
 			// alert(result)
 			$(".summernote_content_for_popup").html(result);
 			$("#sumemr_note_popup").modal()

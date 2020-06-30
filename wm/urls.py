@@ -104,6 +104,10 @@ urlpatterns = [
     path('myshortcut/createSkilNoteForInsertMode/', views.createSkilNoteForInsertMode.as_view() , name="createSkilNoteForInsertMode"),
 
     path('new/textarea_summer_note_through/<int:current_article_id>', views.SkilNoteCreateView_summernote_through.as_view() , name="SkilNoteCreateView_summernote_through"),
+    path('new/textarea_summer_note_through2/<int:current_article_id>', views.SkilNoteCreateView_summernote_through2.as_view() , name="SkilNoteCreateView_summernote_through2"),
+
+
+
     path('new/SkilNoteCreateView_image_through/<int:current_article_id>', views.SkilNoteCreateView_image_through.as_view() , name="SkilNoteCreateView_image_through"),
 
     path('myshortcut/delete_shortcut_ajax/<int:id>', views.delete_shortcut_ajax , name="delete_shortcut_ajax"),

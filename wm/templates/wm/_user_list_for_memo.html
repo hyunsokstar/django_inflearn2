@@ -60,30 +60,6 @@
 // wm 앱임
 {% block extra_js %}
 
-// $(".plus_btn_for_user").click(function(){
-//     // alert('plus button 클릭');
-//     const author_id = $(this).data("author_id"); // 누구를 추천
-//     const my_id = $(this).data("my_id");     // 누가 추천
-//     console.log("author_id : " , author_id);
-//     console.log("my_id : " , my_id);
-//
-//     window.history.pushState("", "", '/wm/myshortcut/')
-//
-//     $.ajax({
-//         type: "POST",
-//         url: 'plus_recommand_for_skillnote_user/',
-//         data: {
-//             "author_id":author_id,
-//             "my_id":my_id,
-//             csrfmiddlewaretoken: '{{ csrf_token }}'
-//         },
-//         success: function(result) {
-//             alert(result.message)
-//             $("#skill_note_point_"+author_id).text(result.recommand_count)
-//             window.location.href = '/wm/userlist/byajax'
-//         }
-//     });
-// })
 
 $(".copy_to_me_from_user_id_btn").click(function(e){
     e.preventDefault();
@@ -139,50 +115,40 @@ $(".update_memo_subject_btn").click(function(e){
 
 })
 
+    // 보관 이유: 페이지 이동 말고 직접 바꾸기가 필요할수도 있음
     // $(".move_to_user_btn").click(function(e){
     //     e.preventDefault();
     //     // alert("유저 메모장으로 이동")
     //     const id = this.id
     //     // alert("id : "+ id)
-    //     const user_name = $(this).parent().parent().find("#user_name_"+id).text()
-    //     alert("user_name : " +user_name)
-    //     $("#user_list_modal").modal("hide")
-    //     $("#shortcut_user_id").val(user_name)
-    //     $(".update_shortcut_user_id").trigger("click");
+    //     const user_id = $(this).parent().parent().find("#user_name_"+id).text()
+    //
+    //     // alert("id : "+ id);
+    //     // alert("user_id : "+ user_id);
+    //
+    //         window.history.pushState("", "", '/wm/')
+    //
+    //         $.ajax({
+    //           type: "POST",
+    //           url: 'update/shortcut_id_ajax/'+id,
+    //           data: {
+    //               'user_id':user_id,
+    //               csrfmiddlewaretoken: '{{ csrf_token }}'
+    //           },
+    //             success: function(result) {
+    //                 alert("result.message : " + result.message)
+    //                 const original_id = result.original_id
+    //                 if(original_id !=""){
+    //                     // $("#shortcut_user_id").val(original_id)
+    //                 }
+    //                 // alert(original_id)
+    //                 // alert("id 교체 실행")
+    //                 window.history.pushState("", "", '/wm/myshortcut/')
+    //                 location.href = "/wm/myshortcut/"
+    //             }
+    //         });
     // })
 
-    $(".move_to_user_btn").click(function(e){
-        e.preventDefault();
-        // alert("유저 메모장으로 이동")
-        const id = this.id
-        // alert("id : "+ id)
-        const user_id = $(this).parent().parent().find("#user_name_"+id).text()
-
-        // alert("id : "+ id);
-        // alert("user_id : "+ user_id);
-
-            window.history.pushState("", "", '/wm/')
-
-            $.ajax({
-              type: "POST",
-              url: 'update/shortcut_id_ajax/'+id,
-              data: {
-                  'user_id':user_id,
-                  csrfmiddlewaretoken: '{{ csrf_token }}'
-              },
-                success: function(result) {
-                    alert("result.message : " + result.message)
-                    const original_id = result.original_id
-                    if(original_id !=""){
-                        // $("#shortcut_user_id").val(original_id)
-                    }
-                    // alert(original_id)
-                    // alert("id 교체 실행")
-                    window.history.pushState("", "", '/wm/myshortcut/')
-                    location.href = "/wm/myshortcut/"
-                }
-            });
-    })
 
 {% endblock %}
 

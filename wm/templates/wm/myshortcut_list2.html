@@ -265,7 +265,7 @@ img.Image { max-width: 100%; display: block; }
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
 				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
-				<a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+				<a href="{% url "wm:modify_myshortcut_by_summer_note2" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
 			{% else %}
 
 			{% endifequal %}
@@ -432,7 +432,24 @@ img.Image { max-width: 100%; display: block; }
 <!-- 2244 -->
 
 
+<div class="modal fade" id="sumemr_note_popup" role="dialog">
+	<div class="modal-dialog modal-xl">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="popup_title">insert popup for suumernote</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<span class="modal-body summernote_content_for_popup">
+				<br>
+			</span>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
 
+	</div>
+</div>
 
 
 {% endblock content5 %}
@@ -467,24 +484,6 @@ img.Image { max-width: 100%; display: block; }
 	</div>
 </div>
 
-<div class="modal fade" id="sumemr_note_popup" role="dialog">
-	<div class="modal-dialog modal-xl">
-		<!-- Modal content-->
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="popup_title">insert popup for suumernote</h4>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-			<span class="modal-body summernote_content_for_popup">
-				<br>
-			</span>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-
-	</div>
-</div>
 
 <div class="modal fade" id="text_for_backend_modal" role="dialog">
 	<div class="modal-dialog modal-xl">
@@ -1386,6 +1385,7 @@ $('body').on('click', '.shortcut_between_button_input' , function (e) {
 });
 
 $('body').on('click', '.shortcut_between_button_sn', function (e) {
+	// alert("클릭 확인")
 	const current_article_id = this.id
 	window.history.pushState("", "", '/wm/')
 
@@ -1397,7 +1397,8 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function (result) {
-			window.history.pushState("", "", '/wm/new/textarea_summer_note_through/'+current_article_id)
+
+			window.history.pushState("", "", '/wm/new/textarea_summer_note_through2/'+current_article_id)
 			// alert(result)
 			$(".summernote_content_for_popup").html(result);
 			$("#sumemr_note_popup").modal()
