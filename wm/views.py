@@ -18,6 +18,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from . forms import CommentForm
 from django.utils.datastructures import MultiValueDictKeyError
+from django.core.paginator import Paginator
 
 
 
@@ -958,11 +959,19 @@ def search_by_id_and_word(request):
 
     # | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)
     if(search_option == "content+title"):
+        print("search bycontent and title =================")
+        page = request.GET.get('page', '1')
         object_list = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
-        print("search content + title ")
+
+        print('object_list(count)  :::::::::: ' , object_list.count() )  # 검색 키워드 "강의"로 검색하면 39 
+
+        paginator = Paginator(object_list, 10)  # 페이지당 10개씩 보여주기
+        page_obj = paginator.get_page(page)
+        print("page_obj ::::::::::::: ", page_obj)
+        context = {'object_list': page_obj}
 
         return render(request, 'wm/MyShortCut_list_for_search.html', {
-			'object_list': object_list
+            "question_list":page_obj
 		})
 
     elif(search_option == "only_title"):
