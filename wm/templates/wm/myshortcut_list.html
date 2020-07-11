@@ -137,6 +137,11 @@ img.Image { max-width: 100%; display: block; }
 
 <div class="temp_memo_btn_area">
 	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
+	<a href="{% url 'wm:go_to_skil_note_search_page' %}">
+	    <button class="btn btn-outline-info search_popup_btn">검색2</button>
+	</a> <br>
+
+
 	{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 		<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 		<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
@@ -1878,6 +1883,7 @@ $('body').on('click', '.skill_search_button', function (e) {
 	console.log("search_word : " + search_word);
 
 	$("input:radio.search").each(function () {
+
 		if (jQuery(this).is(":checked")) {
 			search_option = this.id;
 		} else {

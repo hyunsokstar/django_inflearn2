@@ -9,6 +9,7 @@ urlpatterns = [
     # 1122
 
     path('', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+    path('myshortcut/go_to_skil_note_search_page/', views.go_to_skil_note_search_page.as_view() , name="go_to_skil_note_search_page"),
     path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
     path('myshortcut2/', views.MyShortCutListView2.as_view() , name="my_shortcut_list2"),
 
@@ -68,7 +69,9 @@ urlpatterns = [
     path('myshortcut/delete_temp_memo_by_ajax/<int:id>', views.delete_temp_memo_by_ajax , name="delete_temp_memo_by_ajax"),
 
 
+    # path('myshortcut/search_by_id_and_word/' , views.search_skil_note_by_word.as_view(), name="search_by_id_and_word"),
     path('myshortcut/search_by_id_and_word/' , views.search_by_id_and_word, name="search_by_id_and_word"),
+
     path('myshortcut/copyForCategorySubjectToMyCategory/' , views.copyForCategorySubjectToMyCategory, name="copyForCategorySubjectToMyCategory"),
 
     path('new_comment_for_my_shortcut/<int:shortcut_id>/ajax/' , views.new_comment_for_my_shortcut, name="new_comment_for_my_shortcut"),

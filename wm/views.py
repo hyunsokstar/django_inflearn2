@@ -1012,11 +1012,13 @@ def search_by_id_and_word(request):
     elif(search_option == "only_title"):
         search_word = request.POST['search_word']
         object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author = user) ).order_by('-category')
+        print("object_list ::::::::::::::::::::::::::::::::::::::::: ", object_list)
         print("search , only_title")
 
         return render(request, 'wm/MyShortCut_list_for_search.html', {
 			'object_list': object_list
 		})
+
     elif(search_option == "content_title_alluser"):
         user = User.objects.get(username=search_user_id)
         search_word = request.POST['search_word']
@@ -1729,8 +1731,6 @@ class MyShortCutListView(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         user = self.request.user.profile.shortcut_user_id
-
-        # print("user : ", user)
         print("self.request.user : ", self.request.user)
 
         if user == "me":
@@ -1763,6 +1763,38 @@ class MyShortCutListView(LoginRequiredMixin,ListView):
             context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
 
             return context
+
+# 2244
+class go_to_skil_note_search_page(LoginRequiredMixin,ListView):
+    model = MyShortCut
+    paginate_by = 10
+
+    def get_template_names(self):
+        return ['wm/myshortcut_list_for_search2.html']
+
+    def get_queryset(self):
+        print("go_to_skil_note_search_page 실행 확인 :::::::::::::::::::::::::")
+        query = self.request.GET.get('q')
+        print("query ::::::::::::::: ", query)
+        if(query != None):
+            print("user list 출력 확인 :::::::::::::::::::::::::")
+            object_list = MyShortCut.objects.filter(Q(author=self.request.user) & Q(title__contains=query)
+                        | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query)).order_by('created');
+            print("result : ", object_list)
+            return object_list
+        else:
+            qs = MyShortCut.objects.all()[:10]
+            return qs
+
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super(go_to_skil_note_search_page, self).get_context_data(**kwargs)
+    #
+    #     if(query != None):
+    #         print("query is empty !!!!!!!!!!!!!!!!!")
+    #         context['situation'] = "default"
+    #
+    #         return context
+
 
 class MyShortCutCreateView_input(LoginRequiredMixin,CreateView):
     model = MyShortCut
