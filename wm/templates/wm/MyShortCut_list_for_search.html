@@ -9,8 +9,8 @@
 			<td>name</td>
 		</tr>
 		<tbody>
-		{% if object_list.exists %}
-			{% for p in object_list %}
+		{% if question_list.exists %}
+			{% for p in question_list %}
 				<tr>
 					<td>
 						{{ forloop.counter }}
@@ -62,15 +62,15 @@
 	<!-- ---------------------------------------- [edit] ---------------------------------------- -->
 	{% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
 	<!-- ---------------------------------------------------------------------------------------- -->
-    {% if page_number == question_list.number %}
-    <li class="page-item active" aria-current="page">
-        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-    </li>
-    {% else %}
-    <li class="page-item">
-        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-    </li>
-    {% endif %}
+	    {% if page_number == question_list.number %}
+	    <li class="page-item active" aria-current="page">
+	        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+	    </li>
+	    {% else %}
+	    <li class="page-item">
+	        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+	    </li>
+	    {% endif %}
 	<!-- ---------------------------------------- [edit] ---------------------------------------- -->
 	{% endif %}
 	<!-- ---------------------------------------------------------------------------------------- -->

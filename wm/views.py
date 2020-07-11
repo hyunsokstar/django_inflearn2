@@ -926,6 +926,37 @@ def copyForCategorySubjectToMyCategory(request):
 	})
 
 
+class search_skil_note_by_word(ListView):
+    model = MyShortCut
+    paginate_by = 10
+    template_name = 'book/MyShortCut_list_for_search.html'
+
+    def get_queryset(self,request):
+        # 검색할 유저(비로그인인 경우)
+        try:
+            page_user = self.request.POST['page_user']
+        except MultiValueDictKeyError:
+            page_user = False
+
+        # 검색할 유저(로그인 유저일 경우 => 나 )
+        if(request.user.is_authenticated):
+            user = self.request.user
+            search_word = self.request.POST['search_word']
+            search_option = self.request.POST['search_option']
+            print("search_word : ", search_word)
+            print("search_option : ", search_option)
+
+        # 로그인 유저에 대한 유저 객체 생성
+        if(page_user):
+            user = User.objects.get(username=page_user)
+        else:
+            user = User.objects.get(username=user)
+
+        # 쿼리셋 객체 생성
+        qs = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
+        return qs
+
+
 def search_by_id_and_word(request):
     user = request.user
     try:
@@ -963,14 +994,18 @@ def search_by_id_and_word(request):
         page = request.GET.get('page', '1')
         object_list = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
 
-        print('object_list(count)  :::::::::: ' , object_list.count() )  # 검색 키워드 "강의"로 검색하면 39 
+        print('object_list(count)  :::::: ' , object_list.count() )  # 검색 키워드 "강의"로 검색하면 39
 
         paginator = Paginator(object_list, 10)  # 페이지당 10개씩 보여주기
         page_obj = paginator.get_page(page)
-        print("page_obj ::::::::::::: ", page_obj)
-        context = {'object_list': page_obj}
+
+        for x in object_list:
+            print("x : ", x)
+
+        print("page_obj : ", page_obj)
 
         return render(request, 'wm/MyShortCut_list_for_search.html', {
+            "object_list":page_obj,
             "question_list":page_obj
 		})
 
@@ -1694,13 +1729,15 @@ class MyShortCutListView(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         user = self.request.user.profile.shortcut_user_id
+
         # print("user : ", user)
         print("self.request.user : ", self.request.user)
 
         if user == "me":
             user = self.request.user
         else:
-            user = User.objects.get(username=user)
+            Profile.objects.filter(Q(user=self.request.user)).update(shortcut_user_id = self.request.user.username)
+            user = self.request.user
 
         print("user : ", user)
 

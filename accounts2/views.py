@@ -9,7 +9,7 @@ from wm.models import RecommandationUserAboutSkillNote
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
-    
+
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.views import (
@@ -166,7 +166,11 @@ def update_for_profile(request,id):
 
         print("update_for_profile (view) 실행")
 
-        user_exists = User.objects.get(username = profile_user)
+        try:
+            user_exists = User.objects.get(username = profile_user)
+        except:
+            user_exists = None
+
         print("user_exists : ", user_exists)
 
         if(user_exists !=None and user_exists.username!=request.user.username):

@@ -280,7 +280,7 @@ img.Image { max-width: 100%; display: block; }
 						{{ forloop.counter }}
 					</td>
 					<td width="90%" ondblclick="copy_for_summer_note_content({{p.id}})" >
-						<span id=title_{{p.id}}>{{p.title}}</span>
+						<span id=title_{{p.id}}>{{p.title}}  </span>
 						<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
 
 						{% if p.author == request.user %}
@@ -2450,30 +2450,40 @@ $('.category_name_list_button').click(function (e) {
 		})
 })
 
+// 2244
 $('.update_shortcut_user_id').click(function (e) {
 	e.preventDefault();
 	const id = this.id
 	const user_id = $("#shortcut_user_id").val()
 
-	window.history.pushState("", "", '/wm/')
+	if(user_id == "{{request.user}}"){
+		window.history.pushState("", "", '/wm/')
 
-	$.ajax({
-		type: "POST",
-		url: 'update/shortcut_id_ajax/' + id,
-		data: {
-			'user_id': user_id,
-			csrfmiddlewaretoken: '{{ csrf_token }}'
-		},
-		success: function (result) {
-			alert("result.message : " 	+ result.message)
-			const original_id = result.original_id
-			if (original_id != "") {
-				$("#shortcut_user_id").val(original_id)
+		$.ajax({
+			type: "POST",
+			url: 'update/shortcut_id_ajax/' + id,
+			data: {
+				'user_id': user_id,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			},
+			success: function (result) {
+				alert("result.message : " 	+ result.message)
+				const original_id = result.original_id
+				if (original_id != "") {
+					$("#shortcut_user_id").val(original_id)
+				}
+				window.history.pushState("", "", '/wm/myshortcut/')
+				location.href = "/wm/myshortcut/"
 			}
-			window.history.pushState("", "", '/wm/myshortcut/')
-			location.href = "/wm/myshortcut/"
-		}
-	});
+		});
+	}else{
+		alert(user_id+" 님의 페이지 열기")
+		window.open(
+	  		`http://terecal-hyun.co.kr/wm/myshortcut/${user_id}/1`,
+	  		'_blank' // <- This is what makes it open in a new window.
+	);
+	}
+
 })
 
 $('body').on('click', '.shortcut_edit_button2', function (e) {

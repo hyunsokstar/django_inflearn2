@@ -196,6 +196,8 @@ def sbc_modify(request,id):
     else:
         return redirect('/todo')
 
+
+
 class SkilBlogTitleList(LoginRequiredMixin,ListView):
     model = SkilBlogTitle
     paginate_by = 10
@@ -203,6 +205,9 @@ class SkilBlogTitleList(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         return SkilBlogTitle.objects.all().order_by('-created')
+
+
+
 
 def SkilBlogContentList(request,id):
     print('SkilBlogTitle id : ',id)
