@@ -6,7 +6,7 @@ from django.conf import settings
 app_name = 'pd'
 
 urlpatterns = [
-    path('private_task_list/', views.private_desk_list.as_view() , name="private_task_list"),
+    path('private_task_list/', views.private_task_list.as_view() , name="private_task_list"),
     path('my_task/new/',views.mytask_new , name ="mytask_new"),
 
     path('update_mytask_by_ajax/',views.update_mytask_by_ajax , name ="update_mytask_by_ajax"),

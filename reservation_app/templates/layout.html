@@ -34,18 +34,18 @@
             </li>
         </ul>
 
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false">할일 관리 <span class="caret"></span></a>
-          <div class="dropdown-menu" aria-labelledby="download">
-              <a class="dropdown-item" href="{% url "todo:todo_list" %}">Todo(할일)</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url "todo:todo_complete_list_byme" %}">Todo(완료)</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url "todo:TeamInfoListView" %}">Team </a>
-          </div>
-        </li>
-      </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false">팀 프로젝트 <span class="caret"></span></a>
+            <div class="dropdown-menu" aria-labelledby="download">
+                <!-- <div class="dropdown-divider"></div> -->
+                <!-- <a class="dropdown-item" href="{% url "todo:todo_complete_list_byme" %}">Todo(완료)</a> -->
+                <a class="dropdown-item" href="{% url "todo:todo_list" %}">todo</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url "todo:TeamInfoListView" %}">Team 목록</a>
+            </div>
+          </li>
+        </ul>
 
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -53,11 +53,6 @@
             </li>
         </ul>
 
-        <!-- <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url "wm:my_shortcut_list2" %}">Skil Note2</a>
-            </li>
-        </ul> -->
 
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -174,7 +169,7 @@
 <div class="container">
     <div class="row">
         <!-- Blog Entries Column -->
-        <div class="col-md-12" id="main-div">
+        <div class="col-md-12 col-sm-12" id="main-div">
             <!-- Blog Post -->
             {% block content4 %} {% endblock %}
         </div>
@@ -184,7 +179,7 @@
 
 
     <div class="row m-4">
-        <div class="col-md-11">
+        <div class="col-md-12">
             {% block content5 %} {% endblock %}
         </div>
         <!-- <div class="col-md-5">

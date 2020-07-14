@@ -1,9 +1,6 @@
 {% extends "todo/layout.html" %}
 {%block title %}todo list{% endblock %}
 
-{%block content4 %}
-{% load crispy_forms_tags %}
-
 {%block extra_css %}
 
 .modal-dialog {
@@ -12,17 +9,14 @@
   margin: 0;
   padding: 0;
 }
-
 .modal-content {
     width:132%;
 }
 
-<!-- .row2 {
-    width:100%;
-} -->
-
-
 {% endblock %}
+
+{%block content5 %}
+{% load crispy_forms_tags %}
 
 
 <br><br>
@@ -75,12 +69,12 @@
 
 <br><br>
 
-<div class="input-group">
+<!-- <div class="input-group">
     <input type="text" onkeyup="insert_todo()" class="form-control" id="input_todo" placeholder="내가 할일을 입력!"/>
     <span class="input-group-btn">
         <button class="btn btn-secondary" type="button" onclick="create_todo();">간편 입력</button>
     </span>
-</div>
+</div> -->
 
 <br>
     {% if category %}
@@ -110,8 +104,8 @@
             </td>
             <td>{{p.classification}}</td>
             <td>
-                <a href="" id={{p.id}} class="title_for_list">
-                    {{p.title}}
+                <a href="" id={{p.pk}} class="title_for_list">
+                    {{p.title}} (<font color="blue"> from {{p.director}}</font> )
                 </a><br>
                 {% if request.user == p.author %}
                         <a class="badge badge-pill badge-dark" href="{% url "todo:todo_complete" p.id %}">완료</a>
@@ -158,7 +152,7 @@
 {% endif %}
 
 
-<button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal">
+<button type="button" id="myModal_button" class="btn btn-primary invisible" data-toggle="modal" data-target="#todo_detail_modal">
     todo detail modal
 </button>
 
@@ -169,7 +163,7 @@
 
 
 <!-- The Modal -->
-<div class="modal fade" id="myModal" >
+<div class="modal fade" id="todo_detail_modal" >
 
 </div>
 
@@ -277,11 +271,14 @@ $(document).ready(function(){
 
         e.preventDefault();
         id = $(this).attr('id');
+        // alert("id : "+ id)
+        window.history.pushState("", "", '/todo/')
+
 
         $.get(id)
             .done((html) => {
                 $('#myModal_button').hide();
-                $("#myModal").html(html)
+                $("#todo_detail_modal").html(html)
                 $( "#myModal_button" ).trigger("click");
             })
             .fail(() => {

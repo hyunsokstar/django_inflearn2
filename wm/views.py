@@ -1773,27 +1773,19 @@ class go_to_skil_note_search_page(LoginRequiredMixin,ListView):
         return ['wm/myshortcut_list_for_search2.html']
 
     def get_queryset(self):
-        print("go_to_skil_note_search_page 실행 확인 :::::::::::::::::::::::::")
+        print("go_to_skil_note_search_page excute check :::::::::::::::::::::::::")
         query = self.request.GET.get('q')
         print("query ::::::::::::::: ", query)
         if(query != None):
-            print("user list 출력 확인 :::::::::::::::::::::::::")
-            object_list = MyShortCut.objects.filter(Q(author=self.request.user) & Q(title__contains=query)
-                        | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query)).order_by('created');
+            print("user list check :::::::::::::::::::::::::")
+            print("current user :::::::::::::::::::::::::" , self.request.user)
+            object_list = MyShortCut.objects.filter(Q(author=self.request.user) & (Q(title__contains=query) | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query))).order_by('created');
             print("result : ", object_list)
             return object_list
         else:
-            qs = MyShortCut.objects.all()[:10]
+            qs = MyShortCut.objects.filter(Q(author=self.request.user))[:10]
             return qs
 
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super(go_to_skil_note_search_page, self).get_context_data(**kwargs)
-    #
-    #     if(query != None):
-    #         print("query is empty !!!!!!!!!!!!!!!!!")
-    #         context['situation'] = "default"
-    #
-    #         return context
 
 
 class MyShortCutCreateView_input(LoginRequiredMixin,CreateView):

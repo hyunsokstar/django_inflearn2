@@ -5,7 +5,7 @@
 
 
         <div class="modal-content">
-            <button type="button" class="btn btn-outline-primary float-right" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-dark mt-2 float-right" data-dismiss="modal">Close</button>
 
             <div class="d-flex p-2 bd-highlight">
                 <!-- <h4 style="background-color:#00BFFF; padding:10px">할일 상세사항</h4> -->
@@ -16,10 +16,9 @@
                 </div> -->
 
                 <!-- Modal body -->
-                <div class="modal-body">
-                    {{ object.get_markdown_content | safe }} <br>
+                <div class="modal-body mt-1">
 
-                      <div class="row row2">
+                      <div class="row">
                         <div class="col">
 
                             <!-- CodeProcess area -->
@@ -131,30 +130,27 @@
 
                         </div>
                         <div class="col">
-
                             <!-- insert form area -->
                             <div class="card border-info mb-3" style="width:100%">
                                 <div class="card-body">
                                     <div class="comment_insert_area" style="background-color:white">
-                                            <form method="post" action="{{object.get_absolute_url}}new_comment/summer_note" id="comment_form_summer_note" class="hi">
+                                            <form method="post" action="{{object.get_absolute_url}}new_comment_by_summer_note" id="comment_form_summer_note" class="hi">
                                                 <div class="form-group">
                                                 {% csrf_token %}
                                                 {{ comment_form }}
                                                 </div>
-                                                <button type="submit" class="btn btn-primary btn-block" style="margin-right:20px;">Submit(summer_note)</button>
+                                                <button type="submit" class="btn btn-outline-primary btn-block" style="margin-right:20px;">입 력</button>
                                             </form>
                                     </div>
                                 </div>
                             </div>
                             <!-- insert form area end -->
-
-
                         </div>
                       </div>
 
                 <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-dark btn-block" data-dismiss="modal">Close</button>
                     </div>
 
             </div>
@@ -337,6 +333,8 @@ $(document).ready(function(){
                     comment_id : obj.edit_id
                 });
                 console.log("rendered : " , rendered);
+                // $('#comment_form_summer_note').summernote('reset');
+
                 $(rendered).appendTo($('.reply_list'));
                 $("html, body").animate({ scrollTop: $(document).height() }, 1000);
 

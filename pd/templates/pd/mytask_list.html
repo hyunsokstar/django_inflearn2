@@ -9,7 +9,7 @@
 
 {% endblock %}
 
-{%block content4 %}
+{%block content2 %}
 
 <br><br>
 
@@ -21,54 +21,56 @@
 </div>
 {% endif %}
 
-<a href="{% url "pd:mytask_new"  %}" class="btn btn-outline-primary float-right">메모 입력</a>
+<a href="{% url "pd:mytask_new"  %}" class="btn btn-outline-dark mb-1 float-right">일지 추가</a>
 
-<br><br>
+<br>
 
-{% if object_list.exists %}
-    {% for p in object_list %}
+<!-- <a href="#" class="update_shortcut_user_id" id="{{request.user.id}}" data-id={{p.id}}> -->
+    {% if object_list.exists %}
+        {% for p in object_list %}
+        <table class="table table-bordered" id=mytask_table_{{p.id}} style="background-color:#e6eff5">
+            <tr>
+                <td>제목</td>
+                <td colspan="2">
+                    <input type="text" name="" value="{{p.title}}" id=mytask_title_{{p.id}} class="form-control">
+                </td>
+            </tr>
 
-    <table class="table table-bordered" id=mytask_table_{{p.id}} style="background-color:#e6eff5">
+            <tr>
+                <td>plan & complete</td>
+                <td><textarea name="name" rows="8" cols="50" id=mytask_plan_{{p.id}} >{{p.plan}}</textarea></td>
+                <td><textarea name="name" rows="8" cols="50" id=mytask_complete_{{p.id}}>{{p.complete}}</textarea></td>
+            </tr>
+
+            <tr>
+                <td>comment</td>
+                <td colspan="2">
+                    <textarea name="name" rows="8" cols="80" id=mytask_content_{{p.id}} class="form-control">{{p.content}}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="row m-1">
+                        <div class="col ">
+                            <a href="" class="btn btn-outline-info btn-sm float-right mytask_update_btn btn-block" id={{p.id}} >update</a>
+                        </div>
+                        <div class="col">
+                            <a href="" class="btn btn-outline-primary btn-sm float-right mytask_delete_btn btn-block" id={{p.id}} >delete</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table><br>
+        {% endfor %}
+    {% else %}
         <tr>
-            <td>제목</td>
-            <td>
-                <input type="text" name="" value="{{p.title}}" id=mytask_title_{{p.id}} class="form-control">
+            <td colspan="4">
+                <h4>아직 게시물이 없습니다.</h4>
             </td>
         </tr>
-        <tr>
-            <td>github</td>
-            <td><input type="text" name="" value="{{p.github}}" id=mytask_github_{{p.id}} class="form-control"></td>
-        </tr>
-        <tr>
-            <td>content</td>
-            <td><textarea name="name" rows="8" cols="80" id=mytask_content_{{p.id}} class="form-control">{{p.content}}</textarea></td>
-        </tr>
-        <tr>
-            <td>shortcut</td>
-            <td>
-                <input type="text" name="" value="{{p.shortcut_id}}" id=mytask_shortcut_id_{{p.id}} >
+    {% endif %}
 
-                <a href="#" class="update_shortcut_user_id" id="{{request.user.id}}" data-id={{p.id}}>
-                    <img src="{% static 'icon/go_icon.png' %}" alt="" >
-                </a>
-
-                <a href="" class="btn btn-outline-primary btn-sm float-right mytask_update_btn" id={{p.id}} >수정</a>
-                <a href="" class="btn btn-outline-primary btn-sm float-right mytask_delete_btn" id={{p.id}} >삭제</a>
-            </td>
-        </tr>
-    </table>
-
-    {% endfor %}
-{% else %}
-    <tr>
-        <td colspan="4">
-            <h4>아직 게시물이 없습니다.</h4>
-        </td>
-    </tr>
-{% endif %}
-
-<hr>
-    <a class="btn btn-outline-primary btn-block " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin-bottom:5px">
+    <!-- <a class="btn btn-outline-primary btn-block " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin-bottom:5px">
         즐겨 찾기
     </a>
 
@@ -141,17 +143,68 @@
         </tr>
     </table>
 
-</script>
+</script> -->
 
-{% endblock %}
+{% endblock content2 %}
 
-{% block side5 %}
-asdfasdasdfasfd
-{% endblock %}
+{% block sidearea2 %}
+    <br><br>
+    <b>즐겨 찾기(userId)</b>
+    <table class="table table-bordered">
 
+        {% for my_favorite_user in favorite_users_list %}
+
+        <tr id="myFavorite_{{my_favorite_user.id}}">
+    		<td>
+    			<a href="/wm/myshortcut/{{my_favorite_user.username}}/1">
+    				{{ my_favorite_user.username }}
+    			</a>
+    			<a>
+    				<img class="delete_for_my_favorite_user float-right" src="{% static 'icon/x_mark.png' %}"
+    				     data-target_user="{{my_favorite_user}}" data-row_id="{{my_favorite_user.id}}">
+    			</a>
+    		</td>
+    	</tr>
+
+    {% endfor %}
+
+
+    </table>
+{% endblock sidearea2 %}
 
 <script type="text/javascript">
 {% block extra_js %}
+
+$('body').on('click', '.delete_for_my_favorite_user', function (e) {
+	e.preventDefault();
+    // alert("클릭 확인")
+    const rowId = $(this).data("row_id");
+    const target_user = $(this).data("target_user");
+    // alert(rowId)
+    // alert(target_user);
+    var con_test = confirm(target_user + "에 대한 좋아요를 취소 하시겠습니까?");
+
+    if(con_test == true){
+
+        $.ajax({
+            type: "POST",
+            url: '/accounts/delete_for_my_favorite_user',
+            data: {
+                target_user:target_user,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function (result) {
+                alert(result.message);
+                $("#myFavorite_"+rowId).remove();
+            }
+        });
+
+    }
+    else if(con_test == false){
+        alert("취소를 선택")
+        return
+    }
+});
 
 $('body').on('click', '.update_shortcut_user_id', function(e) {
     e.preventDefault();
@@ -339,9 +392,9 @@ $(".mytask_update_btn").click(function(e) {
 
     var mytask_id = $(this).attr("id");
     var mytask_title = $("#mytask_title_"+mytask_id).val();
-    var mytask_github = $("#mytask_github_"+mytask_id).val();
     var mytask_content = $("#mytask_content_"+mytask_id).val();
-    var mytask_shortcut_id = $("#mytask_shortcut_id_"+mytask_id).val();
+    var mytask_plan = $("#mytask_plan_"+mytask_id).val();
+    var mytask_complete = $("#mytask_complete_"+mytask_id).val();
 
     // alert("mytask_id : " + mytask_id)
     // alert("mytask_title : "+ mytask_title)
@@ -357,9 +410,9 @@ $(".mytask_update_btn").click(function(e) {
       data: {
           mytask_id:mytask_id,
           mytask_title:mytask_title,
-          mytask_github:mytask_github,
           mytask_content:mytask_content,
-          mytask_shorcut_id:mytask_shortcut_id,
+          mytask_plan:mytask_plan,
+          mytask_complete:mytask_complete,
           csrfmiddlewaretoken: '{{ csrf_token }}'
       },
         success: function(result) {

@@ -1,14 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class MyTask(models.Model):
     title = models.CharField(max_length=50)
     github = models.CharField(max_length= 100)
-    content = models.TextField(blank=True)
     shortcut_id = models.CharField(max_length= 60)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(blank=True)
+    plan = models.TextField(blank=True)
+    complete_task = models.TextField(blank=True)
+
 
     def __str__(self):
         return self.title

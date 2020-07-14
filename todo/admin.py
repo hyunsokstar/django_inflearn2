@@ -28,7 +28,7 @@ class ClassificationAdmin(admin.ModelAdmin):
 @admin.register(Todo)
 class TodoAdmin(admin.ModelAdmin):  # instead of ModelAdmin
     # fields = ('author','title','content','dead_line','categpry','classification','importance','type')
-    list_display=['id', 'title','author','created','elapsed_time','dead_line']
+    list_display=['id', 'title','author','created','elapsed_time','dead_line','updated']
 
 @admin.register(CommentForTodo)
 class CommentAdmin(admin.ModelAdmin):

@@ -6,7 +6,6 @@ from . import views
 app_name= 'todo'
 urlpatterns = [
 
-
     # 할 일(미완료 ) 리스트 출력
     path('', views.TodoList.as_view() , name="todo_list"),
 
@@ -38,7 +37,9 @@ urlpatterns = [
     path('card', views.TodoList_by_card.as_view() , name="todo_list_by_card"),
 
     path('complete_bycard/', views.TodoListByComplete_by_card.as_view() , name="todo_complete_list_by_card"),
-    path('<int:pk>/new_comment/summer_note', views.new_comment_summer_note),
+    # path('<int:pk>/new_comment/summer_note', views.new_comment_summer_note),
+    path('<int:pk>/new_comment_by_summer_note', views.new_comment_by_summer_note, name="new_comment_by_summer_note"),
+
     path('<int:pk>/new_comment/text_area', views.new_comment_text_area),
     path('edit_comment/<int:pk>/', views.CommentUpdate.as_view(), name="edit_url"),
     path('delete_comment/<int:pk>/', views.delete_comment, name="delete_url"),
@@ -64,7 +65,7 @@ urlpatterns = [
     path('status/',views.todo_status_list, name ="todo_status_list"),
     path('todo_delete_ajax/',views.todo_delete_ajax, name ="todo_delete_ajax"),
     path('todolist/uncomplete/<str:user_id>/',views.UncompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),
-    path('todolist/complete/<str:user_id>/',views.CompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),
+    path('todolist/complete/<str:   user_id>/',views.CompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),
 
     path('todolist/uncomplete/admin/<str:user_id>/<str:team_leader_name>',views.UncompleteTodoListByUserId_admin.as_view(), name ="todolist_by_user_complete"),
     path('todolist/complete/admin/<str:user_id>/<str:team_leader_name>',views.CompleteTodoListByUserId_admin.as_view(), name ="todolist_by_user_uncomplete"),

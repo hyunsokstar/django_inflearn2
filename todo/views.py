@@ -60,21 +60,23 @@ class TodoCompleteListByMe(LoginRequiredMixin,ListView):
     model = Todo
     paginate_by = 10
 
-
     def get_queryset(self):
         if self.request.user.is_anonymous:
             print("익명 유저입니다")
             return Todo.objects.all()
         else:
             print("user : ", self.request.user)
-            list_count = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
+            # list_count = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False) )
+            list_count = Todo.objects.filter(Q(author=self.request.user) & Q(completion="complete") )
             print("list_count  ", list_count)
-            return Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
+            # qs = Todo.objects.filter(Q(author=self.request.user) & Q(elapsed_time__isnull=False))
+            qs = Todo.objects.filter(Q(author=self.request.user) & Q(completion="complete"))
+            return qs
 
     def get_template_names(self):
         print("todo list complete 호출")
         return ['todo/todo_list_complete.html']
-        # 카테고리 목록
+
     def get_context_data(self, *, object_list=None, **kwargs):
         print('self.request.user : ', self.request.user)
         context = super(type(self), self).get_context_data(**kwargs)
@@ -89,6 +91,8 @@ class TodoCompleteListByMe(LoginRequiredMixin,ListView):
         context['total_todo_count_uncomplete'] = Todo.objects.filter(Q(elapsed_time__isnull=True)).count()
         context['total_todo_count_complete'] = Todo.objects.filter(Q(elapsed_time__isnull=False)).count()
         return context
+
+
 
 def pass_task_to_selected_user(request):
     todo_arr = request.POST.getlist('todo_arr[]')
@@ -744,7 +748,6 @@ def todo_new_admin(request,user_name,leader_name):
 
             user_update = Profile.objects.filter(user=user.id).update(uncompletecount = uncompletecount)
 
-
             return redirect('/todo/todolist/uncomplete/admin/'+user_name+'/'+leader_name)
             # http://127.0.0.1:8000/todo/todolist/uncomplete/admin/terecal/terecal
     else:
@@ -956,7 +959,7 @@ class CommentUpdate(UpdateView):
             raise PermissionError('Comment 수정 권한이 없습니다.')
         return comment
 
-def new_comment_summer_note(request, pk):
+def new_comment_by_summer_note(request, pk):
     print("댓글 입력 함수 기반뷰 실행")
     todo = Todo.objects.get(pk=pk)
 

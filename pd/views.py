@@ -4,13 +4,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, UpdateView, CreateView , DeleteView
 from django.db.models import Q
 from django.urls import reverse
-
 from .forms import MyTaskForm
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.http import HttpResponse, JsonResponse
+from wm.models import RecommandationUserAboutSkillNote
+from django.contrib.auth.models import User
+
 
 def add_mysite_by_ajax(request):
-
     site_name = request.POST['site_name']
     site_url = request.POST['site_url']
 
@@ -27,12 +28,10 @@ def add_mysite_by_ajax(request):
     })
 
 def delete_mysite_by_ajax(request):
-
     print("delete_mysite_by_ajax 수정 실행")
     user = request.user
 
     if request.method == "POST" and request.is_ajax():
-
         site_id = request.POST['site_id']
         print('site_id : ', site_id)
 
@@ -47,13 +46,10 @@ def delete_mysite_by_ajax(request):
         return redirect('/pd/private_task_list/')
 
 def update_mysite_by_ajax(request):
-
     print("update_mysite_by_ajax 실행")
-
     user = request.user
 
     if request.method == "POST" and request.is_ajax():
-
         site_id = request.POST['site_id']
         site_name = request.POST['site_name']
         site_url = request.POST['site_url']
@@ -72,7 +68,6 @@ def update_mysite_by_ajax(request):
         return redirect('/pd/private_task_list/')
 
 def delete_mytask_by_ajax(request):
-
     print("mytask 수정 실행")
 
     user = request.user
@@ -93,21 +88,19 @@ def delete_mytask_by_ajax(request):
         return redirect('/pd/private_task_list/')
 
 def update_mytask_by_ajax(request):
-
     print("mytask 수정 실행")
 
     user = request.user
 
     if request.method == "POST" and request.is_ajax():
-
         mytask_id = request.POST['mytask_id']
-        mytask_github = request.POST['mytask_github']
         mytask_title = request.POST['mytask_title']
         mytask_content = request.POST['mytask_content']
-        mytask_shorcut_id = request.POST['mytask_shorcut_id']
+        mytask_plan = request.POST['mytask_plan']
+        mytask_complete = request.POST['mytask_complete']
         print('mytask_id : ', mytask_id)
 
-        todo = MyTask.objects.filter(Q(id=mytask_id)).update(title = mytask_title, github = mytask_github, content = mytask_content, shortcut_id = mytask_shorcut_id)
+        todo = MyTask.objects.filter(Q(id=mytask_id)).update(title = mytask_title, content = mytask_content, plan=mytask_plan, complete_task=mytask_complete)
         print('mytask update 성공');
 
         return JsonResponse({
@@ -131,7 +124,7 @@ def mytask_new(request):
     })
 
 
-class private_desk_list(LoginRequiredMixin,ListView):
+class private_task_list(LoginRequiredMixin,ListView):
     model = MyTask
     paginate_by = 20
     # ordering = ['created_at']
@@ -143,6 +136,19 @@ class private_desk_list(LoginRequiredMixin,ListView):
         return object_list
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(private_desk_list, self).get_context_data(**kwargs)
+        context = super(private_task_list, self).get_context_data(**kwargs)
+
+        my_favorite_users = []
+        favorite_users = RecommandationUserAboutSkillNote.objects.filter(author_id=self.request.user)
+
+        for fu in favorite_users:
+            print("내가 추천한 user_id : ",fu.user)
+            my_favorite_users.append(fu.user.id)
+
+        favorite_users_list = User.objects.filter(id__in=my_favorite_users).order_by('-profile__skill_note_reputation');
+        print("favorite_users_list : ", favorite_users_list)
+
         context['mysite_list'] = MySite.objects.filter(Q(author=self.request.user))
+        context['favorite_users_list'] = favorite_users_list
+
         return context

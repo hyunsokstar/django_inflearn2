@@ -16,8 +16,6 @@ from django.db.models import F
 # Create your views here.
 
 # 1122
-# modify_comment_for_sbt
-
 def modify_comment_for_sbt(request):
 
     comment_id = request.POST['comment_id']
