@@ -72,6 +72,7 @@ urlpatterns = [
 
     # team
     path('team_register/', views.team_register , name='team_register'),
+    path('withdrawl_team/', views.withdrawl_team , name='withdrawl_team'),
     path('team_member_list/<int:team_info_id>/delete/team/memeber', views.delete_team_member, name='delete_team_member'),
     path('delete/team/memeber/byajax', views.delete_team_memeber_info_by_memberId, name="delete_team_memeber_info_by_memberId"),
 

@@ -786,6 +786,16 @@ img.Image { max-width: 100%; display: block; }
 <!-- js area -->
 <script type="text/javascript">
 {% block extra_js %}
+
+// 처음 스킬 노트 방문시
+$(document).ready(function () {
+	// const user = "{{request.user}}"
+	// if ($("#shortcut_user_id").val() == "me") {
+	// 	$("#shortcut_user_id").val(user)
+	// 	$(".update_shortcut_user_id").trigger("click");
+	// }
+})
+
 $(function() {
   $('body').keyup(function(e) {
 	  if (e.ctrlKey && e.which === 48) {
@@ -2104,14 +2114,6 @@ $('body').on('click', '.shortcut_comment_button', function (e) {
 	}
 });
 
-
-$(document).ready(function () {
-	const user = "{{request.user}}"
-	if ($("#shortcut_user_id").val() == "me") {
-		$("#shortcut_user_id").val(user)
-		$(".update_shortcut_user_id").trigger("click");
-	}
-})
 
 $(".go_to_before_channer_btn").click(function () {
 	// alert("클릭22");

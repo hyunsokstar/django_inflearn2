@@ -106,8 +106,6 @@ class CommentForPage(models.Model):
         ordering = ['-created_at']
 
 
-
-
 class CategoryNick(models.Model):
     ca_subtitle = models.CharField(max_length=50, default="my category info")
     author = models.ForeignKey(User, on_delete=models.CASCADE)

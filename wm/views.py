@@ -23,27 +23,25 @@ from django.core.paginator import Paginator
 
 
 # 1122
+def manualPage(request):
+    return render(request, 'wm/manual.html', {
+	})
+
+def intro_for_skilnote(request):
+    return render(request, 'wm/intro_page.html', {
+	})
+
+
+# 입력 모드
 class MyShortCutListView2(LoginRequiredMixin,ListView):
     model = MyShortCut
-    user = 0
 
     def get_queryset(self):
-        user = self.request.user.profile.shortcut_user_id
-        # print("user : ", user)
+        user = self.request.user
         print("self.request.user : ", self.request.user)
-        print("MyShortCutListView2 +++++++++++++++++++++++")
-
-        if user == "me":
-            user = self.request.user
-        else:
-            user = User.objects.get(username=user)
-
-        if self.request.user.is_anonymous:
-            return MyShortCut.objects.filter(author=self.request.user).order_by('created')
-        else:
-            selected_category_id = self.request.user.profile.selected_category_id
-            return MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
-
+        selected_category_id = user.profile.selected_category_id
+        qs = MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
+        return qs
 
 
     def get_template_names(self):
@@ -61,22 +59,22 @@ class MyShortCutListView2(LoginRequiredMixin,ListView):
             return MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        # 카테고리 각각의 정보를 저장하는 테이블 없으면 만든다.
+        cn = CategoryNick.objects.get_or_create(
+            author=self.request.user,
+        )
+        context = super(MyShortCutListView2, self).get_context_data(**kwargs)
+        # 스킬 노트 페이지 역할을 하는 카테고리 목록을 가져 온다.
+        context['category_list'] = Category.objects.all()
+        # 카테고리 테이블은 id = 1 => ca1 id = 2 => ca2 이런식이므로 id로 ca1, ca2 객체를 생성 가능
+        category = Category.objects.get(id=self.request.user.profile.selected_category_id) # __str__ 설정으로 카테고리 객체 = 카테고리.name 이다
+        context['category'] = category
+        # 카테고리 닉은 author = 현재 유저 이름이고 각각의 컬럼에 ca1, ca2, ca3, ca4 등의 카테고리 주제값이 들어있으므로 category.name로 검색해서 가져온다.
+        context['category_nick'] = CategoryNick.objects.values_list(category.name, flat=True).get(author=self.request.user)
+        context['MyShortCutForm_summer_note2'] = MyShortCutForm_summer_note2
 
-            cn = CategoryNick.objects.get_or_create(
-                author=self.request.user,
-            )
+        return context
 
-            context = super(MyShortCutListView2, self).get_context_data(**kwargs)
-            context['category_list'] = Category.objects.all()
-
-            category = Category.objects.get(id=self.request.user.profile.selected_category_id)
-            context['category'] = category
-            context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=self.request.user)
-            context['MyShortCutForm_summer_note2'] = MyShortCutForm_summer_note2
-            context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
-            context['cagegoryId'] = self.request.user.profile.selected_category_id
-
-            return context
 
 class MyShortcutListByCategory2(ListView):
 
@@ -276,11 +274,6 @@ class MyShortcutListByUser(ListView):
 
             return context
 
-
-
-def manualPage(request):
-    return render(request, 'wm/manual.html', {
-	})
 
 def category_plus_1_for_current_user(request):
     # is this possible?
@@ -1725,49 +1718,40 @@ def update_skil_note_file_name(request,id):
     else:
         return redirect('/todo')
 
+
+# 2244
 class MyShortCutListView(LoginRequiredMixin,ListView):
     model = MyShortCut
-    user = 0
 
     def get_queryset(self):
-        user = self.request.user.profile.shortcut_user_id
+        user = self.request.user
         print("self.request.user : ", self.request.user)
-
-        if user == "me":
-            user = self.request.user
-        else:
-            Profile.objects.filter(Q(user=self.request.user)).update(shortcut_user_id = self.request.user.username)
-            user = self.request.user
-
-        print("user : ", user)
-
-        if self.request.user.is_anonymous:
-            return MyShortCut.objects.filter(author=self.request.user).order_by('created')
-        else:
-            selected_category_id = self.request.user.profile.selected_category_id
-            return MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
+        selected_category_id = user.profile.selected_category_id
+        qs = MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
+        return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        # 카테고리 각각의 정보를 저장하는 테이블 없으면 만든다.
+        cn = CategoryNick.objects.get_or_create(
+            author=self.request.user,
+        )
+        context = super(MyShortCutListView, self).get_context_data(**kwargs)
+        # 스킬 노트 페이지 역할을 하는 카테고리 목록을 가져 온다.
+        context['category_list'] = Category.objects.all()
+        # 카테고리 테이블은 id = 1 => ca1 id = 2 => ca2 이런식이므로 id로 ca1, ca2 객체를 생성 가능
+        category = Category.objects.get(id=self.request.user.profile.selected_category_id) # __str__ 설정으로 카테고리 객체 = 카테고리.name 이다
+        context['category'] = category
+        # 카테고리 닉은 author = 현재 유저 이름이고 각각의 컬럼에 ca1, ca2, ca3, ca4 등의 카테고리 주제값이 들어있으므로 category.name로 검색해서 가져온다.
+        context['category_nick'] = CategoryNick.objects.values_list(category.name, flat=True).get(author=self.request.user)
 
-            cn = CategoryNick.objects.get_or_create(
-                author=self.request.user,
-            )
+        # context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
 
-            context = super(MyShortCutListView, self).get_context_data(**kwargs)
-            context['category_list'] = Category.objects.all()
-
-            category = Category.objects.get(id=self.request.user.profile.selected_category_id)
-            context['category'] = category
-            context['category_nick'] = CategoryNick.objects.values_list(category.slug, flat=True).get(author=self.request.user)
-
-            context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
-
-            return context
+        return context
 
 # 2244
 class go_to_skil_note_search_page(LoginRequiredMixin,ListView):
     model = MyShortCut
-    paginate_by = 10
+    paginate_by = 40
 
     def get_template_names(self):
         return ['wm/myshortcut_list_for_search2.html']

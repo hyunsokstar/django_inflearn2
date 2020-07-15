@@ -17,11 +17,11 @@
     </span> &nbsp;&nbsp;
     팀원수 : {{team_member_count}} 명 &nbsp;&nbsp;
     팀장 이름 : {{team_leader_name}}
+    <a class="btn btn-outline-dark btn-sm team_register_button float-right btn-block" href="{% url 'todo:TeamInfoListView' %}" >팀 목록</a>
     <a class="btn btn-outline-dark btn-sm team_register_button float-right team_todo_list_btn btn-block" href="{% url 'todo:team_todo_list' team_name  %}">팀 관리</a>
 
 </div>
 
-<a class="btn btn-outline-dark btn-sm team_register_button float-right" href="{% url 'todo:TeamInfoListView' %}" >팀 목록</a>
 
 <br><hr>
 
@@ -46,7 +46,7 @@
                             {{ p.member.username }}
                         </a>
                         {% if p.member == request.user %}
-                            <a class="badge badge-pill badge-info delete_team_member_btn float-right" data-member_id={{p.id}} data-team_member_name={{p.member.username}} data-team_name={{team_name}}>탈퇴</a>
+                            <a class="badge badge-pill badge-info withdrawl_team_button float-right" data-member_id={{p.id}} data-team_id={{p.team.id}}>탈퇴</a>
                         {% endif %}
                 </td>
                 <td>
@@ -80,37 +80,31 @@
 {% block extra_js %}
 
 
-$(".delete_team_member_btn").click(function(){
+$(".withdrawl_team_button").click(function(){
+    alert(" 팀 탈퇴 버튼 클릭");
+
     const team_memeber_id = $(this).data("member_id");
-    const team_name = $(this).data("team_name")
-    const team_member_name = $(this).data("team_member_name")
-
-    // alert("team_memeber_id : "+ team_memeber_id)
-    // alert("team_name : "+ team_name)
-    // alert("team_member_name : "+ team_member_name)
-
-    const url = "delete/team/memeber/byajax"
-
-    window.history.pushState("", "", '/todo/')
+    const team_id = $(this).data("team_id");
+    const user_id = "{{request.user.id}}";
+    const url = "/todo/withdrawl_team/"
+    const redirect_url = "/todo/team_member_list/"+team_id
 
     $.ajax({
         type: "POST",
         url: url,
         data: {
-            team_memeber_id:team_memeber_id,
-            team_name:team_name,
-            team_member_name:team_member_name,
+            team_id:team_id,
+            user_id:user_id,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         },
         success: function(result) {
-            alert(result.message);
-            // window.history.pushState("", "", '/todo/team_member_list/'+result.team_id)
-            window.location.href = "/todo/team_member_list/"+result.team_id;
-
             $("#tr_"+team_memeber_id).remove()
+            alert("message " + result.message);
+            //             // window.history.pushState("", "", '/todo/team_member_list/'+result.team_id)
+
+            window.location.href = redirect_url;
         }
     });
-
 })
 
 

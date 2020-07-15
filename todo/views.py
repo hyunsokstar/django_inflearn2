@@ -382,58 +382,78 @@ def delete_team_member(request):
             'message': '멤버 탈퇴 성공 : '+ member,
         })
 
+def withdrawl_team(request):
+    print("team_register view 실행")
+    if request.method == "POST" and request.is_ajax():
+        team_id = request.POST['team_id']
+        user_id = request.POST['user_id']
+
+        my_regi_count = TeamMember.objects.filter(Q(member=request.user)).count() # 회원 가입 여부 조사
+        team_leader_ox = TeamInfo.objects.filter(Q(leader=request.user)).count()  # 팀장 여부 조사
+
+        teaminfo_obj = TeamInfo.objects.get(id=team_id) # 팀 객체 생성
+        team_name = teaminfo_obj.team_name # 팀 이름 얻어오기
+
+        if team_leader_ox >=1:
+            message= team_name , "팀의 팀장이므로 팀과 회원 정보 모두 삭제 합니다."
+            ti = TeamInfo.objects.filter(Q(id=team_id)).delete()
+            ti = TeamMember.objects.filter(Q(member=request.user)).delete()
+
+        else:
+            print("단순 멤버이므로 회원 탈퇴 하겠습니다")
+            ti = TeamMember.objects.filter(Q(member=request.user)).delete()
+            print("회원 탈퇴 성공 !!!!!!!!!!!!!!! ")
+
+        team_member_count = TeamMember.objects.filter(team=team_id).count()
+        print("이제", team_name, "의 회원 숫자는 ", team_member_count , '명이며 이를 TeamInfo 테이블에 업데이트 하겠습니다.')
+        TeamInfo.objects.filter(id=team_id).update(member_count = team_member_count)
+        print("가입한 회원 숫자 TeamInfo 테이블에 업데이트 성공 ################# ")
+        message = team_name , "팀 탈퇴 성공. 회원수 : ", team_member_count
+
+        return JsonResponse({
+            'message': message,
+        })
+
+
 def team_register(request):
     print("team_register view 실행")
     if request.method == "POST" and request.is_ajax():
         option = ""
-        teamId = request.POST['teamId']
-        userId = request.POST['userId']
+        team_id = request.POST['team_id']
+        user_id = request.POST['user_id']
 
-        ti_obj = TeamInfo.objects.get(Q(id=teamId))
+        my_regi_count = TeamMember.objects.filter(Q(member=request.user)).count() # 회원 가입 여부 조사
+        team_leader_ox = TeamInfo.objects.filter(Q(leader=request.user)).count()  # 팀장 여부 조사
 
-        team_ox = TeamMember.objects.filter(Q(team=teamId) & Q(member=userId))
-        print("team_ox : " , team_ox)
+        teaminfo_obj = TeamInfo.objects.get(id=team_id) # 팀 객체 생성
+        team_name = teaminfo_obj.team_name # 팀 이름 얻어오기
 
-        my_regi_count = TeamMember.objects.filter(Q(member=request.user)).count()
-
-        # 생성한 팀이 있는지 확인
-        team_leader_ox = TeamInfo.objects.filter(Q(leader=request.user)).count()
-
-        if not team_ox:
-
-            if(team_leader_ox >=1):
-                return JsonResponse({
-                    'message': "팀장이 다른팀에 가입할수 없습니다."
-                })
-
-            if(my_regi_count >= 1):
-                return JsonResponse({
-                    'message': "1개이상의 팀에 가입할수 없습니다."
-                })
-            print("팀 가입")
-            option="가입"
+        if team_leader_ox >=1:
+            message= team_name , "팀의 팀장이기 때문에 다른팀에 가입할수 없습니다."
+            return JsonResponse({
+                'message': message
+            })
+        elif my_regi_count >=1:
+            message = team_name , "팀에 이미 가입했습니다."
+            return JsonResponse({
+                'message': message
+            })
+        else:
+            print("팀에 가입하지도 않았고 팀장도 아니기 때문에 ", team_name , "팀에 가입합니다.")
             ti, is_created = TeamMember.objects.get_or_create(
-                team=ti_obj,
+                team=teaminfo_obj,
                 member=request.user
             )
-            team_member_count = TeamMember.objects.filter(team=teamId).count()
-            print("team_member_count : " , team_member_count)
-            TeamInfo.objects.filter(id=teamId).update(member_count = team_member_count)
-        else:
-            print("팀 탈퇴")
-            option = "탈퇴"
-            dr = TeamMember.objects.filter(Q(team=teamId) & Q(member=userId)).delete()
-            print("dr : ", dr)
-            team_member_count = TeamMember.objects.filter(team=teamId).count()
+            print("회원 가입 성공 !!!!!!!!!!!!!!! ")
+            team_member_count = TeamMember.objects.filter(team=team_id).count()
+            print("이제", team_name, "의 회원 숫자는 ", team_member_count , '명이며 이를 TeamInfo 테이블에 업데이트 하겠습니다.')
+            TeamInfo.objects.filter(id=team_id).update(member_count = team_member_count)
+            print("가입한 회원 숫자 TeamInfo 테이블에 업데이트 성공 ################# ")
+            message = team_name , "팀 가입 성공. 회원수 : ", team_member_count
 
-            TeamInfo.objects.filter(id=teamId).update(member_count = team_member_count)
-
-        return JsonResponse({
-            'message': '팀' + option + '성공',
-            "option":option
-        })
-    else:
-        return reverse_lazy('todo:TeamInfoListView')
+            return JsonResponse({
+                'message': message,
+            })
 
 
 class UncompleteTodoListByUserId_admin(ListView):

@@ -1,9 +1,6 @@
 {% extends "todo/layout_by_admin.html" %}
 {%block title %}todo 입력 by admin{% endblock %}
 
-{%block content4 %}
-{% load crispy_forms_tags %}
-
 {%block extra_css %}
 
 .modal-dialog {
@@ -19,6 +16,10 @@
 
 {% endblock %}
 
+{%block content5 %}
+{% load crispy_forms_tags %}
+
+
 <br>
 109821
 <h4>팀장: <span class="text-primary team_leader_name"> {{team_leader_name}} </span> &nbsp;&nbsp;
@@ -26,7 +27,7 @@
 
 <table width="100%">
     <tr>
-        <td width="50%">
+        <td width="100%">
             <div class="card my-4">
                 <h5 class="card-header">Search</h5>
                 <div class="card-body">
@@ -41,7 +42,7 @@
                 </div>
             </div>
         </td>
-        <td width="50%">
+        <td width="100%">
             <div class="card my-4">
                 <h5 class="card-header">todo by
                     <span class="text-primary">
@@ -129,8 +130,8 @@
 
 
 <!-- The Modal -->
-<div class="modal fade" id="myModal2">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade modal-xl" id="myModal2">
+    <div class="modal-dialog">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">

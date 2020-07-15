@@ -1,5 +1,20 @@
 {% extends "todo/layout.html" %}
-{%block title %}할일 완료 목록{% endblock %}
+{%block title %}todo complete (me){% endblock %}
+
+{%block extra_css %}
+
+.modal-dialog {
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content {
+    width:132%;
+}
+
+{% endblock %}
 
 {%block content5 %}
 {% load crispy_forms_tags %}
@@ -14,6 +29,9 @@
 <br><br>
 <!-- 2019 -->
 <h2>완료 목록({{request.user}})</h2>
+
+
+1231231232
 
 <table class="table table-bordered">
     <tr>
@@ -122,8 +140,8 @@
 </div>
 
 <!-- The Modal -->
-<div class="modal fade" id="myModal2">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade modal-xl" id="myModal2">
+    <div class="modal-dialog">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -189,6 +207,8 @@ $(document).ready(function(){
                 $('#myModal_button').hide();
                 $("#myModal").html(html)
                 $( "#myModal_button" ).trigger( "click" );
+                window.history.pushState("", "", '/todo/todolist/complete/me/')
+
             })
             .fail(() => {
                 console.log("fail");

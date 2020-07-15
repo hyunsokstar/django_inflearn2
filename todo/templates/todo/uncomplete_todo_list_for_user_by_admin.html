@@ -1,9 +1,6 @@
 {% extends "todo/layout_by_admin.html" %}
 {%block title %}{{user_name}}(미완료){% endblock %}
 
-{%block content5 %}
-{% load crispy_forms_tags %}
-
 {%block extra_css %}
 
 .modal-dialog {
@@ -18,6 +15,9 @@
 }
 
 {% endblock %}
+
+{%block content5 %}
+{% load crispy_forms_tags %}
 
 <br>
 <h4>팀장: <span class="text-primary team_leader_name"> {{team_leader_name}} </span> &nbsp;&nbsp;
@@ -146,27 +146,24 @@
     todo detail modal
 </button>
 
-<!-- <button type="button" id="myModal_button" class="btn btn-primary" onclick="show_todo_detail();">
-    todo detail modal
-</button> -->
 
 <button type="button" id="myModal_button2" class="btn btn-primary invisible" data-toggle="modal" data-target="#myModal2">
     todo 상세 보기 모달
 </button>
 
 <!-- The Modal -->
-<div class="modal fade modal-xl m-1" id="myModal">
+<div class="modal fade m-1" id="myModal">
 
 </div>
 
 
 <!-- The Modal -->
-<div class="modal fade" id="myModal2">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade modal-xl" id="myModal2">
+    <div class="modal-dialog ">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
+                <h4 class="modal-title">Modal Heading 22</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->

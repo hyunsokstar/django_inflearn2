@@ -14,8 +14,8 @@
 <table class="table table-bordered" id="todo_list">
     <tr>
         <td>index</td>
-        <td>leader</td>
         <td>team_name</td>
+        <td>leader</td>
         <td>team_description</td>
         <td>member_count</td>
         <td>등록</td>
@@ -26,9 +26,6 @@
                 <td>
                     {{ forloop.counter }}
                 </td>
-                <td id="team_laeder">
-                    {{ p.leader }}
-                </td>
                 <td>
                     <a href="{% url "todo:team_member_list" p.id %}">
                         {{ p.team_name }}
@@ -36,6 +33,9 @@
                     {% if p.leader == request.user %}
                         <a href = "" class="btn btn-outline-danger btn-sm float-right btn-sm team_info_delete_button" data-id={{p.id}} data-user={{request.user}}>삭제</a>
                     {% endif %}
+                </td>
+                <td id="team_laeder">
+                    {{ p.leader }}
                 </td>
                 <td>
                     {{ p.team_description }}
@@ -45,9 +45,9 @@
                 </td>
                 <td>
                     {% if p.team_name == myteam.team_name %}
-                        <a class="btn btn-outline-primary btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >탈퇴</a>
+                        <a class="btn btn-outline-primary btn-sm withdrawl_team_button" data-team_id = {{p.id}} data-user_id={{request.user.id}} >탈퇴</a>
                     {% else %}
-                        <a class="btn btn-outline-info btn-sm team_register_button" data-id = {{p.id}} data-user={{request.user.id}} >가입</a>
+                        <a class="btn btn-outline-info btn-sm team_register_button" data-team_id = {{p.id}} data-user_id={{request.user.id}} >가입</a>
                     {% endif %}
                 </td>
             </tr>
@@ -65,41 +65,52 @@
 <script type="text/javascript">
 {% block extra_js %}
 
-$(".team_register_button").click(function(){
+$(".withdrawl_team_button").click(function(){
 
-    const teamId = $(this).data("id");
-    const userId = $(this).data("user");
+    const team_id = $(this).data("team_id");
+    const user_id = "{{request.user.id}}";
+    const url = "/todo/withdrawl_team/"
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            team_id:team_id,
+            user_id:user_id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(result) {
+            alert("message " + result.message);
+            window.location.href = '/todo/team_info_list/';
+        }
+    });
+})
+
+$(".team_register_button").click(function(){
+    const team_id = $(this).data("team_id");
+    const user_id = "{{request.user.id}}";
     const url = "/todo/team_register/"
 
     // alert(teamId)
-    const member = parseInt($("#m_count_"+teamId).text().trim(), 10)
+    const member = parseInt($("#m_count_"+team_id).text().trim(), 10)
     // alert("member : " + member)
 
     $.ajax({
         type: "POST",
         url: url,
         data: {
-            teamId:teamId,
-            userId:userId,
+            team_id:team_id,
+            user_id:user_id,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         },
         success: function(result) {
             alert("message " + result.message);
-            // alert("option : " + result.option)
-            if(result.option == "가입"){
-                const result_member = member + 1
-                $("#m_count_"+teamId).text(result_member)
-                window.location.href = '/todo/team_member_list/'+teamId;
-                // window.history.pushState("", "", '/todo/team_member_list/'+teamId)
-            }else{
-                window.location.href = '/todo/team_member_list/'+teamId;
-                const result_member = member - 1
-                $("#m_count_"+teamId).text(result_member)
-            }
+            window.location.href = '/todo/team_member_list/'+team_id;
         }
     });
-
 })
+
+
 
 $(".team_info_delete_button").click(function(){
     alert("클릭")
