@@ -98,10 +98,10 @@ img.Image { max-width: 100%; display: block; }
 </div>
 {% endif %}
 
-{% ifequal request.user.profile.shortcut_user_id request.user.username %}
-{% else %}
-<span class="float-right"> {{request.user.profile.shortcut_user_id}} 님의 skill note 입니다. </span>
-{% endifequal %}
+	{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+	{% else %}
+	<span class="float-right"> {{request.user.profile.shortcut_user_id}} 님의 skill note 입니다. </span>
+	{% endifequal %}
 
 <div class="sideicon_for_scroll">
 	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
@@ -331,7 +331,7 @@ img.Image { max-width: 100%; display: block; }
 							<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 							<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
 							<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
-							<a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+							<a href="{% url "wm:update_skilnote_by_summernote" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
 						{% else %}
 
 						{% endifequal %}

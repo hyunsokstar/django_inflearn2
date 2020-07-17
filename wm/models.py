@@ -65,6 +65,8 @@ class TempMyShortCutForBackEnd(models.Model):
     def __str__(self):
         return self.title
 
+
+# skil note용 모델
 class MyShortCut(models.Model):
     title = models.CharField(max_length=120)
     filename= models.CharField(max_length=120, blank=True)

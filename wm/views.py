@@ -8,7 +8,7 @@ from django.db.models import F
 from django.db.models import Q
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
-from .forms import MyShortCutForm_input, MyShortCutForm_summer_note , MyShortCutForm_image, MyShortCutForm_summer_note2
+from .forms import MyShortCutForm_input, SkilNoteForm , MyShortCutForm_image, MyShortCutForm_summer_note2
 from accounts2.models import Profile
 from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut , TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote, CommentForPage, GuestBook
 from skilblog.models import SkilBlogTitle, SkilBlogContent
@@ -19,6 +19,7 @@ from django.urls import reverse_lazy
 from . forms import CommentForm
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator
+
 
 
 
@@ -1371,10 +1372,7 @@ def create_new2_textarea_between(request,current_article_id):
 def update_category_by_ajax(request):
     shortcut_ids = request.POST.getlist('shortcut_arr[]')
     category = request.POST['category']
-    # datetime.now()
-    # if shortcut_ids:
-    #     MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).update(category=category, created = datetime.now())
-    #     print('카테고리 수정 success')
+
     for i, sn in enumerate(shortcut_ids):
         MyShortCut.objects.filter(id=sn, author=request.user).update(category=category, created = datetime.now()+timedelta(seconds=i),image=F('image'))
 
@@ -1425,8 +1423,6 @@ def favorite_user_list_for_skillnote(request):
         })
     else:
         return HttpResponse("Request method is not a GET")
-
-
 
 
 
@@ -1540,28 +1536,16 @@ def CategoryNickListByUserId_for_user(request, user_name):
         return HttpResponse("Request method is not a GET")
 
 
-
-
-class modify_myshortcut_by_summer_note(UpdateView):
+class update_skilnote_by_summernote(UpdateView):
     model = MyShortCut
-    form_class = MyShortCutForm_summer_note
-
-    # def form_valid(self, form):
-    #     form = form.save(commit=False)
-    #     form.save()
-    #     return super().form_valid(form)
+    form_class = SkilNoteForm
 
     def get_template_names(self):
         return ['wm/myshortcut_summernote_form.html']
 
 class modify_myshortcut_by_summer_note2(UpdateView):
     model = MyShortCut
-    form_class = MyShortCutForm_summer_note
-
-    # def form_valid(self, form):
-    #     form = form.save(commit=False)
-    #     form.save()
-    #     return super().form_valid(form)
+    form_class = SkilNoteForm
 
     def get_template_names(self):
         return ['wm/myshortcut_summernote_form.html']
@@ -1720,32 +1704,48 @@ def update_skil_note_file_name(request,id):
 
 
 # 2244
-class MyShortCutListView(LoginRequiredMixin,ListView):
+class SkilNoteListView(LoginRequiredMixin,ListView):
     model = MyShortCut
 
     def get_queryset(self):
         user = self.request.user
         print("self.request.user : ", self.request.user)
-        selected_category_id = user.profile.selected_category_id
-        qs = MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
+        try:
+            profile = Profile.objects.get(user=self.request.user)
+            selected_category_id = profile.user.id
+            print("selected_category_id :::::::" , selected_category_id)
+
+            qs = MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
+            print("qsqs :::::::" , qs)
+        except:
+            profile = Profile.objects.create(user=self.request.user)
+            selected_category_id = self.request.user.profile.selected_category_id
+            print("profile 생성 성공 ")
+            qs = MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        # 카테고리 각각의 정보를 저장하는 테이블 없으면 만든다.
         cn = CategoryNick.objects.get_or_create(
             author=self.request.user,
         )
-        context = super(MyShortCutListView, self).get_context_data(**kwargs)
-        # 스킬 노트 페이지 역할을 하는 카테고리 목록을 가져 온다.
-        context['category_list'] = Category.objects.all()
-        # 카테고리 테이블은 id = 1 => ca1 id = 2 => ca2 이런식이므로 id로 ca1, ca2 객체를 생성 가능
-        category = Category.objects.get(id=self.request.user.profile.selected_category_id) # __str__ 설정으로 카테고리 객체 = 카테고리.name 이다
-        context['category'] = category
-        # 카테고리 닉은 author = 현재 유저 이름이고 각각의 컬럼에 ca1, ca2, ca3, ca4 등의 카테고리 주제값이 들어있으므로 category.name로 검색해서 가져온다.
-        context['category_nick'] = CategoryNick.objects.values_list(category.name, flat=True).get(author=self.request.user)
+        context = super(SkilNoteListView, self).get_context_data(**kwargs)
+        category_list = Category.objects.all()
+        # print("category_list ::::::::" , category_list)
 
-        # context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
-
+        if not category_list:
+            for num in range(1,121):
+                filed_name = "ca"+str(num)
+                slug_name="ca"+str(num)
+                Category.objects.create(pk=num , name=filed_name, slug=slug_name, author=self.request.user)
+                print("카테고리 row 생성 성공 ca",num)
+                category_list = Category.objects.all()
+        else:
+            print("카테고리가 이미 존재 ok!!!!!!!!")
+            context['category_list'] = category_list
+            category = Category.objects.get(id=self.request.user.profile.selected_category_id)
+            print("category ::", category)
+            context['category'] = category
+            context['category_nick'] = CategoryNick.objects.values_list(category.name, flat=True).get(author=self.request.user)
         return context
 
 # 2244
@@ -1878,23 +1878,53 @@ class MyShortCutCreateView_textarea(LoginRequiredMixin,CreateView):
     def get_success_url(self):
         return reverse('wm:my_shortcut_list')
 
-class MyShortCutCreateView_textarea_summer_note(LoginRequiredMixin,CreateView):
+class CreateSkilNoteBySummerNote(LoginRequiredMixin,CreateView):
     model = MyShortCut
-    form_class = MyShortCutForm_summer_note
+    form_class = SkilNoteForm
 
     def get_template_names(self):
         return ['wm/myshortcut_summernote_form.html']
 
     def form_valid(self, form):
-        print("완료 명단 입력 뷰 실행4")
-
+        print("create skil note excute !!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         ty = Type.objects.get(type_name="summer_note")
-
         ms = form.save(commit=False)
         ms.author = self.request.user
+        ms.type= ty
+        ms.created = timezone.now()
+        category_id = self.request.user.profile.selected_category_id
+        ca = Category.objects.get(id=category_id)
+        ms.category = ca
+        return super().form_valid(form)
 
-        # file_name = file_name_before.replace("\\","/")
-        # ms.filename =
+    def get_success_url(self):
+        category_id = self.request.user.profile.selected_category_id
+        return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(category_id)
+
+
+
+class createSkilNoteForInsertMode(LoginRequiredMixin,CreateView):
+    model = MyShortCut
+    form_class = SkilNoteForm
+
+    def get_template_names(self):
+        return ['wm/myshortcut_summernote_form.html']
+
+    def form_valid(self, form):
+        print("summer note 입력 !!")
+        type_list = Type.objects.all()
+        if not type_list:
+            Type.objects.create(type_name="summer_note")
+            Type.objects.create(type_name="textarea")
+            Type.objects.create(type_name="input")
+            Type.objects.create(type_name="image")
+            print("타입 생성 성공")
+        else:
+            print("타입이 이미 존재 ok!!!!!!!!")
+        # ty = Type.objects.get(type_name="summer_note")
+        ty = type_list.get(type_name="summer_note")
+        ms = form.save(commit=False)
+        ms.author = self.request.user
 
         ms.type= ty
         ms.created = timezone.now()
@@ -1909,40 +1939,9 @@ class MyShortCutCreateView_textarea_summer_note(LoginRequiredMixin,CreateView):
         category_id = self.request.user.profile.selected_category_id
         return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(category_id)
 
-class createSkilNoteForInsertMode(LoginRequiredMixin,CreateView):
-    model = MyShortCut
-    form_class = MyShortCutForm_summer_note
-
-    def get_template_names(self):
-        return ['wm/myshortcut_summernote_form.html']
-
-    def form_valid(self, form):
-        print("완료 명단 입력 뷰 실행4")
-
-        ty = Type.objects.get(type_name="summer_note")
-
-        ms = form.save(commit=False)
-        ms.author = self.request.user
-
-        # file_name = file_name_before.replace("\\","/")
-        # ms.filename =
-
-        ms.type= ty
-        ms.created = timezone.now()
-
-        category_id = self.request.user.profile.selected_category_id
-        ca = Category.objects.get(id=category_id)
-        ms.category = ca
-
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        category_id = self.request.user.profile.selected_category_id
-        return reverse('wm:my_shortcut_list2')+'#shortcut_{}'.format(category_id)
-
 class SkilNoteCreateView_summernote_through2(LoginRequiredMixin,CreateView):
     model = MyShortCut
-    form_class = MyShortCutForm_summer_note
+    form_class = SkilNoteForm
 
     def get_success_url(self):
         category_id = self.request.user.profile.selected_category_id
@@ -1989,7 +1988,7 @@ class SkilNoteCreateView_summernote_through2(LoginRequiredMixin,CreateView):
 
 class SkilNoteCreateView_summernote_through(LoginRequiredMixin,CreateView):
     model = MyShortCut
-    form_class = MyShortCutForm_summer_note
+    form_class = SkilNoteForm
 
     def get_template_names(self):
         return ['wm/myshortcut_summernote_form.html']

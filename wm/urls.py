@@ -8,11 +8,11 @@ app_name = 'wm'
 urlpatterns = [
     # 1122
 
-    path('', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+    path('', views.SkilNoteListView.as_view() , name="my_shortcut_list"),
     # path('', views.intro_for_skilnote, name="intro_for_skilnote"),
 
     path('myshortcut/go_to_skil_note_search_page/', views.go_to_skil_note_search_page.as_view() , name="go_to_skil_note_search_page"),
-    path('myshortcut/', views.MyShortCutListView.as_view() , name="my_shortcut_list"),
+    path('myshortcut/', views.SkilNoteListView.as_view() , name="my_shortcut_list"),
     path('myshortcut2/', views.MyShortCutListView2.as_view() , name="my_shortcut_list2"),
 
     path('myshortcut/insert_temp_skill_note_for_textarea/', views.insert_temp_skill_note_for_textarea , name="insert_temp_skill_note_for_textarea"), # mini note insert front
@@ -105,19 +105,17 @@ urlpatterns = [
     path('new/input_title/', views.MyShortCutCreateView_image.as_view() , name="MyShortCutCreateView_image"),
 
     path('new/textarea', views.MyShortCutCreateView_textarea.as_view() , name="insert_myshortcut_textarea"),
-    path('new/textarea_summer_note', views.MyShortCutCreateView_textarea_summer_note.as_view() , name="insert_myshortcut_textarea_summer_note"),
+    path('new/textarea_summer_note', views.CreateSkilNoteBySummerNote.as_view() , name="insert_myshortcut_textarea_summer_note"),
     path('myshortcut/createSkilNoteForInsertMode/', views.createSkilNoteForInsertMode.as_view() , name="createSkilNoteForInsertMode"),
 
     path('new/textarea_summer_note_through/<int:current_article_id>', views.SkilNoteCreateView_summernote_through.as_view() , name="SkilNoteCreateView_summernote_through"),
     path('new/textarea_summer_note_through2/<int:current_article_id>', views.SkilNoteCreateView_summernote_through2.as_view() , name="SkilNoteCreateView_summernote_through2"),
 
 
-
     path('new/SkilNoteCreateView_image_through/<int:current_article_id>', views.SkilNoteCreateView_image_through.as_view() , name="SkilNoteCreateView_image_through"),
 
     path('myshortcut/delete_shortcut_ajax/<int:id>', views.delete_shortcut_ajax , name="delete_shortcut_ajax"),
     path('myshortcut/update_shortcut_ajax/<int:id>', views.update_shortcut_ajax , name="update_shortcut_ajax"),
-
 
     path('myshortcut/category/<str:slug>/', views.MyShortcutListByCategory.as_view()),
     path('myshortcut2/category/<str:slug>/', views.MyShortcutListByCategory2.as_view()),
@@ -127,7 +125,7 @@ urlpatterns = [
 
     path('update/shortcut_id_ajax/<int:id>', views.update_shorcut_id_for_user , name="update_shorcut_id_for_user"),
 
-    path('myshortcut/modify_myshortcut_by_summer_note/<int:pk>/', views.modify_myshortcut_by_summer_note.as_view() , name='modify_myshortcut_by_summer_note'),
+        path('myshortcut/update_skilnote_by_summernote/<int:pk>/', views.update_skilnote_by_summernote.as_view() , name='update_skilnote_by_summernote'),
     path('myshortcut/modify_myshortcut_by_summer_note2/<int:pk>/', views.modify_myshortcut_by_summer_note2.as_view() , name='modify_myshortcut_by_summer_note2'),
 
 
@@ -145,6 +143,6 @@ urlpatterns = [
     path('myshortcut/delete/ajax/', views.delete_myshortcut_by_ajax, name = 'delete_myshortcut_by_ajax'),
     path('myshortcut/update/category/ajax', views.update_category_by_ajax, name = 'update_category_by_ajax'),
 
-    path('myshortcut/<str:user>/<int:category_id>', views.MyShortcutListByUser.as_view(), name="my_shortcut_list_by_user"),
+    path('myshortcut/<str:user>/<int:category_id>', views.MyShortcutListByUser.as_view(), name="skil_note_list_by_user"),
 
 ]

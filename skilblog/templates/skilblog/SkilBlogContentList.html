@@ -23,10 +23,11 @@
 </div>
 {% endif %}
 
-{% ifequal author request.user.username %}
-<a class="new3_btn btn btn-outline-success float-right" id="" href="/skilblog/new/summernote/{{skil_blog_title_id}}">SN</a>
+{% ifequal author request.user %}
+<a class="btn btn-outline-success float-right m-1" href="{% url 'skilblog:SkilBlogContentListForInsert' author.id %}">입력 모드</a>
+    <a class="new3_btn btn btn-outline-success float-right m-1" id="" href="/skilblog/new/summernote/{{skil_blog_title_id}}">SN</a>
 {% else %}
-<span class="float-right"> {{author}} 님만 입력할수 있습니다. </span>
+    <span class="float-right"> {{author}} 님만 입력할수 있습니다. </span>
 {% endifequal %}
 
 
@@ -129,7 +130,7 @@
 			<br>
 			<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글 추가</button>
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
-			<!-- <a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}"
+			<!-- <a href="{% url "wm:update_skilnote_by_summernote" p.id %}"
 				class="btn btn-outline-danger float-right btn-sm">summernote 수정</a> -->
                 {% if p.author == request.user %}
                 <a href={% url "skilblog:modify_skilblog_content2_by_summernote" p.pk %} class="btn btn-outline-danger float-right btn-sm">summernote 수정</a>

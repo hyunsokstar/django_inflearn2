@@ -29,7 +29,6 @@
     			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
     			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}">copy</button>
 
-
                 {% ifequal request.user page_user %}
                     <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_input_btn" id="{{p.id}}">edit_complete</button>
                 {% else %}
@@ -100,7 +99,7 @@
     			<div id="select-textarea-{{p.id}}" style="width:900px;">{{p.content2 | safe}}</div>
     			<br>
     			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
-    			<a href="{% url "wm:modify_myshortcut_by_summer_note" p.id %}"
+    			<a href="{% url "wm:update_skilnote_by_summernote" p.id %}"
     				class="btn btn-outline-danger float-right btn-sm">summernote update</a>
     		</td>
     	</tr>

@@ -16,7 +16,7 @@ class MyShortCutForm_image(forms.ModelForm):
         model = MyShortCut
         fields = ['title','image']
 
-class MyShortCutForm_summer_note(forms.ModelForm):
+class SkilNoteForm(forms.ModelForm):
     class Meta:
         model = MyShortCut
         fields = ['title','filename','content2']

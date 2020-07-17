@@ -1,69 +1,53 @@
 {% extends "layout.html" %}
 
-{%block title %}Study Challenge{% endblock %}
+{%block title %}소모임 참여자 정보{% endblock %}
+{% load static %}
 
 {%block content4 %}
 
 {%block extra_head %}
-<script src="https://kit.fontawesome.com/1e74fee713.js"></script>
 
 {% endblock %}
 
 
 <br><br><br><br>
 
-<h2>공동 study</h2>
-
-<!-- {{request.user}} {{LecInfo.manager}} -->
-{%if request.user.username == LecInfo.manager  %}
-<a class="btn btn-outline-dark float-right" href="{% url "challenge:lecinfo_list_for_challenge" LecInfo.challenge.title %}">목록</a>
-    <a class="btn btn-outline-dark float-right" href="{% url "challenge:LecInfoDeleteView" LecInfo.id %}">삭제</a>
-    <a href="{% url "challenge:lec_info_update" LecInfo.id LecInfo.id %}" class="btn btn-outline-dark float-right">수정</a>
-
-{% else %}
-{% endif %}
-
-<br><br>
-
-<table class="table table-bordered">
-  <tr>
-      <td>소모임명</td>
-      <td colspan="3">
-          <input type="text" name="" value="{{LecInfo.lec_name}}" class="form-control"><br>
-      </td>
-  </tr>
-  <tr>
-      <td>담당자</td>
-      <td>
-          <input type="text" name="" value="{{LecInfo.manager}}" class="form-control">
-      </td>
-      <td>site</td>
-      <td>
-          <a href="{{LecInfo.lec_url }}">
-              <i class="fas fa-home fa-2x"></i>
-          </a>
-      </td>
-  </tr>
-  <tr>
-      <td>github</td>
-      <td>
-          <a href="{{LecInfo.git_url}}">
-              <i class="fab fa-github fa-2x"></i>
-          </a>
-      </td>
-      <td>강의 평점</td>
-      <td>
-          <input type="text" name="" value="{{recommnad_count}}">
-          <a href="{% url "challenge:recommand_lecture" LecInfo.pk %}">
-              <i class="far fa-plus-square fa-2x"></i>
-          </a>
-      </td>
-  </tr>
-
-</table>
-
-<br><br><hr>
-
+<div class="jumbotron">
+	<div class="container">
+		<div class="row p-0">
+			<div class="col p-0">
+				<h4 class="display-6">{{LecInfo.lec_name}}</h4>
+			</div>
+			<div class="col p-0">
+                <div class="float-right">
+                    평점:
+                    <input type="text" name="" value="{{recommnad_count}}">
+                    <a href="{% url "challenge:recommand_lecture" LecInfo.pk %}">
+                        <img src="{% static 'icon/plus.png' %}" alt="">
+                    </a>
+                </div>
+			</div>
+		</div>
+		<div class="row mt-2">
+            <div class="col p-0">
+                과목 담당자:  <a href="{% url 'accounts2:user_profile_information_view' LecInfo.manager %}">{{LecInfo.manager}}</a>
+				<br>
+                강의 url :
+				<a href="{{LecInfo.lec_url }}">
+					{{LecInfo.lec_url }}
+				</a>
+            </div>
+            <div class="col p-0">
+                {%if request.user.username == LecInfo.manager  %}
+                    <a class="btn btn-outline-dark float-right" href="{% url "challenge:lecinfo_list_for_challenge" LecInfo.challenge.title %}">목록</a>
+                    <a class="btn btn-outline-dark float-right" href="{% url "challenge:LecInfoDeleteView" LecInfo.id %}">삭제</a>
+                    <a href="{% url "challenge:lec_info_update" LecInfo.id LecInfo.id %}" class="btn btn-outline-dark float-right">수정</a>
+                {% else %}
+                {% endif %}
+            </div>
+		</div>
+	</div>
+</div>
 
 {% if messages %}
 <div class="alert alert-success">
@@ -94,8 +78,9 @@
                     {{ forloop.counter }}
                 </td>
                 <td>
-                    {{p.author}}
-                    <a href="#" class="badge badge-dark movetoshortcut" id={{request.user.id}} data-user_id={{p.author}} >skilnote</a>
+					<a href="{% url 'accounts2:user_profile_information_view' p.author %}">{{p.author}}</a>
+
+                    <a href="{% url 'wm:skil_note_list_by_user' p.author 1 %}" class="badge badge-dark " >skilnote</a>
 
                 </td>
                 <td>
@@ -109,8 +94,8 @@
                 </td>
                 <td>
 
-                    <a class="go_to_next_channer_btn btn btn-outline-success" href={{p.github_url}}>
-                    	<img src="/static/icon/git_icon.png" alt="">
+                    <a class="go_to_next_channer_btn btn btn-outline-primary" href={{p.github_url}}>
+                        <img src="{% static 'icon/github.png' %}" alt="">
                     </a>
 
                 </td>

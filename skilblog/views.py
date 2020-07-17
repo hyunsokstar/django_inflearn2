@@ -16,6 +16,69 @@ from django.db.models import F
 # Create your views here.
 
 # 1122
+class SkilBlogTitleList(LoginRequiredMixin,ListView):
+    model = SkilBlogTitle
+    paginate_by = 10
+    user = 0
+
+    def get_template_names(self):
+        return ['skilblog/skilblogtitle_list.html']
+
+    def get_queryset(self):
+
+        query = self.request.GET.get('q')
+        print("query : ", query)
+
+        if query != None:
+            qs = SkilBlogTitle.objects.filter(Q(title__contains=query)).order_by('-created');
+            print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
+            return qs
+        else:
+            qs = SkilBlogTitle.objects.all().order_by('-created')
+            print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
+            return qs
+
+def SkilBlogContentList(request,id):
+    print('SkilBlogTitle id를 참조하는 skilblog content를 출력 할것입니다 !!!!! ')
+    print('SkilBlogTitle id check::::::::::::::: ',id)
+    sbt= SkilBlogTitle.objects.get(id = id)
+    page_author=sbt.author;
+    print("스킬 블로그 페이지 유저 확인:::::::::::::::::::::: ", page_author)
+    print("스킬 블로그 타이틀을 확인:::::::::::::::::::::: ", sbt.title)
+    sbc = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('created')
+    print("skil blog content 를 출력 하겠습니다 !!!!!!!!!!!!!!!!!!!! ", sbc)
+
+    return render(request, 'skilblog/SkilBlogContentList.html', {
+        "sbc": sbc,
+        "sbt":sbt,
+        "title":sbt.title,
+        "author":page_author,
+        "skil_blog_title_id":id
+    })
+
+
+def SkilBlogContentListForInsert(request,id):
+    print('SkilBlogTitle id를 참조하는 skilblog content를 출력 할것입니다 !!!!! ')
+    print('SkilBlogTitle id check::::::::::::::: ',id)
+    sbt= SkilBlogTitle.objects.get(id = id)
+    page_author=sbt.author;
+    print("스킬 블로그 페이지 유저 확인:::::::::::::::::::::: ", page_author)
+
+    print("스킬 블로그 타이틀을 확인:::::::::::::::::::::: ", sbt.title)
+    sbc = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('created')
+    print("skil blog content 를 출력 하겠습니다 !!!!!!!!!!!!!!!!!!!! ", sbc)
+    print("입력 모드 이기 때문에 입력폼 check ::::::::::::", SkilBlogContentForm)
+
+    return render(request, 'skilblog/SkilBlogContentListForInsert.html', {
+        "sbc": sbc,
+        "sbt":sbt,
+        "title":sbt.title,
+        "author":page_author,
+        "skil_blog_title_id":id,
+        "SkilBlogContentForm":SkilBlogContentForm
+    })
+
+
 def modify_comment_for_sbt(request):
 
     comment_id = request.POST['comment_id']
@@ -167,6 +230,34 @@ class createViewForSkillBlogContentUsingSummerNote(CreateView):
     def get_success_url(self):
         return reverse('skilblog:SkilBlogContentList', kwargs={'id':self.kwargs['skil_blog_title_id']})
 
+class CreateSkillBlogContentForInsertMode(CreateView):
+    model = SkilBlogContent
+    form_class = SkilBlogContentForm
+
+    def get_template_names(self):
+        return ['skilblog/SkilBlogContent_summernote_form.html']
+
+    def form_valid(self, form):
+        print("createViewForSkillBlogContentUsingSummerNote 클래스뷰 실행");
+        ty = Type.objects.get(type_name="summer_note")
+        skil_blog_title_id = self.kwargs['skil_blog_title_id']
+        print("skil_blog_title_id : ", skil_blog_title_id)
+        # sbt = get_object_or_404(SkilBlogTitleList, id=skil_blog_title_id)
+        sbt=SkilBlogTitle.objects.get(id=skil_blog_title_id)
+
+        sb = form.save(commit=False)
+        sb.sbt= sbt
+        sb.author = self.request.user
+        sb.type= ty
+
+        return super().form_valid(form)
+
+    def form_invalid(self):
+        print("form이 유효하지 않다.")
+
+    def get_success_url(self):
+        return reverse('skilblog:SkilBlogContentListForInsert', kwargs={'id':self.kwargs['skil_blog_title_id']})
+
 
 
 def delete_sbc_content(request,id):
@@ -193,33 +284,3 @@ def sbc_modify(request,id):
         })
     else:
         return redirect('/todo')
-
-
-
-class SkilBlogTitleList(LoginRequiredMixin,ListView):
-    model = SkilBlogTitle
-    paginate_by = 10
-    user = 0
-
-    def get_queryset(self):
-        return SkilBlogTitle.objects.all().order_by('-created')
-
-
-
-
-def SkilBlogContentList(request,id):
-    print('SkilBlogTitle id : ',id)
-
-    # sbt = skil blog title
-    sbt= SkilBlogTitle.objects.get(id = id)
-    print("title : ", sbt.title)
-    sbc = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('-created')
-    print("sbc : ", sbc)
-
-    return render(request, 'skilblog/SkilBlogContentList.html', {
-        "sbc": sbc,
-        "sbt":sbt,
-        "title":sbt.title,
-        "author":sbt.author,
-        "skil_blog_title_id":id
-    })
