@@ -72,7 +72,7 @@ urlpatterns = [
 
 
     # path('myshortcut/search_by_id_and_word/' , views.search_skil_note_by_word.as_view(), name="search_by_id_and_word"),
-    path('myshortcut/search_by_id_and_word/' , views.search_by_id_and_word, name="search_by_id_and_word"),
+    path('myshortcut/search_by_id_and_word/' , views.searchSkilNoteViewByIdAndWord.as_view(), name="search_by_id_and_word"),
 
     path('myshortcut/copyForCategorySubjectToMyCategory/' , views.copyForCategorySubjectToMyCategory, name="copyForCategorySubjectToMyCategory"),
 

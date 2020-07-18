@@ -959,107 +959,25 @@ class search_skil_note_by_word(ListView):
         return qs
 
 
-def search_by_id_and_word(request):
-    user = request.user
-    try:
-        page_user = request.POST['page_user']
-    except MultiValueDictKeyError:
-        page_user = False
+class searchSkilNoteViewByIdAndWord(ListView):
+    model = MyShortCut
+    paginate_by = 10
+    template_name = 'wm/MyShortCut_list_for_search.html'
 
-    print("request.user.is_authenticated : ", request.user.is_authenticated)
-    print("page_user : ", page_user)
-
-    if(request.user.is_authenticated):
-        search_user_id = request.user.profile.shortcut_user_id
-        search_word = request.POST['search_word']
-        search_option = request.POST['search_option']
-        print("search_user_id : ", search_user_id)
-        print("search_word : ", search_word)
-        print("search_option : ", search_option)
-
-        if(page_user):
-            user = User.objects.get(username=page_user)
-        else:
+    def get_queryset(self):
+        if request.method == "POST" and request.is_ajax():
+            search_user_id = request.user.profile.shortcut_user_id
+            search_word = request.POST['search_word']
+            search_option = request.POST['search_option']
+            print("search_user_id : ", search_user_id)
+            print("search_word : ", search_word)
+            print("search_option : ", search_option)
             user = User.objects.get(username=search_user_id)
-
-    else:
-        search_word = request.POST['search_word']
-        search_option = request.POST['search_option']
-        print("search_word : ", search_word)
-        print("search_option : ", search_option)
-        user = User.objects.get(username=page_user)
-
-
-    # | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)
-    if(search_option == "content+title"):
-        print("search bycontent and title =================")
-        page = request.GET.get('page', '1')
-        object_list = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
-
-        print('object_list(count)  :::::: ' , object_list.count() )  # 검색 키워드 "강의"로 검색하면 39
-
-        paginator = Paginator(object_list, 10)  # 페이지당 10개씩 보여주기
-        page_obj = paginator.get_page(page)
-
-        for x in object_list:
-            print("x : ", x)
-
-        print("page_obj : ", page_obj)
-
-        return render(request, 'wm/MyShortCut_list_for_search.html', {
-            "object_list":page_obj,
-            "question_list":page_obj
-		})
-
-    elif(search_option == "only_title"):
-        search_word = request.POST['search_word']
-        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) & Q(author = user) ).order_by('-category')
-        print("object_list ::::::::::::::::::::::::::::::::::::::::: ", object_list)
-        print("search , only_title")
-
-        return render(request, 'wm/MyShortCut_list_for_search.html', {
-			'object_list': object_list
-		})
-
-    elif(search_option == "content_title_alluser"):
-        user = User.objects.get(username=search_user_id)
-        search_word = request.POST['search_word']
-        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
-
-        print("search_user_id : ", search_user_id)
-        print("search_word : ", search_word)
-        print("object_list : ", object_list)
-
-        return render(request, 'wm/MyShortCut_list_for_search.html', {
-			'object_list': object_list
-		})
-
-    elif(search_option == "file_history"):
-        print("file_history 검색 실행")
-        user = User.objects.get(username=search_user_id)
-        search_word = request.POST['search_word']
-        object_list = MyShortCut.objects.filter(Q(filename__icontains=search_word) | Q(filename=search_word) & Q(author = user)).order_by('-category')
-        print("search_user_id : ", search_user_id)
-        print("search_word : ", search_word)
-        print("object_list : ", object_list)
-        # print("file_history 검색 실행 : " , object_list)
-
-        return render(request, 'wm/MyShortCut_list_for_search.html', {
-			'object_list': object_list
-		})
-
-    else:
-        user = User.objects.get(username=search_user_id)
-        search_word = request.POST['search_word']
-        object_list = MyShortCut.objects.filter(Q(title__icontains=search_word)).order_by('-category')
-
-        print("search_user_id : ", search_user_id)
-        print("search_word : ", search_word)
-        print("object_list : ", object_list)
-
-        return render(request, 'wm/MyShortCut_list_for_search.html', {
-			'object_list': object_list
-		})
+            qs = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
+            return qs
+        else:
+            qs = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
+            return qs
 
 
 def delete_comment_for_my_shortcut(request, shortcut_comment_id):
