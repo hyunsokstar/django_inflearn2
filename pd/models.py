@@ -10,9 +10,10 @@ class MyTask(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     content = models.TextField(blank=True)
-    plan = models.TextField(blank=True)
-    complete_task = models.TextField(blank=True)
-
+    plan1 = models.TextField(blank=True)
+    complete_task1 = models.TextField(blank=True)
+    plan2 = models.TextField(blank=True)
+    complete_task2 = models.TextField(blank=True)
 
     def __str__(self):
         return self.title

@@ -37,9 +37,14 @@
             </tr>
 
             <tr>
-                <td>plan & complete</td>
-                <td><textarea name="name" rows="8" cols="50" id=mytask_plan_{{p.id}} >{{p.plan}}</textarea></td>
-                <td><textarea name="name" rows="8" cols="50" id=mytask_complete_{{p.id}}>{{p.complete}}</textarea></td>
+                <td>plan1 & complete1</td>
+                <td><textarea name="name" rows="8" cols="50" id=mytask_plan1_{{p.id}} >{{p.plan1}}</textarea></td>
+                <td><textarea name="name" rows="8" cols="50" id=mytask_complete1_{{p.id}}>{{p.complete_task1}}</textarea></td>
+            </tr>
+            <tr>
+                <td>plan2 & complete2</td>
+                <td><textarea name="name" rows="8" cols="50" id=mytask_plan2_{{p.id}} >{{p.plan2}}</textarea></td>
+                <td><textarea name="name" rows="8" cols="50" id=mytask_complete2_{{p.id}}>{{p.complete_task2}}</textarea></td>
             </tr>
 
             <tr>
@@ -393,8 +398,10 @@ $(".mytask_update_btn").click(function(e) {
     var mytask_id = $(this).attr("id");
     var mytask_title = $("#mytask_title_"+mytask_id).val();
     var mytask_content = $("#mytask_content_"+mytask_id).val();
-    var mytask_plan = $("#mytask_plan_"+mytask_id).val();
-    var mytask_complete = $("#mytask_complete_"+mytask_id).val();
+    var mytask_plan1 = $("#mytask_plan1_"+mytask_id).val();
+    var mytask_plan2 = $("#mytask_plan2_"+mytask_id).val();
+    var mytask_complete1 = $("#mytask_complete1_"+mytask_id).val();
+    var mytask_complete2 = $("#mytask_complete2_"+mytask_id).val();
 
     // alert("mytask_id : " + mytask_id)
     // alert("mytask_title : "+ mytask_title)
@@ -411,8 +418,10 @@ $(".mytask_update_btn").click(function(e) {
           mytask_id:mytask_id,
           mytask_title:mytask_title,
           mytask_content:mytask_content,
-          mytask_plan:mytask_plan,
-          mytask_complete:mytask_complete,
+          mytask_plan1:mytask_plan1,
+          mytask_plan2:mytask_plan2,
+          mytask_complete1:mytask_complete1,
+          mytask_complete2:mytask_complete2,
           csrfmiddlewaretoken: '{{ csrf_token }}'
       },
         success: function(result) {

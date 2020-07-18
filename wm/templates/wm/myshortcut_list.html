@@ -1359,6 +1359,7 @@ $('body').on('click', '#move_to_skilblog_btn', function (e) {
 		},
 		success: function (result) {
 			alert(result.message)
+			window.location.href = "/skilblog/"+result.id;
 		}
 	});
 });

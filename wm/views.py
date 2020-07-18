@@ -370,6 +370,9 @@ def move_to_skil_blog(request):
 
     sbt = SkilBlogTitle.objects.create(title=title, author=request.user)
 
+    print("스킬 블로그 타이틀 id check ::::::::::::::::", sbt.id)
+    print("스킬 블로그 타이틀 id check ::::::::::::::::", sbt.id)
+
     if shortcut_ids:
         skill_note_list = MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).order_by('-created')
         print('skill_note_lists : ', skill_note_list)
@@ -380,6 +383,7 @@ def move_to_skil_blog(request):
             sbt = sbt,
 			author = request.user,
 			title = p.title,
+            filename = p.filename,
 			content1 = p.content1,
 			content2 = p.content2,
 			type_id = p.type_id,
@@ -387,6 +391,7 @@ def move_to_skil_blog(request):
 		)
     return JsonResponse({
         'message': "체크한 항목들을 스킬 블로그로 옮겼습니다."+title,
+        'id':sbt.id
     })
 
 

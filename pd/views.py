@@ -96,12 +96,21 @@ def update_mytask_by_ajax(request):
         mytask_id = request.POST['mytask_id']
         mytask_title = request.POST['mytask_title']
         mytask_content = request.POST['mytask_content']
-        mytask_plan = request.POST['mytask_plan']
-        mytask_complete = request.POST['mytask_complete']
-        print('mytask_id : ', mytask_id)
+        mytask_plan1 = request.POST['mytask_plan1']
+        mytask_plan2 = request.POST['mytask_plan2']
+        mytask_complete1 = request.POST['mytask_complete1']
+        mytask_complete2 = request.POST['mytask_complete2']
 
-        todo = MyTask.objects.filter(Q(id=mytask_id)).update(title = mytask_title, content = mytask_content, plan=mytask_plan, complete_task=mytask_complete)
-        print('mytask update 성공');
+        print('업데이트할 개발 일지 id ::::::::::::::::::::::::: ', mytask_id)
+
+        todo = MyTask.objects.filter(Q(id=mytask_id)).update(title = mytask_title,
+                                                            content = mytask_content,
+                                                            plan1=mytask_plan1,
+                                                            plan2=mytask_plan2,
+                                                            complete_task1=mytask_complete1,
+                                                            complete_task2=mytask_complete2
+                                                            )
+        print('개발 일지 update 성공');
 
         return JsonResponse({
             'message': 'mytask update 성공',

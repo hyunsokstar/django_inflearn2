@@ -14,6 +14,19 @@ from .forms import ModifySkilBlogTitleForm
 from django.db.models import F
 
 # Create your views here.
+def delete_for_skil_column_title_list(request,id):
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        sbt = SkilBlogTitle.objects.filter(Q(id=id)).delete()
+        print('MyShortCut delete 성공 id : ' , id);
+        message = '{} {}'.format('스킬 칼럼 삭제 성공', sbt)
+        return JsonResponse({
+            'message': message
+        })
+    else:
+        return redirect('/skilblog')
+
+
 
 # 1122
 class SkilBlogTitleList(LoginRequiredMixin,ListView):
@@ -45,12 +58,12 @@ def SkilBlogContentList(request,id):
     page_author=sbt.author;
     print("스킬 블로그 페이지 유저 확인:::::::::::::::::::::: ", page_author)
     print("스킬 블로그 타이틀을 확인:::::::::::::::::::::: ", sbt.title)
-    sbc = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('created')
-    print("skil blog content 를 출력 하겠습니다 !!!!!!!!!!!!!!!!!!!! ", sbc)
+    sbc_list = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('created')
+    print("skil blog content list 를 출력 하겠습니다 !!!!!!!!!!!!!!!!!!!! ", sbc_list)
 
     return render(request, 'skilblog/SkilBlogContentList.html', {
-        "sbc": sbc,
         "sbt":sbt,
+        "sbc_list": sbc_list,
         "title":sbt.title,
         "author":page_author,
         "skil_blog_title_id":id
@@ -65,13 +78,13 @@ def SkilBlogContentListForInsert(request,id):
     print("스킬 블로그 페이지 유저 확인:::::::::::::::::::::: ", page_author)
 
     print("스킬 블로그 타이틀을 확인:::::::::::::::::::::: ", sbt.title)
-    sbc = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('created')
-    print("skil blog content 를 출력 하겠습니다 !!!!!!!!!!!!!!!!!!!! ", sbc)
+    sbc_list = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('created')
+    print("skil blog content 를 출력 하겠습니다 !!!!!!!!!!!!!!!!!!!! ", sbc_list)
     print("입력 모드 이기 때문에 입력폼 check ::::::::::::", SkilBlogContentForm)
 
     return render(request, 'skilblog/SkilBlogContentListForInsert.html', {
-        "sbc": sbc,
         "sbt":sbt,
+        "sbc_list": sbc_list,
         "title":sbt.title,
         "author":page_author,
         "skil_blog_title_id":id,

@@ -10,6 +10,9 @@ urlpatterns = [
 
     path('', views.SkilBlogTitleList.as_view() , name="SkilBlogTitleList"),
     path('<int:id>', views.SkilBlogContentList , name="SkilBlogContentList"),
+    path('delete_for_skil_column_title_list/<int:id>', views.delete_for_skil_column_title_list , name="delete_for_skil_column_title_list"),
+
+
     path('<int:id>/insert_mode', views.SkilBlogContentListForInsert , name="SkilBlogContentListForInsert"),
     path('new/summernote/<int:skil_blog_title_id>', views.createViewForSkillBlogContentUsingSummerNote.as_view() , name="createViewForSkillBlogContentUsingSummerNote"),
     path('insert_skil_column_content/<int:skil_blog_title_id>', views.CreateSkillBlogContentForInsertMode.as_view() , name="CreateSkillBlogContentForInsertMode"),

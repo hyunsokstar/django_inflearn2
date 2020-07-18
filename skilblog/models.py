@@ -34,6 +34,7 @@ class CommentForSkilBlogTitle(models.Model):
 class SkilBlogContent(models.Model):
     sbt = models.ForeignKey(SkilBlogTitle, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
+    filename= models.CharField(max_length=120, blank=True)
     content1 = models.CharField(max_length=180, blank=True)
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True , editable = False)

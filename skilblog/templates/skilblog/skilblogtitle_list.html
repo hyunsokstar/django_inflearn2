@@ -42,7 +42,7 @@
 
     {% if object_list.exists %}
         {% for p in object_list %}
-            <tr>
+            <tr id="column_row_{{p.id}}">
                 <td>
                     {{ forloop.counter }}
                 </td>
@@ -50,7 +50,7 @@
                     <a href="{% url 'skilblog:SkilBlogContentList' p.pk %}">
                         {{p.title}}
                         {% if p.author == request.user %}
-                        <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:delete_skilblog_title_list" p.id %}">삭제 </a>
+                        <a class="badge badge-pill badge-primary btn-sm delete_skil_column_btn" id="{{p.id}}">삭제 </a>
                         <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:modify_skilblog_title_list" p.id %}">수정</a>
             			{% endif %}
 
@@ -84,8 +84,27 @@
 
 {%endblock%}
 
+
 <script type="text/javascript">
+// js area
 {% block extra_js %}
+$('body').on('click', '.delete_skil_column_btn', function (e) {
+	e.preventDefault();
+	var id = $(this).attr("id");
+
+	$.ajax({
+		type: "POST",
+		url: '/skilblog/delete_for_skil_column_title_list/' + id,
+		data: {
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			$("#column_row_" + id).remove();
+			alert('삭제 성공');
+		}
+	});
+});
+
 
 
 {% endblock %}
