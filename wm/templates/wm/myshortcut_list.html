@@ -66,7 +66,10 @@ img.Image { max-width: 100%; display: block; }
 				  <button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
 				  <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">USER</button>
 				  <button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
-				  <button type="button" class="btn btn-outline-dark btn-sm " > 접속자 현황 (1122)</button>
+				  <a href="{% url 'wm:go_to_skil_note_search_page' %}">
+					  <button class="btn btn-outline-dark btn-sm search_popup_btn">search</button>
+				  </a>
+
 			    </div>
 				<div class="col">
 					star : {{ request.user.recommandationuseraboutskillnote_set.count }} 점
@@ -136,10 +139,7 @@ img.Image { max-width: 100%; display: block; }
 {% endifequal %}
 
 <div class="temp_memo_btn_area">
-	<a class="btn btn-outline-info search_popup_btn ">검색</a> <br>
-	<a href="{% url 'wm:go_to_skil_note_search_page' %}">
-	    <button class="btn btn-outline-info search_popup_btn">검색2</button>
-	</a> <br>
+	<!-- <a class="btn btn-outline-info search_popup_btn ">검색</a> <br> -->
 
 
 	{% ifequal request.user.profile.shortcut_user_id request.user.username %}
@@ -1880,43 +1880,43 @@ function search_note(e){
 	});
 }
 
-function enter_for_search_skil_note(){
-	if (window.event.keyCode == 13) {
-		$(".skill_search_button").click()
-	}
-}
+// function enter_for_search_skil_note(){
+// 	if (window.event.keyCode == 13) {
+// 		$(".skill_search_button").click()
+// 	}
+// }
 
-$('body').on('click', '.skill_search_button', function (e) {
-	e.preventDefault();
-	window.history.pushState("", "", '/wm/myshortcut/')
-
-	const search_word = $(".skill_input_box").val();
-	console.log("search_word : " + search_word);
-
-	$("input:radio.search").each(function () {
-
-		if (jQuery(this).is(":checked")) {
-			search_option = this.id;
-		} else {
-		}
-	});
-	$.ajax({
-		type: "POST",
-		url: 'search_by_id_and_word/',
-		data: {
-			'search_word': search_word,
-			'search_option': search_option,
-			csrfmiddlewaretoken: '{{ csrf_token }}'
-			},
-		success: function (result) {
-			window.history.pushState("", "", '/wm/myshortcut/')
-			// alert("success");
-			// alert("result: "+ result)
-			$("#wm_list_area_for_popup").html("")
-			$("#wm_list_area_for_popup").append(result)
-		}
-	});
-});
+// $('body').on('click', '.skill_search_button', function (e) {
+// 	e.preventDefault();
+// 	window.history.pushState("", "", '/wm/myshortcut/')
+//
+// 	const search_word = $(".skill_input_box").val();
+// 	console.log("search_word : " + search_word);
+//
+// 	$("input:radio.search").each(function () {
+//
+// 		if (jQuery(this).is(":checked")) {
+// 			search_option = this.id;
+// 		} else {
+// 		}
+// 	});
+// 	$.ajax({
+// 		type: "POST",
+// 		url: 'search_by_id_and_word/',
+// 		data: {
+// 			'search_word': search_word,
+// 			'search_option': search_option,
+// 			csrfmiddlewaretoken: '{{ csrf_token }}'
+// 			},
+// 		success: function (result) {
+// 			window.history.pushState("", "", '/wm/myshortcut/')
+// 			// alert("success");
+// 			// alert("result: "+ result)
+// 			$("#wm_list_area_for_popup").html("")
+// 			$("#wm_list_area_for_popup").append(result)
+// 		}
+// 	});
+// });
 
 
 $('body').on('click', '.search_popup_btn', function (e) {

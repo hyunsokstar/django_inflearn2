@@ -7,10 +7,7 @@ app_name = 'wm'
 
 urlpatterns = [
     # 1122
-
     path('', views.SkilNoteListView.as_view() , name="my_shortcut_list"),
-    # path('', views.intro_for_skilnote, name="intro_for_skilnote"),
-
     path('myshortcut/go_to_skil_note_search_page/', views.go_to_skil_note_search_page.as_view() , name="go_to_skil_note_search_page"),
     path('myshortcut/', views.SkilNoteListView.as_view() , name="my_shortcut_list"),
     path('myshortcut2/', views.MyShortCutListView2.as_view() , name="my_shortcut_list2"),

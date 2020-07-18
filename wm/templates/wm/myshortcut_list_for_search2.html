@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load bootstrap4 %}
 
-{%block title %}Search Note{% endblock %}
+{%block title %}Skil Search Page{% endblock %}
 {%block extra_css %}
 
 
@@ -10,6 +10,10 @@
 
 {%block content4 %}
 <br><hr>
+<h2>Skil Search Page</h2>
+
+<a class="btn btn-outline-dark float-right m-2" href="{% url 'wm:my_shortcut_list' %}">스킬 노트로 이동</a>
+
 <table class="table table-bordered">
 	<tr>
 		<td width="">
