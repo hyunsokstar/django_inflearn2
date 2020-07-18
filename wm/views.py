@@ -1686,11 +1686,31 @@ class go_to_skil_note_search_page(LoginRequiredMixin,ListView):
         if self.request.method == 'GET' and 'q' in self.request.GET:
             query = self.request.GET.get('q')
         else:
-            query=" "
+            query=""
 
         print("query ::::::::::::::: ", query)
         print('검색 결과를 출력합니다 유저는 {} 검색어는 {} 입니다 ################################################'.format(self.request.user, query))
         qs = MyShortCut.objects.filter(Q(author=self.request.user) & (Q(title__contains=query) | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query))).order_by('created')
+        print("qs : ", qs)
+        return qs
+
+
+class go_to_skil_note_search_page_for_all(LoginRequiredMixin,ListView):
+    model = MyShortCut
+    paginate_by = 10
+
+    def get_template_names(self):
+        return ['wm/myshortcut_list_for_search2.html']
+
+    def get_queryset(self):
+        if self.request.method == 'GET' and 'q' in self.request.GET:
+            query = self.request.GET.get('q')
+        else:
+            query=" "
+
+        print("query ::::::::::::::: ", query)
+        print('검색 결과를 출력합니다 유저는 {} 검색어는 {} 입니다 ################################################'.format(self.request.user, query))
+        qs = MyShortCut.objects.filter(Q(title__contains=query) | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query)).order_by('created')
         print("qs : ", qs)
         return qs
 
