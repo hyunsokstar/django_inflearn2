@@ -14,6 +14,28 @@ from .forms import ModifySkilBlogTitleForm
 from django.db.models import F
 
 # Create your views here.
+# SkilBlogTitleListForMe
+class SkilBlogTitleListForMe(LoginRequiredMixin,ListView):
+    model = SkilBlogTitle
+    paginate_by = 10
+
+    def get_template_names(self):
+        return ['skilblog/skilblogtitle_list.html']
+
+    def get_queryset(self):
+
+        query = self.request.GET.get('q')
+        print("query : ", query)
+
+        if query != None:
+            qs = SkilBlogTitle.objects.filter(Q(author=self.request.user) & Q(title__contains=query)).order_by('-created');
+            print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
+            return qs
+        else:
+            qs = SkilBlogTitle.objects.filter(Q(author=self.request.user)).order_by('-created')
+            print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
+            return qs
+
 def delete_for_skil_column_title_list(request,id):
     user = request.user
     if request.method == "POST" and request.is_ajax():
@@ -25,7 +47,6 @@ def delete_for_skil_column_title_list(request,id):
         })
     else:
         return redirect('/skilblog')
-
 
 
 # 1122

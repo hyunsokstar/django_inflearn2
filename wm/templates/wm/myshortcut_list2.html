@@ -2210,9 +2210,10 @@ $(document).ready(function () {
 })
 
 $(".go_to_before_channer_btn").click(function () {
-	const categoryId = "{{cagegoryId}}"
-	const category_id = parseInt(categoryId) - 1
-	ch_name = "ca"+category_id;
+	const categoryId = "{{category_id}}"
+	category_id = parseInt(categoryId) - 1
+	// alert("category_id : "+ category_id)
+	ch_name = `ca${category_id}`;
 
 	if (category_id < 1) {
 		category_id = 1
@@ -2220,17 +2221,14 @@ $(".go_to_before_channer_btn").click(function () {
 	nect_ch_url = $("#ca_" + category_id).attr('href')
 	window.location.href = `/wm/myshortcut2/category/ca${category_id}/`
 
-
-
-
-
 })
 
 $(".go_to_next_channer_btn").click(function () {
 	// alert("클릭22");
-	const categoryId = "{{cagegoryId}}"
-	const category_id = parseInt(categoryId) + 1
+	const categoryId = "{{category_id}}"
+	category_id = parseInt(categoryId) + 1
 	ch_name = "ca"+category_id;
+	// alert("ch_name : " , ch_name)
 
 	if (category_id > 120) {
 		category_id = 120

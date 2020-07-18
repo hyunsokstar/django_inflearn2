@@ -19,20 +19,33 @@
 </div>
 {% endif %}
 
-<br><br>
+<br>
 
-<form class="" action="" method="get">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="serach word" aria-label="skil column 검색" aria-describedby="basic-addon2"  name="q">
-      <div class="input-group-append">
-          <!-- search_btn_for_user_list -->
-        <button class="btn btn-outline-secondary" type="submit">검색</button>
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+        <a class="btn btn-outline-dark btn-block mb-2" href="{% url 'skilblog:SkilBlogTitleList' %}">전체 보기</a>
     </div>
-</form>
+    <div class="col-sm">
+        <a class="btn btn-outline-info btn-block mb-2" href="{% url 'skilblog:SkilBlogTitleListForMe' %}">내가 쓴글 보기</a>
+    </div>
+    <div class="col-sm">
+        <form class="" action="" method="get">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="serach word" aria-label="skil column 검색" aria-describedby="basic-addon2"  name="q">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">검색</button>
+              </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
 
 
-<table class="table table-bordered" id="skilblog_list">
+
+
+<table class="table table-bordered mb-2" id="skilblog_list">
     <tr>
         <td>index</td>
         <td>title</td>
@@ -50,12 +63,10 @@
                     <a href="{% url 'skilblog:SkilBlogContentList' p.pk %}">
                         {{p.title}}
                         {% if p.author == request.user %}
-                        <a class="badge badge-pill badge-primary btn-sm delete_skil_column_btn" id="{{p.id}}">삭제 </a>
-                        <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:modify_skilblog_title_list" p.id %}">수정</a>
+                            <a class="badge badge-pill badge-primary btn-sm delete_skil_column_btn" id="{{p.id}}">삭제 </a>
+                            <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:modify_skilblog_title_list" p.id %}">수정</a>
             			{% endif %}
-
                     </a>
-
                 </td>
                 <td>
                     {{p.author}}
@@ -76,6 +87,7 @@
         </tr>
     {% endif %}
 </table>
+
 
 {% if is_paginated %}
    {% bootstrap_pagination page_obj size="small" justify_content="center" %}

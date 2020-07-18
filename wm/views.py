@@ -64,12 +64,15 @@ class MyShortCutListView2(LoginRequiredMixin,ListView):
         cn = CategoryNick.objects.get_or_create(
             author=self.request.user,
         )
+        category_id = self.request.user.profile.selected_category_id
+        print("category_id :::::::::::::::::::::::::::::::::::" , category_id)
         context = super(MyShortCutListView2, self).get_context_data(**kwargs)
         # 스킬 노트 페이지 역할을 하는 카테고리 목록을 가져 온다.
         context['category_list'] = Category.objects.all()
         # 카테고리 테이블은 id = 1 => ca1 id = 2 => ca2 이런식이므로 id로 ca1, ca2 객체를 생성 가능
-        category = Category.objects.get(id=self.request.user.profile.selected_category_id) # __str__ 설정으로 카테고리 객체 = 카테고리.name 이다
+        category = Category.objects.get(id=category_id) # __str__ 설정으로 카테고리 객체 = 카테고리.name 이다
         context['category'] = category
+        context['category_id'] = category_id
         # 카테고리 닉은 author = 현재 유저 이름이고 각각의 컬럼에 ca1, ca2, ca3, ca4 등의 카테고리 주제값이 들어있으므로 category.name로 검색해서 가져온다.
         context['category_nick'] = CategoryNick.objects.values_list(category.name, flat=True).get(author=self.request.user)
         context['MyShortCutForm_summer_note2'] = MyShortCutForm_summer_note2
@@ -106,7 +109,7 @@ class MyShortcutListByCategory2(ListView):
         context['posts_without_category'] = MyShortCut.objects.filter(category=None,author=user).count()
         context['category_list'] = Category.objects.all()
         context['posts_without_category'] = MyShortCut.objects.filter(category=None, author=self.request.user).count()
-        context['cagegoryId'] = self.request.user.profile.selected_category_id
+        context['category_id'] = self.request.user.profile.selected_category_id
         context['MyShortCutForm_summer_note2'] = MyShortCutForm_summer_note2
 
 
@@ -1717,11 +1720,11 @@ class SkilNoteListView(LoginRequiredMixin,ListView):
         print("self.request.user : ", self.request.user)
         try:
             profile = Profile.objects.get(user=self.request.user)
-            selected_category_id = profile.user.id
-            print("selected_category_id :::::::" , selected_category_id)
+            selected_category_id = profile.user.profile.selected_category_id
+            print("selected_category_id ::::::::::::: " , selected_category_id)
 
             qs = MyShortCut.objects.filter(Q(author=user, category = selected_category_id)).order_by('created')
-            print("qsqs :::::::" , qs)
+            print("SkilNoteListView(qs) ::::::::::::::::" , qs)
         except:
             profile = Profile.objects.create(user=self.request.user)
             selected_category_id = self.request.user.profile.selected_category_id
@@ -1756,24 +1759,23 @@ class SkilNoteListView(LoginRequiredMixin,ListView):
 # 2244
 class go_to_skil_note_search_page(LoginRequiredMixin,ListView):
     model = MyShortCut
-    paginate_by = 40
+    paginate_by = 10
 
     def get_template_names(self):
         return ['wm/myshortcut_list_for_search2.html']
 
     def get_queryset(self):
-        print("go_to_skil_note_search_page excute check :::::::::::::::::::::::::")
-        query = self.request.GET.get('q')
-        print("query ::::::::::::::: ", query)
-        if(query != None):
-            print("user list check :::::::::::::::::::::::::")
-            print("current user :::::::::::::::::::::::::" , self.request.user)
-            object_list = MyShortCut.objects.filter(Q(author=self.request.user) & (Q(title__contains=query) | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query))).order_by('created');
-            print("result : ", object_list)
-            return object_list
+        if self.request.method == 'GET' and 'q' in self.request.GET:
+            query = self.request.GET.get('q')
         else:
-            qs = MyShortCut.objects.filter(Q(author=self.request.user))[:10]
-            return qs
+            query=" "
+
+        print("query ::::::::::::::: ", query)
+        print('검색 결과를 출력합니다 유저는 {} 검색어는 {} 입니다 ################################################'.format(self.request.user, query))
+        qs = MyShortCut.objects.filter(Q(author=self.request.user) & (Q(title__contains=query) | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query))).order_by('created')
+        print("qs : ", qs)
+        return qs
+
 
 
 
@@ -1942,7 +1944,7 @@ class createSkilNoteForInsertMode(LoginRequiredMixin,CreateView):
 
     def get_success_url(self):
         category_id = self.request.user.profile.selected_category_id
-        return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(category_id)
+        return reverse('wm:my_shortcut_list2')+'#shortcut_{}'.format(category_id)
 
 class SkilNoteCreateView_summernote_through2(LoginRequiredMixin,CreateView):
     model = MyShortCut

@@ -9,6 +9,7 @@ urlpatterns = [
     # 1122
 
     path('', views.SkilBlogTitleList.as_view() , name="SkilBlogTitleList"),
+    path('my_skil_column', views.SkilBlogTitleListForMe.as_view() , name="SkilBlogTitleListForMe"),
     path('<int:id>', views.SkilBlogContentList , name="SkilBlogContentList"),
     path('delete_for_skil_column_title_list/<int:id>', views.delete_for_skil_column_title_list , name="delete_for_skil_column_title_list"),
 

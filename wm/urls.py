@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('myshortcut/go_to_skil_note_search_page/', views.go_to_skil_note_search_page.as_view() , name="go_to_skil_note_search_page"),
     path('myshortcut/', views.SkilNoteListView.as_view() , name="my_shortcut_list"),
-    path('myshortcut2/', views.MyShortCutListView2.as_view() , name="my_shortcut_list2"),
+    path('myshortcut2/', views.MyShortCutListView2.as_view() , name="myshortcut/go_to_skil_note_search_page/"),
 
     path('myshortcut/insert_temp_skill_note_for_textarea/', views.insert_temp_skill_note_for_textarea , name="insert_temp_skill_note_for_textarea"), # mini note insert front
     path('myshortcut/insert_for_guest_book/', views.insert_for_guest_book , name="insert_for_guest_book"), # geust book insert
