@@ -265,7 +265,7 @@ button, input, a {
 				<button class="btn btn-outline-secondary" type="button" onclick="copy_for_file_name2({{p.id}})">file</button>
 			  </div>
 			</div>
-			<button class="badge badge-pill badge-info file_history_button float-right" data-id={{p.id}} name="button">history</button>
+			<button class="badge badge-pill badge-info file_history_button float-right" data-file_name={{p.filename}} name="button">history</button>
 		</td>
 	</tr>
 	<tr id="shortcut_{{p.id}}-3" style="background-color:#fcfaeb">
@@ -1104,27 +1104,29 @@ $('body').on('click', '.open_new_tabb', function (e) {
 });
 
 $('body').on('click', '.file_history_button', function (e) {
+
 	const id = $(this).data("id");
 	const file_name = $("#file_"+id).val();
 	const search_option = "file_history"
-
 	window.history.pushState("", "", '/wm/myshortcut/')
+
 	$.ajax({
 		type: "POST",
 		url: 'search_by_id_and_word/',
 		data: {
 			'search_word': file_name,
 			'search_option': search_option,
-			'page_user' : "{{page_user}}",
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 		success: function (result) {
+			// alert("result: ", result)
 			$("#wm_list_area_for_popup").html("")
 			$("#wm_list_area_for_popup").append(result)
-			window.history.pushState("", "", '/wm/myshortcut/{{page_user}}/{{category_num}}')
+			window.history.pushState("", "", '/wm/myshortcut/')
 		}
 	});
 	$("#search_skill_modal").modal();
+
 });
 
 $('body').on('click', '.skil_note_file_name_update_btn', function (e) {
