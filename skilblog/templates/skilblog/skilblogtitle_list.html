@@ -42,12 +42,6 @@
   </div>
 </div>
 
-<table class="table table-bordered">
-    <tr>
-        <td>hi</td>
-    </tr>
-</table>
-
 
 <table class="table table-bordered"  id="skilblog_list">
     <tr>
@@ -66,10 +60,12 @@
                 <td>
                     <a href="{% url 'skilblog:SkilBlogContentList' p.pk %}">
                         {{p.title}}
+
                         {% if p.author == request.user %}
                             <a class="badge badge-pill badge-primary btn-sm delete_skil_column_btn" id="{{p.id}}">삭제 </a>
                             <a class="badge badge-pill badge-primary btn-sm" href="{% url "skilblog:modify_skilblog_title_list" p.id %}">수정</a>
             			{% endif %}
+                        <a class="badge badge-pill badge-info btn-sm get_link_url" id="{{p.id}}">link</a>
                     </a>
                 </td>
                 <td>
@@ -92,9 +88,33 @@
     {% endif %}
 </table>
 
+query:{{query}}
 
-{% if is_paginated %}
-   {% bootstrap_pagination page_obj size="small" justify_content="center" %}
+{% if query %}
+
+	{% if is_paginated %}
+		<div class="pagination">
+			<span class="page-links">
+				{% if page_obj.has_previous %}
+					<a class="btn btn-outline-dark btn-sm" href="?q={{query}}&page={{ page_obj.previous_page_number }}">previous</a>
+				{% endif %}
+				<span class="page-current">
+					Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+				</span>
+				{% if page_obj.has_next %}
+					<a class="btn btn-outline-dark btn-sm" href="?q={{query}}&page={{ page_obj.next_page_number }}">next</a>
+				{% endif %}
+		   </span>
+	   </div>
+	{% endif  %}
+
+
+{% else %}
+
+	{% if is_paginated %}
+		{% bootstrap_pagination page_obj size="small" justify_content="center" %}
+	{% endif %}
+
 {% endif %}
 
 
@@ -104,6 +124,29 @@
 <script type="text/javascript">
 // js area
 {% block extra_js %}
+function copyToClipboard(text) {
+    var dummy = document.createElement("textarea");
+    // to avoid breaking orgain page when copying more words
+    // cant copy when adding below this code
+    // dummy.style.display = 'none'
+    document.body.appendChild(dummy);
+    //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
+    dummy.value = text;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+}
+
+// get_link_url
+$('body').on('click', '.get_link_url', function (e) {
+    const id = this.id
+    const url = window.location.href;
+    copy_text = url+this.id
+    copyToClipboard(copy_text);
+    alert("link copy 성공 : " + copy_text)
+
+});
+
 $('body').on('click', '.delete_skil_column_btn', function (e) {
 	e.preventDefault();
 	var id = $(this).attr("id");

@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% load staticfiles %}
-
 {%block title %}private desk{% endblock %}
+{% load bootstrap4 %}
+
 
 {%block extra_css %}
 
@@ -21,7 +22,7 @@
 </div>
 {% endif %}
 
-<a href="{% url "pd:mytask_new"  %}" class="btn btn-outline-dark mb-1 float-right">일지 추가</a>
+<a href="{% url "pd:mytask_new"  %}" class="btn btn-outline-dark mb-2 float-right">일지 추가</a>
 
 <br>
 
@@ -74,6 +75,7 @@
             </td>
         </tr>
     {% endif %}
+
 
     <!-- <a class="btn btn-outline-primary btn-block " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin-bottom:5px">
         즐겨 찾기
@@ -149,6 +151,11 @@
     </table>
 
 </script> -->
+
+
+{% if is_paginated %}
+    {% bootstrap_pagination page_obj size="small" justify_content="center" %}
+{% endif %}
 
 {% endblock content2 %}
 

@@ -135,8 +135,7 @@ def mytask_new(request):
 
 class private_task_list(LoginRequiredMixin,ListView):
     model = MyTask
-    paginate_by = 20
-    # ordering = ['created_at']
+    paginate_by = 1
 
     def get_queryset(self):
         print("private_desk_list 실행 1111")

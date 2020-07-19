@@ -23,20 +23,22 @@ class SkilBlogTitleListForMe(LoginRequiredMixin,ListView):
         return ['skilblog/skilblogtitle_list.html']
 
     def get_queryset(self):
-        if request.method == "POST" and request.is_ajax():
-            query = self.request.GET.get('q')
-            print("query : ", query)
-
-            if query != None:
-                qs = SkilBlogTitle.objects.filter(Q(author=self.request.user) & Q(title__contains=query)).order_by('-created');
-                print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
-                return qs
-            else:
-                qs = SkilBlogTitle.objects.filter(Q(author=self.request.user)).order_by('-created')
-                print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
-                return qs
+        query = self.request.GET.get('q')
+        print("query : ", query)
+        if query != None:
+            qs = SkilBlogTitle.objects.filter(Q(author=self.request.user) & Q(title__contains=query)).order_by('-created');
+            print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
+            return qs
         else:
             qs = SkilBlogTitle.objects.filter(Q(author=self.request.user)).order_by('-created')
+            print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
+            return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SkilBlogTitleListForMe, self).get_context_data(**kwargs)
+        context['query'] =  self.request.GET.get('q')
+        return context
+
 
 def delete_for_skil_column_title_list(request,id):
     user = request.user
@@ -73,6 +75,12 @@ class SkilBlogTitleList(LoginRequiredMixin,ListView):
             qs = SkilBlogTitle.objects.all().order_by('-created')
             print("skil column list 출력 요청 확인 ::::::::::::::::::::::::::::::::::::::::::: ", qs)
             return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SkilBlogTitleList, self).get_context_data(**kwargs)
+        context['query'] =  self.request.GET.get('q')
+        return context
+
 
 def SkilBlogContentList(request,id):
     print('SkilBlogTitle id를 참조하는 skilblog content를 출력 할것입니다 !!!!! ')

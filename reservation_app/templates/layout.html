@@ -52,9 +52,9 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false">Search <span class="caret"></span></a>
             <div class="dropdown-menu" aria-labelledby="download">
-                <a class="nav-link" href="{% url 'wm:go_to_skil_note_search_page' %}">Search Note(me)</a>
+                <a class="dropdown-item" href="{% url 'wm:go_to_skil_note_search_page' %}">Search Note(me)</a>
                 <div class="dropdown-divider"></div>
-                <a class="nav-link" href="{% url 'wm:go_to_skil_note_search_page_for_all' %}">Search Note(all)</a>
+                <a class="dropdown-item" href="{% url 'wm:go_to_skil_note_search_page_for_all' %}">Search Note(all)</a>
             </div>
         </li>
     </ul>
@@ -100,11 +100,11 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false">게시판 <span class="caret"></span></a>
             <div class="dropdown-menu" aria-labelledby="download">
-                <a class="nav-link" href="{% url "pm:manual_list" %}"> Free board </a>
+                <a class="dropdown-item" href="{% url "pm:manual_list" %}"> Free board </a>
                 <div class="dropdown-divider"></div>
-                <a class="nav-link" href="{% url "management:suggestion_list" %}">건의 사항</a>
+                <a class="dropdown-item" href="{% url "management:suggestion_list" %}">건의 사항</a>
                 <div class="dropdown-divider"></div>
-                <a class="nav-link" href="{% url "bestlec:best20_list" %}">강의 추천</a>
+                <a class="dropdown-item" href="{% url "bestlec:best20_list" %}">강의 추천</a>
             </div>
           </li>
         </ul>
