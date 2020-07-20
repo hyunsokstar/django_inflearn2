@@ -10,7 +10,7 @@
 
 {%block content4 %}
 <br><hr>
-<h2>Skil Search Page(file_name)</h2>
+<h2>Skil Search Page</h2>
 
 <a class="btn btn-outline-dark float-right m-2" href="{% url 'wm:my_shortcut_list' %}">스킬 노트로 이동</a>
 
@@ -154,6 +154,32 @@ $(function() {
 
 });
 
+$('.update_shortcut_user_id').click(function (e) {
+	e.preventDefault();
+	const id = this.id
+	const user_id = $("#shortcut_user_id").val()
+
+	window.history.pushState("", "", '/wm/')
+
+	$.ajax({
+		type: "POST",
+		url: 'update/shortcut_id_ajax/' + id,
+		data: {
+			'user_id': user_id,
+			csrfmiddlewaretoken: '{{ csrf_token }}'
+		},
+		success: function (result) {
+			alert("result.message : " 	+ result.message)
+			const original_id = result.original_id
+			if (original_id != "") {
+				$("#shortcut_user_id").val(original_id)
+			}
+			window.history.pushState("", "", '/wm/myshortcut/')
+			location.href = "/wm/myshortcut/go_to_skil_note_search_page/"
+		}
+	})
+
+})
 
 (function($) {
     $.fn.flash_message = function(options) {
