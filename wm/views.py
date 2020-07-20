@@ -1675,12 +1675,12 @@ class SkilNoteListView(LoginRequiredMixin,ListView):
         return context
 
 # 2244
-class go_to_skil_note_search_page(LoginRequiredMixin,ListView):
+class search_skil_note_for_me(LoginRequiredMixin,ListView):
     model = MyShortCut
     paginate_by = 10
 
     def get_template_names(self):
-        return ['wm/myshortcut_list_for_search2.html']
+        return ['wm/search_skil_note_for_me.html']
 
     def get_queryset(self):
         if self.request.method == 'GET' and 'q' in self.request.GET:
@@ -1695,17 +1695,65 @@ class go_to_skil_note_search_page(LoginRequiredMixin,ListView):
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(go_to_skil_note_search_page, self).get_context_data(**kwargs)
+        context = super(search_skil_note_for_me, self).get_context_data(**kwargs)
         context['query'] =  self.request.GET.get('q')
         return context
 
-
-class go_to_skil_note_search_page_for_all(LoginRequiredMixin,ListView):
+class search_skilnote_by_file_name_for_me(LoginRequiredMixin,ListView):
     model = MyShortCut
     paginate_by = 10
 
     def get_template_names(self):
-        return ['wm/myshortcut_list_for_search2.html']
+        return ['wm/search_skil_note_for_file_name_for_me.html']
+
+    def get_queryset(self):
+        if self.request.method == 'GET' and 'q' in self.request.GET:
+            query = self.request.GET.get('q')
+        else:
+            query=""
+
+        print("query ::::::::::::::: ", query)
+        print('파일 검색 결과를 출력합니다 유저는 {} 검색어는 {} 입니다 ################################################'.format(self.request.user, query))
+        qs = MyShortCut.objects.filter(Q(author=self.request.user) & Q(filename__contains=query)).order_by('created')
+        print("qs : ", qs)
+        return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(search_skilnote_by_file_name_for_me, self).get_context_data(**kwargs)
+        context['query'] =  self.request.GET.get('q')
+        return context
+
+class search_skilnote_by_file_name_for_all(LoginRequiredMixin,ListView):
+    model = MyShortCut
+    paginate_by = 10
+
+    def get_template_names(self):
+        return ['wm/search_skil_note_for_file_name_for_all.html']
+
+    def get_queryset(self):
+        if self.request.method == 'GET' and 'q' in self.request.GET:
+            query = self.request.GET.get('q')
+        else:
+            query=""
+
+        print("query ::::::::::::::: ", query)
+        print('파일 검색 결과를 출력합니다 유저는 all 검색어는 {} 입니다 ################################################'.format(self.request.user, query))
+        qs = MyShortCut.objects.filter(Q(filename__contains=query)).exclude(Q(filename__isnull=True) | Q(filename__exact='')).order_by('created')
+        print("qs : ", qs)
+        return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(search_skilnote_by_file_name_for_all, self).get_context_data(**kwargs)
+        context['query'] =  self.request.GET.get('q')
+        return context
+
+
+class search_skil_note_for_all(LoginRequiredMixin,ListView):
+    model = MyShortCut
+    paginate_by = 10
+
+    def get_template_names(self):
+        return ['wm/search_skil_note_for_all_user.html']
 
     def get_queryset(self):
         if self.request.method == 'GET' and 'q' in self.request.GET:
@@ -1720,7 +1768,7 @@ class go_to_skil_note_search_page_for_all(LoginRequiredMixin,ListView):
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(go_to_skil_note_search_page_for_all , self).get_context_data(**kwargs)
+        context = super(search_skil_note_for_all , self).get_context_data(**kwargs)
         context['query'] =  self.request.GET.get('q')
         return context
 
