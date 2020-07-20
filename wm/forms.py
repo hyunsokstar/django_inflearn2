@@ -34,8 +34,8 @@ class MyShortCutForm_summer_note2(forms.ModelForm):
         fields = ['title','filename','content2']
 
         widgets = {
-            'title': forms.TextInput(attrs={'size': 78}),
-            'filename': forms.TextInput(attrs={'size': 78}),
+            'title': forms.TextInput(attrs={'size': 60}),
+            'filename': forms.TextInput(attrs={'size': 60}),
             'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '500px', 'line-height': 1.2, 'font-size':12, 'tabSize': 4, "backcolor":"white", 'color':"white", 'backColor' :'white' , "maximumImageFileSize": "5242880"  }}),
         }
 

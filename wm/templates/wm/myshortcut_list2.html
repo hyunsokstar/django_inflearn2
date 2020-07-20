@@ -56,7 +56,7 @@ img.Image { max-width: 100%; display: block; }
 {% endblock %}
 
 
-{% block content5 %}
+{% block content4 %}
 
 <br><br>
 
@@ -71,16 +71,6 @@ img.Image { max-width: 100%; display: block; }
 {% endif %}
 
 
-{% ifequal request.user request.user.username %}
-
-
-{% else %}
-
-
-<span class="float-right"> {{request.user}} 님의 skill note 입니다. </span>
-{% endifequal %}
-
-
 
 <table class="table table-bordered category_subject_table" width="1110" style="">
 	<tr style="background-color:#f1e9f5">
@@ -91,11 +81,8 @@ img.Image { max-width: 100%; display: block; }
 			{% if category %}
 			<span id="current_category">{{category}}</span> :
 			<span id="current_category_subject">{{category_nick}}</span>
-			{% ifequal request.user request.user.username %}
 				<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제 수정</button>
-			{% else %}
 
-			{% endifequal %}
 
 			{% endif %}
 		</td>
@@ -129,7 +116,6 @@ img.Image { max-width: 100%; display: block; }
 		<td colspan="2">
 
 			<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
-			{% ifequal request.user request.user.username %}
 				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}" data-num = {{ forloop.counter }}>copy</button>
 				<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}">edit_complete</button>
 				<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
@@ -137,9 +123,7 @@ img.Image { max-width: 100%; display: block; }
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
-			{% else %}
 
-			{% endifequal %}
 
 		</td>
 	</tr>
@@ -155,11 +139,9 @@ img.Image { max-width: 100%; display: block; }
 		<td id="textarea_title_for_skill_note_btn">
 			<span id=title_{{p.id}}>{{p.title}} </span>
 			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
-			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
 			<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
 
-			{% endif %}
 		</td>
 	</tr>
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0 max-width:100%" >
@@ -172,10 +154,7 @@ img.Image { max-width: 100%; display: block; }
 				<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
 			</span>
 
-			{% ifequal request.user request.user.username %}
 				<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
-			{% else %}
-			{% endifequal %}
 
 
 		</td>
@@ -190,8 +169,6 @@ img.Image { max-width: 100%; display: block; }
 				class="form-control">{{p.content2 }}</textarea><br>
 			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2 float-right"
 				id="{{p.id}}">copy</button>
-
-				{% ifequal request.user request.user.username %}
 					<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2 float-right"
 					id="{{p.id}}" data-user_id="{{request.user}}">edit_complete</button>
 					<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
@@ -199,9 +176,6 @@ img.Image { max-width: 100%; display: block; }
 					<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
 					<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 					<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
-				{% else %}
-
-				{% endifequal %}
 
 		</td>
 	</tr>
@@ -217,10 +191,8 @@ img.Image { max-width: 100%; display: block; }
 			<span id=title_{{p.id}}>{{p.title}}</span>
 			<span id="title-area-{{p.id}}" style="color: red;">&nbsp;&nbsp;<span>
 
-			{% if p.author == request.user %}
 			<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
 			<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
-			{% endif %}
 		</td>
 	</tr>
 	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0">
@@ -241,11 +213,8 @@ img.Image { max-width: 100%; display: block; }
 
 			<span class="result_for_file_name_copy_{{p.id}}"></span>
 
-			{% ifequal request.user request.user.username %}
 			<button class="badge badge-pill badge-info skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 			<button class="badge badge-pill badge-info file_history_button float-right" data-id={{p.id}} name="button">history</button>
-			{% else %}
-			{% endifequal %}
 
 		</td>
 	</tr>
@@ -257,7 +226,6 @@ img.Image { max-width: 100%; display: block; }
 				</span>
 			<br>
 
-			{% ifequal request.user request.user.username %}
 
 				<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
@@ -266,9 +234,7 @@ img.Image { max-width: 100%; display: block; }
 				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
 				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
 				<a href="{% url "wm:modify_myshortcut_by_summer_note2" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
-			{% else %}
 
-			{% endifequal %}
 
 
 		</td>
@@ -452,7 +418,7 @@ img.Image { max-width: 100%; display: block; }
 </div>
 
 
-{% endblock content5 %}
+{% endblock content4 %}
 
 
 <!-- ===================================================================== -->
@@ -619,9 +585,7 @@ img.Image { max-width: 100%; display: block; }
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-				{% ifequal request.user request.user.username %}
 					<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2_for_popup float-right" id="">edit_complete</button>
-				{% endifequal %}
 				<textarea name="" id="textarea_for_popup_original" class="form-control" rows="24"></textarea>
 			</div>
 			<div class="modal-footer">
