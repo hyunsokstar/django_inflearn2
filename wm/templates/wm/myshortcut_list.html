@@ -54,10 +54,10 @@ img.Image { max-width: 100%; display: block; }
 			  <div class="row">
 			    <div class="col">
 				  	<div class="input-group mb-1">
-	  					<input type="text" class="form-control" value="{{request.user.profile.shortcut_user_id}}" id="shortcut_user_id" aria-describedby="basic-addon2">
+	  					<input type="text" class="form-control" value="{{request.user}}" id="shortcut_user_id" aria-describedby="basic-addon2">
 		  				<div class="input-group-append">
 		    				<button class="btn btn-outline-secondary" id="change_user_id_to_me" type="button">my</button>
-							<button class="btn btn-outline-secondary update_shortcut_user_id" id="{{request.user.id}}" type="button">go</button>
+							<button class="btn btn-outline-secondary update_shortcut_user_id" id="{{request.user.profile.selected_category_id}}" type="button">go</button>
 		  				</div>
 					</div>
 			    </div>
@@ -101,11 +101,6 @@ img.Image { max-width: 100%; display: block; }
 </div>
 {% endif %}
 
-	{% ifequal request.user.profile.shortcut_user_id request.user.username %}
-	{% else %}
-	<span class="float-right"> {{request.user.profile.shortcut_user_id}} 님의 skill note 입니다. </span>
-	{% endifequal %}
-
 <div class="sideicon_for_scroll">
 	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
 	<input type="text" class="go_input form" size=2 value="1">
@@ -127,7 +122,6 @@ img.Image { max-width: 100%; display: block; }
 	<br>
 </div>
 
-{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 	<div class="sideicon_for_insert">
 		<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:my_shortcut_list2' %}';">입력 모드</button><br>
 		<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
@@ -135,14 +129,8 @@ img.Image { max-width: 100%; display: block; }
 		<button type="button" name="button" class="new2_btn btn btn-outline-dark" id="">text(1)</button><br>
 		<a class="new4_btn btn btn-outline-dark" id="" href=""> text(5) </a>
 	</div>
-{% else %}
-{% endifequal %}
 
 <div class="temp_memo_btn_area">
-	<!-- <a class="btn btn-outline-info search_popup_btn ">검색</a> <br> -->
-
-
-	{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 		<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 		<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
 		<button type="button" class="btn btn-outline-dark guest_book_list_btn">방명록</button> <br>
@@ -160,8 +148,6 @@ img.Image { max-width: 100%; display: block; }
 		</a> <br>
 		<a href="" class="btn btn-outline-primary " id="move_to_skilblog_btn"> skil column(ch) </a> <br>
 		<button type="button" class="btn btn-outline-primary insert_image" onclick="window.location.href='{% url 'wm:MyShortCutCreateView_image' %}'">image 입력</button>
-	{% else %}
-	{% endifequal %}
 </div>
 
 <table class="table table-bordered category_subject_table" width="1110" style="">
@@ -170,14 +156,9 @@ img.Image { max-width: 100%; display: block; }
 			<input type="checkbox" class="all_check" value="">
 		</td>
 		<td>
-			{% if category %}
 			<span id="current_category">{{category}}</span> :
 			<span id="current_category_subject">{{category_nick}}</span>
-			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 				<button class="badge badge-pill badge-primary update_nick_button float-right" data-id="{{category}}" data-user_id={{request.user}}>주제 수정</button>
-			{% else %}
-			{% endifequal %}
-			{% endif %}
 		</td>
 	</tr>
 </table>
@@ -207,7 +188,6 @@ img.Image { max-width: 100%; display: block; }
 					<td colspan="2">
 
 						<input type="text" name="" value="{{p.content1}}" size="40" id="select-input-{{p.id}}" class="form-control">
-						{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 							<button class="btn btn-outline-danger btn-sm myinput float-right copy_code1" id="{{p.id}}" data-num = {{ forloop.counter }}>copy</button>
 							<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button1" id="{{p.id}}">edit_complete</button>
 							<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
@@ -215,9 +195,6 @@ img.Image { max-width: 100%; display: block; }
 							<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
 							<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 							<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
-						{% else %}
-
-						{% endifequal %}
 
 					</td>
 				</tr>
@@ -246,11 +223,7 @@ img.Image { max-width: 100%; display: block; }
 							<!-- <button class="badge badge-pill badge-dark file_history_button" data-id={{p.id}} name="button">history</button> -->
 							<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
 						</span>
-
-						{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 							<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
-						{% else %}
-						{% endifequal %}
 					</td>
 				</tr>
 				<tr id="shortcut_{{p.id}}-3" style="background-color:#fcfaeb">
@@ -264,7 +237,6 @@ img.Image { max-width: 100%; display: block; }
 						<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2 float-right"
 							id="{{p.id}}">copy</button>
 
-							{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 								<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2 float-right"
 								id="{{p.id}}" data-user_id="{{request.user}}">edit_complete</button>
 								<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
@@ -272,8 +244,6 @@ img.Image { max-width: 100%; display: block; }
 								<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
 								<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 								<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
-							{% else %}
-							{% endifequal %}
 					</td>
 				</tr>
 			{% endifequal %}
@@ -309,12 +279,7 @@ img.Image { max-width: 100%; display: block; }
 						</span>
 
 						<span class="result_for_file_name_copy_{{p.id}}"></span>
-
-						{% ifequal request.user.profile.shortcut_user_id request.user.username %}
 						<button class="badge badge-pill badge-info skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
-						<!-- <button class="badge badge-pill badge-info file_history_button float-right" data-id={{p.id}} name="button">history</button> -->
-						{% else %}
-						{% endifequal %}
 					</td>
 				</tr>
 
@@ -323,8 +288,6 @@ img.Image { max-width: 100%; display: block; }
 							<span id="select-textarea-{{p.id}}" class="content_area_for_summernote" contenteditable="false" style="max-width:100%;">
 								{{p.content2 | safe}}
 							</span><br>
-						{% ifequal request.user.profile.shortcut_user_id request.user.username %}
-
 							<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}">댓글</button>
 							<button class="btn btn-outline-danger btn-sm shortcut_between_button_sn" id="{{p.id}}">sn</button>
 							<button class="btn btn-outline-danger btn-sm shortcut_between_button_input" id="{{p.id}}">ip</button>
@@ -332,9 +295,6 @@ img.Image { max-width: 100%; display: block; }
 							<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
 							<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
 							<a href="{% url "wm:update_skilnote_by_summernote" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
-						{% else %}
-
-						{% endifequal %}
 					</td>
 				</tr>
 			{% endifequal %}
@@ -365,7 +325,7 @@ img.Image { max-width: 100%; display: block; }
 				</tr>
 				<tr style="background-color:#fcfaeb;" td id="shortcut_{{p.id}}-3">
 					<td colspan="2">
-						{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+						{% ifequal request.user request.user.username %}
 							<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글</button>
 						{% else %}
 						{% endifequal %}
@@ -592,7 +552,7 @@ img.Image { max-width: 100%; display: block; }
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-				{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+				{% ifequal request.user request.user.username %}
 					<button class="btn btn-outline-danger btn-sm float-right shortcut_edit_button2_for_popup float-right" id="">edit_complete</button>
 				{% endifequal %}
 				<textarea name="" id="textarea_for_popup_original" class="form-control" rows="24"></textarea>

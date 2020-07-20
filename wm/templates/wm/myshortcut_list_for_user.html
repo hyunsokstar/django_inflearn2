@@ -383,7 +383,7 @@ button, input, a {
 	</tr>
 	<tr style="background-color:#fcfaeb;" td id="shortcut_{{p.id}}-3">
 		<td colspan="2">
-			{% ifequal request.user.profile.shortcut_user_id request.user.username %}
+			{% ifequal request.user request.user.username %}
 				<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글</button>
 			{% else %}
 

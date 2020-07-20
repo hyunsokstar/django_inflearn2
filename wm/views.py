@@ -96,14 +96,14 @@ class MyShortcutListByCategory2(ListView):
         print('category id update 성공')
 
 
-        user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
+        user = User.objects.get(Q(username = self.request.user))
 
         print('user : ' , user)
 
         return MyShortCut.objects.filter(category=category, author=user).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
+        user = User.objects.get(Q(username = self.request.user))
 
         context = super(type(self), self).get_context_data(**kwargs)
         context['posts_without_category'] = MyShortCut.objects.filter(category=None,author=user).count()
@@ -966,7 +966,7 @@ class searchSkilNoteViewByIdAndWord(ListView):
 
     def get_queryset(self):
         if request.method == "POST" and request.is_ajax():
-            search_user_id = request.user.profile.shortcut_user_id
+            search_user_id = request.user
             search_word = request.POST['search_word']
             search_option = request.POST['search_option']
             print("search_user_id : ", search_user_id)
@@ -1554,6 +1554,8 @@ def update_shortcut2_ajax(request,id):
 def myfunc():
     print("myfunc 실행")
 
+
+# 2244
 class MyShortcutListByCategory(ListView):
 
     def get_queryset(self):
@@ -1562,15 +1564,14 @@ class MyShortcutListByCategory(ListView):
         pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
         print('category id update 성공')
 
-
-        user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
+        user = User.objects.get(Q(username = self.request.user))
 
         print('user : ' , user)
 
         return MyShortCut.objects.filter(category=category, author=user).order_by('created')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        user = User.objects.get(Q(username = self.request.user.profile.shortcut_user_id))
+        user = User.objects.get(Q(username = self.request.user))
 
         context = super(type(self), self).get_context_data(**kwargs)
         context['posts_without_category'] = MyShortCut.objects.filter(category=None,author=user).count()
