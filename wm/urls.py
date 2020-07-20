@@ -8,13 +8,8 @@ app_name = 'wm'
 urlpatterns = [
     # 1122
     path('', views.SkilNoteListView.as_view() , name="my_shortcut_list"),
-    path('myshortcut/search_skil_note_for_me/', views.search_skil_note_for_me.as_view() , name="search_skil_note_for_me"),
-    path('myshortcut/search_skil_note_for_all/', views.search_skil_note_for_all.as_view() , name="search_skil_note_for_all"),
-    path('myshortcut/search_skilnote_by_file_name_for_me/', views.search_skilnote_by_file_name_for_me.as_view() , name="search_skilnote_by_file_name_for_me"),
-    path('myshortcut/search_skilnote_by_file_name_for_all/', views.search_skilnote_by_file_name_for_all.as_view() , name="search_skilnote_by_file_name_for_all"),
-
-
-
+    path('myshortcut/go_to_skil_note_search_page/', views.go_to_skil_note_search_page.as_view() , name="go_to_skil_note_search_page"),
+    path('myshortcut/go_to_skil_note_search_page_for_all/', views.go_to_skil_note_search_page_for_all.as_view() , name="go_to_skil_note_search_page_for_all"),
     path('myshortcut/', views.SkilNoteListView.as_view() , name="my_shortcut_list"),
     path('myshortcut2/', views.MyShortCutListView2.as_view() , name="my_shortcut_list2"),
 
@@ -74,6 +69,7 @@ urlpatterns = [
     path('myshortcut/delete_temp_memo_by_ajax/<int:id>', views.delete_temp_memo_by_ajax , name="delete_temp_memo_by_ajax"),
 
 
+    # path('myshortcut/search_by_id_and_word/' , views.search_skil_note_by_word.as_view(), name="search_by_id_and_word"),
     path('myshortcut/search_by_id_and_word/' , views.searchSkilNoteViewByIdAndWord.as_view(), name="search_by_id_and_word"),
 
     path('myshortcut/copyForCategorySubjectToMyCategory/' , views.copyForCategorySubjectToMyCategory, name="copyForCategorySubjectToMyCategory"),
