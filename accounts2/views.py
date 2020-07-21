@@ -103,8 +103,9 @@ def like_or_unlike(request):
 def delete_login_user(request):
     if request.method == "POST" and request.is_ajax():
         userId = request.POST['userId']
+        user_id_for_delete = User.objects.get(username=userId)
         print("userId : ", userId)
-        result1 = RecommandationUserAboutSkillNote.objects.filter(Q(author_id=userId)).delete()
+        result1 = RecommandationUserAboutSkillNote.objects.filter(Q(author_id=user_id_for_delete)).delete()
         result2 = User.objects.filter(Q(username=userId)).delete()
         print('회원 정보 삭제 (좋아요 목록 삭제 성공) ' , result1);
         print('회원 정보 삭제 (회원 정보 삭제 성공) ' , result2);
