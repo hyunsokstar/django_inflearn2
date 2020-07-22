@@ -9,10 +9,11 @@ from django.db.models import F
 class SkilBlogContentForm(forms.ModelForm):
     class Meta:
         model = SkilBlogContent
-        fields = ['title', 'content2']
+        fields = ['title','filename','content2']
 
         widgets = {
-            'title': forms.TextInput(attrs={'size': 80}),
+            'title': forms.TextInput(attrs={'size': 60}),
+            'filename': forms.TextInput(attrs={'size': 60}),
             'content2': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '480px', 'airMode': False,'fontSize':12, 'tabSize': 4, "backcolor":"white", 'foreColor':"white"  }}),
         }
 

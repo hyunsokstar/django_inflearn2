@@ -104,10 +104,11 @@ def SkilBlogContentList(request,id):
 def SkilBlogContentListForInsert(request,id):
     print('SkilBlogTitle id를 참조하는 skilblog content를 출력 할것입니다 !!!!! ')
     print('SkilBlogTitle id check::::::::::::::: ',id)
-    sbt= SkilBlogTitle.objects.get(id = id)
+    # sbt= SkilBlogTitle.objects.get(id = id)
+    sbt =  get_object_or_404(SkilBlogTitle, pk=id)
+
     page_author=sbt.author;
     print("스킬 블로그 페이지 유저 확인:::::::::::::::::::::: ", page_author)
-
     print("스킬 블로그 타이틀을 확인:::::::::::::::::::::: ", sbt.title)
     sbc_list = SkilBlogContent.objects.filter(Q(sbt=sbt)).order_by('created')
     print("skil blog content 를 출력 하겠습니다 !!!!!!!!!!!!!!!!!!!! ", sbc_list)

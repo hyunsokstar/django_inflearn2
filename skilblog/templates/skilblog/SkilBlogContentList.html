@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {%block title %}스킬 블로그(상세 보기){% endblock %}
-
+yt
 {%block content4 %}
 <div class="jumbotron">
     <table class="table table-bordered">
@@ -13,7 +13,10 @@
             <td>{{author}}</td>
         </tr>
     </table>
+    <a class="btn btn-outline-dark float-right" href="{% url 'skilblog:SkilBlogTitleList' %}">title list로 이동</a>
 </div>
+
+
 
 {% if messages %}
 <div class="alert alert-success">
@@ -24,7 +27,7 @@
 {% endif %}
 
 {% ifequal author request.user %}
-    <a class="btn btn-outline-success float-right m-1" href="{% url 'skilblog:SkilBlogContentListForInsert' author.id %}">입력 모드</a>
+    <a class="btn btn-outline-success float-right m-1" href="{% url 'skilblog:SkilBlogContentListForInsert' skil_blog_title_id %}">입력 모드</a>
     <a class="new3_btn btn btn-outline-success float-right m-1" id="" href="/skilblog/new/summernote/{{skil_blog_title_id}}">SN</a>
 {% else %}
     <span class="float-right"> {{author}} 님만 입력할수 있습니다. </span>

@@ -377,7 +377,7 @@ def move_to_skil_blog(request):
     print("스킬 블로그 타이틀 id check ::::::::::::::::", sbt.id)
 
     if shortcut_ids:
-        skill_note_list = MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).order_by('-created')
+        skill_note_list = MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).order_by('created')
         print('skill_note_lists : ', skill_note_list)
 
     for p in skill_note_list:

@@ -2240,6 +2240,7 @@ $(".next_btn").click(function () {
 	$(".go_btn").trigger("click");
 })
 
+
 $("#modify_category_button").click(function (e) {
 	e.preventDefault();
 	var shortcut_arr = [];
@@ -2250,6 +2251,8 @@ $("#modify_category_button").click(function (e) {
 			shortcut_arr.push(id);
 		}
 	});
+
+
 	var category = prompt("where do you go? (1~120)", "");
 	if (parseInt(category) < 121) {
 		if (category == null || category == "") {

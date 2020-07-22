@@ -7,7 +7,6 @@ app_name = 'skilblog'
 
 urlpatterns = [
     # 1122
-
     path('', views.SkilBlogTitleList.as_view() , name="SkilBlogTitleList"),
     path('my_skil_column', views.SkilBlogTitleListForMe.as_view() , name="SkilBlogTitleListForMe"),
     path('<int:id>', views.SkilBlogContentList , name="SkilBlogContentList"),

@@ -1326,7 +1326,7 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 
 	$.ajax({
 		type: "POST",
-		url: 'new/textarea_summer_note_through/'+current_article_id,
+		url: 'new/textarea_summer_note_through2/'+current_article_id,
 		data: {
 			'current_article_id': current_article_id,
 			csrfmiddlewaretoken: '{{ csrf_token }}'
