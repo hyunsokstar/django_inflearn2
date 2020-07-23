@@ -299,39 +299,6 @@ img.Image { max-width: 100%; display: block; }
 				</tr>
 			{% endifequal %}
 
-			{% ifequal p.type.type_name "image" %}
-				<tr style="background-color:#caf5f5; color:black;" id="shortcut_{{p.id}}">
-					<td id=index_{{ forloop.counter }} width="10%">
-						<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
-						{{ forloop.counter }}
-					</td>
-					<td id="shortcut_{{p.id}}-3">
-						제목 :
-						<span id=title_{{p.id}}>{{p.title}}</span>
-						{% if p.author == request.user %}
-						<button class="badge badge-pill badge-primary short_delete_button float-right" id="{{p.id}}">삭제</button>
-						<button class="badge badge-pill badge-primary short_update_button float-right" id="{{p.id}}">제목 수정</button>
-						{% endif %}
-					</td>
-				</tr>
-				<tr id="shortcut_{{p.id}}-2" style="background-color:#fcfaeb;">
-					<td colspan="2">
-						{% if p.image %}
-							<img class="card-img-top" src={{ p.image.url }} alt="Card image cap">
-						{% else %}
-							<img class="card-img-top" src="https://picsum.photos/700/300/?random" alt="Card image cap">
-						{% endif %}
-					</td>
-				</tr>
-				<tr style="background-color:#fcfaeb;" td id="shortcut_{{p.id}}-3">
-					<td colspan="2">
-						{% ifequal request.user request.user.username %}
-							<button class="btn btn-outline-danger btn-sm shortcut_comment_button" id="{{p.id}}" >댓글</button>
-						{% else %}
-						{% endifequal %}
-					</td>
-				</tr>
-			{% endifequal %}
 
 			{% if p.commentforshortcut_set.exists %}
 			<tr style="background-color:#E5F5F9">

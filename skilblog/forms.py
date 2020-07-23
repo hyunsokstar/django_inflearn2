@@ -23,5 +23,5 @@ class ModifySkilBlogTitleForm(forms.ModelForm):
         fields = ['title']
 
         widgets = {
-            'title': forms.TextInput(attrs={'size': 80}),
+            'title': forms.TextInput(attrs={'size': 90}),
         }
