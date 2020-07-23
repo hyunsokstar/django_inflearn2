@@ -3,12 +3,26 @@ from .models import Post, Category, Tag, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . forms import CommentForm
 from django.db.models import Q
-
 from django.views.generic import ListView, DetailView, UpdateView, CreateView , DeleteView
 from django.urls import reverse_lazy
+from .forms import PostingFormForPost
+from django.urls import reverse
 
-# Create your views here.
-# 1122
+
+class PostCreate(LoginRequiredMixin,CreateView):
+    model = Post
+    form_class = PostingFormForPost
+    ordering = ['-created']
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('blog:post_list')
+
+
 def delete_comment(request, pk):
     print('함수 실행 확인')
     comment = Comment.objects.get(pk=pk)
@@ -23,33 +37,17 @@ class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('blog:post_list')
 post_delete = PostDeleteView.as_view()
-# success_message = "delete was complted"
 
 # todo 댓글 수정
 class CommentUpdate(UpdateView):
     model = Comment
-    form_class = CommentForm
+    form_class = PostingFormForPost
 
     def get_object(self, queryset=None):
         comment = super(CommentUpdate, self).get_object()
         if comment.author != self.request.user:
             raise PermissionError('Comment 수정 권한이 없습니다.')
         return comment
-
-
-
-class PostCreate(LoginRequiredMixin,CreateView):
-    model = Post
-    fields = [
-        'title', 'content', 'head_image', 'category', 'tags'
-    ]
-    def form_valid(self, form):
-        current_user = self.request.user
-        if current_user.is_authenticated:
-            form.instance.author = current_user
-            return super(type(self), self).form_valid(form)
-        else:
-            return redirect('/blog/')
 
 
 class PostUpdate(UpdateView):
@@ -60,8 +58,8 @@ class PostUpdate(UpdateView):
 
 class PostList(ListView):
     model = Post
-    paginate_by = 2
-    # ordering = ['-created']
+    paginate_by = 5
+    ordering = ['-created']
 
     def get_template_names(self):
         if self.request.is_ajax():
@@ -99,6 +97,10 @@ class PostDetail(DetailView):
         return context
 
 class PostListByCategory(ListView):
+    model = Post
+    paginate_by = 5
+    ordering = ['-created']
+
     def get_queryset(self):
         slug = self.kwargs['slug']
 
@@ -122,7 +124,13 @@ class PostListByCategory(ListView):
             context['category'] = category
         return context
 
+
+# 2244
 class PostListByTag(ListView):
+    model = Post
+    paginate_by = 5
+    ordering = ['-created']
+
     def get_queryset(self):
         tag_slug = self.kwargs['slug']
         tag = Tag.objects.get(slug=tag_slug)

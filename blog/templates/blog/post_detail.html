@@ -18,7 +18,7 @@
         <span class="badge badge-primary float-right">미분류</span>
     {% endif %}
     <div>
-        {{ object.get_markdown_content | safe }}
+        {{ object.content | safe }}
     </div>
     <!-- Author -->
     <p class="lead">
@@ -66,7 +66,7 @@
                 {% else %}
                     <img width="50px" class="d-flex mr-3 rounded-circle" src="https://api.adorable.io/avatars/285/{{ comment.author }}.png" alt="">
                 {% endif %}
-                                
+
                 <div class="media-body">
                     <!-- 버튼 영역 -->
                     {% if comment.author == request.user %}

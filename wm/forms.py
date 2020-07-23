@@ -4,8 +4,6 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from .models import MyShortCut, CommentForPage
 from django.db.models import F
 
-# category 모델이 foreignkey인데
-# 입력시 카테고리 선택 목록의 내용들에 (author = 본인)의 조건을 걸고 싶다.
 class MyShortCutForm_input(forms.ModelForm):
     class Meta:
         model = MyShortCut

@@ -18,9 +18,6 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from . forms import CommentForm
 from django.utils.datastructures import MultiValueDictKeyError
-from django.core.paginator import Paginator
-
-
 
 
 # 1122
@@ -356,17 +353,6 @@ def category_minus_1_for_current_user(request):
     })
 
 
-#     skil_note = MyShortCut.objects.filter(category=ca, author= request.user)
-#
-# for num in range(10, 98):
-# 	ca = "ca"+str(num)
-#     MyShortCut.objects.filter(category=plus1, author= request.user)
-#
-#     for s in skil_note:
-#         ca_plus_1= s.category+1
-#         s.update(category=ca_plus_1)
-
-
 def move_to_skil_blog(request):
     title = request.POST['title'] # 어떤 유저에 대해
     shortcut_ids = request.POST.getlist('shortcut_arr[]')
@@ -396,7 +382,6 @@ def move_to_skil_blog(request):
         'message': "체크한 항목들을 스킬 블로그로 옮겼습니다."+title,
         'id':sbt.id
     })
-
 
 
 def plus_recommand_for_skillnote_user(request):
@@ -436,7 +421,6 @@ def plus_recommand_for_skillnote_user(request):
             "option":"minus",
             "recommand_count":recommand_count
         })
-
 
 
 def copy_to_me_from_user_id(request):

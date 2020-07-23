@@ -10,11 +10,13 @@
 
     검색 결과 : {{search_word}}
     {% if user.is_authenticated %}
-    <button
+        <button
             class="btn btn-primary btn-sm float-right"
             onclick="location.href='/blog/create/'"
-            style="margin-right:30px;">New Post
-    </button>
+            style="margin-right:30px;"
+        >
+            New Post
+        </button>
     {% endif %}
     <br>
     <h1 id="blog-list-title">
@@ -65,7 +67,7 @@
     </div>
     {% endfor %}
     {% else %}
-    <h4>아직 게시물이 없습니다.</h4>
+        <h4>아직 게시물이 없습니다.</h4>
     {% endif %}
 </div>
 
