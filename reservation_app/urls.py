@@ -22,6 +22,7 @@ urlpatterns = [
     path('pm/', include('pm.urls')),
     path('pd/', include('pd.urls')),
     path('skilblog/', include('skilblog.urls')),
+    path('skilnote2/', include('skilnote2.urls')),
 ]
 
 if settings.DEBUG:

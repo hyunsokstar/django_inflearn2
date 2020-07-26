@@ -287,7 +287,7 @@ $('body').on('click', '.modify_comment_for_sbt_btn', function (e) {
 
         $.ajax({
             type: "POST",
-            url: '/skilblog/modify_comment_for_sbt',
+            url: "{% url 'skilblog:modify_comment_for_sbt'%}",   // sbt = skil blog title
             data: {
                 comment_id: comment_id,
                 comment_text_for_modify: comment_text_for_modify,
@@ -308,7 +308,7 @@ $('body').on('click', '.delete_comment_for_sbt_btn', function (e) {
     if(option =="y"){
         $.ajax({
             type: "POST",
-            url: '/skilblog/delete_comment_for_sbt',
+            url: "{% url 'skilblog:delete_comment_for_sbt' %}",
             data: {
                 comment_id: comment_id,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -337,7 +337,7 @@ $('body').on('click', '.insert_commment_for_sbt_btn', function (e) {
 
     $.ajax({
         type: "POST",
-        url: '/skilblog/insert_comment_for_sbt',
+        url: "{% url 'skilblog:insert_comment_for_sbt' %}",
         data: {
             sbt_id: sbt_id,
             content:content,

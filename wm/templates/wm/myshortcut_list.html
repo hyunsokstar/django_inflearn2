@@ -1259,7 +1259,7 @@ $('body').on('click', '#move_to_skilblog_btn', function (e) {
 
 	$.ajax({
 		type: "POST",
-		url: 'move_to_skil_blog/',
+		url: "{% url 'wm:move_to_skil_blog' %}",
 		data: {
 			'shortcut_arr[]': shortcut_arr,
 			'title':title,

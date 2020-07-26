@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'pd', #persional desk
     'skilblog', # 스킬 블로그
     'blog', # tech note
-    # 'debug_toolbar',
-    # 'datetimepicker',
+    'skilnote2'
 ]
 
 MIDDLEWARE = [

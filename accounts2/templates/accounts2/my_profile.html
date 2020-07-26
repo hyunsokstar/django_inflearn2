@@ -12,7 +12,7 @@
 	<tr>
 		<td width="20%">user_name</td>
 		<td>
-
+			
 			<div class="input-group mb-1">
 				<input type="text" class="form-control" value="{{request.user}}" id="profile_user"
 				       aria-describedby="basic-addon2"></input>
@@ -20,7 +20,7 @@
 					<button class="btn btn-outline-secondary" type="button">중복 검사</button>
 				</div>
 			</div>
-
+		
 		</td>
 	</tr>
 	<tr>
@@ -33,7 +33,7 @@
 					<button class="btn btn-outline-secondary" type="button">수정</button>
 				</div>
 			</div>
-
+		
 		</td>
 	</tr>
 	<tr>
@@ -48,7 +48,7 @@
 			</div>
 		</td>
 	</tr>
-
+	
 	<tr>
 		<td> github</td>
 		<td>
@@ -56,9 +56,9 @@
 			       aria-describedby="basic-addon2" id="profile_github"></input>
 			</div>
 		</td>
-
+	
 	</tr>
-
+	
 	<tr>
 		<td>site1</td>
 		<td>
@@ -66,16 +66,16 @@
 			       aria-describedby="basic-addon2" id="profile_site1"></input>
 		</td>
 	</tr>
-
+	
 	<tr>
 		<td>site2</td>
 		<td>
 			<input type="text" class="form-control" value="{{request.user.profile.site2}}"
 			       aria-describedby="basic-addon2" id="profile_site2"></input>
-
+		
 		</td>
 	</tr>
-
+	
 	<tr>
 		<td>site3</td>
 		<td>
@@ -83,7 +83,7 @@
 			       aria-describedby="basic-addon2" id="profile_site3"></input>
 		</td>
 	</tr>
-
+	
 	<tr>
 		<td>site4</td>
 		<td>
@@ -91,7 +91,7 @@
 			       aria-describedby="basic-addon2" id="profile_site4"></input>
 		</td>
 	</tr>
-
+	
 	<tr>
 		<td>reputation</td>
 		<td> {{ request.user.recommandationuseraboutskillnote_set.count }} 점</td>
@@ -112,19 +112,20 @@
 {% block sidearea %}
 나를 추천한 사람들:
 <table class="table table-bordered">
-
+	
 	{% for liker in request.user.recommandationuseraboutskillnote_set.all %}
 	<tr id="lier_for_me_{{liker.id}}">
 		<td>
 			<a href="/accounts/user_profile_information_view/{{liker.author_id.username}}">
 				{{ liker.author_id }}
 			</a>
-
+			
 			<a>
 				<img class="delete_for_liker_user_for_me float-right" src="{% static 'icon/x_mark.png' %}"
-				     data-target_user_id="{{request.user.id}}" data-author_id ="{{liker.author_id.id}}"  data-row_id="{{liker.id}}">
+				     data-target_user_id="{{request.user.id}}" data-author_id="{{liker.author_id.id}}"
+				     data-row_id="{{liker.id}}">
 			</a>
-
+		
 		</td>
 	</tr>
 	{% endfor %}
@@ -134,7 +135,7 @@
 
 내가 추천한 사람들:
 <table class="table table-bordered">
-
+	
 	{% for my_favorite_user in my_favorite_user_list %}
 	<tr id="myFavorite_{{my_favorite_user.id}}">
 		<td>
@@ -302,6 +303,10 @@ $('body').on('click', '#update_complete_button_for_profile', function (e) {
 });
 
 {% endblock %}
+
+
+
+
 
 
 </script>

@@ -28,7 +28,7 @@ yt
 
 {% ifequal author request.user %}
     <a class="btn btn-outline-success float-right m-1" href="{% url 'skilblog:SkilBlogContentListForInsert' skil_blog_title_id %}">입력 모드</a>
-    <a class="new3_btn btn btn-outline-success float-right m-1" id="" href="/skilblog/new/summernote/{{skil_blog_title_id}}">SN</a>
+    <a class="new3_btn btn btn-outline-primary float-right m-1" id="" href="{% url 'skilblog:createViewForSkillBlogContentUsingSummerNote' skil_blog_title_id %}">SN</a>
 {% else %}
     <span class="float-right"> {{author}} 님만 입력할수 있습니다. </span>
 {% endifequal %}
@@ -278,7 +278,7 @@ $('body').on('click', '.modify_comment_for_sbt_btn', function (e) {
 
         $.ajax({
             type: "POST",
-            url: '/skilblog/modify_comment_for_sbt',
+            url: "{% url 'skilblog:modify_comment_for_sbt'%}",
             data: {
                 comment_id: comment_id,
                 comment_text_for_modify: comment_text_for_modify,
@@ -299,7 +299,7 @@ $('body').on('click', '.delete_comment_for_sbt_btn', function (e) {
     if(option =="y"){
         $.ajax({
             type: "POST",
-            url: '/skilblog/delete_comment_for_sbt',
+            url: "{% url 'skilblog:delete_comment_for_sbt' %}",
             data: {
                 comment_id: comment_id,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -328,7 +328,7 @@ $('body').on('click', '.insert_commment_for_sbt_btn', function (e) {
 
     $.ajax({
         type: "POST",
-        url: '/skilblog/insert_comment_for_sbt',
+        url: "{% url 'skilblog:insert_comment_for_sbt' %}",
         data: {
             sbt_id: sbt_id,
             content:content,
