@@ -37,28 +37,16 @@
 
 		<ul class="navbar-nav">
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'wm:my_shortcut_list' %}">Skil Note</a>
+				<a class="nav-link" href="{% url 'wm:my_shortcut_list' %}">Skil Note1</a>
 			</li>
 		</ul>
 
 		<ul class="navbar-nav">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false">Search
-					<span class="caret"></span></a>
-				<div class="dropdown-menu" aria-labelledby="download">
-					<a class="dropdown-item" href="{% url 'wm:search_skil_note_for_me' %}">Search Note(me)</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="{% url 'wm:search_skilnote_by_file_name_for_me' %}">Search
-						Note(me,file_name)</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="{% url 'wm:search_skil_note_for_all' %}">Search Note(all)</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="{% url 'wm:search_skilnote_by_file_name_for_all' %}">Search
-						Note(all,file_name)</a>
-
-				</div>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'skilnote2:my_shortcut_list' %}">Skil Note2</a>
 			</li>
 		</ul>
+
 
 		<ul class="navbar-nav">
 			<li class="nav-item">

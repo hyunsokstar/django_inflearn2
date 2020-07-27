@@ -5,21 +5,22 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 
-class LikeGuestBook(models.Model):
+
+class LikeGuestBookForSkilNote2(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) # 누구에 대한 좋아요인가?
     author_id = models.CharField(max_length=40) # 누가 좋아요를 눌렀나?
 
-class GuestBook(models.Model):
+class GuestBookForSkilNote2(models.Model):
     owner_for_guest_book = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.CharField(max_length=120)
     created_at = models.DateTimeField(auto_now_add=True , editable = False)
 
-class RecommandationUserAboutSkillNote(models.Model):
+class RecommandationUserAboutSkillNote2(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     author_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
 
-class Category(models.Model):
+class CategoryForSkilNote2(models.Model):
     name = models.CharField(max_length=25, unique=True)
     description = models.TextField(blank=True)
     slug = models.SlugField(unique=True, allow_unicode=True)
@@ -29,20 +30,20 @@ class Category(models.Model):
     def get_absolute_url(self):
             return '/wm/myshortcut/category/{}/'.format(self.slug)
 
-class Type(models.Model):
+class TypeForSkilNote2(models.Model):
     type_name = models.CharField(max_length=20)
 
     def __str__(self):
         return self.type_name
 
-class TempMyShortCut(models.Model):
+class TempMyShortCutForSkilNote2(models.Model):
     title = models.CharField(max_length=120)
     content1 = models.CharField(max_length=180 , blank=True)
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True , editable = False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE)
-    type= models.ForeignKey(Type, on_delete=models.CASCADE)
+    category = models.ForeignKey(CategoryForSkilNote2, blank=True, null=True, on_delete=models.CASCADE)
+    type= models.ForeignKey(TypeForSkilNote2, on_delete=models.CASCADE)
 
     def get_absolute_url(self,*args,**kwargs):
             return reverse('wm:my_shortcut_list')
@@ -50,14 +51,14 @@ class TempMyShortCut(models.Model):
     def __str__(self):
         return self.title
 
-class TempMyShortCutForBackEnd(models.Model):
+class TempMyShortCutForBackEndForSkilNote2(models.Model):
     title = models.CharField(max_length=120)
     content1 = models.CharField(max_length=180 , blank=True)
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True , editable = False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE)
-    type= models.ForeignKey(Type, on_delete=models.CASCADE)
+    category = models.ForeignKey(CategoryForSkilNote2, blank=True, null=True, on_delete=models.CASCADE)
+    type= models.ForeignKey(TypeForSkilNote2, on_delete=models.CASCADE)
 
     def get_absolute_url(self,*args,**kwargs):
             return reverse('wm:my_shortcut_list')
@@ -67,15 +68,15 @@ class TempMyShortCutForBackEnd(models.Model):
 
 
 # skil note용 모델
-class MyShortCut(models.Model):
+class MyShortCutForSkilNote2(models.Model):
     title = models.CharField(max_length=120)
     filename= models.CharField(max_length=120, blank=True)
     content1 = models.CharField(max_length=180, blank=True)
     content2 = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE)
-    type= models.ForeignKey(Type, on_delete=models.CASCADE)
+    category = models.ForeignKey(CategoryForSkilNote2, blank=True, null=True, on_delete=models.CASCADE)
+    type= models.ForeignKey(TypeForSkilNote2, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='wm/%y%m%d', blank=True)
 
     def get_absolute_url(self,*args,**kwargs):
@@ -84,8 +85,8 @@ class MyShortCut(models.Model):
     def __str__(self):
         return self.title
 
-class CommentForShortCut(models.Model):
-    shortcut= models.ForeignKey(MyShortCut, on_delete=models.CASCADE)
+class CommentForShortCutForSkilNote2(models.Model):
+    shortcut= models.ForeignKey(MyShortCutForSkilNote2, on_delete=models.CASCADE)
     title= models.CharField(max_length=50)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -94,7 +95,7 @@ class CommentForShortCut(models.Model):
     def __str__(self):
         return self.title
 
-class CommentForPage(models.Model):
+class CommentForPageForSkilNote2(models.Model):
     author= models.CharField(max_length=40)
     content = models.TextField()
     user_name = models.CharField(max_length=40, blank=True)
@@ -108,7 +109,7 @@ class CommentForPage(models.Model):
         ordering = ['-created_at']
 
 
-class CategoryNick(models.Model):
+class CategoryNickForSkilNote2(models.Model):
     ca_subtitle = models.CharField(max_length=50, default="my category info")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     ca1 = models.CharField(max_length=50, default="ca1")
