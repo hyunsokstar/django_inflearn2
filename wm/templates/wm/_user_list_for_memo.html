@@ -34,10 +34,11 @@
                 <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-author_id="{{u.id}}" data-my_id="{{request.user.id}}">
                     <img src="{% static 'icon/plus.png' %}" alt="">
                 </button>
+                <span id="skill_note_point_{{u.id}}">
+                    {{ u.recommandationuseraboutskillnote_set.count }}
+                </span>
             </td>
-            <td id="skill_note_point_{{u.id}}">
-                {{ u.recommandationuseraboutskillnote_set.count }}
-            </td>
+
         </tr>
     {% endfor %}
 {% else %}

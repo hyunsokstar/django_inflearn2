@@ -21,11 +21,11 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 # 1122
 def manualPage(request):
-    return render(request, 'wm/manual.html', {
+    return render(request, 'skilnote2/manual.html', {
 	})
 
 def intro_for_skilnote(request):
-    return render(request, 'wm/intro_page.html', {
+    return render(request, 'skilnote2/intro_page.html', {
 	})
 
 
@@ -44,8 +44,8 @@ class MyShortCutListView2(LoginRequiredMixin,ListView):
     def get_template_names(self):
         if self.request.is_ajax():
             print("user list ajax 요청 확인")
-            return ['wm/myshortcut_list2.html']
-        return ['wm/myshortcut_list2.html']
+            return ['skilnote2/myshortcut_list2.html']
+        return ['skilnote2/myshortcut_list2.html']
 
         print("user : ", user)
 
@@ -81,8 +81,8 @@ class MyShortcutListByCategory2(ListView):
     def get_template_names(self):
         if self.request.is_ajax():
             print("user list ajax 요청 확인")
-            return ['wm/myshortcut_list2.html']
-        return ['wm/myshortcut_list2.html']
+            return ['skilnote2/myshortcut_list2.html']
+        return ['skilnote2/myshortcut_list2.html']
 
 
     def get_queryset(self):
@@ -128,7 +128,7 @@ def guest_book_list(request,guest_book_owner):
         object_list = GuestBookForSkilNote2.objects.filter(owner_for_guest_book=owner).order_by('created_at');
         print("object_list : ", object_list)
 
-        return render(request, 'wm/guest_book_list.html', {
+        return render(request, 'skilnote2/guest_book_list.html', {
             "object_list" : object_list,
         })
     else:
@@ -168,7 +168,7 @@ def delete_guest_book_list(request,id):
             'message': 'comment 삭제 성공 ',
         })
     else:
-        return redirect('/wm/myshorcut/')
+        return redirect('/skilnote2/myshorcut/')
 
 def insert_for_guest_book(request):
     print("insert_for_guest_book 실행")
@@ -219,14 +219,14 @@ def new_comment_for_skilpage(request, user_name, category_id):
             comment.user_name = user_name
             comment.category_id = category_id
             comment.save()
-            return redirect('/wm/myshortcut/'+user_name+"/"+category_id)
+            return redirect('/skilnote2/myshortcut/'+user_name+"/"+category_id)
     else:
-        return redirect('/wm/myshortcut/'+user_name+"/"+category_id)
+        return redirect('/skilnote2/myshortcut/'+user_name+"/"+category_id)
 
 class MyShortcutListByUser(ListView):
     model = MyShortCutForSkilNote2
     paginate_by = 20
-    template_name = 'wm/myshortcut_list_for_user.html'
+    template_name = 'skilnote2/myshortcut_list_for_user.html'
 
 
     def get_queryset(self):
@@ -739,7 +739,7 @@ def temp_skill_list_for_backend1(request):
 
     object_list = TempMyShortCutForBackEndForSkilNote2.objects.filter(author=user)
 
-    return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
+    return render(request, 'skilnote2/TempMyShortCutForBackEnd_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -754,7 +754,7 @@ def temp_skill_list1(request):
     print("user : ", user)
     object_list = TempMyShortCutForSkilNote2.objects.filter(author=user)
 
-    return render(request, 'wm/TempMyShortCut_list.html', {
+    return render(request, 'skilnote2/TempMyShortCut_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -768,7 +768,7 @@ def temp_skill_list_for_backend2(request,page_user):
 
     object_list = TempMyShortCutForBackEndForSkilNote2.objects.filter(author=user)
 
-    return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
+    return render(request, 'skilnote2/TempMyShortCutForBackEnd_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -783,7 +783,7 @@ def temp_skill_list2(request,page_user):
     print("user : ", user)
     object_list = TempMyShortCutForSkilNote2.objects.filter(author=user)
 
-    return render(request, 'wm/TempMyShortCut_list.html', {
+    return render(request, 'skilnote2/TempMyShortCut_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -945,7 +945,7 @@ class search_skil_note_by_word(ListView):
 class searchSkilNoteViewByIdAndWord(ListView):
     model = MyShortCutForSkilNote2
     paginate_by = 10
-    template_name = 'wm/MyShortCut_list_for_search.html'
+    template_name = 'skilnote2/MyShortCut_list_for_search.html'
 
     def get_queryset(self):
         if request.method == "POST" and request.is_ajax():
@@ -999,57 +999,57 @@ def new_comment_for_my_shortcut(request, shortcut_id):
         'comment_content':co.content,
     })
 
-def create_new4_textarea(request):
-    print("create_new4_textarea 실행")
-    ty = TypeForSkilNote2.objects.get(type_name="textarea")
-    category_id = request.user.profile.selected_category_id
-    ca = CategoryForSkilNote2.objects.get(id=category_id)
-    # title = request.POST['title']
-
-    wm1 = MyShortCutForSkilNote2.objects.create(
-        author = request.user,
-        title="title1",
-        type= ty,
-        category = ca,
-        content2 = ""
-    )
-    wm2 = MyShortCutForSkilNote2.objects.create(
-        author = request.user,
-        title="title2",
-        type= ty,
-        category = ca,
-        content2 = ""
-    )
-    wm3 = MyShortCutForSkilNote2.objects.create(
-        author = request.user,
-        title="title3",
-        type= ty,
-        category = ca,
-        content2 = ""
-    )
-    wm4 = MyShortCutForSkilNote2.objects.create(
-        author = request.user,
-        title="title4",
-        type= ty,
-        category = ca,
-        content2 = ""
-    )
-    wm5 = MyShortCutForSkilNote2.objects.create(
-        author = request.user,
-        title="title5",
-        type= ty,
-        category = ca,
-        content2 = ""
-    )
-
-    print("wm1 : ", wm1)
-
-    return JsonResponse({
-        'message': 'textarea 박스 추가 성공',
-        'shortcut_id':wm1.id,
-        'shortcut_title':wm1.title,
-        'shortcut_content2':wm1.content2,
-    })
+# def create_new4_textarea(request):
+#     print("create_new4_textarea 실행")
+#     ty = TypeForSkilNote2.objects.get(type_name="textarea")
+#     category_id = request.user.profile.selected_category_id
+#     ca = CategoryForSkilNote2.objects.get(id=category_id)
+#     # title = request.POST['title']
+#
+#     wm1 = MyShortCutForSkilNote2.objects.create(
+#         author = request.user,
+#         title="title1",
+#         type= ty,
+#         category = ca,
+#         content2 = ""
+#     )
+#     wm2 = MyShortCutForSkilNote2.objects.create(
+#         author = request.user,
+#         title="title2",
+#         type= ty,
+#         category = ca,
+#         content2 = ""
+#     )
+#     wm3 = MyShortCutForSkilNote2.objects.create(
+#         author = request.user,
+#         title="title3",
+#         type= ty,
+#         category = ca,
+#         content2 = ""
+#     )
+#     wm4 = MyShortCutForSkilNote2.objects.create(
+#         author = request.user,
+#         title="title4",
+#         type= ty,
+#         category = ca,
+#         content2 = ""
+#     )
+#     wm5 = MyShortCutForSkilNote2.objects.create(
+#         author = request.user,
+#         title="title5",
+#         type= ty,
+#         category = ca,
+#         content2 = ""
+#     )
+#
+#     print("wm1 : ", wm1)
+#
+#     return JsonResponse({
+#         'message': 'textarea 박스 추가 성공',
+#         'shortcut_id':wm1.id,
+#         'shortcut_title':wm1.title,
+#         'shortcut_content2':wm1.content2,
+#     })
 
 # myshortcut_row, shorcut_id, shorcut_content
 def create_new1_input(request):
@@ -1076,7 +1076,7 @@ def create_new1_input(request):
     })
 
 def create_new1_input_first(request):
-    print("create_new1_input 실행 2222")
+    print("input box ajax 입력 box 실행 skil note2 !!!!")
     ty = TypeForSkilNote2.objects.get(type_name="input")
     category_id = request.user.profile.selected_category_id
 
@@ -1086,7 +1086,7 @@ def create_new1_input_first(request):
     ca = CategoryForSkilNote2.objects.get(id=category_id)
     title = request.POST['title']
 
-    wm = MyShortCutForSkilNote2.objects.create(
+    skilnote2 = MyShortCutForSkilNote2.objects.create(
         author = request.user,
         title=title,
         type= ty,
@@ -1285,14 +1285,14 @@ def update_category_by_ajax(request):
     for i, sn in enumerate(shortcut_ids):
         MyShortCutForSkilNote2.objects.filter(id=sn, author=request.user).update(category=category, created = datetime.now()+timedelta(seconds=i),image=F('image'))
 
-    return redirect('/wm/myshortcut')
+    return redirect('/skilnote2/myshortcut')
 
 def delete_myshortcut_by_ajax(request):
     shortcut_ids = request.POST.getlist('shortcut_arr[]')
     if shortcut_ids:
         MyShortCutForSkilNote2.objects.filter(pk__in=shortcut_ids, author=request.user).delete()
 
-    return redirect('/wm/myshortcut')
+    return redirect('/skilnote2/myshortcut')
 
 
 def update_my_shortcut_subject(request):
@@ -1308,7 +1308,7 @@ def update_my_shortcut_subject(request):
             'message': 'shortcut_subject update 성공 : ' +shortcut_subject
         })
     else:
-        return redirect('/wm/shortcut')
+        return redirect('/skilnote2/shortcut')
 
 
 def favorite_user_list_for_skillnote(request):
@@ -1327,7 +1327,7 @@ def favorite_user_list_for_skillnote(request):
         print("object_list : ", object_list)
 
 
-        return render(request, 'wm/favorite_user_list_for_skilnote.html', {
+        return render(request, 'skilnote2/favorite_user_list_for_skilnote.html', {
             "object_list" : object_list,
         })
     else:
@@ -1344,8 +1344,8 @@ class user_list_for_memo_view(ListView):
     def get_template_names(self):
         if self.request.is_ajax():
             print("user list ajax 요청 확인")
-            return ['wm/_user_list_for_memo.html']
-        return ['wm/user_list_for_memo.html']
+            return ['skilnote2/_user_list_for_memo.html']
+        return ['skilnote2/user_list_for_memo.html']
 
     def get_queryset(self):
         print("실행 확인 겟 쿼리셋")
@@ -1380,7 +1380,7 @@ def update_shortcut_nick(request):
             'message': 'shortcut category nick name update 성공 ' +ca_nick_update,
         })
     else:
-        return redirect('/wm/shortcut')
+        return redirect('/skilnote2/shortcut')
 
 def update_shortcut_nick2(request):
     if request.method == "POST" and request.is_ajax():
@@ -1401,7 +1401,7 @@ def update_shortcut_nick2(request):
             'message': 'shortcut category nick name update 성공 ' +ca_nick_update,
         })
     else:
-        return redirect('/wm/shortcut')
+        return redirect('/skilnote2/shortcut')
 
 
 def CategoryNickListByUserId(request, user_name):
@@ -1417,7 +1417,7 @@ def CategoryNickListByUserId(request, user_name):
         cn_my = CategoryNickForSkilNote2.objects.get(author=user.id)
         print("cn_my : ", cn_my)
 
-        return render(request, 'wm/categorynick_list.html', {
+        return render(request, 'skilnote2/categorynick_list.html', {
             "category" : cn_my,
         })
     else:
@@ -1437,7 +1437,7 @@ def CategoryNickListByUserId_for_user(request, user_name):
         cn_my = CategoryNickForSkilNote2.objects.get(author=user.id)
         print("cn_my : ", cn_my)
 
-        return render(request, 'wm/categorynick_list_for_user.html', {
+        return render(request, 'skilnote2/categorynick_list_for_user.html', {
             "category" : cn_my,
             "page_user": user_name
         })
@@ -1450,18 +1450,18 @@ class update_skilnote_by_summernote(UpdateView):
     form_class = SkilNoteForm
 
     def get_template_names(self):
-        return ['wm/myshortcut_summernote_form.html']
+        return ['skilnote2/myshortcut_summernote_form.html']
 
 class modify_myshortcut_by_summer_note2(UpdateView):
     model = MyShortCutForSkilNote2
     form_class = SkilNoteForm
 
     def get_template_names(self):
-        return ['wm/myshortcut_summernote_form.html']
+        return ['skilnote2/myshortcut_summernote_form.html']
 
 
     def get_success_url(self):
-        return reverse('wm:my_shortcut_list2')
+        return reverse('skilnote2:my_shortcut_list2')
 
 
 # 나의 shorcut id를 user list에서 클릭한 id로 교체
@@ -1541,6 +1541,9 @@ def myfunc():
 # 2244
 class MyShortcutListByCategory(ListView):
 
+    def get_template_names(self):
+        return ['skilnote2/skil_note2_list.html']
+
     def get_queryset(self):
         slug = self.kwargs['slug']
         category = CategoryForSkilNote2.objects.get(slug=slug)
@@ -1616,6 +1619,9 @@ def update_skil_note_file_name(request,id):
 # 2244
 class SkilNoteListView(LoginRequiredMixin,ListView):
     model = MyShortCutForSkilNote2
+    def get_template_names(self):
+        return ['skilnote2/skil_note2_list.html']
+
 
     def get_queryset(self):
         user = self.request.user
@@ -1658,13 +1664,12 @@ class SkilNoteListView(LoginRequiredMixin,ListView):
             context['category_nick'] = CategoryNickForSkilNote2.objects.values_list(category.name, flat=True).get(author=self.request.user)
         return context
 
-# 2244
 class search_skil_note_for_me(LoginRequiredMixin,ListView):
     model = MyShortCutForSkilNote2
     paginate_by = 10
 
     def get_template_names(self):
-        return ['wm/search_skil_note_for_me.html']
+        return ['skilnote2/search_skil_note_for_me.html']
 
     def get_queryset(self):
         if self.request.method == 'GET' and 'q' in self.request.GET:
@@ -1688,7 +1693,7 @@ class search_skilnote_by_file_name_for_me(LoginRequiredMixin,ListView):
     paginate_by = 10
 
     def get_template_names(self):
-        return ['wm/search_skil_note_for_file_name_for_me.html']
+        return ['skilnote2/search_skil_note_for_file_name_for_me.html']
 
     def get_queryset(self):
         if self.request.method == 'GET' and 'q' in self.request.GET:
@@ -1712,7 +1717,7 @@ class search_skilnote_by_file_name_for_all(LoginRequiredMixin,ListView):
     paginate_by = 10
 
     def get_template_names(self):
-        return ['wm/search_skil_note_for_file_name_for_all.html']
+        return ['skilnote2/search_skil_note_for_file_name_for_all.html']
 
     def get_queryset(self):
         if self.request.method == 'GET' and 'q' in self.request.GET:
@@ -1737,7 +1742,7 @@ class search_skil_note_for_all(LoginRequiredMixin,ListView):
     paginate_by = 10
 
     def get_template_names(self):
-        return ['wm/search_skil_note_for_all_user.html']
+        return ['skilnote2/search_skil_note_for_all_user.html']
 
     def get_queryset(self):
         if self.request.method == 'GET' and 'q' in self.request.GET:
@@ -1777,7 +1782,7 @@ class MyShortCutCreateView_input(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('wm:my_shortcut_list')
+        return reverse('skilnote2:my_shortcut_list')
 
 
 class SkilNoteCreateView_image_through(LoginRequiredMixin,CreateView):
@@ -1818,7 +1823,7 @@ class SkilNoteCreateView_image_through(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('wm:my_shortcut_list')
+        return reverse('skilnote2:my_shortcut_list')
 
 class MyShortCutCreateView_image(LoginRequiredMixin,CreateView):
     model = MyShortCutForSkilNote2
@@ -1840,7 +1845,7 @@ class MyShortCutCreateView_image(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('wm:my_shortcut_list')
+        return reverse('skilnote2:my_shortcut_list')
 
 
 class MyShortCutCreateView_textarea(LoginRequiredMixin,CreateView):
@@ -1863,17 +1868,26 @@ class MyShortCutCreateView_textarea(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('wm:my_shortcut_list')
+        return reverse('skilnote2:my_shortcut_list')
 
 class CreateSkilNoteBySummerNote(LoginRequiredMixin,CreateView):
     model = MyShortCutForSkilNote2
     form_class = SkilNoteForm
 
     def get_template_names(self):
-        return ['wm/myshortcut_summernote_form.html']
+        return ['skilnote2/myshortcut_summernote_form.html']
 
     def form_valid(self, form):
-        print("create skil note excute !!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("create skil_note2 excute !!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+        type_list = TypeForSkilNote2.objects.all()
+        if not type_list:
+            TypeForSkilNote2.objects.create(type_name="summer_note")
+            TypeForSkilNote2.objects.create(type_name="textarea")
+            TypeForSkilNote2.objects.create(type_name="input")
+            TypeForSkilNote2.objects.create(type_name="image")
+            print("타입 생성 성공 !!!!!!!!")
+
         ty = TypeForSkilNote2.objects.get(type_name="summer_note")
         ms = form.save(commit=False)
         ms.author = self.request.user
@@ -1886,7 +1900,7 @@ class CreateSkilNoteBySummerNote(LoginRequiredMixin,CreateView):
 
     def get_success_url(self):
         category_id = self.request.user.profile.selected_category_id
-        return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(category_id)
+        return reverse('skilnote2:my_shortcut_list')+'#shortcut_{}'.format(category_id)
 
 
 
@@ -1895,7 +1909,7 @@ class createSkilNoteForInsertMode(LoginRequiredMixin,CreateView):
     form_class = SkilNoteForm
 
     def get_template_names(self):
-        return ['wm/myshortcut_summernote_form.html']
+        return ['skilnote2/myshortcut_summernote_form.html']
 
     def form_valid(self, form):
         print("summer note 입력 !!")
@@ -1924,7 +1938,7 @@ class createSkilNoteForInsertMode(LoginRequiredMixin,CreateView):
 
     def get_success_url(self):
         category_id = self.request.user.profile.selected_category_id
-        return reverse('wm:my_shortcut_list2')+'#shortcut_{}'.format(category_id)
+        return reverse('skilnote2:my_shortcut_list2')+'#shortcut_{}'.format(category_id)
 
 class SkilNoteCreateView_summernote_through2(LoginRequiredMixin,CreateView):
     model = MyShortCutForSkilNote2
@@ -1932,10 +1946,10 @@ class SkilNoteCreateView_summernote_through2(LoginRequiredMixin,CreateView):
 
     def get_success_url(self):
         category_id = self.request.user.profile.selected_category_id
-        return reverse('wm:my_shortcut_list2')+'#shortcut_{}'.format(self.object.id)
+        return reverse('skilnote2:my_shortcut_list2')+'#shortcut_{}'.format(self.object.id)
 
     def get_template_names(self):
-        return ['wm/myshortcut_summernote_form.html']
+        return ['skilnote2/myshortcut_summernote_form.html']
 
     def form_valid(self, form):
         print("through 입력 확인 2222")
@@ -1978,7 +1992,7 @@ class SkilNoteCreateView_summernote_through(LoginRequiredMixin,CreateView):
     form_class = SkilNoteForm
 
     def get_template_names(self):
-        return ['wm/myshortcut_summernote_form.html']
+        return ['skilnote2/myshortcut_summernote_form.html']
 
     def form_valid(self, form):
         print("through 입력 확인")
@@ -2016,4 +2030,4 @@ class SkilNoteCreateView_summernote_through(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     # def get_success_url(self):
-    #     return reverse('wm:my_shortcut_list')
+    #     return reverse('skilnote2:my_shortcut_list')

@@ -98,7 +98,7 @@ urlpatterns = [
     path('myshortcut/create_new2_textarea_between/ajax/<int:current_article_id>', views.create_new2_textarea_between , name="create_new2_textarea_between"),
 
 
-    path('myshortcut/create_new4_textarea/ajax/', views.create_new4_textarea , name="create_new4_textareas"),
+    # path('myshortcut/create_new4_textarea/ajax/', views.create_new4_textarea , name="create_new4_textareas"),
 
     path('myshortcut/update/category/nick/', views.update_shortcut_nick , name="update_category_nick"),
     path('myshortcut/update/category_nick_by_author/', views.update_shortcut_nick2 , name="update_category_nick2"),

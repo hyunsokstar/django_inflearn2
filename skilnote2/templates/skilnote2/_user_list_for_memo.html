@@ -34,10 +34,11 @@
                 <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-author_id="{{u.id}}" data-my_id="{{request.user.id}}">
                     <img src="{% static 'icon/plus.png' %}" alt="">
                 </button>
+                <span id="skill_note_point_{{u.id}}">
+                    {{ u.recommandationuseraboutskillnote_set.count }}
+                </span>
             </td>
-            <td id="skill_note_point_{{u.id}}">
-                {{ u.recommandationuseraboutskillnote_set.count }}
-            </td>
+
         </tr>
     {% endfor %}
 {% else %}
@@ -68,7 +69,7 @@ $(".copy_to_me_from_user_id_btn").click(function(e){
 	};
 
     const selection = prompt("나의 note를 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
-    window.history.pushState("", "", '/wm/myshortcut/')
+    window.history.pushState("", "", '/skilnote2/myshortcut/')
 
     if (selection == "y" || selection == "Y") {
         $.ajax({
@@ -96,7 +97,7 @@ $(".update_memo_subject_btn").click(function(e){
     const shortcut_subject = $(".shortcut_subject_input_"+id).val()
     // alert("shortcut_subject : "+shortcut_subject)
 
-    window.history.pushState("", "", '/wm/myshortcut/')
+    window.history.pushState("", "", '/skilnote2/myshortcut/')
 
     $.ajax({
       type: "POST",
@@ -123,7 +124,7 @@ $(".update_memo_subject_btn").click(function(e){
     //     // alert("id : "+ id);
     //     // alert("user_id : "+ user_id);
     //
-    //         window.history.pushState("", "", '/wm/')
+    //         window.history.pushState("", "", '/skilnote2/')
     //
     //         $.ajax({
     //           type: "POST",
@@ -140,8 +141,8 @@ $(".update_memo_subject_btn").click(function(e){
     //                 }
     //                 // alert(original_id)
     //                 // alert("id 교체 실행")
-    //                 window.history.pushState("", "", '/wm/myshortcut/')
-    //                 location.href = "/wm/myshortcut/"
+    //                 window.history.pushState("", "", '/skilnote2/myshortcut/')
+    //                 location.href = "/skilnote2/myshortcut/"
     //             }
     //         });
     // })
@@ -152,7 +153,7 @@ $(".update_memo_subject_btn").click(function(e){
         // alert("id : "+ id)
         const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
         // alert(user_id + "의 skil note로 이동")
-        location.href = "/wm/myshortcut/"+user_id+"/1";
+        location.href = "/skilnote2/myshortcut/"+user_id+"/1";
     })
 
 

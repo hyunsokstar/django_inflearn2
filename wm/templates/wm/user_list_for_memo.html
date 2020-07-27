@@ -7,9 +7,11 @@
 
 {% endblock %}
 
-{%block content4%}
+{%block content5%}
 
 <br><br>
+
+<h2>skilnote1</h2>
 
     <input type="button" class="btn btn-outline-dark btn-block btn-sm mt-4" onclick="location.href='/wm/myshortcut/'" value="skil note로 이동"/> <br><br>
 
@@ -41,12 +43,11 @@
     <table class="table table-bordered" id="todo_list">
         <tr>
             <td>id</td>
-            <td>username</td>
+            <td width="20%">username</td>
             <td>skill note subject</td>
             <td>복사</td>
             <td>skilnote</td>
             <td>추천</td>
-            <td>평점 </td>
         </tr>
         {% if object_list.exists %}
         {% for u in object_list %}
@@ -82,9 +83,9 @@
                 <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-author_id="{{u.id}}" data-my_id="{{request.user.id}}">
                     <img src="{% static 'icon/plus.png' %}" alt="">
                 </button>
-            </td>
-            <td id="skill_note_point_{{u.id}}">
-                {{ u.recommandationuseraboutskillnote_set.count }}
+                <span id="skill_note_point_{{u.id}}">
+                    {{ u.recommandationuseraboutskillnote_set.count }}
+                </span>
             </td>
         </tr>
         {% endfor %}
