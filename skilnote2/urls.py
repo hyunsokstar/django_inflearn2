@@ -35,7 +35,6 @@ urlpatterns = [
     path('myshortcut/temp_skill_list/', views.temp_skill_list1 , name="temp_skill_list"), # mininote for frontend
 
 
-
     path('new_comment_for_skilpage/<str:user_name>/<str:category_id>/' , views.new_comment_for_skilpage, name="new_comment_for_skilpage"),
 
     path('manual', views.manualPage, name="manual"),

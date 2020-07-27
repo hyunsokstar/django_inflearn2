@@ -23,6 +23,8 @@ urlpatterns = [
     path('pd/', include('pd.urls')),
     path('skilblog/', include('skilblog.urls')),
     path('skilnote2/', include('skilnote2.urls')),
+    path('skilnote3/', include('skilnote3.urls')),
+    path('skilnote4/', include('skilnote4.urls')),
 ]
 
 if settings.DEBUG:

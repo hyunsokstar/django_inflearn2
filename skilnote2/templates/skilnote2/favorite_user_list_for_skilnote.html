@@ -39,7 +39,8 @@
             {% endif %}
 
             <td>
-                <a href="" class="btn btn-outline-dark move_to_user_btn btn-sm" id={{u.id}}>페이지 방문</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn1 btn-sm" id={{u.id}}>skilnote1</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn2 btn-sm" id={{u.id}}>skilnote2</a>
             </td>
             <td>
                   <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>
@@ -168,7 +169,6 @@ function refresh_user_list_popup(){
 
 }
 
-
 // spinner-border spinner-border-sm
 $(".copy_to_me_from_user_id_btn").click(function(e){
     e.preventDefault();
@@ -226,87 +226,23 @@ $(".update_memo_subject_btn").click(function(e){
 
 })
 
-    // $(".move_to_user_btn").click(function(e){
-    //     e.preventDefault();
-    //     // alert("유저 메모장으로 이동")
-    //     const id = this.id
-    //     // alert("id : "+ id)
-    //     const user_name = $(this).parent().parent().find("#user_name_"+id).text()
-    //     alert("user_name : " +user_name)
-    //     $("#user_list_modal").modal("hide")
-    //     $("#shortcut_user_id").val(user_name)
-    //     $(".update_shortcut_user_id").trigger("click");
-    // })
+$(".move_to_user_btn1").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    // alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text()
+    alert(user_id + "의 skil note1로 이동")
+    location.href = "/wm/myshortcut/"+user_id+"/1";
+})
 
-    // $(".move_to_user_btn").click(function(e){
-    //     e.preventDefault();
-    //     // alert("유저 메모장으로 이동")
-    //     const id = this.id
-    //     // alert("id : "+ id)
-    //     const user_id = $(this).parent().parent().find("#user_name_"+id).text()
-    //
-    //     // alert("id : "+ id);
-    //     // alert("user_id : "+ user_id);
-    //
-    //         window.history.pushState("", "", '/wm/')
-    //
-    //         $.ajax({
-    //           type: "POST",
-    //           url: 'update/shortcut_id_ajax/'+id,
-    //           data: {
-    //               'user_id':user_id,
-    //               csrfmiddlewaretoken: '{{ csrf_token }}'
-    //           },
-    //             success: function(result) {
-    //                 alert("result.message : " + result.message)
-    //                 const original_id = result.original_id
-    //                 if(original_id !=""){
-    //                     // $("#shortcut_user_id").val(original_id)
-    //                 }
-    //                 // alert(original_id)
-    //                 // alert("id 교체 실행")
-    //                 window.history.pushState("", "", '/wm/myshortcut/')
-    //                 location.href = "/wm/myshortcut/"
-    //             }
-    //         });
-    // })
-
-    $(".move_to_user_btn").click(function(e){
-        e.preventDefault();
-        const id = this.id
-        // alert("id : "+ id)
-        const user_id = $(this).parent().parent().find("#user_name_"+id).text()
-        alert(user_id + "의 skil note로 이동")
-
-
-        location.href = "/wm/myshortcut/"+user_id+"/1";
-
-
-        // alert("id : "+ id);
-        // alert("user_id : "+ user_id);
-
-            // window.history.pushState("", "", '/wm/')
-            //
-            // $.ajax({
-            //   type: "POST",
-            //   url: 'update/shortcut_id_ajax/'+id,
-            //   data: {
-            //       'user_id':user_id,
-            //       csrfmiddlewaretoken: '{{ csrf_token }}'
-            //   },
-            //     success: function(result) {
-            //         alert("result.message : " + result.message)
-            //         const original_id = result.original_id
-            //         if(original_id !=""){
-            //             // $("#shortcut_user_id").val(original_id)
-            //         }
-            //         // alert(original_id)
-            //         // alert("id 교체 실행")
-            //         window.history.pushState("", "", '/wm/myshortcut/')
-            //         location.href = "/wm/myshortcut/"
-            //     }
-            // });
-    })
+$(".move_to_user_btn2").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    // alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text()
+    alert(user_id + "의 skil note2로 이동")
+    location.href = "/skilnote2/myshortcut/"+user_id+"/1";
+})
 
 
 {% endblock %}

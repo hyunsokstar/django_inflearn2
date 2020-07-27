@@ -1239,13 +1239,10 @@ def create_new2_textarea(request):
     })
 
 def create_new2_textarea_between(request,current_article_id):
-
     current_article_id = current_article_id
     current_article = MyShortCutForSkilNote2.objects.get(id=current_article_id)
     print("current_article_time : " , current_article.created)
-
     smae_category_for_current_article=MyShortCutForSkilNote2.objects.filter(author= current_article.author, category = current_article.category).order_by("created")
-
     same_category_id_array = []
 
     for i,p in enumerate(smae_category_for_current_article):
@@ -1254,7 +1251,6 @@ def create_new2_textarea_between(request,current_article_id):
             MyShortCutForSkilNote2.objects.filter(id=p.id).update(created = F('created')+timedelta(seconds=0))
         else:
             MyShortCutForSkilNote2.objects.filter(id=p.id).update(created = F('created')+timedelta(seconds=i+1))
-
 
     print("create_new2_textarea 실행")
     ty = TypeForSkilNote2.objects.get(type_name="textarea")

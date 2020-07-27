@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'pd', #persional desk
     'skilblog', # 스킬 블로그
     'blog', # tech note
-    'skilnote2'
+    'skilnote2',
+    'skilnote3',
+    'skilnote4'
 ]
 
 MIDDLEWARE = [
