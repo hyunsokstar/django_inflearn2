@@ -422,6 +422,7 @@ def plus_recommand_for_skillnote_user(request):
         })
 
 
+# MyShortCut , CommentForShortCut, CategoryNick
 def copy_to_me_from_user_id(request):
 
     author = request.POST['author']
@@ -580,6 +581,9 @@ def copy_to_me_from_user_id(request):
     return JsonResponse({
         'message': author+'의 노트 전체를 나의 노트로 복사 했습니다',
     })
+
+
+
 
 def edit_complete_skill_note_for_backend(request,id):
     user = request.user

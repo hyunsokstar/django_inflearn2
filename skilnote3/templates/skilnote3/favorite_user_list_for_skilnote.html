@@ -17,7 +17,7 @@
             <td>username</td>
             <td>skill note subject</td>
             <td>note page</td>
-            <td>복사</td>
+            <!-- <td>복사</td> -->
             <td>추천</td>
             <td>평점</td>
         </tr>
@@ -39,15 +39,17 @@
             {% endif %}
 
             <td>
-                <a href="" class="btn btn-outline-dark move_to_user_btn1 btn-sm" id={{u.id}}>skilnote1</a>
-                <a href="" class="btn btn-outline-dark move_to_user_btn2 btn-sm" id={{u.id}}>skilnote2</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn1 btn-sm" id={{u.id}}>note1</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn2 btn-sm" id={{u.id}}>note2</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn3 btn-sm" id={{u.id}}>note3</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn4 btn-sm" id={{u.id}}>note4</a>
             </td>
-            <td>
+            <!-- <td>
                   <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" id={{u.username}}>
                       copy_to_me
                       <span class="" id="loading_for_copy" role="status" aria-hidden="true"></span>
                   </a>
-            </td>
+            </td> -->
             <td>
                 <button type="button" class="plus_btn_for_favorite_user btn btn-outline-dark" data-author_id="{{u.id}}" data-my_id="{{request.user.id}}">
                     <img src="{% static 'icon/plus.png' %}" alt="">
@@ -60,7 +62,7 @@
         {% endfor %}
         {% else %}
         <tr>
-            <td colspan="4">
+            <td colspan="6">
                 <h4>아직 게시물이 없습니다.</h4>
             </td>
         </tr>
@@ -230,7 +232,7 @@ $(".move_to_user_btn1").click(function(e){
     e.preventDefault();
     const id = this.id
     // alert("id : "+ id)
-    const user_id = $(this).parent().parent().find("#user_name_"+id).text()
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
     alert(user_id + "의 skil note1로 이동")
     location.href = "/wm/myshortcut/"+user_id+"/1";
 })
@@ -239,9 +241,27 @@ $(".move_to_user_btn2").click(function(e){
     e.preventDefault();
     const id = this.id
     // alert("id : "+ id)
-    const user_id = $(this).parent().parent().find("#user_name_"+id).text()
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
     alert(user_id + "의 skil note2로 이동")
     location.href = "/skilnote2/myshortcut/"+user_id+"/1";
+})
+
+$(".move_to_user_btn3").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    // alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
+    alert(user_id + "의 skil note3로 이동")
+    location.href = "/skilnote3/myshortcut/"+user_id+"/1";
+})
+
+$(".move_to_user_btn4").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    // alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
+    alert(user_id + "의 skil note4로 이동")
+    location.href = "/skilnote4/myshortcut/"+user_id+"/1";
 })
 
 

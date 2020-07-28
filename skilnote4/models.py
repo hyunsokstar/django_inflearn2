@@ -28,7 +28,7 @@ class CategoryForSkilNote4(models.Model):
     def __str__(self):
         return self.name
     def get_absolute_url(self):
-            return '/SkilNote4/myshortcut/category/{}/'.format(self.slug)
+            return '/skilnote4/myshortcut/category/{}/'.format(self.slug)
 
 class TypeForSkilNote4(models.Model):
     type_name = models.CharField(max_length=20)

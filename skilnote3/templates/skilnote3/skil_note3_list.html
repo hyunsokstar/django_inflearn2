@@ -46,6 +46,7 @@ img.Image { max-width: 100%; display: block; }
 
 {%block content4 %}
 <br><hr>
+skilnote3
 <table class="table table-bordered">
 	<tr>
 		<td width="">
@@ -64,7 +65,7 @@ img.Image { max-width: 100%; display: block; }
 			    <div class="col">
 				  <!-- <button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button> -->
 				  <button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
-				  <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'skilnote3:user_list_for_memo' %}'">USER</button>
+				  <!-- <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'skilnote3:user_list_for_memo' %}'">USER</button> -->
 				  <button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
 				  <a class="btn btn-outline-success btn-sm" href="{% url 'skilnote3:search_skil_note_for_me' %}">Search</a>
 				  <a class="btn btn-outline-success btn-sm" href="{% url 'skilnote3:search_skilnote_by_file_name_for_me' %}">Search(file)</a>

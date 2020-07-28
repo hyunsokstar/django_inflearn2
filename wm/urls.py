@@ -13,6 +13,7 @@ urlpatterns = [
     path('myshortcut/search_skilnote_by_file_name_for_me/', views.search_skilnote_by_file_name_for_me.as_view() , name="search_skilnote_by_file_name_for_me"),
     path('myshortcut/search_skilnote_by_file_name_for_all/', views.search_skilnote_by_file_name_for_all.as_view() , name="search_skilnote_by_file_name_for_all"),
 
+    path('myshortcut/copy_to_me_from_user_id/', views.copy_to_me_from_user_id , name='copy_to_me_from_user_id'),
 
 
     path('myshortcut/', views.SkilNoteListView.as_view() , name="my_shortcut_list"),
@@ -48,7 +49,6 @@ urlpatterns = [
 
     path('myshortcut/move_to_skil_blog/', views.move_to_skil_blog , name='move_to_skil_blog'),
 
-    path('myshortcut/copy_to_me_from_user_id/', views.copy_to_me_from_user_id , name='copy_to_me_from_user_id'),
     path('myshortcut/plus_recommand_for_skillnote_user/', views.plus_recommand_for_skillnote_user , name='plus_recommand_for_skillnote_user'),
 
     path('myshortcut/edit_complete_skill_note_for_front_end/<int:id>', views.edit_complete_skill_note_for_front_end , name='edit_complete_skill_note_for_front_end'),

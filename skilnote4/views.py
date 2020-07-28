@@ -268,7 +268,7 @@ class MyShortcutListByUser(ListView):
 
             context['posts_without_category'] = MyShortCutForSkilNote4.objects.filter(category=None, author=user).count()
             context['page_user'] = user
-            context['comment_list_for_page'] = CommentForPageForSkilNote.objects.filter(user_name=user, category_id = category_id)
+            context['comment_list_for_page'] = CommentForPageForSkilNote4.objects.filter(user_name=user, category_id = category_id)
             context['star_count_for_user'] = RecommandationUserAboutSkilNote4.objects.filter(user=user.id).count
             context['comment_form'] = CommentForm()
 

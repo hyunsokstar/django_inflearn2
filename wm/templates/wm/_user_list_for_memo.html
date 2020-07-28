@@ -22,14 +22,31 @@
             </td>
             {% endif %}
             <td>
-                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_user_id_btn" data-id={{u.id}} id={{u.username}}>
-                    copy_to_me
+                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_skilnote1" data-id={{u.id}} id={{u.username}}>
+                    sn1_copy
+                    <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
+                </a>
+
+                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_skilnote2" data-id={{u.id}} id={{u.username}}>
+                    sn2_copy
+                    <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
+                </a>
+
+                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_skilnote3" data-id={{u.id}} id={{u.username}}>
+                    sn3_copy
+                    <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
+                </a>
+
+                <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_skilnote4" data-id={{u.id}} id={{u.username}}>
+                    sn4_copy
                     <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
                 </a>
             </td>
             <td>
-                <a href="" class="btn btn-outline-dark move_to_user_btn1 btn-sm" id={{u.id}}>skilnote1</a>
-<a href="" class="btn btn-outline-dark move_to_user_btn2 btn-sm" id={{u.id}}>skilnote2</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn1 btn-sm" id={{u.id}}>note1</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn2 btn-sm" id={{u.id}}>note2</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn3 btn-sm" id={{u.id}}>note3</a>
+                <a href="" class="btn btn-outline-dark move_to_user_btn4 btn-sm" id={{u.id}}>note4</a>
             </td>
             <td>
                 <button type="button" class="plus_btn_for_user btn btn-outline-dark" data-author_id="{{u.id}}" data-my_id="{{request.user.id}}">
@@ -59,29 +76,134 @@
 // wm 앱임
 {% block extra_js %}
 
-
-$(".copy_to_me_from_user_id_btn").click(function(e){
+$(".copy_to_me_from_skilnote1").click(function(e){
     e.preventDefault();
     const author = this.id
     // alert("this.id : " + this.id);
+    const row_id = $(this).data("id");
 
     if (!author) {
 		return;
 	};
 
-    const selection = prompt("나의 note를 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
+    const selection = prompt("나의 skilnote1을 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
     window.history.pushState("", "", '/wm/myshortcut/')
 
     if (selection == "y" || selection == "Y") {
+        $("#loading_for_copy_"+row_id).addClass("spinner-border spinner-border-sm");
+
         $.ajax({
             type: "POST",
-            url: 'copy_to_me_from_user_id/',
+            url: "{% url 'wm:copy_to_me_from_user_id' %}",
             data: {
                 "author":author,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(result) {
-                alert("result.message : " + result.message)
+                $("#loading_for_copy_"+row_id).removeClass("spinner-border spinner-border-sm");
+                alert("result.message (user_list_for_memo) : " + result.message)
+            }
+        });
+    } else {
+        alert("취소 하셨습니다.")
+    }
+
+});
+
+$(".copy_to_me_from_skilnote2").click(function(e){
+    e.preventDefault();
+    const author = this.id
+    // alert("this.id : " + this.id);
+    const row_id = $(this).data("id");
+
+    if (!author) {
+		return;
+	};
+
+    const selection = prompt("나의 skilnote2를 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
+    window.history.pushState("", "", '/skilnote2/myshortcut/')
+
+    if (selection == "y" || selection == "Y") {
+        $("#loading_for_copy_"+row_id).addClass("spinner-border spinner-border-sm");
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'skilnote2:copy_to_me_from_user_id' %}",
+            data: {
+                "author":author,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(result) {
+                $("#loading_for_copy_"+row_id).removeClass("spinner-border spinner-border-sm");
+                alert("result.message (user_list_for_memo) : " + result.message)
+            }
+        });
+    } else {
+        alert("취소 하셨습니다.")
+    }
+
+});
+
+$(".copy_to_me_from_skilnote3").click(function(e){
+    e.preventDefault();
+    const author = this.id
+    // alert("this.id : " + this.id);
+    const row_id = $(this).data("id");
+
+    if (!author) {
+		return;
+	};
+
+    const selection = prompt("나의 skilnote3을 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
+    window.history.pushState("", "", '/skilnote3/myshortcut/')
+
+    if (selection == "y" || selection == "Y") {
+        $("#loading_for_copy_"+row_id).addClass("spinner-border spinner-border-sm");
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'skilnote3:copy_to_me_from_user_id' %}",
+            data: {
+                "author":author,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(result) {
+                $("#loading_for_copy_"+row_id).removeClass("spinner-border spinner-border-sm");
+                alert("result.message (user_list_for_memo) : " + result.message)
+            }
+        });
+    } else {
+        alert("취소 하셨습니다.")
+    }
+
+});
+
+$(".copy_to_me_from_skilnote4").click(function(e){
+    e.preventDefault();
+    const author = this.id
+    // alert("this.id : " + this.id);
+    const row_id = $(this).data("id");
+
+    if (!author) {
+		return;
+	};
+
+    const selection = prompt("나의 skilnote4를 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
+    window.history.pushState("", "", '/skilnote4/myshortcut/')
+
+    if (selection == "y" || selection == "Y") {
+        $("#loading_for_copy_"+row_id).addClass("spinner-border spinner-border-sm");
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'skilnote4:copy_to_me_from_user_id' %}",
+            data: {
+                "author":author,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(result) {
+                $("#loading_for_copy_"+row_id).removeClass("spinner-border spinner-border-sm");
+                alert("result.message (user_list_for_memo) : " + result.message)
             }
         });
     } else {
@@ -114,48 +236,41 @@ $(".update_memo_subject_btn").click(function(e){
 
 })
 
-    // 보관 이유: 페이지 이동 말고 직접 바꾸기가 필요할수도 있음
-    // $(".move_to_user_btn").click(function(e){
-    //     e.preventDefault();
-    //     // alert("유저 메모장으로 이동")
-    //     const id = this.id
-    //     // alert("id : "+ id)
-    //     const user_id = $(this).parent().parent().find("#user_name_"+id).text()
-    //
-    //     // alert("id : "+ id);
-    //     // alert("user_id : "+ user_id);
-    //
-    //         window.history.pushState("", "", '/wm/')
-    //
-    //         $.ajax({
-    //           type: "POST",
-    //           url: 'update/shortcut_id_ajax/'+id,
-    //           data: {
-    //               'user_id':user_id,
-    //               csrfmiddlewaretoken: '{{ csrf_token }}'
-    //           },
-    //             success: function(result) {
-    //                 alert("result.message : " + result.message)
-    //                 const original_id = result.original_id
-    //                 if(original_id !=""){
-    //                     // $("#shortcut_user_id").val(original_id)
-    //                 }
-    //                 // alert(original_id)
-    //                 // alert("id 교체 실행")
-    //                 window.history.pushState("", "", '/wm/myshortcut/')
-    //                 location.href = "/wm/myshortcut/"
-    //             }
-    //         });
-    // })
+$(".move_to_user_btn1").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    // alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
+    alert(user_id + "의 skil note1로 이동")
+    location.href = "/wm/myshortcut/"+user_id+"/1";
+})
 
-    $(".move_to_user_btn").click(function(e){
-        e.preventDefault();
-        const id = this.id
-        // alert("id : "+ id)
-        const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
-        // alert(user_id + "의 skil note로 이동")
-        location.href = "/wm/myshortcut/"+user_id+"/1";
-    })
+$(".move_to_user_btn2").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    // alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
+    alert(user_id + "의 skil note2로 이동")
+    location.href = "/skilnote2/myshortcut/"+user_id+"/1";
+})
+
+$(".move_to_user_btn3").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    // alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
+    alert(user_id + "의 skil note3로 이동")
+    location.href = "/skilnote3/myshortcut/"+user_id+"/1";
+})
+
+$(".move_to_user_btn4").click(function(e){
+    e.preventDefault();
+    const id = this.id
+    // alert("id : "+ id)
+    const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
+    alert(user_id + "의 skil note4로 이동")
+    location.href = "/skilnote4/myshortcut/"+user_id+"/1";
+})
 
 
 {% endblock %}
