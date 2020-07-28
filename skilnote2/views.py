@@ -2022,6 +2022,7 @@ class SkilNoteCreateView_summernote_through(LoginRequiredMixin,CreateView):
         category_id = self.request.user.profile.selected_category_id
         ca = CategoryForSkilNote2.objects.get(id=category_id)
         ms.category = ca
+        ms = form.save()
 
         return super().form_valid(form)
 
