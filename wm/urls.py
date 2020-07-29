@@ -127,7 +127,7 @@ urlpatterns = [
 
     path('update/shortcut_id_ajax/<int:id>', views.update_shorcut_id_for_user , name="update_shorcut_id_for_user"),
 
-        path('myshortcut/update_skilnote_by_summernote/<int:pk>/', views.update_skilnote_by_summernote.as_view() , name='update_skilnote_by_summernote'),
+    path('myshortcut/update_skilnote_by_summernote/<int:pk>/', views.update_skilnote_by_summernote.as_view() , name='update_skilnote_by_summernote'),
     path('myshortcut/modify_myshortcut_by_summer_note2/<int:pk>/', views.modify_myshortcut_by_summer_note2.as_view() , name='modify_myshortcut_by_summer_note2'),
 
 

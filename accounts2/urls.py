@@ -1,13 +1,18 @@
 from django.urls import path, re_path, include
 from . import views
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as auth_views , logout as auth_logout
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
+# from django.contrib.auth import (
+#     REDIRECT_FIELD_NAME, get_user_model, login as auth_login,
+#     logout as auth_logout, update_session_auth_hash,
+# )
 
 
 app_name = 'accounts2'
 
 urlpatterns = [
     path('like_or_unlike', views.like_or_unlike, name="like_or_unlike"),
+    path('logout', views.Logout, name="logout"),
     path('delete_for_my_favorite_user', views.delete_for_my_favorite_user, name="delete_for_my_favorite_user"),
     path('delete_for_liker_user_for_me', views.delete_for_liker_user_for_me, name="delete_for_liker_user_for_me"),
 

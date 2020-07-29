@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from . forms import SignupForm
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile
@@ -16,6 +16,10 @@ from django.contrib.auth.views import (
     LoginView, logout_then_login,
     PasswordChangeView as AuthPasswordChangeView,
 )
+
+def Logout(request):
+    auth_logout(request)
+    return redirect('/accounts/login')
 
 def delete_for_liker_user_for_me(request):
     if request.method == "POST" and request.is_ajax():
