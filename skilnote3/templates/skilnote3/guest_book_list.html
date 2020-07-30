@@ -85,7 +85,7 @@
         // alert("삭제 하겠습니다.")
         $.ajax({
                 type: "POST",
-                url: '/wm/myshortcut/delete_guest_book_list/' + id,
+                url: '/skilnote3/myshortcut/delete_guest_book_list/' + id,
                 data: {
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
@@ -110,7 +110,7 @@
     //
     // 	$.ajax({
     // 		type: "POST",
-    // 		url: '/wm/myshortcut/delete_guest_book_list/' + id,
+    // 		url: '/skilnote3/myshortcut/delete_guest_book_list/' + id,
     // 		data: {
     // 			csrfmiddlewaretoken: '{{ csrf_token }}'
     // 		},
@@ -124,7 +124,7 @@
 
     $(".insert_btn_for_guset_book_list").click(function () {
         // alert("방명록 입력 버튼 클릭")
-    	window.history.pushState("", "", '/wm/myshortcut/')
+    	window.history.pushState("", "", '/skilnote3/myshortcut/')
     	const text = prompt("text를 입력해 주세요 ", "");
         const page_user = "{{request.user}}";
         console.log("text, page_user : ", text, page_user);

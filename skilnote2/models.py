@@ -77,7 +77,7 @@ class MyShortCutForSkilNote2(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(CategoryForSkilNote2, blank=True, null=True, on_delete=models.CASCADE)
     type= models.ForeignKey(TypeForSkilNote2, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='wm/%y%m%d', blank=True)
+    image = models.ImageField(upload_to='skilnote2/%y%m%d', blank=True)
 
     def get_absolute_url(self,*args,**kwargs):
             return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(self.pk)

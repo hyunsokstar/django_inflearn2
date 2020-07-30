@@ -16,7 +16,7 @@ def CategoryNickListByUserId(request, user_name):
         cn_my = CategoryNick.objects.get(author=user.id)
         print("cn_my : ", cn_my)
 
-        return render(request, 'wm/categorynick_list.html', {
+        return render(request, 'skilnote4/categorynick_list.html', {
             "category" : cn_my
         })
     else:
