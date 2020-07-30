@@ -46,7 +46,7 @@ class TempMyShortCutForSkilNote3(models.Model):
     type= models.ForeignKey(TypeForSkilNote3, on_delete=models.CASCADE)
 
     def get_absolute_url(self,*args,**kwargs):
-            return reverse('wm:my_shortcut_list')
+            return reverse('skilnote3:my_shortcut_list')
 
     def __str__(self):
         return self.title
@@ -61,7 +61,7 @@ class TempMyShortCutForBackEndForSkilNote3(models.Model):
     type= models.ForeignKey(TypeForSkilNote3, on_delete=models.CASCADE)
 
     def get_absolute_url(self,*args,**kwargs):
-            return reverse('wm:my_shortcut_list')
+            return reverse('skilnote3:my_shortcut_list')
 
     def __str__(self):
         return self.title
@@ -80,7 +80,7 @@ class MyShortCutForSkilNote3(models.Model):
     image = models.ImageField(upload_to='skilnote3/%y%m%d', blank=True)
 
     def get_absolute_url(self,*args,**kwargs):
-            return reverse('wm:my_shortcut_list')+'#shortcut_{}'.format(self.pk)
+            return reverse('skilnote3:my_shortcut_list')+'#shortcut_{}'.format(self.pk)
 
     def __str__(self):
         return self.title
