@@ -84,14 +84,16 @@ urlpatterns = [
 
     path('myshortcut/update/shortcut_subject/' , views.update_my_shortcut_subject, name="update_my_shortcut_subject"),
 
-    path('myshortcut/create_new1_input/ajax/first', views.create_new1_input_first , name="create_new1_input_first"),
-    path('myshortcut/create_new2_textarea_first/ajax/', views.create_new2_textarea_first , name="create_new2_textarea_first"),
-    path('myshortcut/create_summernote_first/ajax/', views.create_summernote_first , name="create_summernote_first"),
-    path('myshortcut/create_new1_input/ajax/', views.create_new1_input , name="create_new1_input"),
+    path('myshortcut/create_input_first/', views.create_input_first , name="create_new1_input_first"),
+    path('myshortcut/create_textarea_first/', views.create_textarea_first , name="create_new2_textarea_first"),
+    path('myshortcut/create_summernote_first/', views.create_summernote_first , name="create_summernote_first"),
+    path('myshortcut2/create_input_first/', views.create_input_first , name="create_new1_input_first"),
+    path('myshortcut2/create_textarea_first/', views.create_textarea_first , name="create_new2_textarea_first"),
+    path('myshortcut2/create_summernote_first/', views.create_summernote_first , name="create_summernote_first"),
 
+    path('myshortcut/create_new1_input/ajax/', views.create_new1_input , name="create_new1_input"),
     path('myshortcut/create_new1_input_between/ajax/<int:current_article_id>', views.create_new1_input_between , name="create_new1_input_between"),
 
-    path('myshortcut/create_new2_textarea/ajax/', views.create_new2_textarea , name="create_new2_textareas"),
 
 
 

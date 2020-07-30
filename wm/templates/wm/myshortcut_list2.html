@@ -1060,11 +1060,10 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		return;
 	};
 
-
 	if(option == 1){
 		$.ajax({
 			type: "POST",
-			url: 'create_new1_input/ajax/first',
+			url: 'create_input_first',
 			data: {
 				title: title,
 				csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -1093,7 +1092,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		alert("text_area를 선택");
 		$.ajax({
 			type: "POST",
-			url: 'create_new2_textarea_first/ajax/',
+			url: 'create_textarea_first/',
 			data: {
 				title: title,
 				file_name:"",
@@ -1123,7 +1122,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		// alert("summer_note 를 선택");
 		$.ajax({
 			type: "POST",
-			url: 'create_summernote_first/ajax/',
+			url: 'create_summernote_first/',
 			data: {
 				title: title,
 				file_name:"",
@@ -1138,7 +1137,6 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		alert("1번이나 2번을 선택해주세요");
 		return;
 	}
-
 });
 
 $('body').on('click', '#ca_minus_1_btn', function (e) {

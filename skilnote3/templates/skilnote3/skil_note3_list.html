@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% load staticfiles %}
-{%block title %}Skill Note2{% endblock %}
+{%block title %}Skill Note3{% endblock %}
 
 {%block extra_css %}
 
@@ -957,7 +957,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 	if(option == 1){
 		$.ajax({
 			type: "POST",
-			url: 'create_new1_input/ajax/first',
+			url: 'create_input_first',
 			data: {
 				title: title,
 				csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -986,7 +986,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		alert("text_area를 선택");
 		$.ajax({
 			type: "POST",
-			url: 'create_new2_textarea_first/ajax/',
+			url: 'create_textarea_first/',
 			data: {
 				title: title,
 				file_name:"",
@@ -1009,16 +1009,14 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				});
 				console.log("result.author : " , result.author);
 				$(rendered).appendTo($('.myshort_list_area'));
-				// location.reload(true);
 				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
-				// window.history.pushState("", "", '/skilnote3/myshortcut/')
 			}
 		});
 	} else if(option == 3){
 		// alert("summer_note 를 선택");
 		$.ajax({
 			type: "POST",
-			url: 'create_summernote_first/ajax/',
+			url: 'create_summernote_first/',
 			data: {
 				title: title,
 				file_name:"",
@@ -1028,11 +1026,14 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				alert("result.message : "+ result.message)
 			}
 		});
+
 	}else{
 		alert("1번이나 2번을 선택해주세요");
 		return;
 	}
 });
+
+
 
 $('body').on('click', '#ca_minus_1_btn', function (e) {
 	e.preventDefault();
@@ -1256,7 +1257,7 @@ $('body').on('click', '#move_to_skilblog_btn', function (e) {
 		alert("제목을 입력해 주세요 !");
 		return;
 	};
-	window.history.pushState("", "", '/skilnote3/myshortcut2/')
+	window.history.pushState("", "", '/skilnote3/myshortcut/')
 
 	$.ajax({
 		type: "POST",

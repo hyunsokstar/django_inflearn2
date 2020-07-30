@@ -44,8 +44,8 @@ class MyShortCutListView2(LoginRequiredMixin,ListView):
     def get_template_names(self):
         if self.request.is_ajax():
             print("user list ajax 요청 확인")
-            return ['skilnote2/myshortcut_list2.html']
-        return ['skilnote2/myshortcut_list2.html']
+            return ['skilnote2/skil_note2_list2.html']
+        return ['skilnote2/skil_note2_list2.html']
 
         print("user : ", user)
 
@@ -81,8 +81,8 @@ class MyShortcutListByCategory2(ListView):
     def get_template_names(self):
         if self.request.is_ajax():
             print("user list ajax 요청 확인")
-            return ['skilnote2/myshortcut_list2.html']
-        return ['skilnote2/myshortcut_list2.html']
+            return ['skilnote2/skil_note2_list2.html']
+        return ['skilnote2/skil_note2_list2.html']
 
 
     def get_queryset(self):
@@ -1075,33 +1075,6 @@ def create_new1_input(request):
         'shortcut_content':wm.content1,
     })
 
-def create_new1_input_first(request):
-    print("input box ajax 입력 box 실행 skil note2 !!!!")
-    ty = TypeForSkilNote2.objects.get(type_name="input")
-    category_id = request.user.profile.selected_category_id
-
-    current_first = MyShortCutForSkilNote2.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
-    print("current_first.id : ", current_first.title);
-
-    ca = CategoryForSkilNote2.objects.get(id=category_id)
-    title = request.POST['title']
-
-    skilnote2 = MyShortCutForSkilNote2.objects.create(
-        author = request.user,
-        title=title,
-        type= ty,
-        category = ca,
-        content1 = "",
-        created = current_first.created-timedelta(seconds=10)
-    )
-
-    return JsonResponse({
-        'message': '인풋 박스 추가 성공',
-        'shortcut_id':wm.id,
-        'shortcut_title':wm.title,
-        'shortcut_content':wm.content1,
-    })
-
 
 def create_new1_input_between(request,current_article_id):
 
@@ -1144,7 +1117,43 @@ def create_new1_input_between(request,current_article_id):
     })
 
 
-def create_new2_textarea_first(request):
+def create_input_first(request):
+    print("input box ajax 입력 box 실행 skil note2 !!!!")
+    ty = TypeForSkilNote2.objects.get(type_name="input")
+    category_id = request.user.profile.selected_category_id
+    ca = CategoryForSkilNote2.objects.get(id=category_id)
+    title = request.POST['title']
+
+    current_first = MyShortCutForSkilNote2.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
+    if(current_first != None):
+        print("current_first.id : ", current_first.title);
+        skilnote2 = MyShortCutForSkilNote2.objects.create(
+            author = request.user,
+            title=title,
+            type= ty,
+            category = ca,
+            content1 = "",
+            created = current_first.created-timedelta(seconds=10)
+        )
+    else:
+        skilnote2 = MyShortCutForSkilNote2.objects.create(
+            author = request.user,
+            title=title,
+            type= ty,
+            category = ca,
+            content1 = "",
+            created = timezone.now()
+        )
+
+    return JsonResponse({
+        'message': '인풋 박스 추가 성공',
+        'shortcut_id':skilnote2.id,
+        'shortcut_title':skilnote2.title,
+        'shortcut_content':skilnote2.content1,
+    })
+
+
+def create_textarea_first(request):
     print("create_new2_textarea_first")
     ty = TypeForSkilNote2.objects.get(type_name="textarea")
     category_id = request.user.profile.selected_category_id
@@ -1152,29 +1161,39 @@ def create_new2_textarea_first(request):
     title = request.POST['title']
     file_name_before = request.POST['file_name']
     file_name = file_name_before.replace("\\","/")
-    current_first = MyShortCutForSkilNote2.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first()
-    print("current_first.id : ", current_first.title)
 
-    wm = MyShortCutForSkilNote2.objects.create(
-        author = request.user,
-        title=title,
-        filename=file_name,
-        type= ty,
-        category = ca,
-        created = current_first.created-timedelta(seconds=10),
-        content2 = ""
-    )
-    print("wm : ", wm)
+    current_first = MyShortCutForSkilNote2.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first()
+    if(current_first != None):
+        skilnote2 = MyShortCutForSkilNote2.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = current_first.created-timedelta(seconds=10),
+            content2 = ""
+        )
+    else:
+        skilnote2 = MyShortCutForSkilNote2.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = timezone.now(),
+            content2 = ""
+        )
+
+    print("skilnote2 : ", skilnote2)
     return JsonResponse({
         'message': 'textarea 박스 추가 성공',
-        'shortcut_id':wm.id,
-        'shortcut_title':wm.title,
-        'shortcut_content2':wm.content2,
+        'shortcut_id':skilnote2.id,
+        'shortcut_title':skilnote2.title,
+        'shortcut_content2':skilnote2.content2,
         # 'author':wm.author.username,
     })
 
-
-# summer note 첫번째에 추가 하기
+# summer note 첫번째에 추가 하기 2244
 def create_summernote_first(request):
     print("create_summer_note")
     ty = TypeForSkilNote2.objects.get(type_name="summer_note")
@@ -1186,25 +1205,37 @@ def create_summernote_first(request):
     file_name = file_name_before.replace("\\","/")
 
     current_first = MyShortCutForSkilNote2.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
-    print("current_first.id : ", current_first.title);
+    if(current_first != None):
+        print("current_first.id : ", current_first.title);
 
-    wm = MyShortCutForSkilNote2.objects.create(
-        author = request.user,
-        title=title,
-        filename=file_name,
-        type= ty,
-        category = ca,
-        created = current_first.created-timedelta(seconds=10),
-        content2 = ""
-    )
+        skilnote2 = MyShortCutForSkilNote2.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = current_first.created-timedelta(seconds=10),
+            content2 = ""
+        )
+    else:
+        skilnote2 = MyShortCutForSkilNote2.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = timezone.now(),
+            content2 = ""
+        )
 
-    print("wm : ", wm)
+    print("skilnote2 : ", skilnote2)
     return JsonResponse({
         'message': 'summer note 박스 추가 성공',
-        'shortcut_id':wm.id,
-        'shortcut_title':wm.title,
-        'shortcut_content2':wm.content2,
+        'shortcut_id':skilnote2.id,
+        'shortcut_title':skilnote2.title,
+        'shortcut_content2':skilnote2.content2,
     })
+
 
 def create_new2_textarea(request):
     print("create_new2_textarea 실행")

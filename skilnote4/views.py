@@ -1075,33 +1075,6 @@ def create_new1_input(request):
         'shortcut_content':skilnote4.content1,
     })
 
-def create_new1_input_first(request):
-    print("input box ajax 입력 box 실행 skil note2 !!!!")
-    ty = TypeForSkilNote4.objects.get(type_name="input")
-    category_id = request.user.profile.selected_category_id
-
-    current_first = MyShortCutForSkilNote4.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
-    print("current_first.id : ", current_first.title);
-
-    ca = CategoryForSkilNote4.objects.get(id=category_id)
-    title = request.POST['title']
-
-    SkilNote4 = MyShortCutForSkilNote4.objects.create(
-        author = request.user,
-        title=title,
-        type= ty,
-        category = ca,
-        content1 = "",
-        created = current_first.created-timedelta(seconds=10)
-    )
-
-    return JsonResponse({
-        'message': '인풋 박스 추가 성공',
-        'shortcut_id':SkilNote4.id,
-        'shortcut_title':SkilNote4.title,
-        'shortcut_content':SkilNote4.content1,
-    })
-
 
 def create_new1_input_between(request,current_article_id):
 
@@ -1143,8 +1116,43 @@ def create_new1_input_between(request,current_article_id):
         'shortcut_content':skilnote4.content1,
     })
 
+def create_input_first(request):
+    print("input box ajax 입력 box 실행 skil note2 !!!!")
+    ty = TypeForSkilNote4.objects.get(type_name="input")
+    category_id = request.user.profile.selected_category_id
+    ca = CategoryForSkilNote4.objects.get(id=category_id)
+    title = request.POST['title']
 
-def create_new2_textarea_first(request):
+    current_first = MyShortCutForSkilNote4.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
+    if(current_first != None):
+        print("current_first.id : ", current_first.title);
+        skilnote4 = MyShortCutForSkilNote4.objects.create(
+            author = request.user,
+            title=title,
+            type= ty,
+            category = ca,
+            content1 = "",
+            created = current_first.created-timedelta(seconds=10)
+        )
+    else:
+        skilnote4 = MyShortCutForSkilNote4.objects.create(
+            author = request.user,
+            title=title,
+            type= ty,
+            category = ca,
+            content1 = "",
+            created = timezone.now()
+        )
+
+    return JsonResponse({
+        'message': '인풋 박스 추가 성공',
+        'shortcut_id':skilnote4.id,
+        'shortcut_title':skilnote4.title,
+        'shortcut_content':skilnote4.content1,
+    })
+
+
+def create_textarea_first(request):
     print("create_new2_textarea_first")
     ty = TypeForSkilNote4.objects.get(type_name="textarea")
     category_id = request.user.profile.selected_category_id
@@ -1152,51 +1160,71 @@ def create_new2_textarea_first(request):
     title = request.POST['title']
     file_name_before = request.POST['file_name']
     file_name = file_name_before.replace("\\","/")
-    current_first = MyShortCutForSkilNote4.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first()
-    print("current_first.id : ", current_first.title)
 
-    skilnote4 = MyShortCutForSkilNote4.objects.create(
-        author = request.user,
-        title=title,
-        filename=file_name,
-        type= ty,
-        category = ca,
-        created = current_first.created-timedelta(seconds=10),
-        content2 = ""
-    )
+    current_first = MyShortCutForSkilNote4.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first()
+    if(current_first != None):
+        skilnote4 = MyShortCutForSkilNote4.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = current_first.created-timedelta(seconds=10),
+            content2 = ""
+        )
+    else:
+        skilnote4 = MyShortCutForSkilNote4.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = timezone.now(),
+            content2 = ""
+        )
+
     print("skilnote4 : ", skilnote4)
     return JsonResponse({
         'message': 'textarea 박스 추가 성공',
         'shortcut_id':skilnote4.id,
         'shortcut_title':skilnote4.title,
         'shortcut_content2':skilnote4.content2,
-        # 'author':skilnote4.author.username,
+        # 'author':wm.author.username,
     })
 
-
-# summer note 첫번째에 추가 하기
+# summer note 첫번째에 추가 하기 2244
 def create_summernote_first(request):
     print("create_summer_note")
     ty = TypeForSkilNote4.objects.get(type_name="summer_note")
     category_id = request.user.profile.selected_category_id
     ca = CategoryForSkilNote4.objects.get(id=category_id)
     title = request.POST['title']
-    # file_name = request.POST['file_name']
     file_name_before = request.POST['file_name']
     file_name = file_name_before.replace("\\","/")
 
     current_first = MyShortCutForSkilNote4.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
-    print("current_first.id : ", current_first.title);
+    if(current_first != None):
+        print("current_first.id : ", current_first.title);
 
-    skilnote4 = MyShortCutForSkilNote4.objects.create(
-        author = request.user,
-        title=title,
-        filename=file_name,
-        type= ty,
-        category = ca,
-        created = current_first.created-timedelta(seconds=10),
-        content2 = ""
-    )
+        skilnote4 = MyShortCutForSkilNote4.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = current_first.created-timedelta(seconds=10),
+            content2 = ""
+        )
+    else:
+        skilnote4 = MyShortCutForSkilNote4.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = timezone.now(),
+            content2 = ""
+        )
 
     print("skilnote4 : ", skilnote4)
     return JsonResponse({
@@ -1205,6 +1233,8 @@ def create_summernote_first(request):
         'shortcut_title':skilnote4.title,
         'shortcut_content2':skilnote4.content2,
     })
+
+
 
 def create_new2_textarea(request):
     print("create_new2_textarea 실행")

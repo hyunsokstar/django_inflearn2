@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% load staticfiles %}
 
-{%block title %}Skill Note (insert mode){% endblock %}
+{%block title %}Skill Note 4(insert mode){% endblock %}
 
 {%block extra_css %}
 
@@ -60,7 +60,7 @@ img.Image { max-width: 100%; display: block; }
 
 <br><br>
 
-<h2>{{request.user}}의 Skil Note2 (입력 모드) &nbsp;&nbsp; CA: {{request.user.profile.selected_category_id}}</h2>
+<h2>{{request.user}}의 Skil Note4 (입력 모드) &nbsp;&nbsp; CA: {{request.user.profile.selected_category_id}}</h2>
 
 {% if messages %}
 <div class="alert alert-success">
@@ -1046,8 +1046,7 @@ $('body').on('dblclick', '#textarea_title_for_skill_note_btn', function (e) {
 
 
 $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
-
-	window.history.pushState("", "", '/skilnote4/<myshortcut2></myshortcut2>/')
+	window.history.pushState("", "", '/skilnote4/myshortcut2/')
 	const option = prompt("1.input, 2.textArea 3.summer_note ","");
 	const title = prompt("title을 입력해 주세요 ", "");
 
@@ -1060,11 +1059,10 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		return;
 	};
 
-
 	if(option == 1){
 		$.ajax({
 			type: "POST",
-			url: 'create_new1_input/ajax/first',
+			url: 'create_input_first',
 			data: {
 				title: title,
 				csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -1072,7 +1070,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 			success: function (result) {
 				$('#empty_state').remove()
 				alert("result : ", result.message);
-				window.history.pushState("", "", '/skilnote4/myshortcut/')
+				window.history.pushState("", "", '/skilnote4/myshortcut2/')
 
 				var table_row = $('.table_row').length;
 
@@ -1093,7 +1091,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		alert("text_area를 선택");
 		$.ajax({
 			type: "POST",
-			url: 'create_new2_textarea_first/ajax/',
+			url: 'create_textarea_first/',
 			data: {
 				title: title,
 				file_name:"",
@@ -1123,7 +1121,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		// alert("summer_note 를 선택");
 		$.ajax({
 			type: "POST",
-			url: 'create_summernote_first/ajax/',
+			url: 'create_summernote_first/',
 			data: {
 				title: title,
 				file_name:"",
@@ -1138,8 +1136,9 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		alert("1번이나 2번을 선택해주세요");
 		return;
 	}
-
 });
+
+
 
 $('body').on('click', '#ca_minus_1_btn', function (e) {
 	e.preventDefault();

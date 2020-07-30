@@ -957,7 +957,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 	if(option == 1){
 		$.ajax({
 			type: "POST",
-			url: 'create_new1_input/ajax/first',
+			url: 'create_input_first',
 			data: {
 				title: title,
 				csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -986,7 +986,7 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 		alert("text_area를 선택");
 		$.ajax({
 			type: "POST",
-			url: 'create_new2_textarea_first/ajax/',
+			url: 'create_textarea_first/',
 			data: {
 				title: title,
 				file_name:"",
@@ -1009,16 +1009,14 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				});
 				console.log("result.author : " , result.author);
 				$(rendered).appendTo($('.myshort_list_area'));
-				// location.reload(true);
 				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
-				// window.history.pushState("", "", '/skilnote4/myshortcut/')
 			}
 		});
 	} else if(option == 3){
 		// alert("summer_note 를 선택");
 		$.ajax({
 			type: "POST",
-			url: 'create_summernote_first/ajax/',
+			url: 'create_summernote_first/',
 			data: {
 				title: title,
 				file_name:"",
@@ -1028,11 +1026,14 @@ $('body').on('click', '#insert_first_for_skill_note_btn', function (e) {
 				alert("result.message : "+ result.message)
 			}
 		});
+
 	}else{
 		alert("1번이나 2번을 선택해주세요");
 		return;
 	}
 });
+
+
 
 $('body').on('click', '#ca_minus_1_btn', function (e) {
 	e.preventDefault();
@@ -1108,7 +1109,7 @@ $('body').on('click', '#ca_plus_1_btn', function (e) {
 $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 	const current_article_id = this.id
 	console.log("current_article_id : "+current_article_id);
-	window.history.pushState("", "", '/skilnote3/')
+	window.history.pushState("", "", '/skilnote4/')
 
 	$.ajax({
 		type: "POST",
@@ -1191,7 +1192,7 @@ $('body').on('click', '.shortcut_between_button_input' , function (e) {
 
 $('body').on('click', '.shortcut_between_button_sn', function (e) {
 	const current_article_id = this.id
-	window.history.pushState("", "", '/skilnote3/')
+	window.history.pushState("", "", '/skilnote4/')
 
 	$.ajax({
 		type: "POST",
@@ -1948,7 +1949,7 @@ $('body').on('click', '.comment_update_button', function (e) {
 	// alert("title : " + title);
 	// alert("content : " + content);
 
-	window.history.pushState("", "", '/skilnote3/')
+	window.history.pushState("", "", '/skilnote4/')
 
 	$.ajax({
 		type: "POST",
@@ -1970,7 +1971,7 @@ $('body').on('click', '.comment_update_button', function (e) {
 		// alert("댓글 삭제 버튼 클릭");
 		const comment_id = this.id;
 
-		window.history.pushState("", "", '/skilnote3/')
+		window.history.pushState("", "", '/skilnote4/')
 
 		$.ajax({
 			type: "POST",
@@ -2003,7 +2004,7 @@ $('body').on('click', '.shortcut_comment_button', function (e) {
 		return;
 	};
 
-	window.history.pushState("", "", '/skilnote3/')
+	window.history.pushState("", "", '/skilnote4/')
 	if (option == "y") {
 		$.ajax({
 			type: "POST",
@@ -2309,7 +2310,7 @@ $(".go_btn").click(function () {
 
 $(".favorite_user_list_btn").click(function () {
 	const url = "favorite_user_list/byajax"
-	window.history.pushState("", "", '/skilnote3/')
+	window.history.pushState("", "", '/skilnote4/')
 
 	$.get(url)
 		.done((result) => {
@@ -2330,7 +2331,7 @@ $(".favorite_user_list_btn").click(function () {
 
 $(".user_list_btn").click(function () {
 	const url = "userlist/byajax"
-	window.history.pushState("", "", '/skilnote3/')
+	window.history.pushState("", "", '/skilnote4/')
 
 	$.get(url)
 		.done((result) => {
@@ -2374,7 +2375,7 @@ $('.update_shortcut_user_id').click(function (e) {
 	const user_id = $("#shortcut_user_id").val()
 
 	if(user_id == "{{request.user}}"){
-		window.history.pushState("", "", '/skilnote3/')
+		window.history.pushState("", "", '/skilnote4/')
 
 		$.ajax({
 			type: "POST",

@@ -1079,34 +1079,6 @@ def create_new1_input(request):
         'shortcut_content':wm.content1,
     })
 
-def create_new1_input_first(request):
-    print("create_new1_input 실행 2222")
-    ty = Type.objects.get(type_name="input")
-    category_id = request.user.profile.selected_category_id
-
-    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
-    print("current_first.id : ", current_first.title);
-
-    ca = Category.objects.get(id=category_id)
-    title = request.POST['title']
-
-    wm = MyShortCut.objects.create(
-        author = request.user,
-        title=title,
-        type= ty,
-        category = ca,
-        content1 = "",
-        created = current_first.created-timedelta(seconds=10)
-    )
-
-    return JsonResponse({
-        'message': '인풋 박스 추가 성공',
-        'shortcut_id':wm.id,
-        'shortcut_title':wm.title,
-        'shortcut_content':wm.content1,
-    })
-
-
 def create_new1_input_between(request,current_article_id):
 
     current_article_id = current_article_id
@@ -1148,7 +1120,42 @@ def create_new1_input_between(request,current_article_id):
     })
 
 
-def create_new2_textarea_first(request):
+def create_input_first(request):
+    print("input box ajax 입력 box 실행 skil note2 !!!!")
+    ty = Type.objects.get(type_name="input")
+    category_id = request.user.profile.selected_category_id
+    ca = Category.objects.get(id=category_id)
+    title = request.POST['title']
+
+    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
+    if(current_first != None):
+        print("current_first.id : ", current_first.title);
+        wm = MyShortCut.objects.create(
+            author = request.user,
+            title=title,
+            type= ty,
+            category = ca,
+            content1 = "",
+            created = current_first.created-timedelta(seconds=10)
+        )
+    else:
+        wm = MyShortCut.objects.create(
+            author = request.user,
+            title=title,
+            type= ty,
+            category = ca,
+            content1 = "",
+            created = timezone.now()
+        )
+    return JsonResponse({
+        'message': '인풋 박스 추가 성공',
+        'shortcut_id':wm.id,
+        'shortcut_title':wm.title,
+        'shortcut_content':wm.content1,
+    })
+
+
+def create_textarea_first(request):
     print("create_new2_textarea_first")
     ty = Type.objects.get(type_name="textarea")
     category_id = request.user.profile.selected_category_id
@@ -1156,18 +1163,29 @@ def create_new2_textarea_first(request):
     title = request.POST['title']
     file_name_before = request.POST['file_name']
     file_name = file_name_before.replace("\\","/")
-    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first()
-    print("current_first.id : ", current_first.title)
 
-    wm = MyShortCut.objects.create(
-        author = request.user,
-        title=title,
-        filename=file_name,
-        type= ty,
-        category = ca,
-        created = current_first.created-timedelta(seconds=10),
-        content2 = ""
-    )
+    current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first()
+    if(current_first != None):
+        wm = MyShortCut.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = current_first.created-timedelta(seconds=10),
+            content2 = ""
+        )
+    else:
+        wm = MyShortCut.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = timezone.now(),
+            content2 = ""
+        )
+
     print("wm : ", wm)
     return JsonResponse({
         'message': 'textarea 박스 추가 성공',
@@ -1177,8 +1195,7 @@ def create_new2_textarea_first(request):
         # 'author':wm.author.username,
     })
 
-
-# summer note 첫번째에 추가 하기
+# summer note 첫번째에 추가 하기 2244
 def create_summernote_first(request):
     print("create_summer_note")
     ty = Type.objects.get(type_name="summer_note")
@@ -1190,17 +1207,28 @@ def create_summernote_first(request):
     file_name = file_name_before.replace("\\","/")
 
     current_first = MyShortCut.objects.filter(Q(category=category_id) & Q(author=request.user)).order_by("created").first();
-    print("current_first.id : ", current_first.title);
+    if(current_first != None):
+        print("current_first.id : ", current_first.title);
 
-    wm = MyShortCut.objects.create(
-        author = request.user,
-        title=title,
-        filename=file_name,
-        type= ty,
-        category = ca,
-        created = current_first.created-timedelta(seconds=10),
-        content2 = ""
-    )
+        wm = MyShortCut.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = current_first.created-timedelta(seconds=10),
+            content2 = ""
+        )
+    else:
+        wm = MyShortCut.objects.create(
+            author = request.user,
+            title=title,
+            filename=file_name,
+            type= ty,
+            category = ca,
+            created = timezone.now(),
+            content2 = ""
+        )
 
     print("wm : ", wm)
     return JsonResponse({
