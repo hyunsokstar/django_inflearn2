@@ -39,7 +39,7 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 <form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
   {% for field in form%}
-     {{ field.label }}: {{ field }} 
+     {{ field.label }}: {{ field }}
   {% endfor %}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
@@ -50,6 +50,41 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 </form>
 
 {% endblock %}
+
+{% block sidearea6 %}
+
+<br><br>
+
+<table>
+    <tr>
+        <td>
+            <img src="{% static 'icon/python.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <img src="{% static 'icon/nodejs.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <img src="{% static 'icon/java.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <img src="{% static 'icon/flutter.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
+        </td>
+    </tr>
+
+</table>
+
+
+{% endblock %}
+
 
 
 <script type="text/javascript">
