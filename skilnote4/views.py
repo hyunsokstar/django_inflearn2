@@ -1751,8 +1751,8 @@ class search_skilnote_by_file_name_for_all(LoginRequiredMixin,ListView):
             query=""
 
         print("query ::::::::::::::: ", query)
-        print('파일 검색 결과를 출력합니다 유저는 all 검색어는 {} 입니다 ################################################'.format(self.request.user, query))
-        qs = MyShortCutForSkilNote4.objects.filter(Q(filename__contains=query)).exclude(Q(filename__isnull=True) | Q(filename__exact='')).order_by('created')
+        print('파일 검색 결과를 출력합니다 유저는 all 검색어는 {} 입니다 ##'.format(self.request.user, query))
+        qs = MyShortCutForSkilNote4.objects.filter(Q(filename__contains=query)).order_by('created')
         print("qs : ", qs)
         return qs
 
@@ -1776,7 +1776,7 @@ class search_skil_note_for_all(LoginRequiredMixin,ListView):
             query=""
 
         print("query ::::::::::::::: ", query)
-        print('검색 결과를 출력합니다 유저는 전체 검색어는 {} 입니다 ################################################'.format(query))
+        print('검색 결과를 출력합니다 유저는 전체 검색어는 {} 입니다 ##'.format(query))
         qs = MyShortCutForSkilNote4.objects.filter(Q(title__contains=query) | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query)).order_by('created')
         print("qs : ", qs)
         return qs

@@ -1764,6 +1764,7 @@ class search_skilnote_by_file_name_for_all(LoginRequiredMixin,ListView):
         return context
 
 
+# 2244
 class search_skil_note_for_all(LoginRequiredMixin,ListView):
     model = MyShortCut
     paginate_by = 10
@@ -1774,11 +1775,12 @@ class search_skil_note_for_all(LoginRequiredMixin,ListView):
     def get_queryset(self):
         if self.request.method == 'GET' and 'q' in self.request.GET:
             query = self.request.GET.get('q')
+            print("query : ", query)
         else:
             query=""
 
         print("query ::::::::::::::: ", query)
-        print('검색 결과를 출력합니다 유저는 전체 검색어는 {} 입니다 ################################################'.format(query))
+        print('검색 결과를 출력합니다 유저는 전체 검색어는 {} 입니다 ##'.format(query))
         qs = MyShortCut.objects.filter(Q(title__contains=query) | Q(filename__contains=query) | Q(content1__contains=query) | Q(content2__contains=query)).order_by('created')
         print("qs : ", qs)
         return qs
