@@ -20,7 +20,7 @@ urlpatterns = [
     path('management/', include('management.urls')),
     path('wm/', include('wm.urls')),
     path('challenge/', include('challenge.urls')),
-    path('pm/', include('pm.urls')),
+    path('board/', include('board.urls')),
     path('pd/', include('pd.urls')),
     path('skilblog/', include('skilblog.urls')),
     path('skilnote2/', include('skilnote2.urls')),

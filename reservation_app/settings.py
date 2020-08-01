@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'accounts2', # 계정 관리
     'management', # 제안 사항
     'challenge', # 챌린지
-    'pm', #personal memo
+    'board', #personal memo
     'pd', #persional desk
     'skilblog', # 스킬 블로그
     'blog', # tech note
