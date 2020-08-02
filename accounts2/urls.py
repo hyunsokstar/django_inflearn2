@@ -1,11 +1,6 @@
 from django.urls import path, re_path, include
 from . import views
 from django.contrib.auth import views as auth_views , logout as auth_logout
-from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
-# from django.contrib.auth import (
-#     REDIRECT_FIELD_NAME, get_user_model, login as auth_login,
-#     logout as auth_logout, update_session_auth_hash,
-# )
 
 
 app_name = 'accounts2'
