@@ -105,36 +105,6 @@
     	</tr>
     	{% endifequal %}
 
-        <!-- textarea -->
-    	<!-- {% ifequal p.type.type_name "image" %}
-    	<tr style="background-color:#caf5f5; color:black;" id="shortcut_{{p.id}}">
-    		<td id=index_{{ forloop.counter }} width="10%">
-    			<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
-    			{{ forloop.counter }}
-    		</td>
-    		<td>
-    			제목 :
-    			<span id=title_{{p.id}}>{{p.title}}</span>
-    			{% if p.author == request.user %}
-    			<button class="badge badge-pill badge-primary show_delete_temp_memo_btn float-right" id="{{p.id}}">삭제</button>
-    			<button class="badge badge-pill badge-primary update_temp_skil_title_btn float-right" id="{{p.id}}">제목 수정</button>
-    			{% endif %}
-    		</td>
-    	</tr>
-    	<tr id="shortcut_{{p.id}}-2" style="background-color:#f0f1f5;">
-    		<td colspan="2">
-    			<textarea id="select-textarea-{{p.id}}" cols="120" rows="10"
-    				class="form-control">{{p.content2 }}</textarea><br>
-    			<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2" id="{{p.id}}">copy</button>
-                {% ifequal request.user page_user %}
-                <button class="btn btn-outline-danger btn-sm float-right edit_temp_skill_note_for_textarea_btn" id="{{p.id}}">edit_complete</button>
-    			{% else %}
-    			{% endifequal %}
-
-    		</td>
-    	</tr>
-    	{% endifequal %} -->
-
 
     </table>
     {% endfor %}

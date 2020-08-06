@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from . forms import CommentForm
 from django.utils.datastructures import MultiValueDictKeyError
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # 1122
@@ -946,25 +947,67 @@ class search_skil_note_by_word(ListView):
         return qs
 
 
-class searchSkilNoteViewByIdAndWord(ListView):
-    model = MyShortCut
-    paginate_by = 10
-    template_name = 'wm/MyShortCut_list_for_search.html'
 
-    def get_queryset(self):
-        if request.method == "POST" and request.is_ajax():
-            search_user_id = request.user
-            search_word = request.POST['search_word']
-            search_option = request.POST['search_option']
-            print("search_user_id : ", search_user_id)
-            print("search_word : ", search_word)
-            print("search_option : ", search_option)
-            user = User.objects.get(username=search_user_id)
-            qs = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
-            return qs
-        else:
-            qs = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
-            return qs
+# 1122
+# class searchSkilNoteViewByIdAndWord(ListView):
+#     model = MyShortCut
+#     paginate_by = 10
+#     template_name = 'wm/MyShortCut_list_for_search.html'
+#
+#     def get_queryset(self):
+#         if request.method == "POST" and request.is_ajax():
+#             search_user_id = request.user
+#             search_word = request.POST['search_word']
+#             search_option = request.POST['search_option']
+#             print("search_user_id : ", search_user_id)
+#             print("search_word : ", search_word)
+#             print("search_option : ", search_option)
+#             user = User.objects.get(username=search_user_id)
+#             qs = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
+#             return qs
+#         else:
+#             qs = MyShortCut.objects.filter(Q(author = user)).filter(Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)).order_by('-category')
+#             return qs
+
+def searchSkilNoteViewByIdAndWord(request):
+    # myshortcut_list = MyShortCut.objects.all()
+
+
+    search_word = request.POST['search_word']
+    page_user = request.POST['page_user']
+
+    page_user = User.objects.get(username=page_user);
+
+
+    print("page_user : ", page_user)
+    print("search_word : ", search_word)
+
+    myshortcut_list = MyShortCut.objects.filter((Q(title__icontains=search_word) | Q(content1__icontains=search_word) | Q(content2__icontains=search_word)) & Q(author=page_user))
+
+    # if query:
+    #     manual_list = Manual.objects.filter(
+    #         Q(title__icontains=search_word) | Q(author=page_user)
+    #     )
+
+    paginator = Paginator(myshortcut_list, 10) # 6 posts per page
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    print("posts check: ", posts)
+
+    context = {
+        # 'object_list':manual_list,
+        'page':page,
+        'posts':posts
+    }
+
+    return render(request, "wm/MyShortCut_list_for_search.html", context)
 
 
 def delete_comment_for_my_shortcut(request, shortcut_comment_id):

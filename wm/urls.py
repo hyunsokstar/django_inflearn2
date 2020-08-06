@@ -46,7 +46,9 @@ urlpatterns = [
     path('myshortcut/update_temp_skill_note_for_textarea/<int:id>', views.update_temp_skill_note_for_textarea , name='update_temp_skill_note_for_textarea'),
     path('myshortcut/update_temp_skil_title/<int:id>', views.update_temp_skil_title , name="update_temp_skil_title"),
     path('myshortcut/delete_temp_memo_by_ajax/<int:id>', views.delete_temp_memo_by_ajax , name="delete_temp_memo_by_ajax"),
-    path('myshortcut/search_by_id_and_word/' , views.searchSkilNoteViewByIdAndWord.as_view(), name="search_by_id_and_word"),
+
+    path('myshortcut/search_by_id_and_word/' , views.searchSkilNoteViewByIdAndWord, name="search_by_id_and_word"),
+
     path('myshortcut/copyForCategorySubjectToMyCategory/' , views.copyForCategorySubjectToMyCategory, name="copyForCategorySubjectToMyCategory"),
     path('new_comment_for_my_shortcut/<int:shortcut_id>/ajax/' , views.new_comment_for_my_shortcut, name="new_comment_for_my_shortcut"),
     path('update_shortcut_comment_ajax/<int:shortcut_comment_id>' , views.update_comment_for_my_shortcut, name="update_comment_for_my_shortcut"),
