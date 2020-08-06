@@ -690,12 +690,6 @@ SkilNote1
 				  </div>
 				</div>
 
-
-				<input type="radio" class="search" id="content+title" name='foo' checked="true">제목,내용(me)
-				<input type="radio" class="search" id="only_title" name='foo'>제목(me)
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="radio" class="search" id="content_title_alluser" name='foo'>제목, 내용(all user)
-				<input type="radio" class="search" id="title_alluser" name='foo'>제목(all user)
 				<br><br>
 
 				<div id="wm_list_area_for_popup"></div>
@@ -2148,25 +2142,25 @@ $('body').on('click', '.skill_search_button', function (e) {
 	window.history.pushState("", "", '/wm/myshortcut/')
 	const search_word = $(".skill_input_box").val();
 	console.log("search_word : " + search_word);
+	const page_user = "{{page_user}}"
+	// $("input:radio.search").each(function () {
+	// 	if (jQuery(this).is(":checked")) {
+	// 		search_option = this.id;
+	// 	} else {
+	// 		// alert("check")
+	// 	}
+	// });
 
-	$("input:radio.search").each(function () {
-		if (jQuery(this).is(":checked")) {
-			search_option = this.id;
-		} else {
-			// alert("check")
-		}
-	});
 	$.ajax({
 		type: "POST",
 		url: 'search_by_id_and_word/',
 		data: {
 			'search_word': search_word,
-			'search_option': search_option,
-			'page_user': "{{page_user}}",
+			'page_user': page_user,
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 		success: function (result) {
-			window.history.pushState("", "", '/wm/myshortcut/')
+			window.history.pushState("", "", '/wm/myshortcut/'+page_user+'/1')
 			// alert("success");
 			// alert("result: "+ result)
 			$("#wm_list_area_for_popup").html("")
@@ -2174,6 +2168,8 @@ $('body').on('click', '.skill_search_button', function (e) {
 		}
 	});
 });
+
+
 
 $('body').on('click', '.search_popup_btn', function (e) {
 	$("#search_skill_modal").modal();
