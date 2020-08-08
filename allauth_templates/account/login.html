@@ -36,51 +36,18 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 <img src="{% static 'icon/sn11.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
 
 {% endif %}
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {% for field in form%}
-     {{ field.label }}: {{ field }}
-  {% endfor %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a><br>
-  <button class="primaryAction btn btn-outline-dark btn-block" type="submit">{% trans "Log in" %}</button>
-  <a class="primaryAction btn btn-outline-primary float-right btn-block" href="{{ signup_url }}">회원 가입</a>
+<form method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <button type="submit" class="btn btn-outline-info btn-block mb-1">Login</button>
 </form>
+<a class="primaryAction btn btn-outline-primary float-right btn-block" href="{{ signup_url }}">회원 가입</a>
 
 {% endblock %}
 
 {% block sidearea6 %}
 
 <br><br>
-
-<table>
-    <tr>
-        <td>
-            <img src="{% static 'icon/python.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            <img src="{% static 'icon/nodejs.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            <img src="{% static 'icon/java.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            <img src="{% static 'icon/flutter.jpg' %}" width="100%" height="50%" alt="" class="mb-2">
-        </td>
-    </tr>
-
-</table>
 
 
 {% endblock %}
