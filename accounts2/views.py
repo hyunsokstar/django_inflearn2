@@ -17,6 +17,10 @@ from django.contrib.auth.views import (
     PasswordChangeView as AuthPasswordChangeView,
 )
 
+
+def login(request):
+    return render(request, 'login.html', {})
+
 def Logout(request):
     auth_logout(request)
     return redirect('/accounts/login')

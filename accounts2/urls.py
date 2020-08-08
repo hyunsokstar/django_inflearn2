@@ -1,6 +1,8 @@
 from django.urls import path, re_path, include
 from . import views
 from django.contrib.auth import views as auth_views , logout as auth_logout
+from . import forms
+from django.contrib.auth.views import LoginView
 
 
 app_name = 'accounts2'
@@ -8,6 +10,7 @@ app_name = 'accounts2'
 urlpatterns = [
     path('like_or_unlike', views.like_or_unlike, name="like_or_unlike"),
     path('logout', views.Logout, name="logout"),
+    # path('login/', views.LoginView.as_view(template_name="login.html" , authentication_form= "forms.LoginForm"), name = 'login'),
     path('delete_for_my_favorite_user', views.delete_for_my_favorite_user, name="delete_for_my_favorite_user"),
     path('delete_for_liker_user_for_me', views.delete_for_liker_user_for_me, name="delete_for_liker_user_for_me"),
 
