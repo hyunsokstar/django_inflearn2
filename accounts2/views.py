@@ -107,7 +107,6 @@ def like_or_unlike(request):
         })
 
 
-
 def delete_login_user(request):
     if request.method == "POST" and request.is_ajax():
         userId = request.POST['userId']
