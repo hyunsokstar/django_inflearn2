@@ -300,8 +300,7 @@ skilnote2
 				</tr>
 			{% endifequal %}
 
-
-			{% if p.commentforshortcut_set.exists %}
+			{% if p.commentforshortcutforskilnote2_set.exists %}
 			<tr style="background-color:#E5F5F9">
 				<td colspan="2">
 					<!-- 댓글 영역 -->
@@ -311,13 +310,13 @@ skilnote2
 						<span id="comment_title_area">
 							Comment Area
 							<span id="comment_count_area">
-								{{p.commentforshortcut_set.count}}
+								{{p.commentforshortcutforskilnote2_set.count}}
 							</span>
 						</span>
 					</a>
 
 					<div class="collapse" id="collapse_{{p.id}}">
-						{% for comment in p.commentforshortcut_set.all %}
+						{% for comment in p.commentforshortcutforskilnote2_set.all %}
 						<table class="table table-bordered" id=comment_table_{{comment.id}}>
 							<tr>
 								<td>
