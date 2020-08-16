@@ -1415,8 +1415,6 @@ $('body').on('click', '.next_channer_btn', function (e) {
 	// alert("hi")
 	const number = $("#ch_input").val();
 	ch_name = "ca"+number;
-	// $(".go_btn").trigger("click");
-	// window.location.href = `/myshortcut2/#shortcut_{${number}}`
 	window.location.href = `/skilnote3/myshortcut2/category/ca${number}/`
 
 });
@@ -2170,7 +2168,8 @@ $(document).ready(function () {
 })
 
 $(".go_to_before_channer_btn").click(function () {
-	const categoryId = "{{category_id}}"
+	// const categoryId = "{{category_id}}"
+	const categoryId = $("#ch_input").val();
 	category_id = parseInt(categoryId) - 1
 	// alert("category_id : "+ category_id)
 	ch_name = `ca${category_id}`;
@@ -2178,6 +2177,8 @@ $(".go_to_before_channer_btn").click(function () {
 	if (category_id < 1) {
 		category_id = 1
 	}
+	// alert("ch_name : " ch_name);
+
 	nect_ch_url = $("#ca_" + category_id).attr('href')
 	window.location.href = `/skilnote3/myshortcut2/category/ca${category_id}/`
 
@@ -2185,10 +2186,11 @@ $(".go_to_before_channer_btn").click(function () {
 
 $(".go_to_next_channer_btn").click(function () {
 	// alert("클릭22");
-	const categoryId = "{{category_id}}"
+	const categoryId = $("#ch_input").val();
 	category_id = parseInt(categoryId) + 1
 	ch_name = "ca"+category_id;
 	// alert("ch_name : " , ch_name)
+	// alert("ch_name : "+ ch_name);
 
 	if (category_id > 120) {
 		category_id = 120

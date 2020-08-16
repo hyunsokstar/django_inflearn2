@@ -87,7 +87,9 @@ class MyShortcutListByCategory2(ListView):
 
     def get_queryset(self):
         slug = self.kwargs['slug']
-        category = CategoryForSkilNote3.objects.get(slug=slug)
+        print("slug : ", slug
+        )
+        category = CategoryForSkilNote3.objects.get(name=slug)
         pf = Profile.objects.filter(Q(user=self.request.user)).update(selected_category_id = category.id)
         print('category id update 성공')
 
@@ -1570,7 +1572,7 @@ def myfunc():
 class MyShortcutListByCategory(ListView):
 
     def get_template_names(self):
-        return ['skilnote3/skil_note3_list2.html']
+        return ['skilnote3/skil_note3_list.html']
 
     def get_queryset(self):
         slug = self.kwargs['slug']

@@ -301,7 +301,7 @@ skilnote3
 			{% endifequal %}
 
 
-			{% if p.commentforshortcut_set.exists %}
+			{% if p.commentforshortcutforskilnote3_set.exists %}
 			<tr style="background-color:#E5F5F9">
 				<td colspan="2">
 					<!-- 댓글 영역 -->
@@ -311,13 +311,13 @@ skilnote3
 						<span id="comment_title_area">
 							Comment Area
 							<span id="comment_count_area">
-								{{p.commentforshortcut_set.count}}
+								{{p.commentforshortcutforskilnote3_set.count}}
 							</span>
 						</span>
 					</a>
 
 					<div class="collapse" id="collapse_{{p.id}}">
-						{% for comment in p.commentforshortcut_set.all %}
+						{% for comment in p.commentforshortcutforskilnote3_set.all %}
 						<table class="table table-bordered" id=comment_table_{{comment.id}}>
 							<tr>
 								<td>
@@ -2031,14 +2031,18 @@ $(".go_to_before_channer_btn").click(function () {
 	if (category_id < 1) {
 		category_id = 1
 	}
+	// alert("category_id : ", category_id)
 	window.location.href = `/skilnote3/myshortcut/category/ca${category_id}/`
 })
 
 $(".go_to_next_channer_btn").click(function () {
+	// alert("next btn 클릭");
 	const category_id = parseInt($(".ca-btn-selected").attr('id')) + 1
 	if (category_id > 120) {
 		category_id = 120
 	}
+	// alert("category_id : ", category_id)
+
 	window.location.href = `/skilnote3/myshortcut/category/ca${category_id}/`
 })
 
