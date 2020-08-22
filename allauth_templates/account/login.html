@@ -10,8 +10,6 @@
 
 {% block content6 %}
 
-<br>
-
 {% if socialaccount_providers %}
 <p>{% blocktrans with site.name as site_name %}Please sign in with one
 of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
@@ -29,7 +27,6 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 {% else %}
 {% blocktrans %}
-<br>
  {% endblocktrans %}
 
 <!-- <img src="{% static 'icon/sn11.jpg' %}" width="100%" height="50%" alt=""> -->
@@ -46,14 +43,84 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 {% endblock %}
 
 {% block sidearea6 %}
-<br><br>
+
 <table class="table table-bordered">
+    <tr class="table-primary">
+        <td>스킬 노트 기본 기능</td>
+    </tr>
     <tr>
-        <td>hi</td>
+        <td>노트 저장, 편집, 검색, 공유</td>
     </tr>
 
 </table>
 
+
+<table class="table table-bordered">
+    <tr class="table-success">
+        <td>스킬 노트 단축키</td>
+    </tr>
+    <tr>
+        <td>1.제목 더블 클릭 : 내용 복사</td>
+    </tr>
+    <tr>
+        <td>2.ctrl + 방향키 (페이지 넘김)</td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+    <tr class="table-info">
+        <td colspan="2">스킬 노트 user</td>
+    </tr>
+
+    <tr>
+        <td>
+            <a href="http://terecal-hyun.co.kr/wm/myshortcut/nodebird2/1">nodebird clone</a>
+        </td>
+        <td>
+            <a href="http://terecal-hyun.co.kr/wm/myshortcut/spring-basic-terecal/1">spring basic(김영한)</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <a href="http://terecal-hyun.co.kr/wm/myshortcut/css-flex-tutorial-terecal/1">css flex</a>
+        </td>
+        <td>
+            <a href="http://terecal-hyun.co.kr/wm/myshortcut/css-grid-tutorial-terecal/1">css grid</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <a href="http://terecal-hyun.co.kr/wm/myshortcut/django-rest--basic-crush/1">django rest</a>
+        </td>
+        <td>
+            <a href="http://terecal-hyun.co.kr/wm/myshortcut/askcompany-instagram-level1/1">django instagram</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <a href="http://terecal-hyun.co.kr/wm/myshortcut/svelte-tutorial-basic-terecal/1">svelte(frontend framework)</a>
+        </td>
+        <td>
+            <a href="http://terecal-hyun.co.kr/wm/myshortcut/flutter-basic-level1-terecal/1">flutter</a>
+        </td>
+    </tr>
+
+
+</table>
+
+
+<table class="table table-bordered">
+    <tr class="table-danger">
+        <td>github</td>
+    </tr>
+    <tr>
+        <td>
+            <a href="https://github.com/hyunsokstar/django_inflearn2">skil note</a>
+    </tr>
+</table>
 
 {% endblock %}
 
@@ -64,8 +131,8 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
     $(document).ready(function(){
         // alert("mechanic coder에 오신것을 환영합니다.");
-        $(".navbar").remove();
-        $("body").css("padding-top","10px");
+        console.log("로그인 페이지")
+        $(".navbar").hide();
     });
 
 {% endblock %}
