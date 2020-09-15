@@ -1419,8 +1419,8 @@ class user_list_for_memo_view(ListView):
     def get_template_names(self):
         if self.request.is_ajax():
             print("user list ajax 요청 확인")
-            return ['skilnote1/_user_list_for_memo.html']
-        return ['skilnote1/user_list_for_memo.html']
+            return ['wm/_user_list_for_memo.html']
+        return ['wm/user_list_for_memo.html']
 
     def get_queryset(self):
         print("실행 확인 겟 쿼리셋")
