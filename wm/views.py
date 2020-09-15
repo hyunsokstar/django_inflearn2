@@ -227,7 +227,7 @@ def new_comment_for_skilpage(request, user_name, category_id):
 class MyShortcutListByUser(ListView):
     model = MyShortCut
     paginate_by = 20
-    template_name = 'skilnote1/myshortcut_list_for_user.html'
+    template_name = 'wm/myshortcut_list_for_user.html'
 
 
     def get_queryset(self):
@@ -744,7 +744,7 @@ def temp_skill_list_for_backend1(request):
 
     object_list = TempMyShortCutForBackEnd.objects.filter(author=user)
 
-    return render(request, 'skilnote1/TempMyShortCutForBackEnd_list.html', {
+    return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -759,7 +759,7 @@ def temp_skill_list1(request):
     print("user : ", user)
     object_list = TempMyShortCut.objects.filter(author=user)
 
-    return render(request, 'skilnote1/TempMyShortCut_list.html', {
+    return render(request, 'wm/TempMyShortCut_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -773,7 +773,7 @@ def temp_skill_list_for_backend2(request,page_user):
 
     object_list = TempMyShortCutForBackEnd.objects.filter(author=user)
 
-    return render(request, 'skilnote1/TempMyShortCutForBackEnd_list.html', {
+    return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -788,7 +788,7 @@ def temp_skill_list2(request,page_user):
     print("user : ", user)
     object_list = TempMyShortCut.objects.filter(author=user)
 
-    return render(request, 'skilnote1/TempMyShortCut_list.html', {
+    return render(request, 'wm/TempMyShortCut_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -1007,7 +1007,7 @@ def searchSkilNoteViewByIdAndWord(request):
         'posts':posts
     }
 
-    return render(request, "skilnote1/MyShortCut_list_for_search.html", context)
+    return render(request, "wm/MyShortCut_list_for_search.html", context)
 
 
 def delete_comment_for_my_shortcut(request, shortcut_comment_id):
@@ -1402,7 +1402,7 @@ def favorite_user_list_for_skillnote(request):
         print("object_list : ", object_list)
 
 
-        return render(request, 'skilnote1/favorite_user_list_for_skilnote.html', {
+        return render(request, 'wm/favorite_user_list_for_skilnote.html', {
             "object_list" : object_list,
         })
     else:
@@ -1512,7 +1512,7 @@ def CategoryNickListByUserId_for_user(request, user_name):
         cn_my = CategoryNick.objects.get(author=user.id)
         print("cn_my : ", cn_my)
 
-        return render(request, 'skilnote1/categorynick_list_for_user.html', {
+        return render(request, 'wm/categorynick_list_for_user.html', {
             "category" : cn_my,
             "page_user": user_name
         })
