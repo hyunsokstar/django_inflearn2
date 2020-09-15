@@ -27,7 +27,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     def get_absolute_url(self):
-            return '/wm/myshortcut/category/{}/'.format(self.slug)
+            return '/skilnote1/myshortcut/category/{}/'.format(self.slug)
 
 class Type(models.Model):
     type_name = models.CharField(max_length=20)

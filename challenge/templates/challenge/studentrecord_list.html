@@ -145,7 +145,7 @@ $(document).ready(function(){
         // alert("id : " + id)
         // alert("user_id : " +user_id)
 
-        window.history.pushState("", "", '/wm/')
+        window.history.pushState("", "", '/skilnote1/')
 
         $.ajax({
           type: "POST",
@@ -158,7 +158,7 @@ $(document).ready(function(){
                 // alert('update for user shortcut id is success ');
                 console.log("result : ", result);
                 // alert("result.message :     shorcut page로 이동")
-                var url = "http://terecal-hyun.co.kr/wm/myshortcut/"+user_id+"/1"
+                var url = "http://terecal-hyun.co.kr/skilnote1/myshortcut/"+user_id+"/1"
                 document.location.href = url
             }
         });

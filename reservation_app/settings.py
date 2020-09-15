@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'todo',
-    'wm',
     'bestlec', # 강의 추천
     'accounts2', # 계정 관리
     'management', # 제안 사항
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'pd', #persional desk
     'skilblog', # 스킬 블로그
     'blog', # tech note
+    'wm',
     'skilnote2',
     'skilnote3',
     'skilnote4'
@@ -155,7 +155,7 @@ MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = '/wm/myshortcut/'
+LOGIN_REDIRECT_URL = '/skilnote1/myshortcut/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DJANGO_NOTIFICATIONS_CONFIG = {

@@ -45,7 +45,7 @@ def delete_for_liker_user_for_me(request):
             'message': message,
         })
     else:
-        return redirect('/wm/myshorcut/')
+        return redirect('/skilnote1/myshorcut/')
 
 def delete_for_my_favorite_user(request):
     if request.method == "POST" and request.is_ajax():
@@ -62,7 +62,7 @@ def delete_for_my_favorite_user(request):
             'message': message,
         })
     else:
-        return redirect('/wm/myshorcut/')
+        return redirect('/skilnote1/myshorcut/')
 
 
 def like_or_unlike(request):
@@ -121,7 +121,7 @@ def delete_login_user(request):
             'message': '좋아요 정보 유저 정보 삭제 성공 ',
         })
     else:
-        return redirect('/wm/myshorcut/')
+        return redirect('/skilnote1/myshorcut/')
 
 def user_profile_information_view(request,user):
     print("my_profile_information_view 실행")
@@ -253,8 +253,8 @@ class member_list_view(ListView):
     def get_template_names(self):
         if self.request.is_ajax():
             print("user list ajax 요청 확인")
-            return ['wm/_user_list_for_memo.html']
-        return ['wm/user_list_for_memo.html']
+            return ['skilnote1/_user_list_for_memo.html']
+        return ['skilnote1/user_list_for_memo.html']
 
     def get_queryset(self):
         print("실행 확인 겟 쿼리셋")

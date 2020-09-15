@@ -16,7 +16,7 @@ class challenge_subject(models.Model):
 	leader = models.ForeignKey(User, on_delete=models.CASCADE)
 	home = models.CharField(max_length=40)
 	created= models.DateTimeField(auto_now_add=True)
-	image = models.ImageField(upload_to='wm/%y%m%d', blank=True)
+	image = models.ImageField(upload_to='skilnote1/%y%m%d', blank=True)
 	like_count = models.IntegerField(default=0)
 
 	def get_absolute_url(self,*args,**kwargs):

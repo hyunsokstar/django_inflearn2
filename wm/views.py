@@ -169,7 +169,7 @@ def delete_guest_book_list(request,id):
             'message': 'comment 삭제 성공 ',
         })
     else:
-        return redirect('/wm/myshorcut/')
+        return redirect('/skilnote1/myshorcut/')
 
 def insert_for_guest_book(request):
     print("insert_for_guest_book 실행")
@@ -220,14 +220,14 @@ def new_comment_for_skilpage(request, user_name, category_id):
             comment.user_name = user_name
             comment.category_id = category_id
             comment.save()
-            return redirect('/wm/myshortcut/'+user_name+"/"+category_id)
+            return redirect('/skilnote1/myshortcut/'+user_name+"/"+category_id)
     else:
-        return redirect('/wm/myshortcut/'+user_name+"/"+category_id)
+        return redirect('/skilnote1/myshortcut/'+user_name+"/"+category_id)
 
 class MyShortcutListByUser(ListView):
     model = MyShortCut
     paginate_by = 20
-    template_name = 'wm/myshortcut_list_for_user.html'
+    template_name = 'skilnote1/myshortcut_list_for_user.html'
 
 
     def get_queryset(self):
@@ -744,7 +744,7 @@ def temp_skill_list_for_backend1(request):
 
     object_list = TempMyShortCutForBackEnd.objects.filter(author=user)
 
-    return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
+    return render(request, 'skilnote1/TempMyShortCutForBackEnd_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -759,7 +759,7 @@ def temp_skill_list1(request):
     print("user : ", user)
     object_list = TempMyShortCut.objects.filter(author=user)
 
-    return render(request, 'wm/TempMyShortCut_list.html', {
+    return render(request, 'skilnote1/TempMyShortCut_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -773,7 +773,7 @@ def temp_skill_list_for_backend2(request,page_user):
 
     object_list = TempMyShortCutForBackEnd.objects.filter(author=user)
 
-    return render(request, 'wm/TempMyShortCutForBackEnd_list.html', {
+    return render(request, 'skilnote1/TempMyShortCutForBackEnd_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -788,7 +788,7 @@ def temp_skill_list2(request,page_user):
     print("user : ", user)
     object_list = TempMyShortCut.objects.filter(author=user)
 
-    return render(request, 'wm/TempMyShortCut_list.html', {
+    return render(request, 'skilnote1/TempMyShortCut_list.html', {
         'object_list': object_list,
         'page_user': user
     })
@@ -952,7 +952,7 @@ class search_skil_note_by_word(ListView):
 # class searchSkilNoteViewByIdAndWord(ListView):
 #     model = MyShortCut
 #     paginate_by = 10
-#     template_name = 'wm/MyShortCut_list_for_search.html'
+#     template_name = 'skilnote1/MyShortCut_list_for_search.html'
 #
 #     def get_queryset(self):
 #         if request.method == "POST" and request.is_ajax():
@@ -1007,7 +1007,7 @@ def searchSkilNoteViewByIdAndWord(request):
         'posts':posts
     }
 
-    return render(request, "wm/MyShortCut_list_for_search.html", context)
+    return render(request, "skilnote1/MyShortCut_list_for_search.html", context)
 
 
 def delete_comment_for_my_shortcut(request, shortcut_comment_id):
@@ -1360,14 +1360,14 @@ def update_category_by_ajax(request):
     for i, sn in enumerate(shortcut_ids):
         MyShortCut.objects.filter(id=sn, author=request.user).update(category=category, created = datetime.now()+timedelta(seconds=i),image=F('image'))
 
-    return redirect('/wm/myshortcut')
+    return redirect('/skilnote1/myshortcut')
 
 def delete_myshortcut_by_ajax(request):
     shortcut_ids = request.POST.getlist('shortcut_arr[]')
     if shortcut_ids:
         MyShortCut.objects.filter(pk__in=shortcut_ids, author=request.user).delete()
 
-    return redirect('/wm/myshortcut')
+    return redirect('/skilnote1/myshortcut')
 
 
 def update_my_shortcut_subject(request):
@@ -1383,7 +1383,7 @@ def update_my_shortcut_subject(request):
             'message': 'shortcut_subject update 성공 : ' +shortcut_subject
         })
     else:
-        return redirect('/wm/shortcut')
+        return redirect('/skilnote1/shortcut')
 
 
 def favorite_user_list_for_skillnote(request):
@@ -1402,7 +1402,7 @@ def favorite_user_list_for_skillnote(request):
         print("object_list : ", object_list)
 
 
-        return render(request, 'wm/favorite_user_list_for_skilnote.html', {
+        return render(request, 'skilnote1/favorite_user_list_for_skilnote.html', {
             "object_list" : object_list,
         })
     else:
@@ -1419,8 +1419,8 @@ class user_list_for_memo_view(ListView):
     def get_template_names(self):
         if self.request.is_ajax():
             print("user list ajax 요청 확인")
-            return ['wm/_user_list_for_memo.html']
-        return ['wm/user_list_for_memo.html']
+            return ['skilnote1/_user_list_for_memo.html']
+        return ['skilnote1/user_list_for_memo.html']
 
     def get_queryset(self):
         print("실행 확인 겟 쿼리셋")
@@ -1455,7 +1455,7 @@ def update_shortcut_nick(request):
             'message': 'shortcut category nick name update 성공 ' +ca_nick_update,
         })
     else:
-        return redirect('/wm/shortcut')
+        return redirect('/skilnote1/shortcut')
 
 def update_shortcut_nick2(request):
     if request.method == "POST" and request.is_ajax():
@@ -1476,7 +1476,7 @@ def update_shortcut_nick2(request):
             'message': 'shortcut category nick name update 성공 ' +ca_nick_update,
         })
     else:
-        return redirect('/wm/shortcut')
+        return redirect('/skilnote1/shortcut')
 
 
 def CategoryNickListByUserId(request, user_name):
@@ -1512,7 +1512,7 @@ def CategoryNickListByUserId_for_user(request, user_name):
         cn_my = CategoryNick.objects.get(author=user.id)
         print("cn_my : ", cn_my)
 
-        return render(request, 'wm/categorynick_list_for_user.html', {
+        return render(request, 'skilnote1/categorynick_list_for_user.html', {
             "category" : cn_my,
             "page_user": user_name
         })
@@ -1732,6 +1732,7 @@ class SkilNoteListView(LoginRequiredMixin,ListView):
             context['category'] = category
             context['category_nick'] = CategoryNick.objects.values_list(category.name, flat=True).get(author=self.request.user)
         return context
+
 
 # 2244
 class search_skil_note_for_me(LoginRequiredMixin,ListView):

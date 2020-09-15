@@ -168,7 +168,7 @@
 
         <tr id="myFavorite_{{my_favorite_user.id}}">
     		<td>
-    			<a href="/wm/myshortcut/{{my_favorite_user.username}}/1">
+    			<a href="/skilnote1/myshortcut/{{my_favorite_user.username}}/1">
     				{{ my_favorite_user.username }}
     			</a>
     			<a>
@@ -228,7 +228,7 @@ $('body').on('click', '.update_shortcut_user_id', function(e) {
     alert("row_id : "+ row_id)
     alert("user_id : "+ user_id)
 
-    window.history.pushState("", "", '/wm/')
+    window.history.pushState("", "", '/skilnote1/')
 
     $.ajax({
       type: "POST",
@@ -245,8 +245,8 @@ $('body').on('click', '.update_shortcut_user_id', function(e) {
             }
             // alert(original_id)
             // alert("id 교체 실행")
-            window.history.pushState("", "", '/wm/myshortcut/')
-            location.href = "/wm/myshortcut/"
+            window.history.pushState("", "", '/skilnote1/myshortcut/')
+            location.href = "/skilnote1/myshortcut/"
         }
     });
 })

@@ -95,7 +95,7 @@ $(".plus_btn_for_favorite_user").click(function(){
     console.log("my_id : " , my_id);
     console.log("author_id : " , author_id);
 
-    window.history.pushState("", "", '/wm/myshortcut/')
+    window.history.pushState("", "", '/skilnote1/myshortcut/')
 
     $.ajax({
         type: "POST",
@@ -109,7 +109,7 @@ $(".plus_btn_for_favorite_user").click(function(){
             // 0924 plus_btn_for_user
             alert(result.message)
             $("#skill_note_point_"+author_id).text(result.recommand_count)
-            // window.location.href = '/wm/userlist/byajax'
+            // window.location.href = '/skilnote1/userlist/byajax'
             $("#favorite_user_row_"+author_id).remove();
         }
     });
@@ -152,14 +152,14 @@ function refresh_user_list_popup(){
     // console.log("refresh_user_list_popup 실행");
     // alert("refresh_user_list_popup()");
     const url = "userlist/byajax"
-	window.history.pushState("", "", '/wm/')
+	window.history.pushState("", "", '/skilnote1/')
 
 	$.get(url)
 		.done((result) => {
             $("#user_table_area").html("")
 			$("#user_table_area").html(result)
 
-			window.history.pushState("", "", '/wm/myshortcut')
+			window.history.pushState("", "", '/skilnote1/myshortcut')
 
 		})
 		.fail(() => {
@@ -183,7 +183,7 @@ $(".copy_to_me_from_user_id_btn").click(function(e){
 	};
 
     const selection = prompt("나의 note를 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
-    window.history.pushState("", "", '/wm/myshortcut/')
+    window.history.pushState("", "", '/skilnote1/myshortcut/')
 
     if (selection == "y" || selection == "Y") {
         $("#loading_for_copy").addClass("spinner-border spinner-border-sm");
@@ -213,7 +213,7 @@ $(".update_memo_subject_btn").click(function(e){
     const shortcut_subject = $(".shortcut_subject_input_"+id).val()
     // alert("shortcut_subject : "+shortcut_subject)
 
-    window.history.pushState("", "", '/wm/myshortcut/')
+    window.history.pushState("", "", '/skilnote1/myshortcut/')
 
     $.ajax({
       type: "POST",
@@ -236,7 +236,7 @@ $(".move_to_user_btn1").click(function(e){
     // alert("id : "+ id)
     const user_id = $(this).parent().parent().find("#user_name_"+id).text().trim()
     alert(user_id + "의 skil note1로 이동")
-    location.href = "/wm/myshortcut/"+user_id+"/1";
+    location.href = "/skilnote1/myshortcut/"+user_id+"/1";
 })
 
 $(".move_to_user_btn2").click(function(e){
