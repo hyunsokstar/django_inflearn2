@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'markdownx',
+    # 'markdownx',
     'crispy_forms',
     'easy_thumbnails',
     'remote_control',
