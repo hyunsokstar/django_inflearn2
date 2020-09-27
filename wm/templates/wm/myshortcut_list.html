@@ -164,6 +164,7 @@ wm
 	{% for p in object_list %}
 		<table class="table table-bordered table_row" id="todo_list">
 			{% ifequal p.type.type_name "input" %}
+			11
 				<tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0;">
 					<td id=index_{{ forloop.counter }} width="10%">
 						<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
@@ -197,6 +198,7 @@ wm
 				</tr>
 			{% endifequal %}
 			{% ifequal p.type.type_name "textarea" %}
+			22
 				<tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0">
 					<td id=index_{{ forloop.counter }} width="10%">
 						<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
@@ -246,6 +248,7 @@ wm
 			{% endifequal %}
 
 			{% ifequal p.type.type_name "summer_note" %}
+			33
 				<tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0">
 					<td id=index_{{ forloop.counter }} width="10%">
 						<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
