@@ -61,6 +61,7 @@ urlpatterns = [
     path('myshortcut2/create_textarea_first/', views.create_textarea_first , name="create_new2_textarea_first"),
     path('myshortcut2/create_summernote_first/', views.create_summernote_first , name="create_summernote_first"),
     path('myshortcut/create_new1_input/ajax/', views.create_new1_input , name="create_new1_input"),
+    path('myshortcut/create_new2_textarea/ajax/', views.create_new2_textarea , name="create_new2_textarea"),
     path('myshortcut/create_new1_input_between/ajax/<int:current_article_id>', views.create_new1_input_between , name="create_new1_input_between"),
     path('myshortcut/create_new2_textarea_between/ajax/<int:current_article_id>', views.create_new2_textarea_between , name="create_new2_textarea_between"),
     path('myshortcut/create_new4_textarea/ajax/', views.create_new4_textarea , name="create_new4_textareas"),
