@@ -218,20 +218,20 @@ wm
 					<td>file</td>
 					<td ondblclick="copy_for_file_name2({{p.id}})">
 						<span>
-							<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
+							<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
 							<!-- <button class="badge badge-pill badge-dark file_history_button" data-id={{p.id}} name="button">history</button> -->
 							<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
 						</span>
 							<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 					</td>
 				</tr>
-				<tr id="shortcut_{{p.id}}-3" style="background-color:#fcfaeb">
+				<tr id="shortcut_{{p.id}}-3" style="background-color:#fcfaeb;">
 					<td colspan="2">
 						<button class="btn btn-outline-primary btn-sm show_total_textInput_button" id={{p.id}}>24row</button>
 						<button class="btn btn-outline-primary btn-sm show_basic_textInput_button" id={{p.id}}>8row</button>
 						<button class="btn btn-outline-primary btn-sm show_text_popup_button" id={{p.id}}>popup</button>
 
-						<textarea id="select-textarea-{{p.id}}" cols="120" rows="10"
+						<textarea id="select-textarea-{{p.id}}" cols="20" rows="10"
 							class="form-control">{{p.content2 }}</textarea><br>
 						<button class="btn btn-outline-danger btn-sm myinput float-right copy_code2 float-right"
 							id="{{p.id}}">copy</button>

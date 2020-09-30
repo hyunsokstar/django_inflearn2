@@ -144,11 +144,11 @@ img.Image { max-width: 100%; display: block; }
 
 		</td>
 	</tr>
-	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0 max-width:100%" >
+	<tr id="shortcut_{{p.id}}-2" style="background-color:#f1f9f0" >
 		<td>file</td>
 		<td ondblclick="copy_for_file_name2({{p.id}})">
 			<span>
-				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=100 onclick="copy_for_file_name({{p.id}})">
+				<input type="text" value="{{p.filename}}" class="file_name" id="file_{{p.id}}" size=60 onclick="copy_for_file_name({{p.id}})">
 
 				<button class="badge badge-pill badge-dark file_history_button" data-id={{p.id}} name="button">history</button>
 				<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
