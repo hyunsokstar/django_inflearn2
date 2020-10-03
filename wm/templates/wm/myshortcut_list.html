@@ -13,20 +13,20 @@ button, input, a {
 .sideicon_for_scroll{
 	position:fixed;
 	colort:blue;
-	top:260px;
-	right:8px;
+	top:192px;
+	right:4px;
 }
 .sideicon_for_insert{
 	position:fixed;
 	colort:blue;
 	top:60px;
-	right:16px;
+	right:8px;
 }
 .sideicon_for_move{
 	position:fixed;
 	colort:blue;
-	top:380px;
-	right:8px;
+	top:322px;
+	right:4px;
 }
 .temp_memo_btn_area {
 	position:fixed;
@@ -62,9 +62,7 @@ wm
 					</div>
 			    </div>
 			    <div class="col">
-				  <!-- <button type="button" class="btn btn-outline-dark btn-sm  update_shortcut_user_id" id="{{request.user.id}}">Id change</button> -->
 				  <button type="button" class="btn btn-outline-dark btn-sm favorite_user_list_btn">favorite</button>
-				  <!-- <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'wm:user_list_for_memo' %}'">USER</button> -->
 				  <button type="button" class="btn btn-outline-dark btn-sm category_name_list_button" id="{{request.user.id}}">카테고리</button>
 				  <a class="btn btn-outline-success btn-sm" href="{% url 'wm:search_skil_note_for_me' %}">Search</a>
 				  <a class="btn btn-outline-success btn-sm" href="{% url 'wm:search_skilnote_by_file_name_for_me' %}">Search(file)</a>
@@ -97,54 +95,53 @@ wm
 	{% endfor %}
 </div>
 {% endif %}
-
 <div class="sideicon_for_scroll">
-	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
-	<input type="text" class="go_input form" size=2 value="1">
+	<button type="button" name="button" class="before_btn btn btn-outline-dark btn-sm" id="">be</button><br>
+	<input type="text" class="go_input form" size=2 value="1"><br>
 	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
-	<button type="button" name="button" class="next_btn btn btn-outline-dark" id="">next</button>
-</div>
+	<button type="button" name="button" class="next_btn btn btn-outline-dark btn-sm" id="">ne</button><br>
 
-<div class="sideicon_for_move">
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">first</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark" id="">end</button><br>
-	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input">
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark btn-sm" id="">F</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark btn-sm" id="">E</button><br>
+	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input"><br>
 	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
-	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark">
+	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark btn-sm">
 		<img src="{% static 'icon/left_arrow.png' %}" alt="">
 	</button><br>
-	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark">
+	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark btn-sm">
 		<img src="{% static 'icon/right_arrow.png' %}" alt="">
 	</button>
 	<br>
+
+
 </div>
+<div class="sideicon_for_move">
 
-	<div class="sideicon_for_insert">
-		<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:my_shortcut_list2' %}';">입력 모드</button><br>
-		<button class="new3_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
-		<button type="button" name="button" class="new1_btn btn btn-outline-dark" id="">인풋(1)</button><br>
-		<button type="button" name="button" class="new2_btn btn btn-outline-dark" id="">text(1)</button><br>
-		<a class="new4_btn btn btn-outline-dark" id="" href=""> text(5) </a>
-	</div>
-
+</div>
+<div class="sideicon_for_insert">
+	<button class="new3_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:my_shortcut_list2' %}';">입력</button><br>
+	<button class="new3_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
+	<button type="button" name="button" class="new1_btn btn btn-outline-dark btn-sm" id="">인풋</button><br>
+	<button type="button" name="button" class="new2_btn btn btn-outline-dark btn-sm" id="">text</button><br>
+</div>
 <div class="temp_memo_btn_area">
-		<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
-		<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
-		<button type="button" class="btn btn-outline-dark guest_book_list_btn">방명록</button> <br>
-		<button type="button" class="btn btn-outline-dark">slack</button><br>
-		<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
-		<a href="" class="btn btn-outline-primary " id="modify_category_button"> 이동</a> <br>
-		<a href="" class="btn btn-outline-primary " id="shortcut_delete_button"> 삭제(ch) </a> <br>
-		<a href="" class="btn btn-outline-primary " id="ca_plus_1_btn" data-category={{cateogory}}>
-			ca+1
-			<span class="" id="loading_for_copy_plus1" role="status" aria-hidden="true"></span>
-		</a> <br>
-		<a href="" class="btn btn-outline-primary " id="ca_minus_1_btn" data-category={{cateogory}}>
-			ca-1
-			<span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
-		</a> <br>
-		<a href="" class="btn btn-outline-primary " id="move_to_skilblog_btn"> skil column(ch) </a> <br>
-		<button type="button" class="btn btn-outline-primary insert_image" onclick="window.location.href='{% url 'wm:MyShortCutCreateView_image' %}'">image 입력</button>
+		<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark btn-sm" id="">메모1</button> <br>
+		<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark btn-sm" id="">메모2</button><br>
+		<button type="button" class="btn btn-outline-dark guest_book_list_btn btn-sm">계획</button> <br>
+		<button type="button" class="btn btn-outline-dark btn-sm">슬랙</button><br>
+		<a href="" class="btn btn-outline-primary btn-sm" id="insert_first_for_skill_note_btn"> first</a> <br>
+		<a href="" class="btn btn-outline-primary btn-sm" id="modify_category_button"> 이동</a> <br>
+		<a href="" class="btn btn-outline-primary btn-sm" id="shortcut_delete_button"> 삭제</a> <br>
+		<a href="" class="btn btn-outline-primary btn-sm" id="ca_plus_1_btn" data-category={{cateogory}}>
+			 c+1
+			  <span class="" id="loading_for_copy_plus1" role="status" aria-hidden="true"></span>
+		 </a><br>
+		<a href="" class="btn btn-outline-primary btn-sm" id="ca_minus_1_btn" data-category={{cateogory}}>
+			 c-1
+			 <span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
+		 </a><br>
+		<a href="" class="btn btn-outline-primary btn-sm" id="move_to_skilblog_btn">칼럼</a> <br>
+		<!-- <button type="button" class="btn btn-outline-primary insert_image" onclick="window.location.href='{% url 'wm:MyShortCutCreateView_image' %}'"></button> -->
 </div>
 
 <table class="table table-bordered category_subject_table" width="1110" style="">
@@ -196,7 +193,6 @@ wm
 					</td>
 				</tr>
 			{% endifequal %}
-
 
 			{% ifequal p.type.type_name "textarea" %}
 					<tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0; max-width:100%;">
@@ -274,7 +270,6 @@ wm
 								<button class="btn btn-outline-secondary" type="button" onclick="copy_for_file_name2({{p.id}})">file</button>
 							</div>
 							</div>
-
 						</span>
 
 						<span class="result_for_file_name_copy_{{p.id}}"></span>

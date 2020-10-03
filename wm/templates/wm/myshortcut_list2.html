@@ -17,7 +17,7 @@ button, input, a {
 .sideicon_for_scroll{
 	position:fixed;
 	colort:blue;
-	top:17px;
+	top:70px;
 	right:0px;
 }
 
@@ -32,7 +32,7 @@ button, input, a {
 	position:fixed;
 	colort:blue;
 	top:358px;
-	right:6px;
+	right:4px;
 }
 
 .temp_memo_btn_area {
@@ -364,22 +364,17 @@ img.Image { max-width: 100%; display: block; }
 		 -1
 		 <span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
 	 </a><br>
-	<a href="" class="btn btn-outline-primary" id="move_to_skilblog_btn btn-sm">칼럼</a> <br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="move_to_skilblog_btn">칼럼</a> <br>
 
-	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">be</button><br>
+	<button type="button" name="button" class="before_btn btn btn-outline-dark btn-sm" id="">be</button><br>
 	<input type="text" class="go_input form" size=2 value="1"><br>
 	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
-	<button type="button" name="button" class="next_btn btn btn-outline-dark mb-2" id="">ne</button>
-</div>
-
-
-<div class="sideicon_for_move">
-
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">f</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark mb-2" id="">e</button><br>
+	<button type="button" name="button" class="next_btn btn btn-outline-dark mb-2 btn-sm" id="">ne</button> <br>
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark btn-sm" id="">F</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark btn-sm mb-2" id="">E</button><br>
 
 	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input"><br>
-	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark mb-2" id="">go</button><br>
+	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">go</button><br>
 
 	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark btn-sm">
 		<img src="{% static 'icon/left_arrow.png' %}" width="50%" alt="">
@@ -389,6 +384,11 @@ img.Image { max-width: 100%; display: block; }
 		<img src="{% static 'icon/right_arrow.png' %}" width="50%" alt="">
 	</button>
 	<br>
+
+</div>
+
+
+<div class="sideicon_for_move">
 
 </div>
 
