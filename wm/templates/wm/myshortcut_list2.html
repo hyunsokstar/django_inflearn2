@@ -17,27 +17,27 @@ button, input, a {
 .sideicon_for_scroll{
 	position:fixed;
 	colort:blue;
-	top:58px;
-	right:26px;
+	top:17px;
+	right:0px;
 }
 
 .sideicon_for_insert{
 	position:fixed;
 	colort:blue;
-	top:70px;
+	top:40px;
 	right:1px;
 }
 
 .sideicon_for_move{
 	position:fixed;
 	colort:blue;
-	top:415px;
-	right:26px;
+	top:358px;
+	right:6px;
 }
 
 .temp_memo_btn_area {
 	position:fixed;
-	top:60px;
+	top:30px;
 	left:20px;
 }
 
@@ -153,9 +153,7 @@ img.Image { max-width: 100%; display: block; }
 				<button class="badge badge-pill badge-dark file_history_button" data-id={{p.id}} name="button">history</button>
 				<button class="badge badge-pill badge-dark open_new_tabb" name="button" data-id={{p.id}}>go</button>
 			</span>
-
-				<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
-
+			<button class="badge badge-pill badge-primary skil_note_file_name_update_btn float-right" id={{p.id}}>파일 수정</button>
 
 		</td>
 	</tr>
@@ -355,40 +353,40 @@ img.Image { max-width: 100%; display: block; }
 
 <div class="sideicon_for_scroll">
 
-	<button type="button" name="button" class="before_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'wm:my_shortcut_list' %}'">List Mode</button><br>
-	<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> 첫글</a><br>
-	<a href="" class="btn btn-outline-primary " id="shortcut_delete_button"> delete </a> <br>
-	<a href="" class="btn btn-outline-primary " id="ca_plus_1_btn" data-category={{cateogory}}>
-		 ca+1
+	<button type="button" name="button" class="before_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:my_shortcut_list' %}'">L</button><br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="insert_first_for_skill_note_btn "> 첫글</a><br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="shortcut_delete_button "> 삭제 </a> <br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="ca_plus_1_btn" data-category={{cateogory}}>
+		 +1
 		  <span class="" id="loading_for_copy_plus1" role="status" aria-hidden="true"></span>
 	 </a><br>
-	<a href="" class="btn btn-outline-primary " id="ca_minus_1_btn" data-category={{cateogory}}>
-		 ca-1
+	<a href="" class="btn btn-outline-primary btn-sm" id="ca_minus_1_btn" data-category={{cateogory}}>
+		 -1
 		 <span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
 	 </a><br>
-	<a href="" class="btn btn-outline-primary mb-3" id="move_to_skilblog_btn"> skil column </a> <br>
+	<a href="" class="btn btn-outline-primary" id="move_to_skilblog_btn btn-sm">칼럼</a> <br>
 
-	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
-	<input type="text" class="go_input form" size=2 value="1">
+	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">be</button><br>
+	<input type="text" class="go_input form" size=2 value="1"><br>
 	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
-	<button type="button" name="button" class="next_btn btn btn-outline-dark" id="">next</button>
+	<button type="button" name="button" class="next_btn btn btn-outline-dark mb-2" id="">ne</button>
 </div>
 
 
 <div class="sideicon_for_move">
 
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">first</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark" id="">end</button><br>
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">f</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark mb-2" id="">e</button><br>
 
-	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input">
-	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
+	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input"><br>
+	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark mb-2" id="">go</button><br>
 
-	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark">
-		<img src="{% static 'icon/left_arrow.png' %}" alt="">
+	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark btn-sm">
+		<img src="{% static 'icon/left_arrow.png' %}" width="50%" alt="">
 	</button><br>
 
-	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark">
-		<img src="{% static 'icon/right_arrow.png' %}" alt="">
+	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark btn-sm">
+		<img src="{% static 'icon/right_arrow.png' %}" width="50%" alt="">
 	</button>
 	<br>
 
