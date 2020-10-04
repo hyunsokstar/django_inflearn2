@@ -13,7 +13,7 @@ button, input, a {
 .sideicon_for_scroll{
 	position:fixed;
 	colort:blue;
-	top:192px;
+	top:76px;
 	right:4px;
 }
 .sideicon_for_insert{
@@ -96,13 +96,17 @@ wm
 </div>
 {% endif %}
 <div class="sideicon_for_scroll">
-	<button type="button" name="button" class="before_btn btn btn-outline-dark btn-sm" id="">be</button><br>
+	<button class="new3_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:my_shortcut_list2' %}';">입력</button><br>
+	<button class="new3_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
+	<button type="button" name="button" class="new1_btn btn btn-outline-dark btn-sm" id="">인풋</button><br>
+	<button type="button" name="button" class="new2_btn btn btn-outline-dark btn-sm" id="">text</button><br>
+	<button type="button" name="button" class="before_btn btn btn-outline-info btn-sm" id="">be</button><br>
 	<input type="text" class="go_input form" size=2 value="1"><br>
-	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
-	<button type="button" name="button" class="next_btn btn btn-outline-dark btn-sm" id="">ne</button><br>
+	<button type="button" name="button" class="go_btn btn btn-outline-info btn-sm" id="">Go</button><br>
+	<button type="button" name="button" class="next_btn btn btn-outline-info btn-sm" id="">ne</button><br>
 
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark btn-sm" id="">F</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark btn-sm" id="">E</button><br>
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-info btn-sm" id="">F</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-info btn-sm" id="">E</button><br>
 	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input"><br>
 	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
 	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark btn-sm">
@@ -119,10 +123,6 @@ wm
 
 </div>
 <div class="sideicon_for_insert">
-	<button class="new3_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:my_shortcut_list2' %}';">입력</button><br>
-	<button class="new3_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
-	<button type="button" name="button" class="new1_btn btn btn-outline-dark btn-sm" id="">인풋</button><br>
-	<button type="button" name="button" class="new2_btn btn btn-outline-dark btn-sm" id="">text</button><br>
 </div>
 <div class="temp_memo_btn_area">
 		<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark btn-sm" id="">메모1</button> <br>
