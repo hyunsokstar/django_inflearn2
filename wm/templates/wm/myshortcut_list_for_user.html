@@ -62,8 +62,7 @@ button, input, a {
 
 {%block content4 %}
 
-<br>
-<hr>
+<br><br>
 
 {% if messages %}
 <div class="alert alert-success">
@@ -170,7 +169,7 @@ button, input, a {
 {% endifequal %}
 </div>
 
-wm
+<h2>skilnote1</h2>
 <table class="table table-bordered category_subject_table" width="1110" style="">
 	<tr style="background-color:#f1e9f5">
 		<td width="10%" style="padding:10px;">
@@ -993,7 +992,7 @@ $('body').on('click', '.guest_book_list_btn', function (e) {
 			$("#guest_list_table_area").html(result)
 			$("#guest_book_list_modal").modal();
 			window.history.pushState("", "", '/skilnote1/myshortcut')
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 		})
 		.fail(() => {
 			console.log("fail");
@@ -1428,7 +1427,7 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 			// alert(result)
 			$(".insert_form_area_for_image").html(result);
 			$("#insert_image_between_popup").modal()
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 			// window.history.pushState("", "", '/skilnote1/myshorcut/')
 			// location.reload(true);
 		}
@@ -1518,7 +1517,7 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 			// alert(result)
 			$(".summernote_content_for_popup").html(result);
 			$("#sumemr_note_popup").modal()
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 		}
 	});
 
@@ -1569,7 +1568,7 @@ $(document).ready(function () {
 			// $('.category_subject_table').css("margin-bottom", "20px");
 			// $('#todo_list').css("margin-top", "20px");
 
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 			// 아래의 메뉴 바를 아래로 내리기
 		} else if ($(document).scrollTop() == 0) {
 			// $(".navbar").show();
@@ -2676,7 +2675,7 @@ $(".favorite_user_list_btn").click(function () {
 			$("#user_list_modal").modal();
 
 			window.history.pushState("", "", '/skilnote1/myshortcut')
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 
 		})
 		.fail(() => {

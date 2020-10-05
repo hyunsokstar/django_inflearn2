@@ -992,7 +992,7 @@ $('body').on('click', '.guest_book_list_btn', function (e) {
 			$("#guest_list_table_area").html(result)
 			$("#guest_book_list_modal").modal();
 			window.history.pushState("", "", '/skilnote3/myshortcut')
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 		})
 		.fail(() => {
 			console.log("fail");
@@ -1427,7 +1427,7 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 			// alert(result)
 			$(".insert_form_area_for_image").html(result);
 			$("#insert_image_between_popup").modal()
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 			// window.history.pushState("", "", '/skilnote3/myshorcut/')
 			// location.reload(true);
 		}
@@ -1517,7 +1517,7 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 			// alert(result)
 			$(".summernote_content_for_popup").html(result);
 			$("#sumemr_note_popup").modal()
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 		}
 	});
 
@@ -1568,7 +1568,7 @@ $(document).ready(function () {
 			// $('.category_subject_table').css("margin-bottom", "20px");
 			// $('#todo_list').css("margin-top", "20px");
 
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 			// 아래의 메뉴 바를 아래로 내리기
 		} else if ($(document).scrollTop() == 0) {
 			// $(".navbar").show();
@@ -2719,7 +2719,7 @@ $(".favorite_user_list_btn").click(function () {
 			$("#user_list_modal").modal();
 
 			window.history.pushState("", "", '/skilnote3/myshortcut')
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 
 		})
 		.fail(() => {

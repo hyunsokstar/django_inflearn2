@@ -831,7 +831,7 @@ $('body').on('click', '.guest_book_list_btn', function (e) {
 			$("#guest_book_list_modal").modal();
 
 			window.history.pushState("", "", '/skilnote4/myshortcut')
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 
 		})
 		.fail(() => {
@@ -1248,7 +1248,7 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 			window.history.pushState("", "", '/skilnote4/new/SkilNoteCreateView_image_through/'+current_article_id)
 			$(".insert_form_area_for_image").html(result);
 			$("#insert_image_between_popup").modal()
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 		}
 	});
 
@@ -1336,7 +1336,7 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 			// alert(result)
 			$(".summernote_content_for_popup").html(result);
 			$("#sumemr_note_popup").modal()
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 		}
 	});
 
@@ -1349,7 +1349,7 @@ $(document).ready(function () {
 	$(window).scroll(function () {
 		// console.log("scroll event 실행");
 		if ($(document).scrollTop() > jbOffset.top) {
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 		} else if ($(document).scrollTop() == 0) {
 			// $(".navbar").show();
 			$(".category_subject_table").show();
@@ -2502,7 +2502,7 @@ $(".favorite_user_list_btn").click(function () {
 			$("#user_list_modal").modal();
 
 			window.history.pushState("", "", '/skilnote4/myshortcut')
-			$(".navbar").hide();
+			// // $(".navbar").hide();
 
 		})
 		.fail(() => {
