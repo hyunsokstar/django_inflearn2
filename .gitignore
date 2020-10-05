@@ -1,7 +1,6 @@
 venv/
 .idea/
-
 *.pyc
 .gitignore
-
 migrations/
+db.sqlite3
