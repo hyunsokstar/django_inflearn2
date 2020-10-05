@@ -6,4 +6,4 @@ from .models import MyTask
 class MyTaskForm(forms.ModelForm):
     class Meta:
         model = MyTask
-        fields = ['title', 'plan1']
+        exclude = ('author','created_at')

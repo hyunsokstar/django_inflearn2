@@ -2,7 +2,7 @@
 
 
 
-        <button type="button" class="insert_btn_for_guset_book_list" style="float: right;">방명록 쓰기</button>
+        <button type="button" class="btn btn-outline-primary insert_btn_for_guset_book_list" style="float: right;">계획 쓰기</button>
 
 
         <table class="table table-bordered" id="todo_list" width="100%">
@@ -36,8 +36,8 @@
 
             {% else %}
             <tr>
-                <td colspan="4">
-                    <h4>아직 방명록이 없습니다.</h4>
+                <td colspan="5">
+                    <h4>아직 계획이 없습니다.</h4>
                 </td>
             </tr>
             {% endif %}
@@ -123,7 +123,7 @@
     // });
 
     $(".insert_btn_for_guset_book_list").click(function () {
-        // alert("방명록 입력 버튼 클릭")
+        // alert("계획 입력 버튼 클릭")
     	window.history.pushState("", "", '/skilnote2/myshortcut/')
     	const text = prompt("text를 입력해 주세요 ", "");
         const page_user = "{{request.user}}";

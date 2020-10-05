@@ -10,7 +10,7 @@
 
 {% endblock %}
 
-{%block content2 %}
+{%block content4 %}
 
 <br><br>
 
@@ -21,365 +21,131 @@
      {% endfor %}
 </div>
 {% endif %}
-
-<a href="{% url "pd:mytask_new"  %}" class="btn btn-outline-dark mb-2 float-right">일지 추가</a>
-
 <br>
+<h2 align="center">진도표</h2>
+<a href="{% url 'pd:mytask_new' %}" class="btn btn-outline-dark float-right">진도표 추가</a>
+<br><br>
+{% if object_list.exists %}
+    {% for p in object_list %}
+    <table class="table table-bordered" id=mytask_table_{{p.id}} style="background-color:#e6eff5">
+        <tr>
+            <td></td>
+            <td >진도</td>
+            <td>프로젝트</td>
+        </tr>
+        <tr>
+            <td style="width:10%;">1</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub1_{{p.id}} >{{p.sub1}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub1_memo_{{p.id}} >{{p.sub1_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">2</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub2_{{p.id}} >{{p.sub2}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub2_memo_{{p.id}} >{{p.sub2_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">3</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub3_{{p.id}} >{{p.sub3}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub3_memo_{{p.id}} >{{p.sub3_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">4</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub4_{{p.id}} >{{p.sub4}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub4_memo_{{p.id}} >{{p.sub4_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">5</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub5_{{p.id}} >{{p.sub5}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub5_memo_{{p.id}} >{{p.sub5_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">6</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub6_{{p.id}} >{{p.sub6}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub6_memo_{{p.id}} >{{p.sub6_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">7</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub7_{{p.id}} >{{p.sub7}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub7_memo_{{p.id}} >{{p.sub7_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">8</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub8_{{p.id}} >{{p.sub8}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub8_memo_{{p.id}} >{{p.sub8_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">9</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub9_{{p.id}} >{{p.sub9}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub9_memo_{{p.id}} >{{p.sub9_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">10</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub10_{{p.id}} >{{p.sub10}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub10_memo_{{p.id}} >{{p.sub10_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">11</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub11_{{p.id}} >{{p.sub11}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub11_memo_{{p.id}} >{{p.sub11_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">12</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub12_{{p.id}} >{{p.sub12}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub12_memo_{{p.id}} >{{p.sub12_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">13</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub13_{{p.id}} >{{p.sub13}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub13_memo_{{p.id}} >{{p.sub13_memo}}</textarea></td>
+        </tr>
+        <tr>
+            <td style="width:10%;">14</td>
+            <td><textarea name="name" rows="8" cols="50" id=sub14_{{p.id}} >{{p.sub14}}</textarea></td>
+            <td><textarea name="name" rows="8" cols="50" id=sub14_memo_{{p.id}} >{{p.sub14_memo}}</textarea></td>
+        </tr>
 
-<!-- <a href="#" class="update_shortcut_user_id" id="{{request.user.id}}" data-id={{p.id}}> -->
-    {% if object_list.exists %}
-        {% for p in object_list %}
-        <table class="table table-bordered" id=mytask_table_{{p.id}} style="background-color:#e6eff5">
-            <tr>
-                <td>제목</td>
-                <td colspan="2">
-                    <input type="text" name="" value="{{p.title}}" id=mytask_title_{{p.id}} class="form-control">
-                </td>
-            </tr>
-
-            <tr>
-                <td>plan1 & complete1</td>
-                <td><textarea name="name" rows="8" cols="50" id=mytask_plan1_{{p.id}} >{{p.plan1}}</textarea></td>
-                <td><textarea name="name" rows="8" cols="50" id=mytask_complete1_{{p.id}}>{{p.complete_task1}}</textarea></td>
-            </tr>
-            <tr>
-                <td>plan2 & complete2</td>
-                <td><textarea name="name" rows="8" cols="50" id=mytask_plan2_{{p.id}} >{{p.plan2}}</textarea></td>
-                <td><textarea name="name" rows="8" cols="50" id=mytask_complete2_{{p.id}}>{{p.complete_task2}}</textarea></td>
-            </tr>
-
-            <tr>
-                <td>comment</td>
-                <td colspan="2">
-                    <textarea name="name" rows="8" cols="80" id=mytask_content_{{p.id}} class="form-control">{{p.content}}</textarea>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <div class="row m-1">
-                        <div class="col ">
-                            <a href="" class="btn btn-outline-info btn-sm float-right mytask_update_btn btn-block" id={{p.id}} >update</a>
-                        </div>
-                        <div class="col">
-                            <a href="" class="btn btn-outline-primary btn-sm float-right mytask_delete_btn btn-block" id={{p.id}} >delete</a>
-                        </div>
+        <tr>
+            <td></td>
+            <td colspan="2">
+                <div class="row m-1">
+                    <div class="col ">
+                        <a href="" class="btn btn-outline-info btn-sm float-right mytask_update_btn btn-block" id={{p.id}} >update</a>
                     </div>
-                </td>
-            </tr>
-        </table><br>
-        {% endfor %}
-    {% else %}
-        <tr>
-            <td colspan="4">
-                <h4>아직 게시물이 없습니다.</h4>
+                    <div class="col">
+                        <a href="" class="btn btn-outline-primary btn-sm float-right mytask_delete_btn btn-block" id={{p.id}} >delete</a>
+                    </div>
+                </div>
             </td>
         </tr>
-    {% endif %}
 
-
-    <!-- <a class="btn btn-outline-primary btn-block " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin-bottom:5px">
-        즐겨 찾기
-    </a>
-
-      <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-            <table class="table table-hover" style="background-color:black; border-color:black">
-                <tr>
-                    <td style="color:white">
-                        name
-                    </td>
-                    <td>
-                        <input type="text" name="" value="" size= 60% id="input_site_name" class="form-control"><br>
-                    </td>
-                </tr>
-                <tr style="color:white">
-                    <td>url</td>
-                    <td><input type="text" name="" value="" size= 60% id="input_site_url" class="form-control"></td>
-                </tr>
-              </thead>
-            </table>
-            <button type="button" name="button" class="add_mysite_button btn btn-outline-dark btn-block">create</button>
-        </div>
-      </div>
-
-{% if mysite_list.exists %}
-    {% for p in mysite_list %}
-
-    <table class="table table-bordered" id=mysite_table_{{p.id}}>
-        <tr>
-            <td width="40%">
-                site : <input type="text" name="" value="{{p.site_name}}" id=site_name_{{p.id}} class="form-control">
-            </td>
-            <td>
-                url : <input type="text" name="" value="{{p.site_url}}" id=site_url_{{p.id}} class="form-control">
-                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_update_btn" id={{p.id}} >수정</a>
-                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_delete_btn" id={{p.id}} >삭제</a>
-                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_copy_btn" id={{p.id}} >복사</a>
-                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_mobe_btn" id={{p.id}} >이동</a>
-            </td>
-        </tr>
     </table>
 
     {% endfor %}
-
 {% else %}
     <tr>
-        <td colspan="4" id="empty_area">
-            <h4>아직 즐겨찾기가 없습니다.</h4>
+        <td colspan="4">
+            <h4>아직 게시물이 없습니다.</h4>
         </td>
     </tr>
 {% endif %}
 
-<div class="mysite_list_tbody">
-
-</div>
-
-
-<script class="mysite_row" type="text/x-template">
-
-    <table class="table table-bordered" id=mysite_table_<%=id %> >
-        <tr>
-            <td>
-                site : <input type="text" name="" value="<%=site_name %>" id=site_name_<%=id %> class="form-control">
-            </td>
-            <td>
-                url : <input type="text" name="" value="<%=site_url %>" id=site_url_<%=id %> class="form-control">
-                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_update_btn" id=<%=id %> >수정</a>
-                <a href="" class="btn btn-outline-primary btn-sm float-right mysite_delete_btn" id=<%=id %> >삭제</a>
-            </td>
-        </tr>
-    </table>
-
-</script> -->
-
 
 {% if is_paginated %}
-    {% bootstrap_pagination page_obj size="small" justify_content="center" %}
+{% bootstrap_pagination page_obj size="small" justify_content="center" %}
 {% endif %}
 
-{% endblock content2 %}
+{% endblock content4 %}
 
-{% block sidearea2 %}
-    <br><br>
-    <b>즐겨 찾기(userId)</b>
-    <table class="table table-bordered">
-
-        {% for my_favorite_user in favorite_users_list %}
-
-        <tr id="myFavorite_{{my_favorite_user.id}}">
-    		<td>
-    			<a href="/skilnote1/myshortcut/{{my_favorite_user.username}}/1">
-    				{{ my_favorite_user.username }}
-    			</a>
-    			<a>
-    				<img class="delete_for_my_favorite_user float-right" src="{% static 'icon/x_mark.png' %}"
-    				     data-target_user="{{my_favorite_user}}" data-row_id="{{my_favorite_user.id}}">
-    			</a>
-    		</td>
-    	</tr>
-
-    {% endfor %}
-
-
-    </table>
-{% endblock sidearea2 %}
 
 <script type="text/javascript">
 {% block extra_js %}
-
-$('body').on('click', '.delete_for_my_favorite_user', function (e) {
-	e.preventDefault();
-    // alert("클릭 확인")
-    const rowId = $(this).data("row_id");
-    const target_user = $(this).data("target_user");
-    // alert(rowId)
-    // alert(target_user);
-    var con_test = confirm(target_user + "에 대한 좋아요를 취소 하시겠습니까?");
-
-    if(con_test == true){
-
-        $.ajax({
-            type: "POST",
-            url: '/accounts/delete_for_my_favorite_user',
-            data: {
-                target_user:target_user,
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-            },
-            success: function (result) {
-                alert(result.message);
-                $("#myFavorite_"+rowId).remove();
-            }
-        });
-
-    }
-    else if(con_test == false){
-        alert("취소를 선택")
-        return
-    }
-});
-
-$('body').on('click', '.update_shortcut_user_id', function(e) {
-    e.preventDefault();
-    const id = this.id
-    const row_id = $(this).data("id");
-    const user_id = $("#mytask_shortcut_id_"+row_id).val()
-
-    alert("id : "+ id)
-    alert("row_id : "+ row_id)
-    alert("user_id : "+ user_id)
-
-    window.history.pushState("", "", '/skilnote1/')
-
-    $.ajax({
-      type: "POST",
-      url: 'update/shortcut_id_ajax/'+id,
-      data: {
-          'user_id':user_id,
-          csrfmiddlewaretoken: '{{ csrf_token }}'
-      },
-        success: function(result) {
-            alert("result.message : " + result.message)
-            const original_id = result.original_id
-            if(original_id !=""){
-                // $("#shortcut_user_id").val(original_id)
-            }
-            // alert(original_id)
-            // alert("id 교체 실행")
-            window.history.pushState("", "", '/skilnote1/myshortcut/')
-            location.href = "/skilnote1/myshortcut/"
-        }
-    });
-})
-
-$('body').on('click', '.mysite_mobe_btn', function(e) {
-
-    var site_id = $(this).attr("id");
-    var site_url = $("#site_url_"+site_id).val();
-
-    alert("site_url : "+ site_url)
-    window.open("https://"+site_url, '_blank');
-
-});
-
-
-$('body').on('click', '.mysite_delete_btn', function(e) {
-
-    e.preventDefault();
-    alert("my task 삭제 버튼 클릭")
-    var site_id = $(this).attr("id");
-    alert("site_id : " + site_id)
-    window.history.pushState("", "", '/pd/')
-
-    $.ajax({
-      type: "POST",
-      url: 'delete_mysite_by_ajax/',
-      data: {
-          site_id:site_id,
-          csrfmiddlewaretoken: '{{ csrf_token }}'
-      },
-        success: function(result) {
-            $("#mysite_table_"+site_id).remove()
-            alert("delete_mysite_by_ajax is success")
-            window.history.pushState("", "", '/pd/private_task_list/')
-        }
-    });
-
-});
-
-$(".add_mysite_button").click(function(e) {
-
-    var site_id = $(this).attr("id");
-
-    const site_name = $("#input_site_name").val()
-    const site_url = $("#input_site_url").val()
-    // alert("site_name : " + site_name)
-    // alert("site_url : " + site_url)
-
-    window.history.pushState("", "", '/pd/')
-
-    $.ajax({
-      type: "POST",
-      url: 'add_mysite_by_ajax/',
-      data: {
-          site_name:site_name,
-          site_url:site_url,
-          csrfmiddlewaretoken: '{{ csrf_token }}'
-      },
-        success: function(result) {
-            alert("insert_mysite_by_ajax is success")
-
-            // underscore를 이용해 row 추가 하기
-            var raw_template = $('.mysite_row').html();
-            var tpl = _.template(raw_template);
-
-            // alert("result.site_id : "+ result.site_id)
-            // alert("site_name : "+ site_name)
-            // alert("site_url : "+ site_url)
-
-            var rendered = tpl({
-                id : result.site_id,
-                site_name : site_name,
-                site_url : site_url
-            });
-            console.log("rendered : " , rendered);
-            $(rendered).appendTo($('.mysite_list_tbody'));
-            $("#empty_area").remove();
-
-            window.history.pushState("", "", '/pd/private_task_list/')
-        }
-    });
-
-});
-
-$('body').on('click', '.mysite_update_btn', function(e) {
-
-    e.preventDefault();
-    // alert("my site 수정 버튼 클릭 22")
-    var site_id = $(this).attr("id");
-    var site_name = $("#site_name_"+site_id).val();
-    var site_url = $("#site_url_"+site_id).val();
-
-    window.history.pushState("", "", '/pd/')
-
-    $.ajax({
-      type: "POST",
-      url: 'update_mysite_by_ajax/',
-      data: {
-          site_id:site_id,
-          site_name:site_name,
-          site_url:site_url,
-          csrfmiddlewaretoken:'{{csrf_token}}'
-      },
-        success: function(result) {
-            alert("update_mytask_by_ajax is success")
-            window.history.pushState("", "", '/pd/private_task_list/')
-        }
-    });
-
-})
-
-
-    $('body').on('click', '.mysite_copy_btn', function(e) {
-
-        e.preventDefault();
-        var id = this.id
-
-        document.execCommand('copy', false, $(this).parent().parent().find('#site_url_'+id).select());
-        alert("copy is completed")
-    });
-
-
 
 
 $(".mytask_delete_btn").click(function(e) {
 
     e.preventDefault();
     // alert("my task 삭제 버튼 클릭")
-
     var mytask_id = $(this).attr("id");
-
-    alert("mytask_id : " + mytask_id)
-
     window.history.pushState("", "", '/pd/')
 
     $.ajax({
@@ -400,21 +166,38 @@ $(".mytask_delete_btn").click(function(e) {
 
 $(".mytask_update_btn").click(function(e) {
     e.preventDefault();
-    // alert("my task 수정 버튼 클릭")
+    // alert("버튼 클릭 확인");
 
     var mytask_id = $(this).attr("id");
-    var mytask_title = $("#mytask_title_"+mytask_id).val();
-    var mytask_content = $("#mytask_content_"+mytask_id).val();
-    var mytask_plan1 = $("#mytask_plan1_"+mytask_id).val();
-    var mytask_plan2 = $("#mytask_plan2_"+mytask_id).val();
-    var mytask_complete1 = $("#mytask_complete1_"+mytask_id).val();
-    var mytask_complete2 = $("#mytask_complete2_"+mytask_id).val();
-
-    // alert("mytask_id : " + mytask_id)
-    // alert("mytask_title : "+ mytask_title)
-    // alert("mytask_github : "+ mytask_github)
-    // alert("mytask_content_ : "+ mytask_content)
-    // alert("mytask_shortcut_id : "+ mytask_shortcut_id)
+    var sub1 = $("#sub1_"+mytask_id).val();
+    var sub2 = $("#sub2_"+mytask_id).val();
+    var sub3 = $("#sub3_"+mytask_id).val();
+    var sub4 = $("#sub4_"+mytask_id).val();
+    var sub5 = $("#sub5_"+mytask_id).val();
+    var sub6 = $("#sub6_"+mytask_id).val();
+    var sub7 = $("#sub7_"+mytask_id).val();
+    var sub8 = $("#sub8_"+mytask_id).val();
+    var sub9 = $("#sub9_"+mytask_id).val();
+    var sub10 = $("#sub10_"+mytask_id).val();
+    var sub11 = $("#sub11_"+mytask_id).val();
+    var sub12 = $("#sub12_"+mytask_id).val();
+    var sub13 = $("#sub13_"+mytask_id).val();
+    var sub14 = $("#sub14_"+mytask_id).val();
+_
+    var sub1_memo = $("#sub1_memo_"+mytask_id).val();
+    var sub2_memo = $("#sub2_memo_"+mytask_id).val();
+    var sub3_memo = $("#sub3_memo_"+mytask_id).val();
+    var sub4_memo = $("#sub4_memo_"+mytask_id).val();
+    var sub5_memo = $("#sub5_memo_"+mytask_id).val();
+    var sub6_memo = $("#sub6_memo_"+mytask_id).val();
+    var sub7_memo = $("#sub7_memo_"+mytask_id).val();
+    var sub8_memo = $("#sub8_memo_"+mytask_id).val();
+    var sub9_memo = $("#sub9_memo_"+mytask_id).val();
+    var sub10_memo = $("#sub10_memo_"+mytask_id).val();
+    var sub11_memo = $("#sub11_memo_"+mytask_id).val();
+    var sub12_memo = $("#sub12_memo_"+mytask_id).val();
+    var sub13_memo = $("#sub13_memo_"+mytask_id).val();
+    var sub14_memo = $("#sub14_memo_"+mytask_id).val();
 
     window.history.pushState("", "", '/pd/')
 
@@ -423,16 +206,38 @@ $(".mytask_update_btn").click(function(e) {
       url: 'update_mytask_by_ajax/',
       data: {
           mytask_id:mytask_id,
-          mytask_title:mytask_title,
-          mytask_content:mytask_content,
-          mytask_plan1:mytask_plan1,
-          mytask_plan2:mytask_plan2,
-          mytask_complete1:mytask_complete1,
-          mytask_complete2:mytask_complete2,
+          sub1:sub1,
+          sub2:sub2,
+          sub3:sub3,
+          sub4:sub4,
+          sub5:sub5,
+          sub6:sub6,
+          sub7:sub7,
+          sub8:sub8,
+          sub9:sub9,
+          sub10:sub10,
+          sub11:sub11,
+          sub12:sub12,
+          sub13:sub13,
+          sub14:sub14,
+          sub1_memo:sub1_memo,
+          sub2_memo:sub2_memo,
+          sub3_memo:sub3_memo,
+          sub4_memo:sub4_memo,
+          sub5_memo:sub5_memo,
+          sub6_memo:sub6_memo,
+          sub7_memo:sub7_memo,
+          sub8_memo:sub8_memo,
+          sub9_memo:sub9_memo,
+          sub10_memo:sub10_memo,
+          sub11_memo:sub11_memo,
+          sub12_memo:sub12_memo,
+          sub13_memo:sub13_memo,
+          sub14_memo:sub14_memo,
           csrfmiddlewaretoken: '{{ csrf_token }}'
       },
         success: function(result) {
-            alert("update_mytask_by_ajax is success")
+            alert("진도표 업데이트 is success")
             // $(".comment_edit_form_button").attr("hidden",true);
             window.history.pushState("", "", '/pd/private_task_list/')
         }

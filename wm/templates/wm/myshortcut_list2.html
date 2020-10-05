@@ -366,10 +366,14 @@ img.Image { max-width: 100%; display: block; }
 	 </a><br>
 	<a href="" class="btn btn-outline-primary btn-sm" id="move_to_skilblog_btn">칼럼</a> <br>
 
-	<button type="button" name="button" class="before_btn btn btn-outline-dark btn-sm" id="">be</button><br>
+	<button type="button" name="button" class="before_btn btn btn-outline-dark btn-sm" id="">
+		<img src="{% static 'icon/up_arrow.png' %}" alt="">
+	</button><br>
 	<input type="text" class="go_input form" size=2 value="1"><br>
 	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
-	<button type="button" name="button" class="next_btn btn btn-outline-dark mb-2 btn-sm" id="">ne</button> <br>
+	<button type="button" name="button" class="next_btn btn btn-outline-dark mb-2 btn-sm" id="">
+		<img src="{% static 'icon/down_arrow.png' %}" alt="">
+	</button> <br>
 	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark btn-sm" id="">F</button><br>
 	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark btn-sm mb-2" id="">E</button><br>
 
@@ -640,7 +644,7 @@ img.Image { max-width: 100%; display: block; }
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">방명록</h4>
+				<h4 class="modal-title">계획</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body" id="guest_list_table_area">

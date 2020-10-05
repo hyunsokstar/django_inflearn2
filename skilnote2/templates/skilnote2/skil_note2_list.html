@@ -107,10 +107,14 @@ skilnote2
 	<button class="new3_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:insert_myshortcut_textarea_summer_note' %}';">SN</button><br>
 	<button type="button" name="button" class="new1_btn btn btn-outline-dark btn-sm" id="">인풋</button><br>
 	<button type="button" name="button" class="new2_btn btn btn-outline-dark btn-sm" id="">text</button><br>
-	<button type="button" name="button" class="before_btn btn btn-outline-info btn-sm" id="">be</button><br>
+	<button type="button" name="button" class="before_btn btn btn-outline-info btn-sm" id="">
+		<img src="{% static 'icon/up_arrow.png' %}" alt="">
+	</button><br>
 	<input type="text" class="go_input form" size=2 value="1"><br>
 	<button type="button" name="button" class="go_btn btn btn-outline-info btn-sm" id="">Go</button><br>
-	<button type="button" name="button" class="next_btn btn btn-outline-info btn-sm" id="">ne</button><br>
+	<button type="button" name="button" class="next_btn btn btn-outline-info btn-sm" id="">
+		<img src="{% static 'icon/down_arrow.png' %}" alt="">
+	</button><br><br>
 
 	<button type="button" name="button" class="go_start_line_btn btn btn-outline-info btn-sm" id="">F</button><br>
 	<button type="button" name="button" class="go_end_line_btn btn btn-outline-info btn-sm" id="">E</button><br>
@@ -122,7 +126,6 @@ skilnote2
 	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark btn-sm">
 		<img src="{% static 'icon/right_arrow.png' %}" alt="">
 	</button>
-	<br>
 </div>
 
 <div class="sideicon_for_move">
@@ -136,7 +139,7 @@ skilnote2
 <div class="temp_memo_btn_area">
 		<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
 		<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
-		<button type="button" class="btn btn-outline-dark guest_book_list_btn">방명록</button> <br>
+		<button type="button" class="btn btn-outline-dark guest_book_list_btn">계획</button> <br>
 		<button type="button" class="btn btn-outline-dark">slack</button><br>
 		<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
 		<a href="" class="btn btn-outline-primary " id="modify_category_button"> 이동</a> <br>
@@ -575,7 +578,7 @@ skilnote2
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">방명록</h4>
+				<h4 class="modal-title">계획</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body" id="guest_list_table_area">

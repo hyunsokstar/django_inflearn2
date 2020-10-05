@@ -4,11 +4,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, UpdateView, CreateView , DeleteView
 from django.db.models import Q
 from django.urls import reverse
-from .forms import MyTaskForm
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.http import HttpResponse, JsonResponse
 from wm.models import RecommandationUserAboutSkillNote
 from django.contrib.auth.models import User
+from .forms import MyTaskForm
 
 
 def add_mysite_by_ajax(request):
@@ -94,26 +94,72 @@ def update_mytask_by_ajax(request):
 
     if request.method == "POST" and request.is_ajax():
         mytask_id = request.POST['mytask_id']
-        mytask_title = request.POST['mytask_title']
-        mytask_content = request.POST['mytask_content']
-        mytask_plan1 = request.POST['mytask_plan1']
-        mytask_plan2 = request.POST['mytask_plan2']
-        mytask_complete1 = request.POST['mytask_complete1']
-        mytask_complete2 = request.POST['mytask_complete2']
+        sub1 = request.POST['sub1']
+        sub2 = request.POST['sub2']
+        sub3 = request.POST['sub3']
+        sub4 = request.POST['sub4']
+        sub5 = request.POST['sub5']
+        sub6 = request.POST['sub6']
+        sub7 = request.POST['sub7']
+        sub8 = request.POST['sub8']
+        sub9 = request.POST['sub9']
+        sub10 = request.POST['sub10']
+        sub11 = request.POST['sub11']
+        sub12 = request.POST['sub12']
+        sub13 = request.POST['sub13']
+        sub14 = request.POST['sub14']
+
+        sub1_memo = request.POST['sub1_memo']
+        sub2_memo = request.POST['sub2_memo']
+        sub3_memo = request.POST['sub3_memo']
+        sub4_memo = request.POST['sub4_memo']
+        sub5_memo = request.POST['sub5_memo']
+        sub6_memo = request.POST['sub6_memo']
+        sub7_memo = request.POST['sub7_memo']
+        sub8_memo = request.POST['sub8_memo']
+        sub9_memo = request.POST['sub9_memo']
+        sub10_memo = request.POST['sub10_memo']
+        sub11_memo = request.POST['sub11_memo']
+        sub12_memo = request.POST['sub12_memo']
+        sub13_memo = request.POST['sub13_memo']
+        sub14_memo = request.POST['sub14_memo']
 
         print('업데이트할 개발 일지 id ::::::::::::::::::::::::: ', mytask_id)
 
-        todo = MyTask.objects.filter(Q(id=mytask_id)).update(title = mytask_title,
-                                                            content = mytask_content,
-                                                            plan1=mytask_plan1,
-                                                            plan2=mytask_plan2,
-                                                            complete_task1=mytask_complete1,
-                                                            complete_task2=mytask_complete2
-                                                            )
-        print('개발 일지 update 성공');
+        todo = MyTask.objects.filter(Q(id=mytask_id)).update(
+                                                        sub1 = sub1,
+                                                        sub2 = sub2,
+                                                        sub3 = sub3,
+                                                        sub4 = sub4,
+                                                        sub5 = sub5,
+                                                        sub6 = sub6,
+                                                        sub7 = sub7,
+                                                        sub8 = sub8,
+                                                        sub9 = sub9,
+                                                        sub10 = sub10,
+                                                        sub11 = sub11,
+                                                        sub12 = sub12,
+                                                        sub13 = sub13,
+                                                        sub14 = sub14,
+                                                        sub1_memo = sub1_memo,
+                                                        sub2_memo = sub2_memo,
+                                                        sub3_memo = sub3_memo,
+                                                        sub4_memo = sub4_memo,
+                                                        sub5_memo = sub5_memo,
+                                                        sub6_memo = sub6_memo,
+                                                        sub7_memo = sub7_memo,
+                                                        sub8_memo = sub8_memo,
+                                                        sub9_memo = sub9_memo,
+                                                        sub10_memo = sub10_memo,
+                                                        sub11_memo = sub11_memo,
+                                                        sub12_memo = sub12_memo,
+                                                        sub13_memo = sub13_memo,
+                                                        sub14_memo = sub14_memo,
+                                                        )
+        print('진도표 update 성공');
 
         return JsonResponse({
-            'message': 'mytask update 성공',
+            'message': '진도표 update 성공',
         })
     else:
         return redirect('/pd/private_task_list/')

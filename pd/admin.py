@@ -4,8 +4,8 @@ from .models import MyTask, MySite
 # Register your models here.
 @admin.register(MyTask)
 class MyTaskAdmin(admin.ModelAdmin):
-    list_display = ['title','github','content','shortcut_id','author']
+    list_display = ['author']
 
-@admin.register(MySite)
-class MySiteAdmin(admin.ModelAdmin):
-    list_display = ['site_name','site_url','author','created_at']
+# @admin.register(MySite)
+# class MySiteAdmin(admin.ModelAdmin):
+#     list_display = ['site_name','site_url','author','created_at']
