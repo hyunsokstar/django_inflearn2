@@ -19,7 +19,7 @@ button, input, a {
 	position:fixed;
 	colort:blue;
 	top:120px;
-	right:8px;
+	right:1px;;
 }
 
 .sideicon_for_insert{
@@ -33,7 +33,7 @@ button, input, a {
 	position:fixed;
 	colort:blue;
 	top:270px;
-	right:8px;
+	right:1px;;
 }
 
 .temp_memo_btn_area {
@@ -1572,7 +1572,7 @@ $(document).ready(function () {
 			$(".navbar").hide();
 			// 아래의 메뉴 바를 아래로 내리기
 		} else if ($(document).scrollTop() == 0) {
-			$(".navbar").show();
+			// $(".navbar").show();
 			$(".category_subject_table").show();
 		}
 		else {
@@ -2141,13 +2141,6 @@ $('body').on('click', '.skill_search_button', function (e) {
 	const search_word = $(".skill_input_box").val();
 	console.log("search_word : " + search_word);
 	const page_user = "{{page_user}}"
-	// $("input:radio.search").each(function () {
-	// 	if (jQuery(this).is(":checked")) {
-	// 		search_option = this.id;
-	// 	} else {
-	// 		// alert("check")
-	// 	}
-	// });
 
 	$.ajax({
 		type: "POST",
@@ -2159,8 +2152,6 @@ $('body').on('click', '.skill_search_button', function (e) {
 			},
 		success: function (result) {
 			window.history.pushState("", "", '/skilnote1/myshortcut/'+page_user+'/1')
-			// alert("success");
-			// alert("result: "+ result)
 			$("#wm_list_area_for_popup").html("")
 			$("#wm_list_area_for_popup").append(result)
 		}
@@ -2200,7 +2191,6 @@ $('body').on('click', '.update_nick_button', function (e) {
 	}
 	console.log("user를 수정 합니다");
 
-	// 서버로 ch_id를 보내서 wm의 CategoryNick모델의 author=request.user인 row의 필드를 업데이트
 	window.history.pushState("", "", '/skilnote1/myshortcut/')
 
 	$.ajax({
@@ -2235,14 +2225,12 @@ $(".all_check").change(function () {
 $('body').on('click', '.show_total_textInput_button', function (e) {
 	let option = ""
 	const id = this.id;
-	// alert("id : " +comment_id)
 	$("#select-textarea-" + id).attr('rows', 24);
 });
 
 $('body').on('click', '.show_basic_textInput_button', function (e) {
 	let option = ""
 	const id = this.id;
-	// alert("id : " +comment_id)
 	$("#select-textarea-" + id).attr('rows', 8);
 });
 
@@ -2250,13 +2238,11 @@ $('body').on('click', '.show_basic_textInput_button', function (e) {
 $('body').on('click', '.show_total_comment_button', function (e) {
 	let option = ""
 	const comment_id = this.id;
-	// alert("id : " +comment_id)
 	$("#comment_content_" + comment_id).attr('rows', 40);
 });
 $('body').on('click', '.show_basic_comment_button', function (e) {
 	let option = ""
 	const comment_id = this.id;
-	// alert("id : " +comment_id)
 	$("#comment_content_" + comment_id).attr('rows', 8);
 
 });
@@ -2264,7 +2250,6 @@ $('body').on('click', '.show_basic_comment_button', function (e) {
 $('body').on('click', '.show_text_popup_button', function (e) {
 	let option = ""
 	const text_id = this.id;
-	// alert("text_id : " + text_id)
 	$("#text_modal").modal();
 
 	const text_title = $("#title_"+text_id).text()
@@ -2281,12 +2266,9 @@ $('body').on('click', '.show_text_popup_button', function (e) {
 
 
 $('body').on('click', '.comment_update_button', function (e) {
-	// alert("댓글 제목 수정 버튼 클릭");
 	const comment_id = this.id;
 	const title = $("#comment_title_" + comment_id).val()
 	const content = $("#comment_content_" + comment_id).val()
-	// alert("title : " + title);
-	// alert("content : " + content);
 
 	window.history.pushState("", "", '/skilnote1/')
 
@@ -2393,11 +2375,6 @@ $(".go_to_next_channer_btn").click(function () {
 		number = 120
 	}
 	window.location.href = "/skilnote1/myshortcut/{{page_user}}/"+number;
-
-	// // var href = $('.cssbuttongo').attr('href')
-	// next_ch_url = $("#ca_" + category_id).attr('href')
-	// console.log("next_ch_url : " + next_ch_url);
-	// window.location.href = next_ch_url;
 })
 
 $(".go_start_line_btn").click(function () {
@@ -2436,16 +2413,6 @@ $(".new4_btn").click(function () {
 				$('#empty_state').remove()
 				alert(result.message);
 
-				// underscore를 이용해 row 추가 하기
-				// var raw_template = $('.myshortcut_row_textarea').html();
-				// var tpl = _.template(raw_template);
-				//
-				// var rendered = tpl({
-				//     shortcut_id : result.shortcut_id,
-				//     shortcut_title : result.shortcut_title,
-				//     shortcut_content2 : result.shortcut_content2,
-				// });
-				// $(rendered).appendTo($('.myshort_list_area'));
 				window.history.pushState("", "", '/skilnote1/myshortcut/')
 				location.reload(true);
 			}
@@ -2679,9 +2646,7 @@ $('#shortcut_delete_button').click(function (e) {
 })
 
 $(".go_btn").click(function () {
-
 	const number = $(".go_input").val();
-
 	if (number == 1) {
 		$('html, body').animate({
 			'scrollTop': $("#index_first").offset()
@@ -2690,23 +2655,12 @@ $(".go_btn").click(function () {
 	$('html, body').animate({
 		'scrollTop': $("#index_" + number).offset().top
 	});
-
 	$(".category_subject_table").hide()
-
 	current_number = $(".go_input").val()
 	if(current_number == 1){
 		$(".category_subject_table").show()
 	}
-
-
 })
-
-// $(".go_btn").click(function (e) {
-// 	// Prevent a page reload when a link is pressed
-// 	e.preventDefault();
-// 	// Call the scroll function
-// 	goToByScroll($(this).attr("id"));
-// });
 
 
 $(".favorite_user_list_btn").click(function () {
@@ -2767,21 +2721,8 @@ $('.category_name_list_button').click(function(e) {
 		.done((result) => {
 			// console.log("result : ", result);
 			$(".category_nick_area").html(result)
-
 			$("#CategoryModal").modal();
-
 			$("#" + ch).css("background-color", "skyblue");
-
-			// document.getElementById('CategoryModal').scrollTo({
-			// 	top: $("#" + ch).offset().top,
-			// 	left: 0,
-			// 	behavior: 'smooth'
-			// });
-
-			// $('html, .categoynick_modal').animate({
-			// 	'scrollTop': $("#"+ch).offset().top
-			// });
-
 		})
 		.fail(() => {
 			console.log("fail");

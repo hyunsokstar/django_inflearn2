@@ -14,19 +14,19 @@ button, input, a {
 	position:fixed;
 	colort:blue;
 	top:76px;
-	right:4px;
+	right:1px;;
 }
 .sideicon_for_insert{
 	position:fixed;
 	colort:blue;
 	top:60px;
-	right:8px;
+	right:1px;;
 }
 .sideicon_for_move{
 	position:fixed;
 	colort:blue;
 	top:322px;
-	right:4px;
+	right:1px;;
 }
 .temp_memo_btn_area {
 	position:fixed;
@@ -44,8 +44,8 @@ img.Image { max-width: 100%; display: block; }
 {% endblock %}
 
 {%block content4 %}
-<br><hr>
-wm
+<br><br>
+<h2>skilnote1</h2>
 <table class="table table-bordered">
 	<tr>
 		<td width="">
@@ -1218,9 +1218,9 @@ $(document).ready(function () {
 
 	$(window).scroll(function () {
 		if ($(document).scrollTop() > jbOffset.top) {
-			$(".navbar").hide();
+			// $(".navbar").hide();
 		} else if ($(document).scrollTop() == 0) {
-			$(".navbar").show();
+			// // $(".navbar").show();
 			$(".category_subject_table").show();
 		}
 		else {
