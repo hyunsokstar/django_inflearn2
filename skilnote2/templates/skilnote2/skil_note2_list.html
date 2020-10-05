@@ -137,23 +137,22 @@ img.Image { max-width: 100%; display: block; }
 	</div>
 
 <div class="temp_memo_btn_area">
-		<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark" id="">Front</button> <br>
-		<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark" id="">back</button><br>
-		<button type="button" class="btn btn-outline-dark guest_book_list_btn">계획</button> <br>
-		<button type="button" class="btn btn-outline-dark">slack</button><br>
-		<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> first</a> <br>
-		<a href="" class="btn btn-outline-primary " id="modify_category_button"> 이동</a> <br>
-		<a href="" class="btn btn-outline-primary " id="shortcut_delete_button"> 삭제(ch) </a> <br>
-		<a href="" class="btn btn-outline-primary " id="ca_plus_1_btn" data-category={{cateogory}}>
-			ca+1
-			<span class="" id="loading_for_copy_plus1" role="status" aria-hidden="true"></span>
-		</a> <br>
-		<a href="" class="btn btn-outline-primary " id="ca_minus_1_btn" data-category={{cateogory}}>
-			ca-1
-			<span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
-		</a> <br>
-		<a href="" class="btn btn-outline-primary " id="move_to_skilblog_btn"> skil column(ch) </a> <br>
-		<button type="button" class="btn btn-outline-primary insert_image" onclick="window.location.href='{% url 'skilnote2:MyShortCutCreateView_image' %}'">image 입력</button>
+	<button type="button" name="button" class="temp_memo_btn btn btn-outline-dark btn-sm" id="">m1</button> <br>
+	<button type="button" name="button" class="temp_memo_for_backend_btn btn btn-outline-dark btn-sm" id="">m2</button><br>
+	<button type="button" class="btn btn-outline-dark guest_book_list_btn btn-sm">계획</button> <br>
+	<button type="button" class="btn btn-outline-dark btn-sm">슬랙</button><br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="insert_first_for_skill_note_btn"> first</a> <br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="modify_category_button"> 이동</a> <br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="shortcut_delete_button"> 삭제</a> <br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="ca_plus_1_btn" data-category={{cateogory}}>
+		 c+1
+		  <span class="" id="loading_for_copy_plus1" role="status" aria-hidden="true"></span>
+	 </a><br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="ca_minus_1_btn" data-category={{cateogory}}>
+		 c-1
+		 <span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
+	 </a><br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="move_to_skilblog_btn">칼럼</a> <br>
 </div>
 
 <table class="table table-bordered category_subject_table" width="1110" style="">
