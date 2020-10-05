@@ -3,3 +3,4 @@ venv/
 *.pyc
 .gitignore
 migrations/
+db.sqlite3
