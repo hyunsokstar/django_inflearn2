@@ -232,7 +232,7 @@ img.Image { max-width: 100%; display: block; }
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
 				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
-				<a href="{% url "skilnote3:modify_myshortcut_by_summer_note2" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+				<a href="{% url "skilnote3:modify_myshortcut_by_summer_note2" p.id %}" class="btn btn-outline-danger float-right btn-sm">Update</a>
 
 
 
@@ -375,8 +375,8 @@ img.Image { max-width: 100%; display: block; }
 	<button type="button" name="button" class="next_btn btn btn-outline-info mb-2 btn-sm" id="">
 		<img src="{% static 'icon/down_arrow.png' %}" alt="">
 	</button> <br>
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-info btn-sm" id="">F</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-info btn-sm mb-2" id="">E</button><br><br>
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-info" id="">F</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-info mb-2" id="">E</button><br><br>
 
 	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input"><br>
 	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">go</button><br>

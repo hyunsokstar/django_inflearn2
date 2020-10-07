@@ -102,8 +102,8 @@ button, input, a {
 		<img src="{% static 'icon/down_arrow.png' %}" alt="">
 	</button><br><br>
 
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark btn-sm" id="">F</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark btn-sm" id="">E</button><br>
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">F</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark" id="">E</button><br>
 
 
 	<input type="text" name="" size=2  value="{{category_num}}" id="ch_input"><br>
@@ -337,7 +337,7 @@ SkilNote4
 				<button class="btn btn-outline-danger btn-sm shortcut_between_button_textarea" id="{{p.id}}">ta</button>
 				<button class="btn btn-outline-danger btn-sm input_beteween_image_for_skill_note_btn" id="{{p.id}}">pi</button>
 				<button class="btn btn-outline-danger btn-sm myinput float-right copy_code_summernote" id="{{p.id}}">copy</button>
-				<a href="{% url "skilnote4:update_skilnote_by_summernote" p.id %}" class="btn btn-outline-danger float-right btn-sm">summernote update</a>
+				<a href="{% url "skilnote4:update_skilnote_by_summernote" p.id %}" class="btn btn-outline-danger float-right btn-sm">Update</a>
 			{% else %}
 
 			{% endifequal %}
