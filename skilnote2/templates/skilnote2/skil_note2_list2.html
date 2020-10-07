@@ -355,42 +355,40 @@ img.Image { max-width: 100%; display: block; }
 
 <div class="sideicon_for_scroll">
 
-	<button type="button" name="button" class="before_btn btn btn-outline-dark" onclick="window.location.href = '{% url 'skilnote2:my_shortcut_list' %}'">List Mode</button><br>
-	<a href="" class="btn btn-outline-primary " id="insert_first_for_skill_note_btn"> 첫글</a><br>
-	<a href="" class="btn btn-outline-primary " id="shortcut_delete_button"> delete </a> <br>
-	<a href="" class="btn btn-outline-primary " id="ca_plus_1_btn" data-category={{cateogory}}>
-		 ca+1
+	<button type="button" name="button" class="before_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'skilnote2:my_shortcut_list' %}'">L</button><br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="insert_first_for_skill_note_btn"> 첫글</a><br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="shortcut_delete_button "> 삭제 </a> <br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="ca_plus_1_btn" data-category={{cateogory}}>
+		 +1
 		  <span class="" id="loading_for_copy_plus1" role="status" aria-hidden="true"></span>
 	 </a><br>
-	<a href="" class="btn btn-outline-primary " id="ca_minus_1_btn" data-category={{cateogory}}>
-		 ca-1
+	<a href="" class="btn btn-outline-primary btn-sm" id="ca_minus_1_btn" data-category={{cateogory}}>
+		 -1
 		 <span class="" id="loading_for_copy_minus1" role="status" aria-hidden="true"></span>
 	 </a><br>
-	<a href="" class="btn btn-outline-primary mb-3" id="move_to_skilblog_btn"> skil column </a> <br>
+	<a href="" class="btn btn-outline-primary btn-sm" id="move_to_skilblog_btn">칼럼</a> <br>
 
-	<button type="button" name="button" class="before_btn btn btn-outline-dark" id="">before</button><br>
-	<input type="text" class="go_input form" size=2 value="1">
-	<button type="button" name="button" class="go_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
-	<button type="button" name="button" class="next_btn btn btn-outline-dark" id="">next</button>
-</div>
+	<button type="button" name="button" class="before_btn btn btn-outline-info btn-sm" id="">
+		<img src="{% static 'icon/up_arrow.png' %}" alt="">
+	</button><br>
+	<input type="text" class="go_input form" size=2 value="1"><br>
+	<button type="button" name="button" class="go_btn btn btn-outline-info btn-sm" id="">Go</button><br>
+	<button type="button" name="button" class="next_btn btn btn-outline-info mb-2 btn-sm" id="">
+		<img src="{% static 'icon/down_arrow.png' %}" alt="">
+	</button> <br>
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-info btn-sm" id="">F</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-info btn-sm mb-2" id="">E</button><br><br>
 
+	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input"><br>
+	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">go</button><br>
 
-<div class="sideicon_for_move">
-
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-dark" id="">first</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-dark" id="">end</button><br>
-
-	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input">
-	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
-
-	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark">
-		<img src="{% static 'icon/left_arrow.png' %}" alt="">
+	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark btn-sm">
+		<img src="{% static 'icon/left_arrow.png' %}" width="50%" alt="">
 	</button><br>
 
-	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark">
-		<img src="{% static 'icon/right_arrow.png' %}" alt="">
+	<button type="button" class="go_to_next_channer_btn btn btn-outline-dark btn-sm">
+		<img src="{% static 'icon/right_arrow.png' %}" width="50%" alt="">
 	</button>
-	<br>
 
 </div>
 
