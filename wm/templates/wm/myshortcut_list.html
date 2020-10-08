@@ -893,6 +893,17 @@ function copy_for_file_name(id){
         text: 'copy ! : ' + copyText.value,
         how: 'append'
     });
+
+	if(copyText.value.indexOf("http://") != -1) {
+		var r = confirm("주소로 새창을 띄우시겠습니까?");
+		if (r == true) {
+			console.log("새탭 열기")
+			window.open(copyText.value)
+		} else {
+			console.log("그냥 복사")
+		}
+	}
+
 }
 
 function copy_for_file_name2(id){
@@ -907,14 +918,23 @@ function copy_for_file_name2(id){
     copyText.select();
     copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
-    // restore the text value
     copyText.value = org;
-    // alert("filename : "+ match[1])
 
 	$(".result_for_file_name_copy_"+id).flash_message({
         text: 'copy ! : ' + match,
         how: 'append'
     });
+
+	if(copyText.value.indexOf("http://") != -1) {
+		var r = confirm("주소로 새창을 띄우시겠습니까?");
+		if (r == true) {
+			console.log("새탭 열기")
+			window.open(copyText.value)
+		} else {
+			console.log("그냥 복사")
+		}
+	}
+
 }
 
 $('body').on('dblclick', '#input_title_for_skill_note_btn', function (e) {
@@ -1047,7 +1067,6 @@ $('body').on('click', '#ca_minus_1_btn', function (e) {
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
-				// window.history.pushState("", "", '/skilnote1/new/SkilNoteCreateView_image_through/'+current_article_id)
                 $("#loading_for_copy_minus1").removeClass("spinner-border spinner-border-sm");
 				alert("result : "+ result.message);
 				window.history.pushState("", "", '/skilnote1/myshortcut/')
@@ -1105,10 +1124,8 @@ $('body').on('click', '.input_beteween_image_for_skill_note_btn', function (e) {
 		},
 		success: function (result) {
 			window.history.pushState("", "", '/skilnote1/new/SkilNoteCreateView_image_through/'+current_article_id)
-			// alert(result)
 			$(".insert_form_area_for_image").html(result);
 			$("#insert_image_between_popup").modal()
-			// // $(".navbar").hide();
 		}
 	});
 });
@@ -1160,7 +1177,6 @@ $('body').on('click', '.shortcut_between_button_input' , function (e) {
 				csrfmiddlewaretoken: '{{ csrf_token }}'
 			},
 			success: function (result) {
-				// console.log("result : ", result);
 				alert("insert input between success")
 				window.history.pushState("", "", '/skilnote1/myshortcut/')
 				location.reload(true);
@@ -1195,11 +1211,9 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 
 });
 
-// start
 $(document).ready(function () {
 	var jbOffset = $('.category_subject_table').offset();
 	var todoOffset = $('.todo_list').offset();
-	// window.history.pushState("", "", '/skilnote1/myshortcut/')
 
 	$(window).scroll(function () {
 		if ($(document).scrollTop() > jbOffset.top) {
