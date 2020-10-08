@@ -160,7 +160,7 @@ img.Image { max-width: 100%; display: block; }
 {% if object_list.exists %}
 	{% for p in object_list %}
 		<table class="table table-bordered table_row" id="todo_list">
-			{% ifequal p.type.type_name "input" %}
+			<!-- {% ifequal p.type.type_name "input" %}
 				<tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0;">
 					<td id=index_{{ forloop.counter }} width="10%">
 						<input type="checkbox" id="{{p.pk}}" class="shortcut_check">
@@ -192,7 +192,7 @@ img.Image { max-width: 100%; display: block; }
 
 					</td>
 				</tr>
-			{% endifequal %}
+			{% endifequal %} -->
 
 			{% ifequal p.type.type_name "textarea" %}
 					<tr id="shortcut_{{p.id}}" style="background-color:#f1f9f0; max-width:100%;">

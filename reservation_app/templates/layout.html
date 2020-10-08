@@ -33,11 +33,8 @@
 		margin-top:40px;
 	  }
 	}
-
     {%block extra_css %}
-
     {% endblock %}
-
 	</style>
 
 </head>
@@ -222,8 +219,6 @@
 <script src="{% static '_assets/js/popper.min.js' %}"></script>
 <script src="{% static 'bootstrap/bootstrap.min.js' %}"></script>
 
-<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
 
 <script>
     function search_post(){
@@ -236,12 +231,9 @@
         }
     }
 
-// id="recommand_site"
 $(document).ready(function () {
-    // modal 이벤트 : 상세 보기
     $(document).on('click', '#recommandation_site a', function (e) {
         e.preventDefault();
-        // var href = $(this).attr("href");
         $.get('?page=2')
             .done((html) => {
                 console.log("얻어온 html으로 화면을 바꿔 치기 ");
@@ -268,7 +260,6 @@ $(document).ready(function () {
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js.map"></script> -->
 
 
 </body>
