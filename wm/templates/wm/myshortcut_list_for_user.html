@@ -1166,6 +1166,17 @@ function copy_for_file_name(id){
         text: 'copy ! : ' + copyText.value,
         how: 'append'
     });
+
+	if(copyText.value.indexOf("http://") != -1) {
+		var r = confirm("주소로 새창을 띄우시겠습니까?");
+		if (r == true) {
+			console.log("새탭 열기")
+			window.open(copyText.value)
+		} else {
+			console.log("그냥 복사")
+		}
+	}
+
 }
 
 function copy_for_file_name2(id){
@@ -1188,6 +1199,17 @@ function copy_for_file_name2(id){
         text: 'copy ! : ' + match,
         how: 'append'
     });
+
+	if(copyText.value.indexOf("http://") != -1) {
+		var r = confirm("주소로 새창을 띄우시겠습니까?");
+		if (r == true) {
+			console.log("새탭 열기")
+			window.open(copyText.value)
+		} else {
+			console.log("그냥 복사")
+		}
+	}
+
 }
 
 
