@@ -108,8 +108,8 @@ img.Image { max-width: 100%; display: block; }
 	<button type="button" name="button" class="next_btn btn btn-outline-info btn-sm" id="">
 		<img src="{% static 'icon/down_arrow.png' %}" alt="">
 	</button><br>
-	<button type="button" name="button" class="go_start_line_btn btn btn-outline-info btn-sm" id="">F</button><br>
-	<button type="button" name="button" class="go_end_line_btn btn btn-outline-info btn-sm" id="">E</button><br><br>
+	<button type="button" name="button" class="go_start_line_btn btn btn-outline-info" id="">F</button><br>
+	<button type="button" name="button" class="go_end_line_btn btn btn-outline-info" id="">E</button><br><br>
 	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input"><br>
 	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">Go</button><br>
 	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark btn-sm">
@@ -708,15 +708,6 @@ img.Image { max-width: 100%; display: block; }
 <script type="text/javascript">
 {% block extra_js %}
 
-// 처음 스킬 노트 방문시
-$(document).ready(function () {
-	// const user = "{{request.user}}"
-	// if ($("#shortcut_user_id").val() == "me") {
-	// 	$("#shortcut_user_id").val(user)
-	// 	$(".update_shortcut_user_id").trigger("click");
-	// }
-})
-
 $(function() {
   $('body').keyup(function(e) {
 	  if (e.ctrlKey && e.which === 48) {
@@ -1196,13 +1187,9 @@ $('body').on('click', '.shortcut_between_button_sn', function (e) {
 			csrfmiddlewaretoken: '{{ csrf_token }}'
 		},
 		success: function (result) {
-			// window.history.pushState("", "", '/skilnote1/new/textarea_summer_note_through/'+current_article_id)
 			window.history.pushState("", "", '/skilnote1/new/textarea_summer_note_through/'+current_article_id)
-
-			// alert(result)
 			$(".summernote_content_for_popup").html(result);
 			$("#sumemr_note_popup").modal()
-			// // $(".navbar").hide();
 		}
 	});
 
@@ -1216,9 +1203,7 @@ $(document).ready(function () {
 
 	$(window).scroll(function () {
 		if ($(document).scrollTop() > jbOffset.top) {
-			// // // $(".navbar").hide();
 		} else if ($(document).scrollTop() == 0) {
-			// // $(".navbar").show();
 			$(".category_subject_table").show();
 		}
 		else {
@@ -1443,9 +1428,7 @@ $(".insert_temp_skill_note_using_input_for_backend_btn").click(function () {
 				console.log("result : ", result);
 				alert("insert success")
 				window.history.pushState("", "", '/skilnote1/myshortcut/')
-
 				var table_row = $('.table_row').length;
-				// alert("table_row : "+ table_row)
 
 				var raw_template = $('.temp_skill_note_row_for_input').html();
 				var tpl = _.template(raw_template);
@@ -1496,7 +1479,6 @@ $(".insert_temp_skill_note_using_textarea_for_backend_btn").click(function () {
 			}
 		});
 	} else {
-		// alert("title : ", title)
 		alert("제목을 입력하지 않으셨어여 다시 시도해주세요")
 	}
 })
@@ -1541,13 +1523,9 @@ $(".insert_temp_skill_note_for_input_btn").click(function () {
 				console.log("result : ", result);
 				alert("insert success")
 				window.history.pushState("", "", '/skilnote1/myshortcut/')
-
 				var table_row = $('.table_row').length;
-				// alert("table_row : "+ table_row)
-
 				var raw_template = $('.temp_skill_note_row_for_input').html();
 				var tpl = _.template(raw_template);
-
 				var rendered = tpl({
 					table_row_id: table_row + 1,
 					shortcut_id: result.shortcut_id,
@@ -1603,9 +1581,7 @@ $('body').on('click', '.edit_temp_skill_note_for_input_btn', function (e) {
 
 $('body').on('click', '.edit_temp_skill_note_for_textarea_btn', function (e) {
 	e.preventDefault();
-	// alert("실행 확인")
 	var id = $(this).attr("id");
-	// alert("id : " + id)
 	var content2 = $("#select-textarea-" + id).val();
 	$.ajax({
 		type: "POST",
@@ -1641,7 +1617,6 @@ $('body').on('click', '.shortcut_edit_button1', function (e) {
 });
 
 $(".insert_temp_skill_note_for_textarea_btn").click(function () {
-	// alert("new2 버튼 클릭")
 	window.history.pushState("", "", '/skilnote1/myshortcut/')
 	const title = prompt("title을 입력해 주세요 ", "");
 
@@ -1659,8 +1634,6 @@ $(".insert_temp_skill_note_for_textarea_btn").click(function () {
 			},
 			success: function (result) {
 				alert(result.message);
-
-				// underscore를 이용해 row 추가 하기
 				var raw_template = $('.temp_skill_note_row_for_textarea').html();
 				var tpl = _.template(raw_template);
 				var table_row = $('.table_row').length;
@@ -1704,7 +1677,6 @@ $('body').on('click', '.update_temp_skil_title_btn', function (e) {
 });
 
 $('body').on('click', '.temp_memo_btn', function (e) {
-	// $("#temp_skill_modal").modal();
 	const url = ""
 	window.history.pushState("", "", '/skilnote1/myshortcut/')
 
@@ -1724,10 +1696,7 @@ $('body').on('click', '.temp_memo_btn', function (e) {
 	$('body').on('click', '.shortcut_edit_button2_for_popup', function (e) {
 		e.preventDefault();
 		var id = $(this).attr("id");
-		// alert("id : " + id)
 		var content2 = $("#textarea_for_popup_original").val();
-		// alert("content2_update : " , content2)
-
 
 		$.ajax({
 			type: "POST",
@@ -1783,45 +1752,6 @@ function search_note(e){
 		}
 	});
 }
-
-// function enter_for_search_skil_note(){
-// 	if (window.event.keyCode == 13) {
-// 		$(".skill_search_button").click()
-// 	}
-// }
-
-// $('body').on('click', '.skill_search_button', function (e) {
-// 	e.preventDefault();
-// 	window.history.pushState("", "", '/skilnote1/myshortcut/')
-//
-// 	const search_word = $(".skill_input_box").val();
-// 	console.log("search_word : " + search_word);
-//
-// 	$("input:radio.search").each(function () {
-//
-// 		if (jQuery(this).is(":checked")) {
-// 			search_option = this.id;
-// 		} else {
-// 		}
-// 	});
-// 	$.ajax({
-// 		type: "POST",
-// 		url: 'search_by_id_and_word/',
-// 		data: {
-// 			'search_word': search_word,
-// 			'search_option': search_option,
-// 			csrfmiddlewaretoken: '{{ csrf_token }}'
-// 			},
-// 		success: function (result) {
-// 			window.history.pushState("", "", '/skilnote1/myshortcut/')
-// 			// alert("success");
-// 			// alert("result: "+ result)
-// 			$("#wm_list_area_for_popup").html("")
-// 			$("#wm_list_area_for_popup").append(result)
-// 		}
-// 	});
-// });
-
 
 $('body').on('click', '.search_popup_btn', function (e) {
 
