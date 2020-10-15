@@ -65,7 +65,7 @@ urlpatterns = [
     path('status/',views.todo_status_list, name ="todo_status_list"),
     path('todo_delete_ajax/',views.todo_delete_ajax, name ="todo_delete_ajax"),
     path('todolist/uncomplete/<str:user_id>/',views.UncompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),
-    path('todolist/complete/<str:   user_id>/',views.CompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),
+    path('todolist/complete/<str:user_id>/',views.CompleteTodoListByUserId.as_view(), name ="TodoListByUserId"),
 
     path('todolist/uncomplete/admin/<str:user_id>/<str:team_leader_name>',views.UncompleteTodoListByUserId_admin.as_view(), name ="todolist_by_user_complete"),
     path('todolist/complete/admin/<str:user_id>/<str:team_leader_name>',views.CompleteTodoListByUserId_admin.as_view(), name ="todolist_by_user_uncomplete"),
