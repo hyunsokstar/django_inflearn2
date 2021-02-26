@@ -2,5 +2,3 @@ venv/
 .idea/
 *.pyc
 migrations/
-db.sqlite3
-*.sqlite3
